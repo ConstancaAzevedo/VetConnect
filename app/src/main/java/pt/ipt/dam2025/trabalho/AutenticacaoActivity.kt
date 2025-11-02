@@ -6,7 +6,6 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 
-//tela "Sobre"
 class AutenticacaoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,4 +17,5 @@ class AutenticacaoActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
 }

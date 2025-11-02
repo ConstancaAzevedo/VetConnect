@@ -1,6 +1,7 @@
 package pt.ipt.dam2025.trabalho
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -19,11 +20,16 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        //botão para autenticação na página principal
-        val authButton = findViewById<Button>(R.id.login_button)
-        authButton.setOnClickListener {
+        val loginButton = findViewById<Button>(R.id.login_button)
+        loginButton.setOnClickListener {
+            playSound()
             val intent = Intent(this, AutenticacaoActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun playSound() {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.gato)
+        mediaPlayer.start()
     }
 }
