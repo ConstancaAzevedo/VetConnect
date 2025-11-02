@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         //botão para autenticação na página principal
         val authButton = findViewById<Button>(R.id.login_button)
         authButton.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, AutenticacaoActivity::class.java)
             startActivity(intent)
         }
     }
