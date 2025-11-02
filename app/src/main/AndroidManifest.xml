@@ -28,6 +28,10 @@
 
        <!-- tela "autenticação" -->
        <activity android:name=".AutenticacaoActivity" />
+
+        <!-- tela "home" -->
+        <activity android:name=".HomeActivity" />
+
    </application>
 
 </manifest>
