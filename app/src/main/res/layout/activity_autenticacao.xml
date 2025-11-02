@@ -1,47 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <!--página de autentiação dos utilizadores-->
+    <!--página de autentiação dos utilizadores-->
+    <!-- texto de apresentação -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="Autenticação"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- input do numero de telemovel -->
+    <LinearLayout
+        android:id="@+id/phone_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/phone_input_background"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <!-- numero que marca o país -->
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:text="Autenticação"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="+351"
+            android:textSize="18sp" />
 
+       <!-- sitio onde o utilizador escreve o numero -->
         <EditText
             android:id="@+id/phone_number_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="32dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:hint="Número de telemóvel"
             android:inputType="phone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="18sp" />
+    </LinearLayout>
 
-        <!-- botão login -->
+    <!-- botão login -->
     <Button
         android:id="@+id/login_button2"
-        android:layout_width="125dp"
+        android:layout_width="120dp"
         android:layout_height="65dp"
         android:layout_marginTop="60dp"
         android:text="@string/btn_login2"
-        android:textSize="25sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_number_input" />
-
+        app:layout_constraintTop_toBottomOf="@+id/phone_input_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
