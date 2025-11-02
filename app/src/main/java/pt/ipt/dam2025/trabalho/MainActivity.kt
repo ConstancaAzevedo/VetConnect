@@ -19,17 +19,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // botão sobre na página principal
-        val aboutButton = findViewById<Button>(R.id.about_button)
-        aboutButton.setOnClickListener {
-            val intent = Intent(this, AboutActivity::class.java)
-            startActivity(intent)
-        }
-
         //botão para autenticação na página principal
         val authButton = findViewById<Button>(R.id.login_button)
         authButton.setOnClickListener {
-            val intent = Intent(this, AutenticacaoActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
     }
