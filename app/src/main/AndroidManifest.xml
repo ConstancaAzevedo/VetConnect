@@ -32,6 +32,9 @@
         <!-- tela "home" -->
         <activity android:name=".HomeActivity" />
 
+        <!-- tela "login" -->
+        <activity android:name=".LoginActivity" />
+
    </application>
 
 </manifest>

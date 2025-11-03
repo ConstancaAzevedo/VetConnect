@@ -13,14 +13,14 @@ class AutenticacaoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_autenticacao)
 
         val phoneNumberInput = findViewById<EditText>(R.id.phone_number_input)
-        val loginButton = findViewById<Button>(R.id.login_button2)
+        val loginButton = findViewById<Button>(R.id.autent_button)
         
         loginButton.setOnClickListener {
             // 1. Obter o número de telemóvel
             val phoneNumber = phoneNumberInput.text.toString()
 
-            // 2. Ir para a HomeActivity
-            val intent = Intent(this, HomeActivity::class.java)
+            // 2. Ir para a LoginActivity
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }

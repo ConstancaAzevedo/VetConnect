@@ -57,7 +57,7 @@
 
     <!-- botão login -->
     <Button
-        android:id="@+id/login_button2"
+        android:id="@+id/autent_button"
         android:layout_width="120dp"
         android:layout_height="65dp"
         android:layout_marginTop="60dp"
