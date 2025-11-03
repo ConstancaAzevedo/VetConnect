@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="Insira o seu PIN de acesso para\ndesbloquear a aplicação"
+        android:text="Insira o seu PIN de acesso para desbloquear"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,42 +85,70 @@
 
     <!-- Grelha para o teclado numérico -->
     <GridLayout
+        android:id="@+id/pin_grid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="3"
         android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/pin_dots_layout"
+        android:columnCount="3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/pin_dots_layout">
 
         <!-- Botões do teclado numérico -->
-        <Button style="@style/PinButtonStyle" android:text="1"/>
-        <Button style="@style/PinButtonStyle" android:text="2"/>
-        <Button style="@style/PinButtonStyle" android:text="3"/>
-        <Button style="@style/PinButtonStyle" android:text="4"/>
-        <Button style="@style/PinButtonStyle" android:text="5"/>
-        <Button style="@style/PinButtonStyle" android:text="6"/>
-        <Button style="@style/PinButtonStyle" android:text="7"/>
-        <Button style="@style/PinButtonStyle" android:text="8"/>
-        <Button style="@style/PinButtonStyle" android:text="9"/>
-        <!-- Botão 0 centralizado -->
-        <Button style="@style/PinButtonStyle" android:layout_column="1" android:text="0"/>
-
-
-        </GridLayout>
-
-        <!-- botão login -->
         <Button
+            style="@style/PinButtonStyle"
+            android:text="1" />
+
+        <Button
+            style="@style/PinButtonStyle"
+            android:text="2" />
+
+        <Button
+            style="@style/PinButtonStyle"
+            android:text="3" />
+
+        <Button
+            style="@style/PinButtonStyle"
+            android:text="4" />
+
+        <Button
+            style="@style/PinButtonStyle"
+            android:text="5" />
+
+        <Button
+            style="@style/PinButtonStyle"
+            android:text="6" />
+
+        <Button
+            style="@style/PinButtonStyle"
+            android:text="7" />
+
+        <Button
+            style="@style/PinButtonStyle"
+            android:text="8" />
+
+        <Button
+            style="@style/PinButtonStyle"
+            android:text="9" />
+        <!-- Botão 0 centralizado -->
+        <Button
+            style="@style/PinButtonStyle"
+            android:layout_column="1"
+            android:text="0" />
+
+
+    </GridLayout>
+
+    <!-- botão login -->
+    <Button
         android:id="@+id/login_button2"
         android:layout_width="120dp"
         android:layout_height="65dp"
         android:text="@string/btn_login2"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="620dp"
-            />
+        app:layout_constraintTop_toBottomOf="@+id/pin_grid" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

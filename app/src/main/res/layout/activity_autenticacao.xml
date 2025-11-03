@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <!--página de autentiação dos utilizadores-->
     <!-- texto de apresentação -->
@@ -13,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="Autenticação"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+351"
+            android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
        <!-- sitio onde o utilizador escreve o numero -->
@@ -49,6 +52,8 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:hint="Número de telemóvel"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
             android:inputType="phone"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"

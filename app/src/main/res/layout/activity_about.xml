@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutActivity">
+    tools:context=".AboutActivity"
+    android:background="@drawable/background">
 
 
     <LinearLayout
@@ -21,6 +22,7 @@
             android:layout_height="wrap_content"
             android:text="Criação da Aplicação"
             android:textStyle="bold"
+            android:textColor="#FFFFFF"
             android:layout_gravity="center"
             />
 
@@ -34,12 +36,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Instituição: "
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
                 android:text="Intituito Politécnico de Tomar"
                 />
         </LinearLayout>
@@ -54,12 +58,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Curso: "
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
                 android:text="Engenharia Informática"
                 />
         </LinearLayout>
@@ -73,11 +79,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Disciplina: "
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
                 android:text="Desenvolvimento de Aplicações Móveis" />
         </LinearLayout>
 
@@ -90,11 +98,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ano Letivo: "
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
                 android:text="2025/2026" />
         </LinearLayout>
 
@@ -107,6 +117,7 @@
             android:layout_height="wrap_content"
             android:text="Autores:"
             android:textStyle="bold"
+            android:textColor="#FFFFFF"
             android:layout_gravity="center" />
 
         <ImageView
@@ -120,6 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nº: 25969, Nome: Constança Azevedo"
+            android:textColor="#FFFFFF"
             android:layout_gravity="center"/>
 
         <ImageView
@@ -133,6 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nº: 25957, Nome: Rui Dias"
+            android:textColor="#FFFFFF"
             android:layout_gravity="center"/>
 
         <Space
@@ -144,6 +157,7 @@
             android:layout_height="wrap_content"
             android:text="Bibliotecas e Frameworks:"
             android:textStyle="bold"
+            android:textColor="#FFFFFF"
             android:layout_gravity="center"/>
 
     </LinearLayout>
