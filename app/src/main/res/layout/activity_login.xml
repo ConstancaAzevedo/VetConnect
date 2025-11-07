@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
@@ -13,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="Olá, [nome do utilizador]"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="Insira o seu PIN de acesso para desbloquear"
+        android:text="Insira o seu PIN de acesso para\ndesbloquear a aplicação"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,42 +45,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pin_instruction_text">
 
+
         <!-- Adicione 6 ImageViews para representar os pontos do PIN -->
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_pin_dot" />
+        <ImageView android:id="@+id/pin_dot_1" style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
+        <ImageView android:id="@+id/pin_dot_2" style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
+        <ImageView android:id="@+id/pin_dot_3" style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
+        <ImageView android:id="@+id/pin_dot_4" style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
+        <ImageView android:id="@+id/pin_dot_5" style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
+        <ImageView android:id="@+id/pin_dot_6" style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_pin_dot" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_pin_dot" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_pin_dot" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_pin_dot" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_pin_dot" />
     </LinearLayout>
 
     <!-- Grelha para o teclado numérico -->
@@ -95,58 +68,36 @@
         app:layout_constraintTop_toBottomOf="@id/pin_dots_layout">
 
         <!-- Botões do teclado numérico -->
-        <Button
-            style="@style/PinButtonStyle"
-            android:text="1" />
+        <Button android:id="@+id/button_1" style="@style/PinButtonStyle" android:text="1" />
+        <Button android:id="@+id/button_2" style="@style/PinButtonStyle" android:text="2" />
+        <Button android:id="@+id/button_3" style="@style/PinButtonStyle" android:text="3" />
+        <Button android:id="@+id/button_4" style="@style/PinButtonStyle" android:text="4" />
+        <Button android:id="@+id/button_5" style="@style/PinButtonStyle" android:text="5" />
+        <Button android:id="@+id/button_6" style="@style/PinButtonStyle" android:text="6" />
+        <Button android:id="@+id/button_7" style="@style/PinButtonStyle" android:text="7" />
+        <Button android:id="@+id/button_8" style="@style/PinButtonStyle" android:text="8" />
+        <Button android:id="@+id/button_9" style="@style/PinButtonStyle" android:text="9" />
 
-        <Button
+        <!-- linha inferior com o "0" e "Apagar" -->
+        <Space style="@style/PinButtonStyle" />
+        <Button android:id="@+id/button_0" style="@style/PinButtonStyle" android:text="0" />
+        <ImageButton
+            android:id="@+id/button_delete"
             style="@style/PinButtonStyle"
-            android:text="2" />
-
-        <Button
-            style="@style/PinButtonStyle"
-            android:text="3" />
-
-        <Button
-            style="@style/PinButtonStyle"
-            android:text="4" />
-
-        <Button
-            style="@style/PinButtonStyle"
-            android:text="5" />
-
-        <Button
-            style="@style/PinButtonStyle"
-            android:text="6" />
-
-        <Button
-            style="@style/PinButtonStyle"
-            android:text="7" />
-
-        <Button
-            style="@style/PinButtonStyle"
-            android:text="8" />
-
-        <Button
-            style="@style/PinButtonStyle"
-            android:text="9" />
-        <!-- Botão 0 centralizado -->
-        <Button
-            style="@style/PinButtonStyle"
-            android:layout_column="1"
-            android:text="0" />
-
-
+            android:contentDescription="Apagar"
+            android:src="@drawable/backspace_icon" />
     </GridLayout>
 
-    <!-- botão login -->
-    <Button
-        android:id="@+id/login_button2"
-        android:layout_width="120dp"
-        android:layout_height="65dp"
-        android:text="@string/btn_login2"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <!-- Botão "Esqueci o PIN" -->
+    <TextView
+        android:id="@+id/text_forgot_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Esqueci o PIN"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pin_grid" />

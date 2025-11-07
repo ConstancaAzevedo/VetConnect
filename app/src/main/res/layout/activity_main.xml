@@ -8,13 +8,27 @@
     android:background="@drawable/background"
     tools:context=".MainActivity">
 
+    <!-- Botão "Autenticação" -->
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/btn_login"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nome" />
+
     <ImageView
         android:id="@+id/logotipo"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="144dp"
         android:src="@drawable/vetconnectfundo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,25 +36,14 @@
         android:id="@+id/nome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:text="@string/app_nome"
+        android:textColor="#FFFFFF"
         android:textSize="34sp"
         android:textStyle="bold"
-        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logotipo" />
-
-    <!-- Botão "Autenticação" -->
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/btn_login"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nome" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

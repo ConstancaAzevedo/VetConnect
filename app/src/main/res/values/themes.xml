@@ -19,6 +19,15 @@
         <item name="android:textSize">28sp</item>
     </style>
 
+    <!-- style para os botões do números para o pin-->
+    <!-- na página de login -->
+    <style name="PinDotStyle">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+
     <!-- Estilos para os cartões do menu principal -->
     <style name="HomeCardStyle" parent="CardView.Light">
         <item name="android:layout_margin">12dp</item>
