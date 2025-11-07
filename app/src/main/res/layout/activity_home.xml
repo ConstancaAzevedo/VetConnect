@@ -5,19 +5,113 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:padding="16dp"
     tools:context=".HomeActivity">
 
     <TextView
         android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Bem-vindo à VetConnect!"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/about_button"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <GridLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text">
+
+        <!-- Card: Marcar Consulta -->
+        <androidx.cardview.widget.CardView
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/marcar_evento_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="Marcar Consulta" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- os animais -->
+        <androidx.cardview.widget.CardView
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/animal_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="Os Meus Animais" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- histórico -->
+        <androidx.cardview.widget.CardView
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/historico_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="Histórico" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- perfil -->
+        <androidx.cardview.widget.CardView
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/perfil_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="Perfil" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </GridLayout>
+
 
     <!-- Botão "Sobre" -->
     <Button
