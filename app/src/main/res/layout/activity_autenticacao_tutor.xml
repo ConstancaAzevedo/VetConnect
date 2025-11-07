@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-    <!--página de autentiação dos utilizadores-->
-    <!-- texto de apresentação -->
+    <!--página onde o utilizador deve escolher entre tutor e veterinário-->
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
-       <!-- sitio onde o utilizador escreve o numero -->
+        <!-- sitio onde o utilizador escreve o numero -->
         <EditText
             android:id="@+id/phone_number_input"
             android:layout_width="0dp"
@@ -52,21 +52,21 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:hint="Número de telemóvel"
-            android:textColorHint="#FFFFFF"
-            android:textColor="#FFFFFF"
             android:inputType="phone"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
             android:textSize="18sp" />
     </LinearLayout>
 
     <!-- botão login -->
     <Button
-        android:id="@+id/autent_button"
+        android:id="@+id/login_tutor_button"
         android:layout_width="120dp"
         android:layout_height="65dp"
         android:layout_marginTop="60dp"
-        android:text="@string/btn_login2"
+        android:text="@string/btn_login"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

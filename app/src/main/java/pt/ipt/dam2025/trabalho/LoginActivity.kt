@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.StringBuilder
 
+
+//tela de login após primeira abertura do app
 class LoginActivity : AppCompatActivity() {
 
     //variável privada para armazenar o PIN inserido pelo utilizador

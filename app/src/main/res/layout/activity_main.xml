@@ -10,11 +10,11 @@
 
     <!-- Botão "Autenticação" -->
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/autent_button"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_marginTop="28dp"
-        android:text="@string/btn_login"
+        android:text="Autenticação"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"

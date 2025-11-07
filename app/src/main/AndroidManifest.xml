@@ -26,14 +26,21 @@
        <!-- tela "sobre" -->
        <activity android:name=".AboutActivity" />
 
-       <!-- tela "autenticação" -->
-       <activity android:name=".AutenticacaoActivity" />
+        <!-- tela de ecolha do perfil -->
+        <activity android:name=".EscolhaActivity" />
+
+       <!-- tela de autenticação do tutor -->
+       <activity android:name=".TutorActivity" />
+
+        <!-- tela de autenticação do veterinário -->
+        <activity android:name=".VeterinarioActivity" />
+
+        <!-- tela "login" -->
+        <activity android:name=".LoginActivity" />
 
         <!-- tela "home" -->
         <activity android:name=".HomeActivity" />
 
-        <!-- tela "login" -->
-        <activity android:name=".LoginActivity" />
 
    </application>
 

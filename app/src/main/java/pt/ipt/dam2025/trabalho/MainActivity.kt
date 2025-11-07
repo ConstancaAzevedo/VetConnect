@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
+
+//tela de abertura da aplicação
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +22,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val loginButton = findViewById<Button>(R.id.login_button)
+        val loginButton = findViewById<Button>(R.id.autent_button)
         loginButton.setOnClickListener {
             playSound()
-            val intent = Intent(this, AutenticacaoActivity::class.java)
+            val intent = Intent(this, EscolhaActivity::class.java)
             startActivity(intent)
         }
     }
