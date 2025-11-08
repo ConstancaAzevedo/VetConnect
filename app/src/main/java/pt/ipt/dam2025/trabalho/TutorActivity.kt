@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class TutorActivity : AppCompatActivity() {
 
-    private val validPhoneNumber = "960249058"
+    private val validPhoneNumber = "960249058" //número de telemóvel de exemplo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +20,17 @@ class TutorActivity : AppCompatActivity() {
 
         continueButton.setOnClickListener {
             val enteredPhoneNumber = phoneNumberInput.text.toString()
+
+
+            //se não introduzir nenhum número
+            if (enteredPhoneNumber.isEmpty()) {
+                Toast.makeText(this, "Por favor, insira o código de verificação", Toast.LENGTH_SHORT).show()
+            }
+
+            // se o código não tiver 9 digitos
+            if (enteredPhoneNumber.length != 9) {
+                Toast.makeText(this, "O código de verificação deve ter 9 dígitos", Toast.LENGTH_SHORT).show()
+            }
 
             if (enteredPhoneNumber == validPhoneNumber) {
                 // 1. número correto - vai para a próxima atividade

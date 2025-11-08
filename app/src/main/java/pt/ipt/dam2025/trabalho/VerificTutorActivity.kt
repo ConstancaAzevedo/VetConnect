@@ -25,6 +25,17 @@ class VerificTutorActivity : AppCompatActivity() {
         verifyButton.setOnClickListener {
             val enteredCode = verificationCodeInput.text.toString()
 
+            //se não introduzir nenhum código
+            if (enteredCode.isEmpty()) {
+                Toast.makeText(this, "Por favor, insira o código de verificação", Toast.LENGTH_SHORT).show()
+            }
+
+            // se o código não tiver 9 digitos
+            if (enteredCode.length != 9) {
+                Toast.makeText(this, "O código de verificação deve ter 9 dígitos", Toast.LENGTH_SHORT).show()
+            }
+
+
             //verificar se o código de verificação está correto
             if (enteredCode == correctVerificationCode) {
                 // 1. código correto - mensagem de sucesso
