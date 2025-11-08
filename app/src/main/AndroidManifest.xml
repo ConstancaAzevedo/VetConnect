@@ -35,6 +35,9 @@
         <!-- tela de autenticação do veterinário -->
         <activity android:name=".VeterinarioActivity" />
 
+        <!-- tela de verificação do tutor -->
+        <activity android:name=".VerificTutorActivity" />
+
         <!-- tela "login" -->
         <activity android:name=".LoginActivity" />
 

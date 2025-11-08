@@ -4,25 +4,33 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-//tela de autenticação do tutor
 class TutorActivity : AppCompatActivity() {
+
+    private val validPhoneNumber = "960249058"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_autenticacao_tutor)
 
-
         val phoneNumberInput = findViewById<EditText>(R.id.phone_number_input)
-        val loginButton = findViewById<Button>(R.id.login_tutor_button)
+        val continueButton = findViewById<Button>(R.id.login_tutor_button)
 
-        loginButton.setOnClickListener {
-            // 1. Obter o número de telemóvel
-            val phoneNumber = phoneNumberInput.text.toString()
+        continueButton.setOnClickListener {
+            val enteredPhoneNumber = phoneNumberInput.text.toString()
 
-            // 2. Ir para a LoginActivity
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            if (enteredPhoneNumber == validPhoneNumber) {
+                // 1. número correto - vai para a próxima atividade
+                val intent = Intent(this, VerificTutorActivity::class.java)
+                startActivity(intent)
+                // 2. fecha esta atividade
+                finish()
+            } else {
+                // 1. número incorreto - mensagem de erro
+                Toast.makeText(this, "Número de telemóvel inválido", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
