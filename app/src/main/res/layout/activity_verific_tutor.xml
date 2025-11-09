@@ -23,6 +23,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <!-- na linha "inputType" oculta a password escrita no input com bolinhas -->
     <EditText
         android:id="@+id/verification_code_input"
         android:layout_width="wrap_content"
@@ -30,7 +32,6 @@
         android:layout_marginTop="48dp"
         android:backgroundTint="@android:color/white"
         android:ems="10"
-        android:hint="_ _ _ _ _ _ _ _"
         android:inputType="numberPassword"
         android:letterSpacing="0.2"
         android:maxLength="9"

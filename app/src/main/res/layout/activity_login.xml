@@ -94,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Esqueci o PIN"
+        android:text="Esqueci-me do PIN"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:padding="8dp"

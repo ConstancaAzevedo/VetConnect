@@ -40,7 +40,6 @@ class VerificTutorActivity : AppCompatActivity() {
             if (enteredCode == correctVerificationCode) {
                 // 1. código correto - mensagem de sucesso
                 Toast.makeText(this, "Verificação bem-sucedida!", Toast.LENGTH_SHORT).show()
-
                 // 2. Ir para a HomeActivity
                 val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
