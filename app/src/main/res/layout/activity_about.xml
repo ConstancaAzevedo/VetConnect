@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:text="Criação da Aplicação"
             android:textStyle="bold"
+            android:textSize="20sp"
             android:textColor="#FFFFFF"
             android:layout_gravity="center"
             />
@@ -30,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
-                android:text="Intituito Politécnico de Tomar"
+                android:text="Instituto Politécnico de Tomar"
                 />
         </LinearLayout>
 
@@ -105,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
-                android:text="2025/2026" />
+                android:text="2024/2025" />
         </LinearLayout>
 
         <Space
@@ -115,8 +116,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Autores:"
+            android:text="Autores"
             android:textStyle="bold"
+            android:textSize="20sp"
             android:textColor="#FFFFFF"
             android:layout_gravity="center" />
 
@@ -125,6 +127,7 @@
             android:layout_height="150dp"
             android:src="@drawable/constanca"
             android:layout_gravity="center"
+            android:layout_marginTop="8dp"
             />
 
         <TextView
@@ -139,6 +142,7 @@
             android:layout_height="150dp"
             android:src="@drawable/rui"
             android:layout_gravity="center"
+            android:layout_marginTop="8dp"
              />
 
         <TextView
@@ -155,10 +159,74 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bibliotecas e Frameworks:"
+            android:text="Bibliotecas e Frameworks"
             android:textStyle="bold"
+            android:textSize="20sp"
             android:textColor="#FFFFFF"
             android:layout_gravity="center"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AndroidX Libraries (Jetpack)"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:text="Obtidas do repositório Maven do Google. Inclui as seguintes bibliotecas usadas no projeto:"/>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:textColor="#FFFFFF"
+                android:text="• AppCompat: Para compatibilidade de temas e componentes em versões antigas do Android."/>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="#FFFFFF"
+                android:text="• ConstraintLayout: Para a criação de layouts flexíveis e eficientes."/>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="#FFFFFF"
+                android:text="• CardView: Para apresentar conteúdo dentro de cartões com um estilo consistente."/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Material Components for Android"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:text="Obtida do repositório Maven do Google. Fornece componentes de interface de utilizador (UI) que seguem as diretrizes do Material Design."/>
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

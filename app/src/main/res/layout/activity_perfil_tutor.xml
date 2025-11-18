@@ -154,7 +154,7 @@
         app:layout_constraintBaseline_toBaselineOf="@id/labelNacionalidade"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="Portuguesa" />
+        tools:text="Portugal" />
 
     <EditText
         android:id="@+id/etSexo"
@@ -189,7 +189,7 @@
         app:layout_constraintBaseline_toBaselineOf="@id/labelDataNascimento"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="01/01/1990" />
+        tools:text="12/12/2005" />
 
     <EditText
         android:id="@+id/etMorada"

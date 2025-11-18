@@ -28,7 +28,7 @@
     </style>
 
 
-    <!-- Estilos para os cartões do menu principal -->
+    <!-- Estilos para os cards do menu principal -->
     <style name="HomeCardStyle" parent="CardView.Light">
         <item name="android:layout_margin">12dp</item>
         <item name="cardCornerRadius">16dp</item>
@@ -72,6 +72,8 @@
         <item name="android:background">@android:color/transparent</item> 
     </style>
 
+
+    <!-- style que usa o "values.xml" que é uma folha de estilos interna da biblioteca externa "AppCombat" -->
     <style name="SaveButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
