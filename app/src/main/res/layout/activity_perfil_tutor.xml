@@ -101,7 +101,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDataNascimento" />
 
-    <!-- Barrier for alignment -->
+    <!-- Barrier para alinhar -->
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="wrap_content"
@@ -109,13 +109,16 @@
         app:barrierDirection="end"
         app:constraint_referenced_ids="labelNome,labelEmail,labelTelemovel,labelNacionalidade,labelSexo,labelCC,labelDataNascimento,labelMorada" />
 
-    <!-- EditText for values -->
+    <!-- EditText para as informações do tutor -->
+    <!-- são todos iniciados a "false" para que não possam ser editados -->
+    <!-- a não ser depois de carregar no botão de "editar" -->
     <EditText
         android:id="@+id/etNome"
         style="@style/ValueStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:enabled="false"
         app:layout_constraintBaseline_toBaselineOf="@id/labelNome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
@@ -127,6 +130,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:enabled="false"
         android:inputType="textEmailAddress"
         app:layout_constraintBaseline_toBaselineOf="@id/labelEmail"
         app:layout_constraintEnd_toEndOf="parent"
@@ -139,6 +143,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:enabled="false"
         android:inputType="phone"
         app:layout_constraintBaseline_toBaselineOf="@id/labelTelemovel"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,6 +156,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:enabled="false"
         app:layout_constraintBaseline_toBaselineOf="@id/labelNacionalidade"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
@@ -162,6 +168,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:enabled="false"
         app:layout_constraintBaseline_toBaselineOf="@id/labelSexo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
@@ -173,6 +180,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:enabled="false"
         android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@id/labelCC"
         app:layout_constraintEnd_toEndOf="parent"
@@ -185,6 +193,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:enabled="false"
         android:inputType="date"
         app:layout_constraintBaseline_toBaselineOf="@id/labelDataNascimento"
         app:layout_constraintEnd_toEndOf="parent"
@@ -197,15 +206,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:enabled="false"
         app:layout_constraintBaseline_toBaselineOf="@id/labelMorada"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
         tools:text="Rua da Exemplo, 123" />
 
+
+    <!-- botão para editar/guardar as informações do utilizador -->
     <Button
-        android:id="@+id/btnGuardar"
-        style="@style/SaveButtonStyle"
-        android:text="GUARDAR"
+        android:id="@+id/btnEditarGuardar"
+        style="@style/ButtonStyle"
+        android:text="EDITAR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etMorada" />

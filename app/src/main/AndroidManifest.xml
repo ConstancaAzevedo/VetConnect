@@ -45,7 +45,7 @@
         <activity android:name=".HomeActivity" />
 
         <!-- tela "perfil" -->
-        <activity android:name=".PerfilActivity" />
+        <activity android:name=".PerfilTutorActivity" />
 
         <!-- tela "perfil do animal" -->
         <activity android:name=".AnimalActivity" />

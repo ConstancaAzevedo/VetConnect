@@ -106,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
-                android:text="2024/2025" />
+                android:text="2025/2026" />
         </LinearLayout>
 
         <Space

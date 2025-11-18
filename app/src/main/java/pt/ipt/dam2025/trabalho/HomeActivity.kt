@@ -53,7 +53,7 @@ class HomeActivity : AppCompatActivity() {
         //ação de clique para o cartão "Perfil"
         cardPerfil.setOnClickListener {
         //ir para a página do perfil do utilziador
-            val intent = Intent(this, PerfilActivity::class.java) // Substitua pelo nome correto
+            val intent = Intent(this, PerfilTutorActivity::class.java) // Substitua pelo nome correto
             startActivity(intent)
         }
     }
