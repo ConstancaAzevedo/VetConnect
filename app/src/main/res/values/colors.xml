@@ -4,4 +4,7 @@
     <color name="ic_launcher_background">#FDFDFD</color>
     <color name="black">#FF000000</color>  <!-- preto -->
     <color name="white">#FFFFFFFF</color>  <!-- branco -->
+    <color name="red">#ffff0000</color> <!-- vermelho -->
+    <color name="lighter_gray">#ddd</color> <!-- cizento claro -->
+    <color name="darker_gray">#aaa</color> <!-- cizento escuro -->
 </resources>

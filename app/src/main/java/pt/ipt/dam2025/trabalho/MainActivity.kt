@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             playSound()
             //ir para a página de escolha de usuário
-            val intent = Intent(this, EscolhaActivity::class.java)
+            //val intent = Intent(this, EscolhaActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
     }
