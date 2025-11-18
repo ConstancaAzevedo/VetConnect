@@ -35,6 +35,7 @@
 
         <!-- Card: Marcar Consulta -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_marcar_consulta"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,6 +55,7 @@
 
         <!-- os animais -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_animal"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -67,13 +69,14 @@
 
                 <TextView
                     style="@style/HomeCardTextStyle"
-                    android:text="Os Meus Animais" />
+                    android:text="O Meu Animal" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <!-- histórico -->
         <androidx.cardview.widget.CardView
             style="@style/HomeCardStyle"
+            android:id="@+id/card_historico"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1">
@@ -92,6 +95,7 @@
 
         <!-- perfil -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_perfil"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

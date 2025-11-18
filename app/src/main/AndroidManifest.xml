@@ -44,6 +44,19 @@
         <!-- tela "home" -->
         <activity android:name=".HomeActivity" />
 
+        <!-- tela "perfil" -->
+        <activity android:name=".PerfilActivity" />
+
+        <!-- tela "perfil do animal" -->
+        <activity android:name=".AnimalActivity" />
+
+        <!-- tela "marcar consulta" -->
+        <activity android:name=".MarcarConsultaActivity" />
+
+        <!-- tela "histórico do animal" -->
+        <activity android:name=".HistoricoActivity" />
+
+
 
    </application>
 
