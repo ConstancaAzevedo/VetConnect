@@ -24,6 +24,7 @@ class HomeActivity : AppCompatActivity() {
         // botão sobre na página home
         val aboutButton = findViewById<Button>(R.id.about_button)
         aboutButton.setOnClickListener {
+            //ir para a página about
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
         }
@@ -48,7 +49,6 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, HistoricoActivity::class.java) // Substitua pelo nome correto
             startActivity(intent)
         }
-
 
         //ação de clique para o cartão "Perfil"
         cardPerfil.setOnClickListener {
