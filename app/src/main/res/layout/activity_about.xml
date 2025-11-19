@@ -174,7 +174,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AndroidX Libraries (Jetpack)"
+                android:text="Android Jetpack"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"/>
 
@@ -182,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
-                android:text="Obtidas do repositório Maven do Google. Inclui as seguintes bibliotecas usadas no projeto:"/>
+                android:text="Um conjunto de bibliotecas para facilitar o desenvolvimento de apps Android de alta qualidade. Inclui:"/>
             
             <TextView
                 android:layout_width="wrap_content"
@@ -190,21 +190,35 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:textColor="#FFFFFF"
-                android:text="• AppCompat: Para compatibilidade de temas e componentes em versões antigas do Android."/>
+                android:text="• AppCompat: Para compatibilidade de temas e componentes."/>
             
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:textColor="#FFFFFF"
-                android:text="• ConstraintLayout: Para a criação de layouts flexíveis e eficientes."/>
-            
+                android:text="• ConstraintLayout &amp; CardView: Para a criação de interfaces de utilizador flexíveis e modulares."/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:textColor="#FFFFFF"
-                android:text="• CardView: Para apresentar conteúdo dentro de cartões com um estilo consistente."/>
+                android:text="• RecyclerView: Para a criação de listas eficientes e dinâmicas."/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="#FFFFFF"
+                android:text="• Lifecycle (ViewModel, LiveData): Para gerir dados de forma consciente do ciclo de vida da UI."/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="#FFFFFF"
+                android:text="• Room Persistence Library: Para criar e gerir a base de dados local (SQLite)."/>
 
         </LinearLayout>
 
@@ -225,7 +239,53 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
-                android:text="Obtida do repositório Maven do Google. Fornece componentes de interface de utilizador (UI) que seguem as diretrizes do Material Design."/>
+                android:text="Fornece componentes de UI que seguem as diretrizes do Material Design, como o Floating Action Button."/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kotlin Extensions (KTX)"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:text="Um conjunto de extensões para bibliotecas Android que tornam o código Kotlin mais conciso e idiomático."/>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frameworks de Teste"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:text="• JUnit: Para testes unitários que correm na JVM."/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:text="• Espresso: Para testes de interface de utilizador (UI) que correm em dispositivos Android."/>
         </LinearLayout>
 
     </LinearLayout>

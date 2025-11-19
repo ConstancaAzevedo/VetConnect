@@ -4,39 +4,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-// Data class para guardar os dados de cada evento
-data class HistoricoItem(val data: String, val descricao: String)
+// agora usa ListAdapter para lidar com atualizações de lista de forma eficiente.
+class HistoricoAdapter : ListAdapter<HistoricoItem, HistoricoAdapter.HistoricoViewHolder>(HistoricoDiffCallback()) {
 
-
-// classe que gere a criação e a ligação dos dados aos itens da lista
-class HistoricoAdapter(private val historicoList: List<HistoricoItem>) :
-    RecyclerView.Adapter<HistoricoAdapter.HistoricoViewHolder>() {
-
-    // classe interna para manter as referências às textviews em cada item
+    // a classe ViewHolder permanece a mesma.
     class HistoricoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dataTextView: TextView = itemView.findViewById(R.id.historicoData)
-        val descricaoTextView: TextView = itemView.findViewById(R.id.historicoDescricao)
+        private val dataTextView: TextView = itemView.findViewById(R.id.historicoData)
+        private val descricaoTextView: TextView = itemView.findViewById(R.id.historicoDescricao)
+
+        fun bind(item: HistoricoItem) {
+            dataTextView.text = item.data
+            descricaoTextView.text = item.descricao
+        }
     }
 
-    // Called when RecyclerView needs a new ViewHolder of the given type to represent an item.
+    // o onCreateViewHolder permanece o mesmo.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoricoViewHolder {
-        // Create a new view, which defines the UI of the list item
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_historico, parent, false)
         return HistoricoViewHolder(itemView)
     }
 
-    // Called by RecyclerView to display the data at the specified position.
+    // onBindViewHolder é simplificado.
     override fun onBindViewHolder(holder: HistoricoViewHolder, position: Int) {
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        val currentItem = historicoList[position]
-        holder.dataTextView.text = currentItem.data
-        holder.descricaoTextView.text = currentItem.descricao
+        val currentItem = getItem(position)
+        holder.bind(currentItem)
+    }
+}
+
+// DiffUtil.ItemCallback para calcular as diferenças na lista.
+// isto permite que o ListAdapter faça animações e atualizações eficientes.
+class HistoricoDiffCallback : DiffUtil.ItemCallback<HistoricoItem>() {
+    override fun areItemsTheSame(oldItem: HistoricoItem, newItem: HistoricoItem): Boolean {
+        // o ID é único para cada item.
+        return oldItem.id == newItem.id
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = historicoList.size
+    override fun areContentsTheSame(oldItem: HistoricoItem, newItem: HistoricoItem): Boolean {
+        // verifica se os conteúdos são os mesmos.
+        return oldItem == newItem
+    }
 }
