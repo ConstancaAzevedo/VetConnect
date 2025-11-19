@@ -14,6 +14,7 @@
         android:theme="@style/Theme.Trabalho">
 
         <!-- tela principal -->
+        <!-- tela que abre "com" a aplicação -->
        <activity
            android:name=".MainActivity"
            android:exported="true">

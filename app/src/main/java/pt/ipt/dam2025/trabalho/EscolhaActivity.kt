@@ -6,7 +6,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 
-//tela de escolha da autenticaçáo do perfil
+//tela de escolha do tipo de perfil a autenticar
 class EscolhaActivity : AppCompatActivity(){
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
