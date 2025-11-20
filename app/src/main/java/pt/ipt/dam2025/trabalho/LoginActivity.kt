@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Adicionar o nome do utilizador ao texto de entrada
+        // adicionar o nome do utilizador ao texto de entrada
         val welcomeTextView = findViewById<TextView>(R.id.welcome_text)
         val userName = nome // TODO: Este nome deve vir da autenticação real
         welcomeTextView.text = "Olá, $userName"
@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // Configuração dos botões numéricos
+    // configuração dos botões numéricos
     private fun setupNumberButtons() {
         val numberButtonClickListener = View.OnClickListener { view ->
             //verificar se o PIN ainda não atingiu o comprimento máximo de 6 dígitos
@@ -77,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Associar o listener acima a todos os botões numéricos
+        // associar o listener acima a todos os botões numéricos
         findViewById<Button>(R.id.button_1).setOnClickListener(numberButtonClickListener)
         findViewById<Button>(R.id.button_2).setOnClickListener(numberButtonClickListener)
         findViewById<Button>(R.id.button_3).setOnClickListener(numberButtonClickListener)
@@ -104,14 +104,16 @@ class LoginActivity : AppCompatActivity() {
     // função para verificar se o PIN inserido está correto e fazer login
     private fun attemptLogin() {
         if (pin.toString() == correctPin) { // // Compara o PIN inserido (convertido para String) com o PIN correto
+            // 1. mensagem de sucesso
             Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
-            // Navegar para a HomeActivity
+            // 2. navegar para a HomeActivity
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish() // Impede o utilizador de voltar a este ecrã com o botão "back"
         } else { // PIN errado
+            // 1. mensagem de insucesso
             Toast.makeText(this, "PIN incorreto", Toast.LENGTH_SHORT).show()
-            // Limpar o PIN para uma nova tentativa
+            // 2. limpar o PIN para uma nova tentativa
             pin.clear()
             updatePinDots()
         }

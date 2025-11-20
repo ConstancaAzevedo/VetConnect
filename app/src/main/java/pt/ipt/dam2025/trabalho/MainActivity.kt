@@ -22,9 +22,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
         val loginButton = findViewById<Button>(R.id.autent_button)
         loginButton.setOnClickListener {
-            playSound()
+            playSound() // vai buscar o som
             //ir para a página de escolha de usuário
             //val intent = Intent(this, EscolhaActivity::class.java)
             val intent = Intent(this, HomeActivity::class.java)
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // toca um som
     private fun playSound() {
         val mediaPlayer = MediaPlayer.create(this, R.raw.gato)
         mediaPlayer.start()

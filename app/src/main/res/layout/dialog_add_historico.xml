@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Data (ex: AAAA-MM-DD)"
+        android:hint="Data (ex: DD-MM-AAAA)"
         android:inputType="date" />
 
     <EditText

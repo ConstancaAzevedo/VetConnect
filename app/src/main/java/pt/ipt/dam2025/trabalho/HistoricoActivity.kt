@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 
@@ -60,8 +61,16 @@ class HistoricoActivity : AppCompatActivity() {
                 val position = viewHolder.bindingAdapterPosition // obtém a posição do item
                 // verificação de segurança para evitar crashes
                 if (position != RecyclerView.NO_POSITION) {
+
                     val historicoItem = adapter.currentList[position] // obtém o item a ser apagado
                     historicoViewModel.delete(historicoItem) // manda o ViewModel apagar o item
+
+                    // mostra uma Snackbar com a opção de anular
+                    Snackbar.make(recyclerView, "Item apagado", Snackbar.LENGTH_LONG)
+                        .setAction("ANULAR") {
+                            historicoViewModel.insert(historicoItem) // se o utilizador clicar insere o item de volta
+                        }
+                        .show()
                 }
             }
         }

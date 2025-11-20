@@ -43,13 +43,13 @@ class VerificTutorActivity : AppCompatActivity() {
                 // 2. Ir para a HomeActivity
                 val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
-                // 3. fechar a atividade para removê-la do histórico
+                // 3. fecha a atividade para removê-la do histórico
                 finish()
                 
             } else {
                 // 1. código incorreto - mensagem de erro
                 Toast.makeText(this, "Código de verificação inválido", Toast.LENGTH_SHORT).show()
-                // 2. limpar o campo de texto
+                // 2. limpa o campo de texto
                 verificationCodeInput.text.clear()
             }
         }

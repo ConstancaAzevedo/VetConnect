@@ -39,14 +39,16 @@ class PerfilTutorActivity : AppCompatActivity() {
         btnEditarGuardar.setOnClickListener {
             isEditing = !isEditing
             if (isEditing) {
+                // 1. muda o texto do botão para Guardar
                 btnEditarGuardar.text = "GUARDAR"
+                // 2. habilita os campos de texto
                 editableFields.forEach { it.isEnabled = true }
             } else {
+                // 1. muda o texto do botão para Editar
                 btnEditarGuardar.text = "EDITAR"
+                // 2. desabilita os campos de texto
                 editableFields.forEach { it.isEnabled = false }
 
-
-                //adicionar a lógica para guardar os dados
             }
         }
 
