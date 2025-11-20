@@ -1,5 +1,6 @@
 package pt.ipt.dam2025.trabalho
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.EditText
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 
 // tela do histórico
@@ -86,6 +88,27 @@ class HistoricoActivity : AppCompatActivity() {
 
         val etData = dialogView.findViewById<EditText>(R.id.etData)
         val etDescricao = dialogView.findViewById<EditText>(R.id.etDescricao)
+
+        // impede que o teclado apareça mas mantém o cursor
+        etData.isFocusable = false
+        etData.isFocusableInTouchMode = false
+
+        // adiciona um OnClickListener para abrir o DatePickerDialog
+        etData.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                // o mês é baseado em zero então adicionamos 1
+                val formattedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear)
+                etData.setText(formattedDate)
+            }, year, month, day)
+
+            datePickerDialog.show()
+        }
+
 
         builder.setView(dialogView) // define o nosso layout como o conteúdo da janela
             .setPositiveButton("Guardar") { _, _ -> // cria o botão "Guardar"

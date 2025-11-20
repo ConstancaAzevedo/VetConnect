@@ -21,13 +21,6 @@ class HomeActivity : AppCompatActivity() {
         val cardPerfil = findViewById<CardView>(R.id.card_perfil)
 
 
-        // botão sobre na página home
-        val aboutButton = findViewById<Button>(R.id.about_button)
-        aboutButton.setOnClickListener {
-            //ir para a página about
-            val intent = Intent(this, AboutActivity::class.java)
-            startActivity(intent)
-        }
 
         //ação de clique para o cartão "Marcar Consulta"
         cardMarcarConsulta.setOnClickListener {
