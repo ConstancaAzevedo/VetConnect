@@ -132,7 +132,7 @@ class HistoricoActivity : AppCompatActivity() {
 // ViewModel: sobrevive a mudanças de configuração e gere a lógica de negócio.
 class HistoricoViewModel(private val dao: HistoricoDao) : ViewModel() {
 
-    // Expõe a lista de itens para a Activity poder observar.
+    // expõe a lista de itens para a Activity poder observar
     val allHistoricoItems: kotlinx.coroutines.flow.Flow<List<HistoricoItem>> = dao.getAll()
 
     // as operações na base de dados devem ser feitas numa thread de segundo plano para não congelar a UI.
