@@ -11,45 +11,34 @@ import androidx.appcompat.app.AppCompatActivity
 //tela de verificação do número de telemóvel do tutor
 class VerificTutorActivity : AppCompatActivity() {
 
-    private val correctVerificationCode = "123456789" //código de verificação de exemplo
+    private val correctVerificationCode = "123456" //código de verificação de exemplo
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verific_tutor)
 
-        val verificationCodeInput = findViewById<EditText>(R.id.verification_code_input) //input do código de verificação
-        val verifyButton = findViewById<Button>(R.id.verify_button) //botão de verificação
+        val verificationCodeInput = findViewById<EditText>(R.id.verification_code_input)
+        val verifyButton = findViewById<Button>(R.id.verify_button)
 
-        //botão de verificação é clicado
         verifyButton.setOnClickListener {
             val enteredCode = verificationCodeInput.text.toString()
 
-            //se não introduzir nenhum código
-            if (enteredCode.isEmpty()) {
-                Toast.makeText(this, "Por favor, insira o código de verificação", Toast.LENGTH_SHORT).show()
-            }
+            if (enteredCode.isBlank()) {
+                verificationCodeInput.error = "Por favor, insira o código de verificação"
+            } else if (enteredCode.length != 6) {
+                verificationCodeInput.error = "O código de verificação deve ter 6 dígitos"
+            } else if (enteredCode == correctVerificationCode) {
+                // TODO: Adicionar lógica real de verificação do código com API
 
-            // se o código não tiver 9 digitos
-            if (enteredCode.length != 9) {
-                Toast.makeText(this, "O código de verificação deve ter 9 dígitos", Toast.LENGTH_SHORT).show()
-            }
-
-
-            //verificar se o código de verificação está correto
-            if (enteredCode == correctVerificationCode) {
-                // 1. código correto - mensagem de sucesso
                 Toast.makeText(this, "Verificação bem-sucedida!", Toast.LENGTH_SHORT).show()
-                // 2. Ir para a HomeActivity
-                val intent = Intent(this, HomeActivity::class.java)
+                // Navegar para a LoginActivity para configurar/usar o PIN
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
-                // 3. fecha a atividade para removê-la do histórico
                 finish()
                 
             } else {
-                // 1. código incorreto - mensagem de erro
-                Toast.makeText(this, "Código de verificação inválido", Toast.LENGTH_SHORT).show()
-                // 2. limpa o campo de texto
+                verificationCodeInput.error = "Código de verificação inválido"
                 verificationCodeInput.text.clear()
             }
         }

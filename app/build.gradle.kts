@@ -6,14 +6,12 @@ plugins {
 
 android {
     namespace = "pt.ipt.dam2025.trabalho"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "pt.ipt.dam2025.trabalho"
         minSdk = 28
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 

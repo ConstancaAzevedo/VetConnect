@@ -1,292 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--informação nossa na página "sobre"-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutActivity"
-    android:background="@drawable/background">
+    tools:context=".AboutActivity">
 
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        >
+        android:padding="16dp">
 
         <TextView
+            android:id="@+id/course_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Criação da Aplicação"
+            android:text="Curso:"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center"
-            />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Instituição: "
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Instituto Politécnico de Tomar"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Curso: "
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Engenharia Informática"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Disciplina: "
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Desenvolvimento de Aplicações Móveis" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ano Letivo: "
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="2025/2026" />
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/course_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Licenciatura em Engenharia Informática"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/course_name_label"
+            app:layout_constraintTop_toTopOf="@+id/course_name_label" />
+
+        <TextView
+            android:id="@+id/discipline_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Autores"
+            android:layout_marginTop="16dp"
+            android:text="Disciplina:"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/course_name" />
 
+        <TextView
+            android:id="@+id/discipline_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Desenvolvimento de Aplicações Móveis"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/course_name"
+            app:layout_constraintTop_toTopOf="@+id/discipline_label" />
+
+        <TextView
+            android:id="@+id/academic_year_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Ano Letivo:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/discipline_name" />
+
+        <TextView
+            android:id="@+id/academic_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025/2026"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/discipline_name"
+            app:layout_constraintTop_toTopOf="@+id/academic_year_label" />
+
+        <TextView
+            android:id="@+id/authors_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Autores:"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/academic_year_label" />
+
+        <!-- Author 1 -->
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="150dp"
-            android:src="@drawable/constanca"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            />
+            android:id="@+id/author1_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/authors_label"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/author1_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Nº: 25969, Nome: Constança Azevedo"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center"/>
+            android:layout_marginStart="16dp"
+            android:text="Nº Aluno, Nome do Aluno"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/author1_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/author1_photo"
+            app:layout_constraintTop_toTopOf="@+id/author1_photo" />
 
+        <!-- Author 2 -->
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="150dp"
-            android:src="@drawable/rui"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-             />
+            android:id="@+id/author2_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/author1_photo"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/author2_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Nº: 25957, Nome: Rui Dias"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center"/>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
+            android:layout_marginStart="16dp"
+            android:text="Nº Aluno, Nome do Aluno"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/author2_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/author2_photo"
+            app:layout_constraintTop_toTopOf="@+id/author2_photo" />
 
         <TextView
+            android:id="@+id/libraries_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bibliotecas e Frameworks"
+            android:layout_marginTop="32dp"
+            android:text="Bibliotecas e Código de Terceiros:"
+            android:textSize="22sp"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center"/>
-        
-        <LinearLayout
-            android:layout_width="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/author2_photo" />
+
+        <TextView
+            android:id="@+id/libraries_list"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="16dp"
+            android:text="- Material Components for Android\n- AndroidX Libraries (AppCompat, ConstraintLayout, etc.)\n- Room Persistence Library"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/libraries_label" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Android Jetpack"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Um conjunto de bibliotecas para facilitar o desenvolvimento de apps Android de alta qualidade. Inclui:"/>
-            
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:textColor="#FFFFFF"
-                android:text="• AppCompat: Para compatibilidade de temas e componentes."/>
-            
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textColor="#FFFFFF"
-                android:text="• ConstraintLayout &amp; CardView: Para a criação de interfaces de utilizador flexíveis e modulares."/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textColor="#FFFFFF"
-                android:text="• RecyclerView: Para a criação de listas eficientes e dinâmicas."/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textColor="#FFFFFF"
-                android:text="• Lifecycle (ViewModel, LiveData): Para gerir dados de forma consciente do ciclo de vida da UI."/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textColor="#FFFFFF"
-                android:text="• Room Persistence Library: Para criar e gerir a base de dados local (SQLite)."/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Material Components for Android"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Fornece componentes de UI que seguem as diretrizes do Material Design, como o Floating Action Button."/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Kotlin Extensions (KTX)"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Um conjunto de extensões para bibliotecas Android que tornam o código Kotlin mais conciso e idiomático."/>
-        </LinearLayout>
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Frameworks de Teste"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="• JUnit: Para testes unitários que correm na JVM."/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="• Espresso: Para testes de interface de utilizador (UI) que correm em dispositivos Android."/>
-        </LinearLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -22,25 +22,19 @@ class TutorActivity : AppCompatActivity() {
             val enteredPhoneNumber = phoneNumberInput.text.toString()
 
 
-            //se não introduzir nenhum número
-            if (enteredPhoneNumber.isEmpty()) {
-                Toast.makeText(this, "Por favor, insira o código de verificação", Toast.LENGTH_SHORT).show()
+            // introduzir numero de telemovel
+            if (enteredPhoneNumber.isBlank()) {
+                phoneNumberInput.error = "Por favor, insira o número de telemóvel" // se não introduzir nenhum número
             }
-
-            // se o código não tiver 9 digitos
-            if (enteredPhoneNumber.length != 9) {
-                Toast.makeText(this, "O código de verificação deve ter 9 dígitos", Toast.LENGTH_SHORT).show()
+            else if (enteredPhoneNumber.length != 9) {
+                phoneNumberInput.error = "O número de telemóvel deve ter 9 dígitos" // se o número não tiver 9 dígitos
             }
-
-            if (enteredPhoneNumber == validPhoneNumber) {
-                // 1. número correto - vai para a próxima atividade
+            else { //se o número for o correto
+                // TODO: Adicionar lógica real de autenticação com API
+                // 1. avançamos para a verificação do tutor
                 val intent = Intent(this, VerificTutorActivity::class.java)
                 startActivity(intent)
-                // 2. fecha esta atividade
-                finish()
-            } else {
-                // 1. número incorreto - mensagem de erro
-                Toast.makeText(this, "Número de telemóvel inválido", Toast.LENGTH_SHORT).show()
+                finish() // 2. fecha esta atividade
             }
         }
     }
