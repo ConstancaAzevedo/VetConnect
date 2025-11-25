@@ -1,23 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:padding="16dp">
-
+    android:padding="16dp"
+    tools:context=".AnimalActivity">
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Perfil do ___"
+        android:text="Perfil do Animal"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Foto do Animal -->
+    <ImageView
+        android:id="@+id/animal_photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/borda_botoes"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_add_photo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <!-- Campos de Texto -->
+    <EditText
+        android:id="@+id/etNomeAnimal"
+        style="@style/ValueStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:hint="Nome do Animal"
+        app:layout_constraintBottom_toBottomOf="@id/animal_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/animal_photo"
+        app:layout_constraintTop_toTopOf="@id/animal_photo" />
+
+    <TextView
+        android:id="@+id/labelEspecie"
+        style="@style/LabelStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Espécie:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/animal_photo" />
+
+    <EditText
+        android:id="@+id/etEspecie"
+        style="@style/ValueStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:hint="Ex: Cão, Gato"
+        app:layout_constraintBaseline_toBaselineOf="@id/labelEspecie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/barrier" />
+
+    <TextView
+        android:id="@+id/labelRaca"
+        style="@style/LabelStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Raça:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etEspecie" />
+
+    <EditText
+        android:id="@+id/etRaca"
+        style="@style/ValueStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:hint="Ex: Golden Retriever"
+        app:layout_constraintBaseline_toBaselineOf="@id/labelRaca"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/barrier" />
+
+    <TextView
+        android:id="@+id/labelDataNascimentoAnimal"
+        style="@style/LabelStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Data de Nascimento:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etRaca" />
+
+    <EditText
+        android:id="@+id/etDataNascimentoAnimal"
+        style="@style/ValueStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:hint="DD/MM/AAAA"
+        android:inputType="date"
+        app:layout_constraintBaseline_toBaselineOf="@id/labelDataNascimentoAnimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/barrier" />
+
+    <!-- Barrier para alinhar -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="labelEspecie,labelRaca,labelDataNascimentoAnimal" />
+
+    <Button
+        android:id="@+id/btnGuardarAnimal"
+        style="@style/ButtonStyle"
+        android:layout_marginTop="32dp"
+        android:text="GUARDAR"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etDataNascimentoAnimal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

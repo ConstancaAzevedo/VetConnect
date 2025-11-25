@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Permissões da camara -->
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:name=".VetConnectApplication"
@@ -18,24 +24,23 @@
 
         <!-- tela principal -->
         <!-- tela que abre "com" a aplicação -->
-       <activity
-           android:name=".MainActivity"
-           android:exported="true">
-           <intent-filter>
-               <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
-               <category android:name="android.intent.category.LAUNCHER" />
-           </intent-filter>
-       </activity>
-
-       <!-- tela "sobre" -->
-       <activity android:name=".AboutActivity" />
+        <!-- tela "sobre" -->
+        <activity android:name=".AboutActivity" />
 
         <!-- tela de ecolha do perfil -->
         <activity android:name=".EscolhaActivity" />
 
-       <!-- tela de autenticação do tutor -->
-       <activity android:name=".TutorActivity" />
+        <!-- tela de autenticação do tutor -->
+        <activity android:name=".TutorActivity" />
 
         <!-- tela de autenticação do veterinário -->
         <activity android:name=".VeterinarioActivity" />
@@ -62,8 +67,6 @@
         <activity android:name=".HistoricoActivity" />
 
 
-
-
-   </application>
+    </application>
 
 </manifest>
