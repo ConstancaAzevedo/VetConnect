@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase
  * anotada com @Database para indicar que é uma base de dados "Room"
  * define as entidades (tabelas) e a versão da base de dados
  */
-@Database(entities = [HistoricoItem::class], version = 1, exportSchema = false)
+@Database(entities = [HistoricoItem::class, User::class], version = 2, exportSchema = false)
 // entities - é a lista de todas as tabelas que a base de dados vai ter (por agora, só 1)
 // version=1 - esta é a versão do esquema, se a tabela tivesse mais uma coluna, aumentaria para 2
 // o Room não vai guardar o histórico das versões da base de dados num ficheiro
@@ -19,16 +19,21 @@ import androidx.room.RoomDatabase
 abstract class AppDatabase : RoomDatabase() {
 // abstract - porque o Room é que vai gerar t0do o código de implementação
 
+
+    // DAO para a tabela de histórico
     abstract fun historicoDao(): HistoricoDao
     // para cada tabela tem que se declarar uma função correspondente que retorna o DAO para a tabela
     // funciona como uma "porta de acesso" para a tabela
 
 
+    // DAO para a nova tabela de utilizadores
+    abstract fun userDao(): UserDao
+
     companion object {
-    // garante que existe apenas uma instância desta base de dados em toda a aplicação (Singleton)
+        // garante que existe apenas uma instância desta base de dados em toda a aplicação (Singleton)
+        // Garante que existe apenas uma instância da base de dados (padrão Singleton)
         @Volatile
         private var INSTANCE: AppDatabase? = null // cria uma variável para guardar a instância única
-
 
         // função que todos irão usar para obter a instância da base de dados
         fun getDatabase(context: Context): AppDatabase {
@@ -43,9 +48,13 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "vetconnect_database" // nome do ficheiro da base de dados
-                ).build()
-                INSTANCE = instance // gaurda a instância para que não seja preciso criá-la de novo
+                    "vetconnect_database"
+                )
+                // Numa aplicação real, seria preciso um plano de migração.
+                // Para desenvolvimento, destruir e recriar a base de dados é suficiente.
+                .fallbackToDestructiveMigration()
+                .build()
+                INSTANCE = instance
                 instance
             }
         }

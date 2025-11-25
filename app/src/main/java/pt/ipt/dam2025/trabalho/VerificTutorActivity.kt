@@ -18,6 +18,7 @@ class VerificTutorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verific_tutor)
 
+        val userIdentifier = intent.getStringExtra("USER_IDENTIFIER")
         val verificationCodeInput = findViewById<EditText>(R.id.verification_code_input)
         val verifyButton = findViewById<Button>(R.id.verify_button)
 
@@ -32,8 +33,10 @@ class VerificTutorActivity : AppCompatActivity() {
                 // TODO: Adicionar lógica real de verificação do código com API
 
                 Toast.makeText(this, "Verificação bem-sucedida!", Toast.LENGTH_SHORT).show()
-                // Navegar para a LoginActivity para configurar/usar o PIN
-                val intent = Intent(this, LoginActivity::class.java)
+                // Navegar para a CreatePinActivity para definir o PIN
+                val intent = Intent(this, CreatePinActivity::class.java).apply {
+                    putExtra("USER_IDENTIFIER", userIdentifier)
+                }
                 startActivity(intent)
                 finish()
                 
