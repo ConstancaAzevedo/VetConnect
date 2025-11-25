@@ -1,12 +1,12 @@
 package pt.ipt.dam2025.trabalho.repository
 
-import pt.ipt.dam2025.trabalho.api.RetrofitInstance
+import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.model.NovoUsuario
 import pt.ipt.dam2025.trabalho.model.Usuario
 
 class UsuarioRepository {
     // Obtém a instância do nosso serviço de API
-    private val apiService = RetrofitInstance.api
+    private val apiService = ApiClient.apiService
 
     /**
      * Obtém a lista de todos os usuários da API.

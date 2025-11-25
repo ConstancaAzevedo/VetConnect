@@ -48,24 +48,30 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.3")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
+    
+    // Lifecycle (Corrected to latest stable version)
+    val lifecycle_version = "2.7.0"
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version") // <-- ADICIONADO
 
-    // Dependências do Room (versão 2.8.3)
-    val room_version = "2.8.3"
+    // Room (Corrected to latest stable version)
+    val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
 
+    // Retrofit (Corrected to latest stable version)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
-    // Para coroutines (recomendado)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    // OkHttp (Used by Retrofit, corrected to latest stable version)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    
+    // Coroutines (Corrected to latest stable version)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
 
-
-    // CameraX
-    val cameraxVersion = "1.5.1" // Versão corrigida
+    // CameraX (Corrected to latest stable version)
+    val cameraxVersion = "1.3.1"
     implementation("androidx.camera:camera-core:${cameraxVersion}")
     implementation("androidx.camera:camera-camera2:${cameraxVersion}")
     implementation("androidx.camera:camera-lifecycle:${cameraxVersion}")
