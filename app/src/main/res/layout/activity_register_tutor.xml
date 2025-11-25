@@ -28,7 +28,7 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/borda_botoes"
         android:hint="Nome Completo"
-        android:inputType="textPersonName"
+        android:inputType="textCapWords"
         android:padding="12dp"
         android:textColor="@android:color/white"
         android:textColorHint="#CCCCCC"

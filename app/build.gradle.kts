@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "pt.ipt.dam2025.trabalho"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "pt.ipt.dam2025.trabalho"

@@ -110,8 +110,6 @@
         app:constraint_referenced_ids="labelNome,labelEmail,labelTelemovel,labelNacionalidade,labelSexo,labelCC,labelDataNascimento,labelMorada" />
 
     <!-- EditText para as informações do tutor -->
-    <!-- são todos iniciados a "false" para que não possam ser editados -->
-    <!-- a não ser depois de carregar no botão de "editar" -->
     <EditText
         android:id="@+id/etNome"
         style="@style/ValueStyle"
@@ -119,6 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:enabled="false"
+        android:inputType="textCapWords"
         app:layout_constraintBaseline_toBaselineOf="@id/labelNome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
@@ -157,6 +156,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:enabled="false"
+        android:inputType="textCapWords"
         app:layout_constraintBaseline_toBaselineOf="@id/labelNacionalidade"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
@@ -169,6 +169,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:enabled="false"
+        android:inputType="textCapWords"
         app:layout_constraintBaseline_toBaselineOf="@id/labelSexo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
@@ -207,6 +208,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:enabled="false"
+        android:inputType="textPostalAddress"
         app:layout_constraintBaseline_toBaselineOf="@id/labelMorada"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"

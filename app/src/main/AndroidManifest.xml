@@ -23,7 +23,6 @@
         android:theme="@style/Theme.Trabalho">
 
         <!-- tela principal -->
-        <!-- tela que abre "com" a aplicação -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -33,39 +32,22 @@
             </intent-filter>
         </activity>
 
-        <!-- tela "sobre" -->
         <activity android:name=".AboutActivity" />
-
-        <!-- tela de ecolha do perfil -->
         <activity android:name=".EscolhaActivity" />
-
-        <!-- tela de autenticação do tutor -->
         <activity android:name=".TutorActivity" />
-
-        <!-- tela de autenticação do veterinário -->
         <activity android:name=".VeterinarioActivity" />
-
-        <!-- tela de verificação do tutor -->
         <activity android:name=".VerificTutorActivity" />
-
-        <!-- tela "login" -->
         <activity android:name=".LoginActivity" />
-
-        <!-- tela "home" -->
         <activity android:name=".HomeActivity" />
-
-        <!-- tela "perfil" -->
         <activity android:name=".PerfilTutorActivity" />
-
-        <!-- tela "perfil do animal" -->
         <activity android:name=".AnimalActivity" />
-
-        <!-- tela "marcar consulta" -->
         <activity android:name=".MarcarConsultaActivity" />
-
-        <!-- tela "histórico do animal" -->
         <activity android:name=".HistoricoActivity" />
 
+        <!-- Novas Activities -->
+        <activity android:name=".RegisterTutorActivity" />
+        <activity android:name=".CreatePinActivity" />
+        <activity android:name=".CameraActivity" />
 
     </application>
 
