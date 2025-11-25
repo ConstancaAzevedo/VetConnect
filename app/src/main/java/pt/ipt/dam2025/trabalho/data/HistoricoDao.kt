@@ -1,10 +1,11 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.data
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import pt.ipt.dam2025.trabalho.model.HistoricoItem
 
 /**
  * Data Access Object (DAO) para a tabela historico_medico

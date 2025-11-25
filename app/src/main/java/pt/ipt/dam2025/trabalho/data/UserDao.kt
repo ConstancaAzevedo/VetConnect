@@ -1,8 +1,9 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.data
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import pt.ipt.dam2025.trabalho.model.User
 
 @Dao
 interface UserDao {

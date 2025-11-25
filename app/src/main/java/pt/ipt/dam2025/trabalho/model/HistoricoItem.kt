@@ -1,4 +1,4 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

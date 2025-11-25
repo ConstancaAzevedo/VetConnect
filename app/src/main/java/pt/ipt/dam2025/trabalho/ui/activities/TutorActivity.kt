@@ -1,4 +1,4 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import pt.ipt.dam2025.trabalho.data.AppDatabase
+import pt.ipt.dam2025.trabalho.R
 
 class TutorActivity : AppCompatActivity() {
 
@@ -30,7 +32,7 @@ class TutorActivity : AppCompatActivity() {
             }
 
             lifecycleScope.launch {
-                val userDao = AppDatabase.getDatabase(applicationContext).userDao()
+                val userDao = AppDatabase.Companion.getDatabase(applicationContext).userDao()
                 val user = userDao.findByIdentifier(enteredPhoneNumber)
 
                 if (user != null) {

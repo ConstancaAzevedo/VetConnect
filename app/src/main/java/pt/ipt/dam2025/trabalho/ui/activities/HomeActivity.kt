@@ -1,10 +1,10 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import pt.ipt.dam2025.trabalho.R
 
 
 //tela principal

@@ -1,4 +1,4 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import pt.ipt.dam2025.trabalho.R
 
 
 //tela de verificação do número de telemóvel do tutor

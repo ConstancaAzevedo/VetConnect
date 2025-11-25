@@ -24,7 +24,7 @@
 
         <!-- tela principal -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,22 +32,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".EscolhaActivity" />
-        <activity android:name=".TutorActivity" />
-        <activity android:name=".VeterinarioActivity" />
-        <activity android:name=".VerificTutorActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".PerfilTutorActivity" />
-        <activity android:name=".AnimalActivity" />
-        <activity android:name=".MarcarConsultaActivity" />
-        <activity android:name=".HistoricoActivity" />
+        <activity android:name=".ui.activities.AboutActivity" />
+        <activity android:name=".ui.activities.EscolhaActivity" />
+        <activity android:name=".ui.activities.TutorActivity" />
+        <activity android:name=".ui.activities.VeterinarioActivity" />
+        <activity android:name=".ui.activities.VerificTutorActivity" />
+        <activity android:name=".ui.activities.LoginActivity" />
+        <activity android:name=".ui.activities.HomeActivity" />
+        <activity android:name=".ui.activities.PerfilTutorActivity" />
+        <activity android:name=".ui.activities.AnimalActivity" />
+        <activity android:name=".ui.activities.MarcarConsultaActivity" />
+        <activity android:name=".ui.activities.HistoricoActivity" />
 
         <!-- Novas Activities -->
-        <activity android:name=".RegisterTutorActivity" />
-        <activity android:name=".CreatePinActivity" />
-        <activity android:name=".CameraActivity" />
+        <activity android:name=".ui.activities.RegisterTutorActivity" />
+        <activity android:name=".ui.activities.CreatePinActivity" />
+        <activity android:name=".ui.activities.CameraActivity" />
 
     </application>
 

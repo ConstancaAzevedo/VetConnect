@@ -1,4 +1,4 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import pt.ipt.dam2025.trabalho.data.AppDatabase
+import pt.ipt.dam2025.trabalho.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         autentButton.setOnClickListener {
             lifecycleScope.launch {
-                val userDao = AppDatabase.getDatabase(applicationContext).userDao()
+                val userDao = AppDatabase.Companion.getDatabase(applicationContext).userDao()
                 val user = userDao.getAnyUser()
 
                 val nextActivity = if (user != null) {

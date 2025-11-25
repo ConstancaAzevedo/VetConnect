@@ -1,9 +1,11 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import pt.ipt.dam2025.trabalho.model.HistoricoItem
+import pt.ipt.dam2025.trabalho.model.User
 
 
 /**

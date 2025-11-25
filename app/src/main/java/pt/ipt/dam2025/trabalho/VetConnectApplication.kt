@@ -1,6 +1,7 @@
 package pt.ipt.dam2025.trabalho
 
 import android.app.Application
+import pt.ipt.dam2025.trabalho.data.AppDatabase
 
 /**
  * Classe de Aplicação personalizada para o VetConnect.

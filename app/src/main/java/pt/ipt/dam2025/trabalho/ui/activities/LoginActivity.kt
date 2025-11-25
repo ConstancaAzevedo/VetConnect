@@ -1,4 +1,4 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import pt.ipt.dam2025.trabalho.data.AppDatabase
+import pt.ipt.dam2025.trabalho.R
 import java.lang.StringBuilder
 
 
@@ -26,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         val welcomeTextView = findViewById<TextView>(R.id.welcome_text)
 
         lifecycleScope.launch {
-            val user = AppDatabase.getDatabase(applicationContext).userDao().getAnyUser()
+            val user = AppDatabase.Companion.getDatabase(applicationContext).userDao().getAnyUser()
             welcomeTextView.text = "Olá, ${user?.identifier ?: "Utilizador"}"
         }
 
@@ -86,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun attemptLogin() {
         lifecycleScope.launch {
-            val user = AppDatabase.getDatabase(applicationContext).userDao().getAnyUser()
+            val user = AppDatabase.Companion.getDatabase(applicationContext).userDao().getAnyUser()
             if (user != null && pin.toString() == user.pin) {
                 Toast.makeText(this@LoginActivity, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@LoginActivity, HomeActivity::class.java)

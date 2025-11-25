@@ -1,4 +1,4 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import pt.ipt.dam2025.trabalho.data.AppDatabase
+import pt.ipt.dam2025.trabalho.R
+import pt.ipt.dam2025.trabalho.model.User
 
 class CreatePinActivity : AppCompatActivity() {
 
@@ -77,8 +80,9 @@ class CreatePinActivity : AppCompatActivity() {
     private fun savePinAndNavigate() {
         lifecycleScope.launch {
             // Assume que o tipo de utilizador é "TUTOR" neste fluxo
-            val newUser = User(identifier = userIdentifier, userType = "TUTOR", pin = pin.toString())
-            AppDatabase.getDatabase(applicationContext).userDao().insert(newUser)
+            val newUser =
+                User(identifier = userIdentifier, userType = "TUTOR", pin = pin.toString())
+            AppDatabase.Companion.getDatabase(applicationContext).userDao().insert(newUser)
 
             Toast.makeText(this@CreatePinActivity, "PIN criado com sucesso!", Toast.LENGTH_SHORT).show()
 

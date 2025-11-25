@@ -1,4 +1,4 @@
-package pt.ipt.dam2025.trabalho.network
+package pt.ipt.dam2025.trabalho.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

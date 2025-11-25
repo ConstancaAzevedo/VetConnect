@@ -1,10 +1,11 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import pt.ipt.dam2025.trabalho.R
 
 //tela de autenticação do veterinário
 class VeterinarioActivity : AppCompatActivity() {

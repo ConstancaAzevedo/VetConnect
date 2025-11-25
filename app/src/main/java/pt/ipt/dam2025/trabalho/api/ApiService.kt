@@ -1,5 +1,7 @@
-package pt.ipt.dam2025.trabalho.network
+package pt.ipt.dam2025.trabalho.api
 
+import pt.ipt.dam2025.trabalho.model.NovoUsuario
+import pt.ipt.dam2025.trabalho.model.Usuario
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

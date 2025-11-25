@@ -1,4 +1,4 @@
-package pt.ipt.dam2025.trabalho.network
+package pt.ipt.dam2025.trabalho.model
 
 /**
  * Data class para representar um utilizador recebido da API.

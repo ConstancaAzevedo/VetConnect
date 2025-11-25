@@ -1,7 +1,6 @@
-package pt.ipt.dam2025.trabalho
+package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.Manifest
-import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -20,6 +19,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import pt.ipt.dam2025.trabalho.R
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
@@ -81,7 +81,7 @@ class CameraActivity : AppCompatActivity() {
                     val resultIntent = Intent().apply {
                         putExtra("image_uri", output.savedUri.toString())
                     }
-                    setResult(Activity.RESULT_OK, resultIntent)
+                    setResult(RESULT_OK, resultIntent)
                     finish()
                 }
             }
