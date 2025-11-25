@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class TutorActivity : AppCompatActivity() {
 
@@ -20,14 +22,28 @@ class TutorActivity : AppCompatActivity() {
 
             if (enteredPhoneNumber.isBlank()) {
                 phoneNumberInput.error = "Por favor, insira o número de telemóvel"
-            } else if (enteredPhoneNumber.length != 9) {
+                return@setOnClickListener
+            }
+            if (enteredPhoneNumber.length != 9) {
                 phoneNumberInput.error = "O número de telemóvel deve ter 9 dígitos"
-            } else {
-                // TODO: Adicionar lógica real de autenticação com API
-                val intent = Intent(this, VerificTutorActivity::class.java).apply {
-                    putExtra("USER_IDENTIFIER", enteredPhoneNumber)
+                return@setOnClickListener
+            }
+
+            lifecycleScope.launch {
+                val userDao = AppDatabase.getDatabase(applicationContext).userDao()
+                val user = userDao.findByIdentifier(enteredPhoneNumber)
+
+                if (user != null) {
+                    // Utilizador já existe, ir para a tela de login com PIN
+                    val intent = Intent(this@TutorActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    // Novo utilizador, vai para o ecrã de registo
+                    val intent = Intent(this@TutorActivity, RegisterTutorActivity::class.java).apply {
+                        putExtra("USER_IDENTIFIER", enteredPhoneNumber)
+                    }
+                    startActivity(intent)
                 }
-                startActivity(intent)
                 finish()
             }
         }
