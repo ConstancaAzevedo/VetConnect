@@ -6,8 +6,8 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import pt.ipt.dam2025.trabalho.data.AppDatabase
 import pt.ipt.dam2025.trabalho.R
+import pt.ipt.dam2025.trabalho.data.AppDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,17 +17,16 @@ class MainActivity : AppCompatActivity() {
 
         val autentButton = findViewById<Button>(R.id.autent_button)
         val aboutButton = findViewById<Button>(R.id.about_button)
+        val testButton = findViewById<Button>(R.id.test_button) // Botão de teste
 
         autentButton.setOnClickListener {
             lifecycleScope.launch {
-                val userDao = AppDatabase.Companion.getDatabase(applicationContext).userDao()
+                val userDao = AppDatabase.getDatabase(applicationContext).userDao()
                 val user = userDao.getAnyUser()
 
                 val nextActivity = if (user != null) {
-                    // Utilizador já registado, vai para o ecrã de PIN
                     LoginActivity::class.java
                 } else {
-                    // Nenhum utilizador registado, vai para o ecrã de escolha
                     EscolhaActivity::class.java
                 }
                 startActivity(Intent(this@MainActivity, nextActivity))
@@ -36,6 +35,12 @@ class MainActivity : AppCompatActivity() {
 
         aboutButton.setOnClickListener {
             val intent = Intent(this, AboutActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Listener para o botão de teste
+        testButton.setOnClickListener {
+            val intent = Intent(this, UserListActivity::class.java)
             startActivity(intent)
         }
     }

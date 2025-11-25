@@ -3,17 +3,25 @@ package pt.ipt.dam2025.trabalho.api
 import pt.ipt.dam2025.trabalho.model.NovoUsuario
 import pt.ipt.dam2025.trabalho.model.Usuario
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
 
-    /**
-     * Envia os dados de um novo utilizador para a API.
-     * @param novoUsuario O objeto com os dados do utilizador a ser criado.
-     * @return A resposta da API, que pode ser o utilizador criado ou uma confirmação.
-     */
-    @POST("users") // Substitua "users" pelo endpoint real da sua API para criar utilizadores
-    // enviar os dados de um NovoUsuario para o servidor
-    suspend fun createUser(@Body novoUsuario: NovoUsuario): Response<Usuario>
+    @GET("usuarios")
+    suspend fun getUsuarios(): List<Usuario>
+
+    @GET("usuarios/{id}")
+    suspend fun getUsuario(@Path("id") id: Int): Usuario
+
+    @POST("usuarios")
+    suspend fun criarUsuario(@Body usuario: NovoUsuario): Usuario
+
+    @PUT("usuarios/{id}")
+    suspend fun atualizarUsuario(
+        @Path("id") id: Int,
+        @Body usuario: NovoUsuario
+    ): Usuario
+
+    @DELETE("usuarios/{id}")
+    suspend fun deletarUsuario(@Path("id") id: Int): Response<Unit>
 }
