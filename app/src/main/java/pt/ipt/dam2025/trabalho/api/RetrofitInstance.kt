@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
     // URL de placeholder para testes. Deve ser substituída pela URL da API real.
-    private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+    private const val BASE_URL = "http://10.0.2.2:3000/"
 
     // Interceptor para logging, muito útil para debug
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
