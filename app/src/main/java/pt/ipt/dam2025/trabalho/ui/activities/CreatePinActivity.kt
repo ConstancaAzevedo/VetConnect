@@ -18,13 +18,19 @@ class CreatePinActivity : AppCompatActivity() {
 
     private val pin = StringBuilder()
     private lateinit var pinDots: List<ImageView>
-    private lateinit var userIdentifier: String
+    private lateinit var userName: String // ALTERADO para userName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_pin)
 
-        userIdentifier = intent.getStringExtra("USER_IDENTIFIER") ?: return // Sai se o identificador for nulo
+        // Lê o nome do utilizador passado pelo ecrã de verificação
+        userName = intent.getStringExtra("USER_NAME") ?: ""
+        if (userName.isEmpty()) {
+            Toast.makeText(this, "Ocorreu um erro. Tente novamente.", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
 
         pinDots = listOf(
             findViewById(R.id.pin_dot_1),
@@ -57,7 +63,6 @@ class CreatePinActivity : AppCompatActivity() {
             }
         }
 
-        // associar o listener a todos os botões numéricos
         val buttons = listOf<Button>(
             findViewById(R.id.button_1), findViewById(R.id.button_2), findViewById(R.id.button_3),
             findViewById(R.id.button_4), findViewById(R.id.button_5), findViewById(R.id.button_6),
@@ -79,12 +84,11 @@ class CreatePinActivity : AppCompatActivity() {
 
     private fun savePinAndNavigate() {
         lifecycleScope.launch {
-            // Assume que o tipo de utilizador é "TUTOR" neste fluxo
-            val newUser =
-                User(identifier = userIdentifier, userType = "TUTOR", pin = pin.toString())
-            AppDatabase.Companion.getDatabase(applicationContext).userDao().insert(newUser)
+            // Guarda o novo utilizador na base de dados local com o nome como identificador
+            val newUser = User(identifier = userName, userType = "TUTOR", pin = pin.toString())
+            AppDatabase.getDatabase(applicationContext).userDao().insert(newUser)
 
-            Toast.makeText(this@CreatePinActivity, "PIN criado com sucesso!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@CreatePinActivity, "PIN criado com sucesso! Bem-vindo(a), $userName!", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(this@CreatePinActivity, HomeActivity::class.java)
             // Limpa o histórico de atividades para que o utilizador não possa voltar atrás

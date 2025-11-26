@@ -16,15 +16,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:gravity="center"
-        android:text="Introduza o código de 9 dígitos que enviámos para o seu telemóvel"
+        android:text="Introduza o código de 6 dígitos que enviámos para o seu telemóvel"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <!-- na linha "inputType" oculta a password escrita no input com bolinhas -->
     <EditText
         android:id="@+id/verification_code_input"
         android:layout_width="wrap_content"
@@ -32,9 +30,9 @@
         android:layout_marginTop="48dp"
         android:backgroundTint="@android:color/white"
         android:ems="10"
-        android:inputType="numberPassword"
+        android:inputType="number"
         android:letterSpacing="0.2"
-        android:maxLength="9"
+        android:maxLength="6"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textColorHint="#A0FFFFFF"
@@ -52,6 +50,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/verification_code_input" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

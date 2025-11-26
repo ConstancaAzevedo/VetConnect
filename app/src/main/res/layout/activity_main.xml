@@ -2,70 +2,54 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     tools:context=".ui.activities.MainActivity">
 
-    <!-- Botão "Autenticação" -->
-    <Button
-        android:id="@+id/autent_button"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="28dp"
-        android:text="Autenticação"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nome" />
-
     <ImageView
-        android:id="@+id/logotipo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="144dp"
-        android:src="@drawable/vetconnectfundo"
+        android:id="@+id/logo_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/vetconnectfundoredondo"
+        app:layout_constraintBottom_toTopOf="@+id/button_login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/nome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/app_nome"
-        android:textColor="#FFFFFF"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logotipo" />
-
-    <!-- Botão de Teste -->
     <Button
-        android:id="@+id/test_button"
-        android:layout_width="200dp"
+        android:id="@+id/button_login"
+        android:layout_width="220dp"
         android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:text="Testar Lista de Usuários"
+        android:layout_marginTop="48dp"
+        android:text="Login"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autent_button" />
+        app:layout_constraintTop_toBottomOf="@+id/logo_image" />
 
-    <!-- Botão "Sobre os Autores" -->
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="220dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:text="Registar"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/about_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_login" />
+
     <Button
         android:id="@+id/about_button"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="100dp"
-        android:backgroundTint="#A5C9A5"
-        android:text="@string/btn_sobre"
-        android:textSize="18sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Sobre"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

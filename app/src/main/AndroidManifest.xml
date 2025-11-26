@@ -36,8 +36,6 @@
 
         <activity android:name=".ui.activities.AboutActivity" />
         <activity android:name=".ui.activities.EscolhaActivity" />
-        <activity android:name=".ui.activities.TutorActivity" />
-        <activity android:name=".ui.activities.VeterinarioActivity" />
         <activity android:name=".ui.activities.VerificTutorActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
         <activity android:name=".ui.activities.HomeActivity" />
@@ -45,8 +43,6 @@
         <activity android:name=".ui.activities.AnimalActivity" />
         <activity android:name=".ui.activities.MarcarConsultaActivity" />
         <activity android:name=".ui.activities.HistoricoActivity" />
-
-        <!-- Novas Activities -->
         <activity android:name=".ui.activities.RegisterTutorActivity" />
         <activity android:name=".ui.activities.CreatePinActivity" />
         <activity android:name=".ui.activities.CameraActivity" />

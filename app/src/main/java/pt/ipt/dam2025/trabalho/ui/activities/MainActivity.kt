@@ -3,6 +3,7 @@ package pt.ipt.dam2025.trabalho.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -15,33 +16,32 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val autentButton = findViewById<Button>(R.id.autent_button)
+        val loginButton = findViewById<Button>(R.id.button_login)
+        val registerButton = findViewById<Button>(R.id.button_register)
         val aboutButton = findViewById<Button>(R.id.about_button)
-        val testButton = findViewById<Button>(R.id.test_button) // Botão de teste
 
-        autentButton.setOnClickListener {
+        loginButton.setOnClickListener {
             lifecycleScope.launch {
-                val userDao = AppDatabase.getDatabase(applicationContext).userDao()
-                val user = userDao.getAnyUser()
+                // Verifica se existe algum utilizador na base de dados local
+                val user = AppDatabase.getDatabase(applicationContext).userDao().getAnyUser()
 
-                val nextActivity = if (user != null) {
-                    LoginActivity::class.java
+                if (user != null) {
+                    // Se existir, vai para o ecrã de login com PIN
+                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 } else {
-                    EscolhaActivity::class.java
+                    // Se não, informa o utilizador que precisa de se registar primeiro
+                    Toast.makeText(this@MainActivity, "Nenhum utilizador registado. Por favor, registe-se primeiro.", Toast.LENGTH_LONG).show()
                 }
-                startActivity(Intent(this@MainActivity, nextActivity))
             }
         }
 
-        aboutButton.setOnClickListener {
-            val intent = Intent(this, AboutActivity::class.java)
-            startActivity(intent)
+        registerButton.setOnClickListener {
+            // Leva o utilizador para o ecrã de escolha de perfil para registo
+            startActivity(Intent(this@MainActivity, EscolhaActivity::class.java))
         }
 
-        // Listener para o botão de teste
-        testButton.setOnClickListener {
-            val intent = Intent(this, UserListActivity::class.java)
-            startActivity(intent)
+        aboutButton.setOnClickListener {
+            startActivity(Intent(this, AboutActivity::class.java))
         }
     }
 }

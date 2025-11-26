@@ -27,8 +27,10 @@ class UsuarioRepository {
      */
     suspend fun criarUsuario(usuario: NovoUsuario): Result<Usuario> {
         return try {
+            // A API agora devolve um RegistrationResponse, que contém o utilizador
             val response = apiService.criarUsuario(usuario)
-            Result.success(response)
+            // Extrai o objeto 'user' da resposta antes de o devolver
+            Result.success(response.user)
         } catch (e: Exception) {
             Result.failure(e)
         }
