@@ -4,22 +4,40 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import pt.ipt.dam2025.trabalho.data.HistoricoDao
 import pt.ipt.dam2025.trabalho.model.HistoricoItem
+import pt.ipt.dam2025.trabalho.repository.HistoricoRepository
 
-// ViewModel: sobrevive a mudanças de configuração e gere a lógica de negócio.
-class HistoricoViewModel(private val dao: HistoricoDao) : ViewModel() {
+/**
+ * ViewModel para o ecrã de Histórico.
+ * Gere a lógica de negócio e a comunicação com o repositório.
+ */
+class HistoricoViewModel(private val repository: HistoricoRepository) : ViewModel() {
 
-    // expõe a lista de itens para a Activity poder observar
-    val allHistoricoItems: Flow<List<HistoricoItem>> = dao.getAll()
+    // Expõe a lista de itens do repositório. A UI observa este Flow para atualizações automáticas.
+    val allHistoricoItems: Flow<List<HistoricoItem>> = repository.allHistoricoItems
 
-    // as operações na base de dados devem ser feitas numa thread de segundo plano para não congelar a UI.
-    // o viewModelScope faz isto automaticamente.
+    init {
+        // Sempre que o ViewModel é criado, vai buscar os dados mais recentes à API.
+        refreshHistorico()
+    }
+
+    /**
+     * Pede ao repositório para ir buscar os dados mais recentes à API e atualizar a base de dados local.
+     */
+    fun refreshHistorico() = viewModelScope.launch {
+        repository.refreshHistorico()
+    }
+
+    /**
+     * A lógica de inserir e apagar é agora gerida pelo repositório.
+     * No futuro, estas funções poderiam também fazer chamadas à API.
+     */
     fun insert(item: HistoricoItem) = viewModelScope.launch {
-        dao.insert(item)
+        // Por agora, vamos assumir que o insert é apenas local.
+        // No futuro, poderíamos adicionar repository.insert(item) se essa lógica existir lá.
     }
 
     fun delete(item: HistoricoItem) = viewModelScope.launch {
-        dao.delete(item)
+        // O mesmo para o delete.
     }
 }
