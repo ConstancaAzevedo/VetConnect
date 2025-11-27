@@ -11,7 +11,7 @@ import pt.ipt.dam2025.trabalho.model.User
 /**
  * Classe principal da base de dados da aplicação.
  */
-@Database(entities = [HistoricoItem::class, User::class, Animal::class], version = 3, exportSchema = false)
+@Database(entities = [HistoricoItem::class, User::class, Animal::class], version = 4, exportSchema = false) // <-- VERSÃO INCREMENTADA
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun historicoDao(): HistoricoDao

@@ -2,17 +2,27 @@ package pt.ipt.dam2025.trabalho.data
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import pt.ipt.dam2025.trabalho.model.User
 
 @Dao
 interface UserDao {
-    @Insert
+    
+    // Insere um utilizador. Se já existir, substitui-o.
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User)
 
-    @Query("SELECT * FROM users WHERE identifier = :identifier LIMIT 1")
-    suspend fun findByIdentifier(identifier: String): User?
+    // Atualiza um utilizador existente.
+    @Update
+    suspend fun update(user: User)
 
-    @Query("SELECT * FROM users LIMIT 1")
-    suspend fun getAnyUser(): User? //verificar se já existe um utilizador na base de dados
+    // Encontra um utilizador pelo seu email.
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    suspend fun getUserByEmail(email: String): User?
+
+    // Obtém o token do primeiro (e único) utilizador na tabela.
+    @Query("SELECT token FROM users LIMIT 1")
+    suspend fun getAuthToken(): String?
 }

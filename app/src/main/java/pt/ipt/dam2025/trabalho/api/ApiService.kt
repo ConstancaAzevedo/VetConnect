@@ -3,6 +3,8 @@ package pt.ipt.dam2025.trabalho.api
 import pt.ipt.dam2025.trabalho.model.CreatePinRequest
 import pt.ipt.dam2025.trabalho.model.CreatePinResponse
 import pt.ipt.dam2025.trabalho.model.HistoricoItem
+import pt.ipt.dam2025.trabalho.model.LoginRequest
+import pt.ipt.dam2025.trabalho.model.LoginResponse
 import pt.ipt.dam2025.trabalho.model.NovoUsuario
 import pt.ipt.dam2025.trabalho.model.RegistrationResponse
 import pt.ipt.dam2025.trabalho.model.Usuario
@@ -31,6 +33,10 @@ interface ApiService {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("usuarios/criar-pin")
     suspend fun criarPin(@Body request: CreatePinRequest): CreatePinResponse
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("usuarios/login")
+    suspend fun login(@Body request: LoginRequest): LoginResponse
 
     @PUT("usuarios/{id}")
     suspend fun atualizarUsuario(

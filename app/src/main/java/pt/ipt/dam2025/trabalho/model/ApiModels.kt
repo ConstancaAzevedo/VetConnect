@@ -62,3 +62,19 @@ data class CreatePinRequest(
 data class CreatePinResponse(
     val message: String
 )
+
+/**
+ * Data class para o corpo do pedido de login.
+ */
+data class LoginRequest(
+    val email: String,
+    val pin: String
+)
+
+/**
+ * Data class para a resposta do login.
+ */
+data class LoginResponse(
+    val message: String,
+    val token: String
+)

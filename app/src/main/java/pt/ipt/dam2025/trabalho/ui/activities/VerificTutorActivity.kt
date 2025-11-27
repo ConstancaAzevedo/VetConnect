@@ -64,9 +64,10 @@ class VerificTutorActivity : AppCompatActivity() {
                 // Assume que uma resposta bem-sucedida (HTTP 2xx) significa que o código é válido
                 Toast.makeText(this@VerificTutorActivity, response.message, Toast.LENGTH_SHORT).show()
 
-                // Navega para a criação do PIN, passando o nome do utilizador
+                // Navega para a criação do PIN, passando o nome e o email do utilizador
                 val intent = Intent(this@VerificTutorActivity, CreatePinActivity::class.java).apply {
                     putExtra("USER_NAME", userName)
+                    putExtra("USER_EMAIL", userEmail) // <-- ADICIONADO
                 }
                 startActivity(intent)
                 finish()

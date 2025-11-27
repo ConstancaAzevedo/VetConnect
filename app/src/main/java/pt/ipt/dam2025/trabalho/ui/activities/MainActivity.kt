@@ -22,11 +22,12 @@ class MainActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             lifecycleScope.launch {
-                // Verifica se existe algum utilizador na base de dados local
-                val user = AppDatabase.getDatabase(applicationContext).userDao().getAnyUser()
+                // Verifica se existe um token de utilizador guardado na base de dados
+                val token = AppDatabase.getDatabase(applicationContext).userDao().getAuthToken()
 
-                if (user != null) {
-                    // Se existir, vai para o ecrã de login com PIN
+                if (token != null) {
+                    // Se existir um token, significa que um utilizador já se autenticou antes.
+                    // Vai para o ecrã de login com PIN.
                     startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 } else {
                     // Se não, informa o utilizador que precisa de se registar primeiro

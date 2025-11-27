@@ -1,7 +1,9 @@
 package pt.ipt.dam2025.trabalho.ui.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -11,34 +13,38 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import pt.ipt.dam2025.trabalho.data.AppDatabase
 import pt.ipt.dam2025.trabalho.R
+import pt.ipt.dam2025.trabalho.api.ApiClient
+import pt.ipt.dam2025.trabalho.data.AppDatabase
+import pt.ipt.dam2025.trabalho.model.LoginRequest
+import pt.ipt.dam2025.trabalho.model.User // <-- IMPORT CORRIGIDO
 import java.lang.StringBuilder
-
 
 class LoginActivity : AppCompatActivity() {
 
     private val pin = StringBuilder()
     private lateinit var pinDots: List<ImageView>
+    private var userEmail: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val welcomeTextView = findViewById<TextView>(R.id.welcome_text)
+        val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        userEmail = sharedPrefs.getString("USER_EMAIL", null)
 
-        lifecycleScope.launch {
-            val user = AppDatabase.Companion.getDatabase(applicationContext).userDao().getAnyUser()
-            welcomeTextView.text = "Olá, ${user?.identifier ?: "Utilizador"}"
+        if (userEmail == null) {
+            Toast.makeText(this, "Nenhum utilizador encontrado. Por favor, registe-se.", Toast.LENGTH_LONG).show()
+            finish()
+            return
         }
 
+        val welcomeTextView = findViewById<TextView>(R.id.welcome_text)
+        welcomeTextView.text = "Olá!"
+
         pinDots = listOf(
-            findViewById(R.id.pin_dot_1),
-            findViewById(R.id.pin_dot_2),
-            findViewById(R.id.pin_dot_3),
-            findViewById(R.id.pin_dot_4),
-            findViewById(R.id.pin_dot_5),
-            findViewById(R.id.pin_dot_6)
+            findViewById(R.id.pin_dot_1), findViewById(R.id.pin_dot_2), findViewById(R.id.pin_dot_3),
+            findViewById(R.id.pin_dot_4), findViewById(R.id.pin_dot_5), findViewById(R.id.pin_dot_6)
         )
 
         setupNumberButtons()
@@ -62,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
                 pin.append(button.text)
                 updatePinDots()
                 if (pin.length == 6) {
-                    attemptLogin()
+                    attemptLoginWithApi()
                 }
             }
         }
@@ -86,16 +92,33 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun attemptLogin() {
+    private fun attemptLoginWithApi() {
         lifecycleScope.launch {
-            val user = AppDatabase.Companion.getDatabase(applicationContext).userDao().getAnyUser()
-            if (user != null && pin.toString() == user.pin) {
-                Toast.makeText(this@LoginActivity, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
+            try {
+                val request = LoginRequest(email = userEmail!!, pin = pin.toString())
+                val response = ApiClient.apiService.login(request)
+
+                val userDao = AppDatabase.getDatabase(applicationContext).userDao()
+                var user = userDao.getUserByEmail(userEmail!!)
+
+                if (user == null) {
+                    user = User(email = userEmail!!, token = response.token)
+                    userDao.insert(user)
+                } else {
+                    user.token = response.token
+                    userDao.update(user)
+                }
+
+                Toast.makeText(this@LoginActivity, response.message, Toast.LENGTH_SHORT).show()
+
                 val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
-            } else {
-                Toast.makeText(this@LoginActivity, "PIN incorreto", Toast.LENGTH_SHORT).show()
+
+            } catch (e: Exception) {
+                Log.e("LoginActivity", "Erro no login", e)
+                val errorMessage = e.message ?: "PIN incorreto ou erro de rede"
+                Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
                 pin.clear()
                 updatePinDots()
             }
