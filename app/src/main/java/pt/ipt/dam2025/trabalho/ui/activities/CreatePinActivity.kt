@@ -2,6 +2,7 @@ package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -10,15 +11,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import pt.ipt.dam2025.trabalho.data.AppDatabase
 import pt.ipt.dam2025.trabalho.R
-import pt.ipt.dam2025.trabalho.model.User
+import pt.ipt.dam2025.trabalho.api.ApiClient
+import pt.ipt.dam2025.trabalho.model.CreatePinRequest
 
 class CreatePinActivity : AppCompatActivity() {
 
     private val pin = StringBuilder()
     private lateinit var pinDots: List<ImageView>
-    private lateinit var userName: String // ALTERADO para userName
+    private lateinit var userName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +59,8 @@ class CreatePinActivity : AppCompatActivity() {
                 pin.append(button.text)
                 updatePinDots()
                 if (pin.length == 6) {
-                    savePinAndNavigate()
+                    // Altera a chamada para usar a API
+                    savePinWithApiAndNavigate()
                 }
             }
         }
@@ -82,18 +84,31 @@ class CreatePinActivity : AppCompatActivity() {
         }
     }
 
-    private fun savePinAndNavigate() {
+    /**
+     * Envia o PIN para a API e navega para o ecrã principal.
+     */
+    private fun savePinWithApiAndNavigate() {
         lifecycleScope.launch {
-            // Guarda o novo utilizador na base de dados local com o nome como identificador
-            val newUser = User(identifier = userName, userType = "TUTOR", pin = pin.toString())
-            AppDatabase.getDatabase(applicationContext).userDao().insert(newUser)
+            try {
+                val request = CreatePinRequest(nome = userName, pin = pin.toString())
+                val response = ApiClient.apiService.criarPin(request)
 
-            Toast.makeText(this@CreatePinActivity, "PIN criado com sucesso! Bem-vindo(a), $userName!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CreatePinActivity, response.message, Toast.LENGTH_SHORT).show()
 
-            val intent = Intent(this@CreatePinActivity, HomeActivity::class.java)
-            // Limpa o histórico de atividades para que o utilizador não possa voltar atrás
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+                // Navega para o ecrã principal (HomeActivity)
+                val intent = Intent(this@CreatePinActivity, HomeActivity::class.java)
+                // Limpa o histórico de atividades para que o utilizador não possa voltar atrás
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+
+            } catch (e: Exception) {
+                Log.e("CreatePinActivity", "Erro ao criar o PIN", e)
+                val errorMessage = e.message ?: "Não foi possível criar o PIN. Tente novamente."
+                Toast.makeText(this@CreatePinActivity, errorMessage, Toast.LENGTH_LONG).show()
+                // Limpa o PIN para o utilizador tentar de novo
+                pin.clear()
+                updatePinDots()
+            }
         }
     }
 }

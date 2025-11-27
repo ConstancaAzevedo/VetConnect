@@ -10,7 +10,6 @@ data class Usuario(
     val nome: String,
     val email: String,
     val telefone: String? = null,
-    // Adiciona o campo para o código de verificação, que pode ser nulo
     @SerializedName("codigoVerificacao")
     val codigoVerificacao: String? = null
 )
@@ -22,7 +21,44 @@ data class NovoUsuario(
     val nome: String,
     val email: String,
     val telefone: String? = null,
-    // Adiciona os campos de password e tipo, necessários para o registo
     val password: String,
     val tipo: String
+)
+
+/**
+ * Data class para a resposta do registo, que contém o utilizador criado.
+ */
+data class RegistrationResponse(
+    val user: Usuario
+)
+
+/**
+ * Data class para o corpo do pedido de verificação de código.
+ */
+data class VerificationRequest(
+    val email: String,
+    @SerializedName("codigoVerificacao")
+    val codigoVerificacao: String
+)
+
+/**
+ * Data class para a resposta da verificação de código.
+ */
+data class VerificationResponse(
+    val message: String
+)
+
+/**
+ * Data class para o corpo do pedido de criação de PIN.
+ */
+data class CreatePinRequest(
+    val nome: String,
+    val pin: String
+)
+
+/**
+ * Data class para a resposta da criação de PIN.
+ */
+data class CreatePinResponse(
+    val message: String
 )

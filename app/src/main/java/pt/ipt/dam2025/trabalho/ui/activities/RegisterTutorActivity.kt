@@ -58,6 +58,7 @@ class RegisterTutorActivity : AppCompatActivity() {
 
                     val intent = Intent(this@RegisterTutorActivity, VerificTutorActivity::class.java).apply {
                         putExtra("USER_NAME", user.nome)
+                        putExtra("USER_EMAIL", user.email) // <-- ADICIONADO
                         putExtra("VERIFICATION_CODE", verificationCode)
                     }
                     startActivity(intent)
