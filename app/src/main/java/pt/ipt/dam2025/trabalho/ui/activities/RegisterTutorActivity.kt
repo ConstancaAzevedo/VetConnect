@@ -6,9 +6,9 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.api.ApiClient
@@ -24,6 +24,7 @@ class RegisterTutorActivity : AppCompatActivity() {
         val phoneInput = findViewById<EditText>(R.id.phone_input)
         val emailInput = findViewById<EditText>(R.id.email_input)
         val registerButton = findViewById<Button>(R.id.register_button)
+        val rootView = findViewById<android.view.View>(android.R.id.content)
 
         registerButton.setOnClickListener {
             val name = nameInput.text.toString()
@@ -43,7 +44,7 @@ class RegisterTutorActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Toast.makeText(this, "A registar...", Toast.LENGTH_SHORT).show()
+            Snackbar.make(rootView, "A registar...", Snackbar.LENGTH_SHORT).show()
 
             lifecycleScope.launch {
                 try {
@@ -54,11 +55,9 @@ class RegisterTutorActivity : AppCompatActivity() {
                     val user = response.user
                     val verificationCode = user.codigoVerificacao
 
-                    Toast.makeText(this@RegisterTutorActivity, "SMS Simulado: O seu código é $verificationCode", Toast.LENGTH_LONG).show()
-
                     val intent = Intent(this@RegisterTutorActivity, VerificTutorActivity::class.java).apply {
                         putExtra("USER_NAME", user.nome)
-                        putExtra("USER_EMAIL", user.email) // <-- ADICIONADO
+                        putExtra("USER_EMAIL", user.email)
                         putExtra("VERIFICATION_CODE", verificationCode)
                     }
                     startActivity(intent)
@@ -66,7 +65,7 @@ class RegisterTutorActivity : AppCompatActivity() {
 
                 } catch (e: Exception) {
                     Log.e("RegisterTutorActivity", "Erro ao registar utilizador", e)
-                    Toast.makeText(this@RegisterTutorActivity, "Erro no registo: ${e.message}", Toast.LENGTH_LONG).show()
+                    Snackbar.make(rootView, "Erro no registo: ${e.message}", Snackbar.LENGTH_LONG).show()
                 }
             }
         }

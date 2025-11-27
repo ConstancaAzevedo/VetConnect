@@ -8,9 +8,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.api.ApiClient
@@ -21,18 +21,19 @@ class CreatePinActivity : AppCompatActivity() {
     private val pin = StringBuilder()
     private lateinit var pinDots: List<ImageView>
     private lateinit var userName: String
-    private lateinit var userEmail: String // <-- ADICIONADO
+    private lateinit var userEmail: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_pin)
+        val rootView = findViewById<android.view.View>(android.R.id.content)
 
         // Lê os dados passados pelo ecrã de verificação
         userName = intent.getStringExtra("USER_NAME") ?: ""
-        userEmail = intent.getStringExtra("USER_EMAIL") ?: "" // <-- ADICIONADO
+        userEmail = intent.getStringExtra("USER_EMAIL") ?: ""
 
-        if (userName.isEmpty() || userEmail.isEmpty()) { // <-- ADICIONADO
-            Toast.makeText(this, "Ocorreu um erro. Tente novamente.", Toast.LENGTH_LONG).show()
+        if (userName.isEmpty() || userEmail.isEmpty()) {
+            Snackbar.make(rootView, "Ocorreu um erro. Tente novamente.", Snackbar.LENGTH_LONG).show()
             finish()
             return
         }
@@ -88,28 +89,31 @@ class CreatePinActivity : AppCompatActivity() {
     }
 
     private fun savePinWithApiAndNavigate() {
+        val rootView = findViewById<android.view.View>(android.R.id.content)
         lifecycleScope.launch {
             try {
                 val request = CreatePinRequest(nome = userName, pin = pin.toString())
                 val response = ApiClient.apiService.criarPin(request)
 
-                // Guarda o email do utilizador para o próximo login
+                // Guarda o email do utilizador e a flag de registo
                 val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
                 with(sharedPrefs.edit()) {
                     putString("USER_EMAIL", userEmail)
+                    putBoolean("IS_REGISTERED", true)
                     apply()
                 }
 
-                Toast.makeText(this@CreatePinActivity, response.message, Toast.LENGTH_SHORT).show()
+                Snackbar.make(rootView, response.message, Snackbar.LENGTH_SHORT).show()
 
                 val intent = Intent(this@CreatePinActivity, HomeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
+                finish()
 
             } catch (e: Exception) {
                 Log.e("CreatePinActivity", "Erro ao criar o PIN", e)
                 val errorMessage = e.message ?: "Não foi possível criar o PIN. Tente novamente."
-                Toast.makeText(this@CreatePinActivity, errorMessage, Toast.LENGTH_LONG).show()
+                Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
                 pin.clear()
                 updatePinDots()
             }
