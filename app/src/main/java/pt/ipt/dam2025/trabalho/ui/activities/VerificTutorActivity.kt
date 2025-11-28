@@ -69,15 +69,18 @@ class VerificTutorActivity : AppCompatActivity() {
                 val request = VerificationRequest(email = userEmail, codigoVerificacao = codigo)
                 val response = ApiClient.apiService.verificarCodigo(request)
 
-                Snackbar.make(rootView, response.message, Snackbar.LENGTH_SHORT).show()
-
-                // Navega para a criação do PIN, passando o nome e o email do utilizador
-                val intent = Intent(this@VerificTutorActivity, CreatePinActivity::class.java).apply {
-                    putExtra("USER_NAME", userName)
-                    putExtra("USER_EMAIL", userEmail)
-                }
-                startActivity(intent)
-                finish()
+                Snackbar.make(rootView, response.message, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        super.onDismissed(transientBottomBar, event)
+                        // Navega para a criação do PIN, passando o nome e o email do utilizador
+                        val intent = Intent(this@VerificTutorActivity, CreatePinActivity::class.java).apply {
+                            putExtra("USER_NAME", userName)
+                            putExtra("USER_EMAIL", userEmail)
+                        }
+                        startActivity(intent)
+                        finish()
+                    }
+                }).show()
 
             } catch (e: Exception) {
                 // Trata de erros de rede ou respostas de erro da API (HTTP 4xx, 5xx)

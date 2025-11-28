@@ -21,7 +21,6 @@ data class NovoUsuario(
     val nome: String,
     val email: String,
     val telefone: String? = null,
-    val password: String,
     val tipo: String
 )
 

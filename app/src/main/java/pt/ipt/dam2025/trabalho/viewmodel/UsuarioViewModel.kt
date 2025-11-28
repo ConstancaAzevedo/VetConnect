@@ -51,12 +51,12 @@ class UsuarioViewModel : ViewModel() {
      * Cria um novo usuário e atualiza a lista.
      * A assinatura da função foi atualizada para incluir todos os campos necessários.
      */
-    fun adicionarUsuario(nome: String, email: String, telefone: String?, password: String, tipo: String) {
+    fun adicionarUsuario(nome: String, email: String, telefone: String?, tipo: String) {
         viewModelScope.launch {
             _carregando.value = true
             try {
                 // Cria o NovoUsuario com todos os campos obrigatórios
-                val novoUsuario = NovoUsuario(nome, email, telefone, password, tipo)
+                val novoUsuario = NovoUsuario(nome = nome, email = email, telefone = telefone, tipo = tipo)
                 val result = repository.criarUsuario(novoUsuario)
 
                 result.onSuccess { 

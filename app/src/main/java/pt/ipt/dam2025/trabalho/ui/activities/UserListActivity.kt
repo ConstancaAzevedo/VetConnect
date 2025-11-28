@@ -73,8 +73,7 @@ class UserListActivity : AppCompatActivity() {
             val telefone = binding.editTextTelefone.text.toString()
 
             if (nome.isNotEmpty() && email.isNotEmpty()) {
-                // adiciona os argumentos em falta (password e tipo) com valores padrão
-                viewModel.adicionarUsuario(nome, email, telefone.ifEmpty { null }, "password123", "tutor")
+                viewModel.adicionarUsuario(nome, email, telefone.ifEmpty { null }, "tutor")
                 
                 // Limpa os campos
                 binding.editTextNome.text.clear()
