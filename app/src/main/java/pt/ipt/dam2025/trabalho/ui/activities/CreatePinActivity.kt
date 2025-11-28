@@ -95,11 +95,14 @@ class CreatePinActivity : AppCompatActivity() {
                 val request = CreatePinRequest(nome = userName, pin = pin.toString())
                 val response = ApiClient.apiService.criarPin(request)
 
-                // Guarda o email do utilizador e a flag de registo
+                // Guarda os dados da conta no novo formato (Nome:::Email)
                 val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                val registeredAccounts = sharedPrefs.getStringSet("REGISTERED_ACCOUNTS", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
+                val accountString = "$userName:::$userEmail"
+                registeredAccounts.add(accountString)
+
                 with(sharedPrefs.edit()) {
-                    putString("USER_EMAIL", userEmail)
-                    putBoolean("IS_REGISTERED", true)
+                    putStringSet("REGISTERED_ACCOUNTS", registeredAccounts)
                     apply()
                 }
 

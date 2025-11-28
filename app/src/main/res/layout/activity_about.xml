@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".ui.activities.AboutActivity"
-    >
+    tools:context=".ui.activities.AboutActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-
+        <!-- Labels -->
         <TextView
             android:id="@+id/course_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Curso:"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,10 +30,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Disciplina:"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/course_name_label" />
+            app:layout_constraintTop_toBottomOf="@+id/course_name" />
 
         <TextView
             android:id="@+id/academic_year_label"
@@ -41,12 +42,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Ano Letivo:"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/discipline_label" />
+            app:layout_constraintTop_toBottomOf="@+id/discipline_name" />
 
-
+        <!-- Barrier para alinhar os valores à direita da maior etiqueta -->
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/label_barrier"
             android:layout_width="wrap_content"
@@ -54,12 +56,14 @@
             app:barrierDirection="end"
             app:constraint_referenced_ids="course_name_label,discipline_label,academic_year_label" />
 
+        <!-- Values -->
         <TextView
             android:id="@+id/course_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Licenciatura em Engenharia Informática"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/course_name_label"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Desenvolvimento de Aplicações Móveis"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/discipline_label"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,21 +87,25 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="2025/2026"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/academic_year_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/label_barrier" />
 
+
+        <!-- Secção Autores -->
         <TextView
             android:id="@+id/authors_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Autores:"
+            android:textColor="@android:color/white"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/academic_year_label" />
+            app:layout_constraintTop_toBottomOf="@+id/academic_year" />
 
         <ImageView
             android:id="@+id/author1_photo"
@@ -112,7 +121,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="25969 , Constança Azevedo"
+            android:text="25969, Constança Azevedo"
+            android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/author1_photo"
             app:layout_constraintEnd_toEndOf="parent"
@@ -133,19 +143,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="25957 , Rui Dias"
+            android:text="25957, Rui Dias"
+            android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/author2_photo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/author2_photo"
             app:layout_constraintTop_toTopOf="@+id/author2_photo" />
 
+        <!-- Secção Bibliotecas -->
         <TextView
             android:id="@+id/libraries_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Bibliotecas, Frameworks e Código de Terceiros:"
+            android:textColor="@android:color/white"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -158,6 +171,7 @@
             android:layout_marginTop="16dp"
             android:lineSpacingExtra="4dp"
             android:text="- Google Jetpack / AndroidX (Google):\n  - AppCompat, ConstraintLayout, Room, Lifecycle.\n- Material Components for Android (Google):\n  - Para componentes de UI modernos.\n- Retrofit (de Square, Inc.):\n  - Para a comunicação com a API REST.\n- Gson (de Google):\n  - Para a conversão de objetos Kotlin para e de JSON."
+            android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

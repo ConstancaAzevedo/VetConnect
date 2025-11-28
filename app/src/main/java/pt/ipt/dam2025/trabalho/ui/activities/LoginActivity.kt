@@ -5,9 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,30 +20,52 @@ import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.data.AppDatabase
 import pt.ipt.dam2025.trabalho.model.LoginRequest
-import pt.ipt.dam2025.trabalho.model.User // <-- IMPORT CORRIGIDO
+import pt.ipt.dam2025.trabalho.model.User
 import java.lang.StringBuilder
 
 class LoginActivity : AppCompatActivity() {
 
     private val pin = StringBuilder()
     private lateinit var pinDots: List<ImageView>
-    private var userEmail: String? = null
+    private lateinit var accountSpinner: Spinner
+    private var selectedEmail: String? = null
+    private var registeredAccounts: List<String> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        userEmail = sharedPrefs.getString("USER_EMAIL", null)
+        registeredAccounts = sharedPrefs.getStringSet("REGISTERED_ACCOUNTS", null)?.toList() ?: listOf()
 
-        if (userEmail == null) {
-            Toast.makeText(this, "Nenhum utilizador encontrado. Por favor, registe-se.", Toast.LENGTH_LONG).show()
+        if (registeredAccounts.isEmpty()) {
+            Toast.makeText(this, "Nenhum utilizador registado. Por favor, registe-se.", Toast.LENGTH_LONG).show()
             finish()
             return
         }
 
         val welcomeTextView = findViewById<TextView>(R.id.welcome_text)
         welcomeTextView.text = "Olá!"
+
+        // Extrai apenas os nomes para mostrar no spinner
+        val accountNames = registeredAccounts.map { it.split(":::").firstOrNull() ?: "Conta Inválida" }
+
+        accountSpinner = findViewById(R.id.account_spinner)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, accountNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        accountSpinner.adapter = adapter
+
+        accountSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Guarda o email correspondente ao nome selecionado
+                selectedEmail = registeredAccounts[position].split(":::").getOrNull(1)
+                pin.clear()
+                updatePinDots()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                selectedEmail = null
+            }
+        }
 
         pinDots = listOf(
             findViewById(R.id.pin_dot_1), findViewById(R.id.pin_dot_2), findViewById(R.id.pin_dot_3),
@@ -93,16 +118,21 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun attemptLoginWithApi() {
+        if (selectedEmail == null) {
+            Toast.makeText(this, "Selecione uma conta para continuar", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         lifecycleScope.launch {
             try {
-                val request = LoginRequest(email = userEmail!!, pin = pin.toString())
+                val request = LoginRequest(email = selectedEmail!!, pin = pin.toString())
                 val response = ApiClient.apiService.login(request)
 
                 val userDao = AppDatabase.getDatabase(applicationContext).userDao()
-                var user = userDao.getUserByEmail(userEmail!!)
+                var user = userDao.getUserByEmail(selectedEmail!!)
 
                 if (user == null) {
-                    user = User(email = userEmail!!, token = response.token)
+                    user = User(email = selectedEmail!!, token = response.token)
                     userDao.insert(user)
                 } else {
                     user.token = response.token

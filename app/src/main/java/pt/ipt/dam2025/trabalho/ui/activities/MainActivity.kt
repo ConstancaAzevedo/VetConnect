@@ -21,10 +21,11 @@ class MainActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            val isRegistered = sharedPrefs.getBoolean("IS_REGISTERED", false)
+            // Verifica a nova lista de contas
+            val registeredAccounts = sharedPrefs.getStringSet("REGISTERED_ACCOUNTS", null)
 
-            if (isRegistered) {
-                // Se o utilizador já está registado, vai para o ecrã de login com PIN.
+            if (!registeredAccounts.isNullOrEmpty()) {
+                // Se existir uma lista de contas, vai para o ecrã de login.
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
             } else {
                 // Se não, informa o utilizador que precisa de se registar primeiro.
