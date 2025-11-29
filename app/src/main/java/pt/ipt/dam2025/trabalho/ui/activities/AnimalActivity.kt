@@ -23,11 +23,9 @@ class AnimalActivity : AppCompatActivity() {
     private lateinit var etDataNascimentoAnimal: EditText
     private lateinit var btnGuardarAnimal: Button
 
-    // Variável para guardar o URI da foto
     private var photoUri: Uri? = null
-    
-    // ViewModel para interagir com a base de dados
     private val animalViewModel: AnimalViewModel by viewModels()
+    private var currentAnimalId: Int = 0 // Para guardar o ID do animal
 
     private val getResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -35,7 +33,6 @@ class AnimalActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val uriString = result.data?.getStringExtra("image_uri")
             if (uriString != null) {
-                // Guarda o URI e atualiza a imagem
                 photoUri = Uri.parse(uriString)
                 animalPhoto.setImageURI(photoUri)
             }
@@ -52,6 +49,21 @@ class AnimalActivity : AppCompatActivity() {
         etRaca = findViewById(R.id.etRaca)
         etDataNascimentoAnimal = findViewById(R.id.etDataNascimentoAnimal)
         btnGuardarAnimal = findViewById(R.id.btnGuardarAnimal)
+
+        animalViewModel.animal.observe(this) { animal ->
+            animal?.let {
+                currentAnimalId = it.id
+                etNomeAnimal.setText(it.nome)
+                etEspecie.setText(it.especie)
+                etRaca.setText(it.raca)
+                etDataNascimentoAnimal.setText(it.dataNascimento)
+                it.fotoUri?.let {
+                    uriString ->
+                    photoUri = Uri.parse(uriString)
+                    animalPhoto.setImageURI(photoUri)
+                }
+            }
+        }
 
         animalPhoto.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
@@ -75,6 +87,7 @@ class AnimalActivity : AppCompatActivity() {
         }
 
         val animal = Animal(
+            id = currentAnimalId, // Usa o ID do animal atual
             nome = nome,
             especie = especie,
             raca = raca,
@@ -82,8 +95,8 @@ class AnimalActivity : AppCompatActivity() {
             fotoUri = photoUri?.toString()
         )
 
-        animalViewModel.insert(animal)
+        animalViewModel.updateAnimal(animal)
         Toast.makeText(this, "Animal guardado com sucesso!", Toast.LENGTH_SHORT).show()
-        finish() // Fecha a atividade após guardar
+        finish()
     }
 }

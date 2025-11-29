@@ -9,7 +9,8 @@ data class Usuario(
     val id: Int,
     val nome: String,
     val email: String,
-    val telefone: String? = null,
+    val telemovel: String? = null,
+    val tipo: String? = null,
     @SerializedName("codigoVerificacao")
     val codigoVerificacao: String? = null
 )
@@ -20,7 +21,7 @@ data class Usuario(
 data class NovoUsuario(
     val nome: String,
     val email: String,
-    val telefone: String? = null,
+    val telemovel: String? = null,
     val tipo: String
 )
 
@@ -75,5 +76,6 @@ data class LoginRequest(
  */
 data class LoginResponse(
     val message: String,
-    val token: String
+    val token: String,
+    val user: Usuario // Adicionado para receber os dados do utilizador no login
 )

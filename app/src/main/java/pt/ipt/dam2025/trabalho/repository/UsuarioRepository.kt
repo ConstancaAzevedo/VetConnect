@@ -1,50 +1,65 @@
 package pt.ipt.dam2025.trabalho.repository
 
+import android.util.Log
+import kotlinx.coroutines.flow.Flow
 import pt.ipt.dam2025.trabalho.api.ApiClient
+import pt.ipt.dam2025.trabalho.data.UserDao
 import pt.ipt.dam2025.trabalho.model.NovoUsuario
+import pt.ipt.dam2025.trabalho.model.User
 import pt.ipt.dam2025.trabalho.model.Usuario
 
-class UsuarioRepository {
-    // Obtém a instância do nosso serviço de API
-    private val apiService = ApiClient.apiService
+class UsuarioRepository(private val userDao: UserDao) {
 
-    /**
-     * Obtém a lista de todos os usuários da API.
-     * Em caso de erro, retorna uma lista vazia para evitar crashes.
-     */
+    // Para a lista de utilizadores (UserListActivity)
     suspend fun getUsuarios(): List<Usuario> {
-        return try {
-            apiService.getUsuarios()
+        return ApiClient.apiService.getUsuarios()
+    }
+
+    // Para o utilizador individual (PerfilTutorActivity)
+    fun getUser(userId: Int): Flow<User?> = userDao.getUserById(userId)
+
+    suspend fun updateUser(user: User) {
+        try {
+            // 1. Atualiza na API - Adapta o User local para o modelo da API (NovoUsuario)
+            val updatedUserApi = NovoUsuario(
+                nome = user.nome,
+                email = user.email,
+                telemovel = user.telemovel,
+                tipo = "tutor" // Assumindo tipo
+            )
+            ApiClient.apiService.atualizarUsuario(user.id, updatedUserApi)
+
+            // 2. Se a API não deu erro, atualiza na base de dados local
+            userDao.insertOrUpdate(user)
+
         } catch (e: Exception) {
-            // Logar o erro seria uma boa prática aqui
-            emptyList()
+            Log.e("UsuarioRepository", "Erro ao atualizar o utilizador", e)
+            throw e
         }
     }
 
-    /**
-     * Cria um novo usuário na API.
-     * Retorna um objeto Result, que encapsula o sucesso ou a falha da operação.
-     */
+    suspend fun refreshUser(userId: Int) {
+        try {
+            val userFromApi = ApiClient.apiService.getUsuario(userId)
+            // Mapeamento de Usuario (API) para User (Local DB)
+            val userLocal = User(
+                id = userFromApi.id,
+                nome = userFromApi.nome,
+                email = userFromApi.email,
+                telemovel = userFromApi.telemovel
+            )
+            userDao.insertOrUpdate(userLocal)
+        } catch (e: Exception) {
+            Log.e("UsuarioRepository", "Erro ao refrescar os dados do utilizador", e)
+        }
+    }
+
     suspend fun criarUsuario(usuario: NovoUsuario): Result<Usuario> {
         return try {
-            // A API agora devolve um RegistrationResponse, que contém o utilizador
-            val response = apiService.criarUsuario(usuario)
-            // Extrai o objeto 'user' da resposta antes de o devolver
+            val response = ApiClient.apiService.criarUsuario(usuario)
             Result.success(response.user)
         } catch (e: Exception) {
             Result.failure(e)
-        }
-    }
-
-    /**
-     * Obtém um usuário específico pelo seu ID.
-     * Retorna nulo se o usuário não for encontrado ou se ocorrer um erro.
-     */
-    suspend fun getUsuarioPorId(id: Int): Usuario? {
-        return try {
-            apiService.getUsuario(id)
-        } catch (e: Exception) {
-            null
         }
     }
 }

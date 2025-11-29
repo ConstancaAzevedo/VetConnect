@@ -48,7 +48,7 @@ class RegisterTutorActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val novoUsuario = NovoUsuario(nome = name, email = email, telefone = phone, tipo = "tutor")
+                    val novoUsuario = NovoUsuario(nome = name, email = email, telemovel = phone, tipo = "tutor")
 
                     val response = ApiClient.apiService.criarUsuario(novoUsuario)
 

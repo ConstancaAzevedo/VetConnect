@@ -2,6 +2,7 @@ package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import pt.ipt.dam2025.trabalho.R
@@ -19,8 +20,6 @@ class HomeActivity : AppCompatActivity() {
         val cardAnimal = findViewById<CardView>(R.id.card_animal)
         val cardHistorico = findViewById<CardView>(R.id.card_historico)
         val cardPerfil = findViewById<CardView>(R.id.card_perfil)
-
-
 
         //ação de clique para o cartão "Marcar Consulta"
         cardMarcarConsulta.setOnClickListener {
@@ -49,5 +48,14 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, PerfilTutorActivity::class.java) // Substitua pelo nome correto
             startActivity(intent)
         }
+
+        // adicionar callback para o botão de voltar
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val intent = Intent(this@HomeActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        })
     }
 }

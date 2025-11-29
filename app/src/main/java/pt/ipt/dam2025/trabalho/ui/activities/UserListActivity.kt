@@ -67,7 +67,7 @@ class UserListActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.btnAdicionar.setOnClickListener {
+        binding.btnAdicionar.setOnClickListener { 
             val nome = binding.editTextNome.text.toString()
             val email = binding.editTextEmail.text.toString()
             val telefone = binding.editTextTelefone.text.toString()

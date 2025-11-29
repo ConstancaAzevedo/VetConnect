@@ -15,6 +15,20 @@ class HistoricoRepository(private val historicoDao: HistoricoDao) {
     val allHistoricoItems: Flow<List<HistoricoItem>> = historicoDao.getAll()
 
     /**
+     * Insere um novo item na base de dados local.
+     * No futuro, poderia também fazer uma chamada POST à API.
+     */
+    suspend fun insert(item: HistoricoItem) {
+        historicoDao.insert(item)
+        // Opcional: Chamar a API para sincronizar a inserção com o servidor
+        // try {
+        //     ApiClient.apiService.addHistoricoItem(item)
+        // } catch (e: Exception) {
+        //     Log.e("HistoricoRepository", "Erro ao sincronizar novo item com a API", e)
+        // }
+    }
+
+    /**
      * Atualiza os dados locais com os dados da API.
      * Esta função é chamada para sincronizar os dados.
      */

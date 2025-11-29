@@ -30,7 +30,7 @@ class UsuarioAdapter : ListAdapter<Usuario, UsuarioAdapter.UsuarioViewHolder>(Di
         fun bind(usuario: Usuario) {
             binding.textViewNome.text = usuario.nome
             binding.textViewEmail.text = usuario.email
-            binding.textViewTelefone.text = usuario.telefone ?: "Não informado"
+            binding.textViewTelefone.text = usuario.telemovel ?: "Não informado"
         }
     }
 

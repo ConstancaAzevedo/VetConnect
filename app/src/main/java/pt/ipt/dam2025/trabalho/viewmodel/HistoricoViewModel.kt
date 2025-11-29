@@ -29,12 +29,10 @@ class HistoricoViewModel(private val repository: HistoricoRepository) : ViewMode
     }
 
     /**
-     * A lógica de inserir e apagar é agora gerida pelo repositório.
-     * No futuro, estas funções poderiam também fazer chamadas à API.
+     * Pede ao repositório para inserir um novo item na base de dados.
      */
     fun insert(item: HistoricoItem) = viewModelScope.launch {
-        // Por agora, vamos assumir que o insert é apenas local.
-        // No futuro, poderíamos adicionar repository.insert(item) se essa lógica existir lá.
+        repository.insert(item)
     }
 
     fun delete(item: HistoricoItem) = viewModelScope.launch {
