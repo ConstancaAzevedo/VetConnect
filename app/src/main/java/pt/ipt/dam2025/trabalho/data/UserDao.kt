@@ -34,13 +34,13 @@ interface UserDao {
     fun getUserById(id: Int): Flow<User?>
 
     /**
-     * Obtém os dados de um utilizador específico pelo seu ID de forma síncrona.
-     * Útil para operações de merge de dados onde não se pode usar um Flow.
+     * Obtém os dados de um utilizador específico pelo seu ID.
+     * Esta é uma operação 'one-shot'.
      * @param id O ID do utilizador a ser procurado.
      * @return O utilizador, ou null se não for encontrado.
      */
     @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
-    fun getById(id: Int): User?
+    suspend fun getUserByIdOnce(id: Int): User?
 
     /**
      * Elimina todos os utilizadores da tabela.

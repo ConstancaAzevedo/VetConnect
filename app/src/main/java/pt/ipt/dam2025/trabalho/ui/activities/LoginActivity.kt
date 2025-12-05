@@ -1,6 +1,5 @@
 package pt.ipt.dam2025.trabalho.ui.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +13,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,17 +38,17 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
         registeredAccounts = sharedPrefs.getStringSet("REGISTERED_ACCOUNTS", null)?.toList() ?: listOf()
 
         if (registeredAccounts.isEmpty()) {
-            Toast.makeText(this, "Nenhum utilizador registado. Por favor, registe-se.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.login_no_registered_users, Toast.LENGTH_LONG).show()
             finish()
             return
         }
 
         val welcomeTextView = findViewById<TextView>(R.id.welcome_text)
-        welcomeTextView.text = "Olá!"
+        welcomeTextView.text = getString(R.string.login_welcome)
 
         val accountNames = registeredAccounts.map { it.split(":::").firstOrNull() ?: "Conta Inválida" }
 
@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.text_forgot_pin).setOnClickListener {
-            Toast.makeText(this, "Funcionalidade a ser implementada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.login_feature_to_be_implemented, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -120,7 +120,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun attemptLoginWithApi() {
         if (selectedEmail == null) {
-            Toast.makeText(this, "Selecione uma conta para continuar", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.login_select_account, Toast.LENGTH_SHORT).show()
             pin.clear()
             updatePinDots()
             return
@@ -134,30 +134,38 @@ class LoginActivity : AppCompatActivity() {
                 val userFromApi = response.user
                 val userDao = AppDatabase.getDatabase(applicationContext).userDao()
 
-                // Lógica de fusão de dados
-                val existingUser = withContext(Dispatchers.IO) {
-                    userDao.getById(userFromApi.id)
-                }
+                withContext(Dispatchers.IO) {
+                    // Usa o método 'one-shot' para obter o utilizador atual, sem Flow
+                    val localUser = userDao.getUserByIdOnce(userFromApi.id)
 
-                val userToSave = existingUser?.copy(
-                    nome = userFromApi.nome, // Atualiza o nome
-                    email = userFromApi.email, // Atualiza o email
-                    telemovel = userFromApi.telemovel, // Atualiza o telemóvel
-                    token = response.token // Atualiza o token
-                ) ?: User(
-                    id = userFromApi.id,
-                    nome = userFromApi.nome,
-                    email = userFromApi.email,
-                    telemovel = userFromApi.telemovel,
-                    token = response.token
-                )
+                    val userToSave = localUser?.apply {
+                        // Utilizador existe, atualiza os campos necessários com os dados da API
+                        nome = userFromApi.nome
+                        email = userFromApi.email
+                        telemovel = userFromApi.telemovel
+                        token = response.token // Atualiza o token
+                    } ?: User(
+                        // Utilizador não existe localmente, cria um novo com os dados da API
+                        id = userFromApi.id,
+                        nome = userFromApi.nome,
+                        email = userFromApi.email,
+                        telemovel = userFromApi.telemovel,
+                        token = response.token,
+                        // Os outros campos ficam nulos, como definido no modelo User
+                        nacionalidade = null,
+                        sexo = null,
+                        cc = null,
+                        dataNascimento = null,
+                        morada = null
+                    )
 
-                userDao.insertOrUpdate(userToSave)
+                    // O método insertOrUpdate vai inserir se for novo ou atualizar se já existir
+                    userDao.insertOrUpdate(userToSave)
 
-                val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-                with(sharedPrefs.edit()) {
-                    putInt("LOGGED_IN_USER_ID", userToSave.id)
-                    apply()
+                    val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                    sharedPrefs.edit {
+                        putInt("LOGGED_IN_USER_ID", userToSave.id)
+                    }
                 }
 
                 Toast.makeText(this@LoginActivity, response.message, Toast.LENGTH_SHORT).show()
@@ -170,22 +178,20 @@ class LoginActivity : AppCompatActivity() {
             } catch (e: HttpException) {
                 Log.e("LoginActivity", "Erro de API: ${e.code()}", e)
                 val errorMessage = when (e.code()) {
-                    401 -> "PIN incorreto. Tente novamente."
-                    else -> "Erro no servidor. Tente mais tarde."
+                    401 -> getString(R.string.login_incorrect_pin)
+                    else -> getString(R.string.login_server_error)
                 }
                 Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
                 pin.clear()
                 updatePinDots()
             } catch (e: IOException) {
                 Log.e("LoginActivity", "Erro de rede", e)
-                val errorMessage = "Erro de rede. Verifique a sua ligação."
-                Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@LoginActivity, getString(R.string.login_network_error), Toast.LENGTH_LONG).show()
                 pin.clear()
                 updatePinDots()
             } catch (e: Exception) {
                 Log.e("LoginActivity", "Erro inesperado no login: ", e)
-                val errorMessage = "Ocorreu um erro inesperado. Tente novamente."
-                Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@LoginActivity, getString(R.string.login_unexpected_error), Toast.LENGTH_LONG).show()
                 pin.clear()
                 updatePinDots()
             }

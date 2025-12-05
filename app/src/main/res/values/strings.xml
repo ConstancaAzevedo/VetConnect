@@ -3,4 +3,12 @@
     <string name="btn_sobre">Sobre os Autores</string>
     <string name="btn_login">Login</string>
     <string name="app_nome">VetConnect</string>
+    <string name="login_no_registered_users">Nenhum utilizador registado. Por favor, registe-se.</string>
+    <string name="login_welcome">Olá!</string>
+    <string name="login_feature_to_be_implemented">Funcionalidade a ser implementada</string>
+    <string name="login_select_account">Selecione uma conta para continuar</string>
+    <string name="login_incorrect_pin">PIN incorreto. Tente novamente.</string>
+    <string name="login_server_error">Erro no servidor. Tente mais tarde.</string>
+    <string name="login_network_error">Erro de rede. Verifique a sua ligação.</string>
+    <string name="login_unexpected_error">Ocorreu um erro inesperado. Tente novamente.</string>
 </resources>

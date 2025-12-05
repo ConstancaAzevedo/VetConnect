@@ -23,25 +23,26 @@ class AnimalViewModel(application: Application) : AndroidViewModel(application) 
 
     init {
         repository = AnimalRepository(animalDao)
-        loadAnimal()
+        loadAnimalForCurrentUser()
     }
 
-    private fun loadAnimal() {
+    fun loadAnimalForCurrentUser() {
         viewModelScope.launch {
             val sharedPrefs = getApplication<Application>().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
             val userId = sharedPrefs.getInt("LOGGED_IN_USER_ID", -1)
             if (userId != -1) {
                 val animalData = withContext(Dispatchers.IO) {
-                    animalDao.getById(userId) // Assumindo que o ID do animal é o mesmo do tutor
+                    animalDao.getAnimalByTutorId(userId)
                 }
                 _animal.postValue(animalData)
             }
         }
     }
 
-    fun updateAnimal(animal: Animal) = viewModelScope.launch {
+    fun updateAnimal(animal: Animal, userId: Int) = viewModelScope.launch {
+        animal.tutorId = userId
         val existingAnimal = withContext(Dispatchers.IO) {
-            animalDao.getById(animal.id)
+            animalDao.getAnimalByTutorId(userId)
         }
 
         val animalToSave = existingAnimal?.copy(
@@ -53,6 +54,6 @@ class AnimalViewModel(application: Application) : AndroidViewModel(application) 
         ) ?: animal
 
         repository.insert(animalToSave)
-        _animal.postValue(animalToSave) // Atualiza o LiveData
+        _animal.postValue(animalToSave)
     }
 }

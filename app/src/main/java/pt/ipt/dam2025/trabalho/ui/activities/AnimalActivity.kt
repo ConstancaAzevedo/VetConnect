@@ -1,5 +1,6 @@
 package pt.ipt.dam2025.trabalho.ui.activities
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -25,7 +26,7 @@ class AnimalActivity : AppCompatActivity() {
 
     private var photoUri: Uri? = null
     private val animalViewModel: AnimalViewModel by viewModels()
-    private var currentAnimalId: Int = 0 // Para guardar o ID do animal
+    private var currentAnimalId: Long = 0
 
     private val getResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -75,6 +76,11 @@ class AnimalActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        animalViewModel.loadAnimalForCurrentUser()
+    }
+
     private fun guardarAnimal() {
         val nome = etNomeAnimal.text.toString()
         val especie = etEspecie.text.toString()
@@ -86,8 +92,16 @@ class AnimalActivity : AppCompatActivity() {
             return
         }
 
+        val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val userId = sharedPrefs.getInt("LOGGED_IN_USER_ID", -1)
+
+        if (userId == -1) {
+            Toast.makeText(this, "Erro: Sessão de utilizador inválida.", Toast.LENGTH_LONG).show()
+            return
+        }
+
         val animal = Animal(
-            id = currentAnimalId, // Usa o ID do animal atual
+            id = currentAnimalId,
             nome = nome,
             especie = especie,
             raca = raca,
@@ -95,7 +109,7 @@ class AnimalActivity : AppCompatActivity() {
             fotoUri = photoUri?.toString()
         )
 
-        animalViewModel.updateAnimal(animal)
+        animalViewModel.updateAnimal(animal, userId)
         Toast.makeText(this, "Animal guardado com sucesso!", Toast.LENGTH_SHORT).show()
         finish()
     }
