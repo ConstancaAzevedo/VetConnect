@@ -8,7 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
 /**
- * configura a conexão da aplicação com o servidor
+ * Configura a conexão da aplicação com o servidor
  */
 
 

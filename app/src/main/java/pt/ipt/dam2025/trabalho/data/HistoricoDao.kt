@@ -3,30 +3,28 @@ package pt.ipt.dam2025.trabalho.data
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import pt.ipt.dam2025.trabalho.model.HistoricoItem
 
 /**
- * Data Access Object (DAO) para a tabela historico_medico
- * definir as interações com a base de dados
+ *DAO responsável por todas as interações com a tabela de historico_item
  */
 @Dao
 interface HistoricoDao {
 
-    /**
-     * insere um novo item na tabela, se já existir, substitui-o
-     */
-    @Insert
+
+    //Insere o objeto historicoitem na tabela; se já existir, substitui
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: HistoricoItem)
 
-    /**
-     * apaga um item da tabela
-     */
+
+    //apaga um item da tabela
     @Delete
     suspend fun delete(item: HistoricoItem)
 
-    /**
+    /*
      * obtém todos os itens do histórico ordenados pela data mais recente primeiro
      * retorna um Flow que permite que a UI seja atualizada automaticamente quando os dados mudam
      */

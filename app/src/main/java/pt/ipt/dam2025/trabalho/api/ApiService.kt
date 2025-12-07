@@ -13,12 +13,20 @@ import pt.ipt.dam2025.trabalho.model.VerificationResponse
 import retrofit2.Response
 import retrofit2.http.*
 
+
+
+/**
+ * Interface que define os endpoints da API
+ */
+
 interface ApiService {
 
-    // --- Rotas do Usuário ---
-    @GET("usuarios")
-    suspend fun getUsuarios(): List<Usuario>
+    //Rotas do Usuário
+    @GET("usuarios") //endpoint usuarios
+    suspend fun getUsuarios(): List<Usuario> //retorna uma lista de objetos Usuario
 
+
+    //continuar a comentar
     @GET("usuarios/{id}")
     suspend fun getUsuario(@Path("id") id: Int): Usuario
 
@@ -47,7 +55,7 @@ interface ApiService {
     @DELETE("usuarios/{id}")
     suspend fun deletarUsuario(@Path("id") id: Int): Response<Unit>
 
-    // --- Rotas do Histórico ---
+    //Rotas do Histórico
     @GET("historico")
     suspend fun getHistorico(): List<HistoricoItem>
 }
