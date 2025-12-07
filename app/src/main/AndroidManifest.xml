@@ -5,8 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Permissões da camara -->
-    <uses-feature android:name="android.hardware.camera.any" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.any" /> //Permite que a aplicação qualquer camara
+    <uses-permission android:name="android.permission.CAMERA" /> //Pede permissão para usar a camara
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -28,7 +28,7 @@
             android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" /> //Identifica como ponto de entrada principal
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
