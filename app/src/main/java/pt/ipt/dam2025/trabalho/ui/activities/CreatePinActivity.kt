@@ -106,12 +106,15 @@ class CreatePinActivity : AppCompatActivity() {
                     apply()
                 }
 
-                Snackbar.make(rootView, response.message, Snackbar.LENGTH_SHORT).show()
-
-                val intent = Intent(this@CreatePinActivity, HomeActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
+                Snackbar.make(rootView, response.message, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        super.onDismissed(transientBottomBar, event)
+                        val intent = Intent(this@CreatePinActivity, HomeActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    }
+                }).show()
 
             } catch (e: Exception) {
                 Log.e("CreatePinActivity", "Erro ao criar o PIN", e)

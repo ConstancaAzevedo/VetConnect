@@ -12,7 +12,7 @@ import pt.ipt.dam2025.trabalho.model.User
  * Classe principal da base de dados da aplicação
  */
 
-@Database(entities = [HistoricoItem::class, User::class, Animal::class], version = 6, exportSchema = true)
+@Database(entities = [HistoricoItem::class, User::class, Animal::class], version = 7, exportSchema = true)
 //a lista de todas as classes de entidades que estão na base de dados;
 //incrementar a versão sempre que se faz alterações na base de dados
 abstract class AppDatabase : RoomDatabase() {

@@ -19,5 +19,6 @@ data class User(
     var cc: String? = null,
     var dataNascimento: String? = null,
     var morada: String? = null,
-    var token: String? = null // Token de autenticação recebido da API
+    var token: String? = null, // Token de autenticação recebido da API
+    var codigo: String? = null // Código de verificação
 )

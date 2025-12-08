@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.model.NovoUsuario
+import retrofit2.HttpException
+import java.io.IOException
 
 class RegisterTutorActivity : AppCompatActivity() {
 
@@ -48,24 +50,38 @@ class RegisterTutorActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val novoUsuario = NovoUsuario(nome = name, email = email, telemovel = phone, tipo = "tutor")
+                    val novoUsuario = NovoUsuario(nome = name, email = email, tipo = "tutor")
 
                     val response = ApiClient.apiService.criarUsuario(novoUsuario)
-
                     val user = response.user
-                    val verificationCode = user.codigoVerificacao
+                    val codigoVerificacao = response.codigoVerificacao
 
                     val intent = Intent(this@RegisterTutorActivity, VerificTutorActivity::class.java).apply {
                         putExtra("USER_NAME", user.nome)
                         putExtra("USER_EMAIL", user.email)
-                        putExtra("VERIFICATION_CODE", verificationCode)
+                        putExtra("VERIFICATION_CODE", codigoVerificacao)
                     }
                     startActivity(intent)
                     finish()
 
+                } catch (e: HttpException) {
+                    val errorMessage = if (e.code() == 400) {
+                        "Este email já se encontra registado. Tente outro."
+                    } else {
+                        "Erro do servidor. Por favor, tente mais tarde."
+                    }
+                    Log.e("RegisterTutorActivity", "Erro de API: ${e.code()}", e)
+                    Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
+
+                } catch (e: IOException) {
+                    // Erro de rede (sem internet, servidor offline)
+                    Log.e("RegisterTutorActivity", "Erro de rede", e)
+                    Snackbar.make(rootView, "Falha na ligação. Verifique a sua internet.", Snackbar.LENGTH_LONG).show()
+
                 } catch (e: Exception) {
-                    Log.e("RegisterTutorActivity", "Erro ao registar utilizador", e)
-                    Snackbar.make(rootView, "Erro no registo: ${e.message}", Snackbar.LENGTH_LONG).show()
+                    // Outros erros inesperados
+                    Log.e("RegisterTutorActivity", "Erro inesperado no registo", e)
+                    Snackbar.make(rootView, "Ocorreu um erro inesperado.", Snackbar.LENGTH_LONG).show()
                 }
             }
         }

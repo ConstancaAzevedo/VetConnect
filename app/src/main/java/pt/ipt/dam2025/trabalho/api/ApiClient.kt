@@ -14,7 +14,11 @@ import java.util.concurrent.TimeUnit
 
 //Criar um Singleton -> só exisitirá uma única instância de ApiClient em toda a aplicação
 object ApiClient {
-    private const val BASE_URL = "https://vetconnect-api-production.up.railway.app" //URL da API
+
+    //private const val BASE_URL = "http://10.0.2.2:3000" //URL da API no pc
+
+
+    private const val BASE_URL = "https://vetconnect-api-production.up.railway.app" //URL da API no Railway
 
 
     //Criar um intercetor de loggin - regista os detalhes das chamadas de rede

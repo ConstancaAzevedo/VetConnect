@@ -45,7 +45,12 @@
         <activity android:name=".ui.activities.RegisterTutorActivity" />
         <activity android:name=".ui.activities.CreatePinActivity" />
         <activity android:name=".ui.activities.CameraActivity" />
-        <activity android:name=".ui.activities.UserListActivity" />
+
+        <activity android:name=".ui.activities.UserListActivity"
+            android:exported="true">
+
+        </activity>
+
 
     </application>
 

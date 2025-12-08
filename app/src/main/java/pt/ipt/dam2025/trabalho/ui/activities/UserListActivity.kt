@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ipt.dam2025.trabalho.databinding.ActivityUserListBinding
+import pt.ipt.dam2025.trabalho.model.Usuario
 import pt.ipt.dam2025.trabalho.ui.adapters.UsuarioAdapter
 import pt.ipt.dam2025.trabalho.viewmodel.UsuarioViewModel
 
@@ -31,7 +32,11 @@ class UserListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = UsuarioAdapter()
+        // Agora, dizemos ao adapter o que fazer quando o botão de apagar for clicado
+        adapter = UsuarioAdapter { usuario ->
+            // Quando o botão for clicado, chama a função 'apagarUsuario' no ViewModel
+            viewModel.apagarUsuario(usuario)
+        }
         binding.recyclerViewUsuarios.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewUsuarios.adapter = adapter
     }
@@ -73,7 +78,7 @@ class UserListActivity : AppCompatActivity() {
             val telefone = binding.editTextTelefone.text.toString()
 
             if (nome.isNotEmpty() && email.isNotEmpty()) {
-                viewModel.adicionarUsuario(nome, email, telefone.ifEmpty { null }, "tutor")
+                viewModel.adicionarUsuario(nome, email, "tutor")
                 
                 // Limpa os campos
                 binding.editTextNome.text.clear()

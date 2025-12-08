@@ -29,11 +29,13 @@ class VerificTutorActivity : AppCompatActivity() {
         // Recebe os dados passados do ecrã de registo
         userName = intent.getStringExtra("USER_NAME") ?: ""
         userEmail = intent.getStringExtra("USER_EMAIL") ?: ""
-        val verificationCode = intent.getStringExtra("VERIFICATION_CODE") ?: ""
+        val verificationCode = intent.getStringExtra("VERIFICATION_CODE")
 
-        // Mostra o código de verificação num Snackbar
-        if (verificationCode.isNotEmpty()) {
-            Snackbar.make(rootView, "SMS Simulado: O seu código é $verificationCode", 5000).show()
+        // Mostra o código de verificação num Snackbar que fica visível até ser dispensado
+        if (!verificationCode.isNullOrEmpty()) {
+            val snackbar = Snackbar.make(rootView, "O seu código de verificação é: $verificationCode", Snackbar.LENGTH_INDEFINITE)
+            snackbar.setAction("OK") { snackbar.dismiss() }
+            snackbar.show()
         }
 
         // Verificação de segurança: se não receber os dados, não devia estar neste ecrã.

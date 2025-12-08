@@ -23,6 +23,7 @@ import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.data.AppDatabase
 import pt.ipt.dam2025.trabalho.model.LoginRequest
 import pt.ipt.dam2025.trabalho.model.User
+import pt.ipt.dam2025.trabalho.model.Usuario
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -32,41 +33,16 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var pinDots: List<ImageView>
     private lateinit var accountSpinner: Spinner
     private var selectedEmail: String? = null
-    private var registeredAccounts: List<String> = listOf()
+    private var registeredAccounts: List<Usuario> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        registeredAccounts = sharedPrefs.getStringSet("REGISTERED_ACCOUNTS", null)?.toList() ?: listOf()
-
-        if (registeredAccounts.isEmpty()) {
-            Toast.makeText(this, R.string.login_no_registered_users, Toast.LENGTH_LONG).show()
-            finish()
-            return
-        }
-
         val welcomeTextView = findViewById<TextView>(R.id.welcome_text)
         welcomeTextView.text = getString(R.string.login_welcome)
 
-        val accountNames = registeredAccounts.map { it.split(":::").firstOrNull() ?: "Conta Inválida" }
-
         accountSpinner = findViewById(R.id.account_spinner)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, accountNames)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        accountSpinner.adapter = adapter
-
-        accountSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedEmail = registeredAccounts[position].split(":::").getOrNull(1)
-                pin.clear()
-                updatePinDots()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                selectedEmail = null
-            }
-        }
 
         pinDots = listOf(
             findViewById(R.id.pin_dot_1), findViewById(R.id.pin_dot_2), findViewById(R.id.pin_dot_3),
@@ -84,6 +60,44 @@ class LoginActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.text_forgot_pin).setOnClickListener {
             Toast.makeText(this, R.string.login_feature_to_be_implemented, Toast.LENGTH_SHORT).show()
+        }
+
+        // Load users from API
+        loadUsersFromApi()
+    }
+
+    private fun loadUsersFromApi() {
+        lifecycleScope.launch {
+            try {
+                registeredAccounts = ApiClient.apiService.getUsuarios()
+
+                if (registeredAccounts.isEmpty()) {
+                    Toast.makeText(this@LoginActivity, R.string.login_no_registered_users, Toast.LENGTH_LONG).show()
+                    finish()
+                    return@launch
+                }
+
+                val accountNames = registeredAccounts.map { it.nome ?: "Conta Inválida" }
+                val adapter = ArrayAdapter(this@LoginActivity, android.R.layout.simple_spinner_item, accountNames)
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                accountSpinner.adapter = adapter
+
+                accountSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        selectedEmail = registeredAccounts[position].email
+                        pin.clear()
+                        updatePinDots()
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        selectedEmail = null
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("LoginActivity", "Failed to load users from API", e)
+                Toast.makeText(this@LoginActivity, R.string.login_failed_to_load_users, Toast.LENGTH_LONG).show()
+                finish()
+            }
         }
     }
 
@@ -135,23 +149,19 @@ class LoginActivity : AppCompatActivity() {
                 val userDao = AppDatabase.getDatabase(applicationContext).userDao()
 
                 withContext(Dispatchers.IO) {
-                    // Usa o método 'one-shot' para obter o utilizador atual, sem Flow
                     val localUser = userDao.getUserByIdOnce(userFromApi.id)
 
                     val userToSave = localUser?.apply {
-                        // Utilizador existe, atualiza os campos necessários com os dados da API
                         nome = userFromApi.nome
                         email = userFromApi.email
                         telemovel = userFromApi.telemovel
-                        token = response.token // Atualiza o token
+                        token = response.token
                     } ?: User(
-                        // Utilizador não existe localmente, cria um novo com os dados da API
                         id = userFromApi.id,
                         nome = userFromApi.nome,
                         email = userFromApi.email,
                         telemovel = userFromApi.telemovel,
                         token = response.token,
-                        // Os outros campos ficam nulos, como definido no modelo User
                         nacionalidade = null,
                         sexo = null,
                         cc = null,
@@ -159,7 +169,6 @@ class LoginActivity : AppCompatActivity() {
                         morada = null
                     )
 
-                    // O método insertOrUpdate vai inserir se for novo ou atualizar se já existir
                     userDao.insertOrUpdate(userToSave)
 
                     val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)

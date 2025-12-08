@@ -106,7 +106,7 @@ class AnimalActivity : AppCompatActivity() {
             especie = especie,
             raca = raca,
             dataNascimento = dataNascimento,
-            fotoUri = photoUri?.toString()
+            fotoUri = photoUri.toString()
         )
 
         animalViewModel.updateAnimal(animal, userId)

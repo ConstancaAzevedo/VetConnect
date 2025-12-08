@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 /**
  * Data class para representar um utilizador recebido da API
  */
+
+//representa um utilizador como ele vem do servidor
 data class Usuario(
     val id: Int,
     val nome: String,
@@ -15,67 +17,52 @@ data class Usuario(
     val codigoVerificacao: String? = null
 )
 
-/**
- * Data class para criar um novo utilizador a ser enviado para a API.
- */
+//data class para criar um novo utilizador a ser enviado para a API
 data class NovoUsuario(
     val nome: String,
     val email: String,
-    val telemovel: String? = null,
     val tipo: String
 )
 
-/**
- * Data class para a resposta do registo, que contém o utilizador criado.
- */
+//data class para a resposta do registo, que contém o utilizador criado
 data class RegistrationResponse(
-    val user: Usuario
+    val user: Usuario,
+    @SerializedName("verificationCode")
+    val codigoVerificacao: String?
 )
 
-/**
- * Data class para o corpo do pedido de verificação de código.
- */
+//data class para validar o código de verificação
 data class VerificationRequest(
     val email: String,
     @SerializedName("codigoVerificacao")
     val codigoVerificacao: String
 )
 
-/**
- * Data class para a resposta da verificação de código.
- */
+//data class para a resposta da validação do código
 data class VerificationResponse(
     val message: String
 )
 
-/**
- * Data class para o corpo do pedido de criação de PIN.
- */
+//data class para o corpo do pedido de criação de PIN
 data class CreatePinRequest(
     val nome: String,
     val pin: String
 )
 
-/**
- * Data class para a resposta da criação de PIN.
- */
+//data class para a resposta da criação de PIN
 data class CreatePinResponse(
     val message: String
 )
 
-/**
- * Data class para o corpo do pedido de login.
- */
+//data class para o pedido de login
 data class LoginRequest(
     val email: String,
     val pin: String
 )
 
-/**
- * Data class para a resposta do login.
- */
+//data class para a resposta do login
 data class LoginResponse(
     val message: String,
     val token: String,
-    val user: Usuario // Adicionado para receber os dados do utilizador no login
+    val user: Usuario //recebe os dados do utilizador no login
 )

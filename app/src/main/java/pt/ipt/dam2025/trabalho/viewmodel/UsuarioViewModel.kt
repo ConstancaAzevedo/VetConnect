@@ -71,11 +71,11 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun adicionarUsuario(nome: String, email: String, telemovel: String?, tipo: String) {
+    fun adicionarUsuario(nome: String, email: String, tipo: String) {
         _carregando.value = true
         viewModelScope.launch {
             try {
-                val novoUsuario = NovoUsuario(nome = nome, email = email, telemovel = telemovel, tipo = tipo)
+                val novoUsuario = NovoUsuario(nome = nome, email = email, tipo = tipo)
                 val result = repository.criarUsuario(novoUsuario)
                 result.onSuccess {
                     _mensagem.postValue("Usuário \"${it.nome}\" criado com sucesso.")
@@ -86,6 +86,22 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
                 }
             } catch (e: Exception) {
                 _erro.postValue("Erro inesperado: ${e.message}")
+            } finally {
+                _carregando.postValue(false)
+            }
+        }
+    }
+
+    fun apagarUsuario(usuario: Usuario) {
+        viewModelScope.launch {
+            _carregando.postValue(true)
+            try {
+                repository.deletarUsuario(usuario.id)
+                _mensagem.postValue("Utilizador apagado com sucesso")
+                // Recarrega a lista para atualizar a UI
+                carregarUsuarios()
+            } catch (e: Exception) {
+                _erro.postValue("Falha ao apagar utilizador: ${e.message}")
             } finally {
                 _carregando.postValue(false)
             }
