@@ -1,5 +1,6 @@
 package pt.ipt.dam2025.trabalho.api
 
+import pt.ipt.dam2025.trabalho.BuildConfig
 import pt.ipt.dam2025.trabalho.api.ApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,22 +11,29 @@ import java.util.concurrent.TimeUnit
 /**
  * Configura a conexão da aplicação com o servidor
  */
-
-
-//Criar um Singleton -> só exisitirá uma única instância de ApiClient em toda a aplicação
 object ApiClient {
 
-    //private const val BASE_URL = "http://10.0.2.2:3000" //URL da API no pc
+    // true -> servidor local / false -> render
+    private const val USE_LOCAL_URL = false
 
+    // URL do Render (Produção)
+    private const val BASE_URL = "https://vetconnect-api.onrender.com/"
 
-    private const val BASE_URL = "https://vetconnect-api-production.up.railway.app" //URL da API no Railway
+    // Para desenvolvimento local
+    private const val LOCAL_URL = "http://10.0.2.2:3000"
 
-
+    private fun getBaseUrl(): String {
+        return if (BuildConfig.DEBUG && USE_LOCAL_URL) {
+            LOCAL_URL
+        } else {
+            BASE_URL
+        }
+    }
+    
     //Criar um intercetor de loggin - regista os detalhes das chamadas de rede
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY //Regista o máximo de informação possível
     }
-
 
     //Cria o cliente HTTP com os interceptores
     private val okHttpClient = OkHttpClient.Builder()
@@ -35,14 +43,12 @@ object ApiClient {
         .writeTimeout(30, TimeUnit.SECONDS) //Tempo limite para enviar dados ao servidor
         .build()
 
-
     //Cria o objeto principal do Retrofit
     val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL) //Endereço base da API
-        .client(okHttpClient) //Cliente HTTP com os interceptores
-        .addConverterFactory(GsonConverterFactory.create()) //Converte o JSON para objetos Kotlin usando a biblioteca Gson
+        .baseUrl(getBaseUrl()) //Usa a função para obter o URL dinamicamente
+        .addConverterFactory(GsonConverterFactory.create()) //Converte o JSON para objetos Kotlin
+        .client(okHttpClient) // Adiciona o cliente HTTP com o logging e timeouts
         .build()
-
 
     //Cria a instância do serviço da API
     // by lazy significa que este código só é executado na primeira vez que o ApiService é usado
