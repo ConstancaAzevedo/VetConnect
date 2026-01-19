@@ -24,6 +24,12 @@ interface HistoricoDao {
     @Delete
     suspend fun delete(item: HistoricoItem)
 
+    /**
+     * Apaga todos os itens da tabela.
+     */
+    @Query("DELETE FROM historico_medico")
+    suspend fun deleteAll()
+
     /*
      * obtém todos os itens do histórico ordenados pela data mais recente primeiro
      * retorna um Flow que permite que a UI seja atualizada automaticamente quando os dados mudam

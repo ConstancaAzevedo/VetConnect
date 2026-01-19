@@ -6,114 +6,132 @@
     android:background="@drawable/background"
     android:padding="16dp">
 
-
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Marcar Consulta"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <GridLayout
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!--  -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_marcar_consulta"
-            style="@style/HomeCardStyle"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1">
+            android:orientation="vertical"
+            android:background="@drawable/borda_edittext"
+            android:padding="16dp">
 
-            <LinearLayout style="@style/HomeCardLayoutStyle">
+            <!-- Clínica -->
+            <TextView
+                android:id="@+id/tvLabelClinica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clínica"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
-                <!--<ImageView
-                    style="@style/HomeCardIconStyle"
-                android:src=""-->
+            <Spinner
+                android:id="@+id/spinnerClinica"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/borda_branca" />
 
-                <TextView
-                    style="@style/HomeCardTextStyle"
-                    android:text="____" />
+            <!-- Veterinário -->
+            <TextView
+                android:id="@+id/tvLabelVeterinario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Veterinário"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinnerVeterinario"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/borda_branca"/>
+
+            <!-- Data e Hora -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <!-- Data -->
+                <EditText
+                    android:id="@+id/etData"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/borda_branca"
+                    android:hint="Data"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:padding="12dp"
+                    android:focusable="false"
+                    android:clickable="true" />
+
+                <!-- Hora -->
+                <EditText
+                    android:id="@+id/etHora"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/borda_branca"
+                    android:hint="Hora"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:padding="12dp"
+                    android:focusable="false"
+                    android:clickable="true" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-        <!-- -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_animal"
-            style="@style/HomeCardStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1">
+            <!-- Assunto -->
+            <EditText
+                android:id="@+id/etAssunto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/borda_branca"
+                android:hint="Assunto"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:padding="12dp"
+                android:gravity="top"
+                android:minLines="3" />
 
-            <LinearLayout style="@style/HomeCardLayoutStyle">
+            <!-- Botão de Confirmação -->
+            <Button
+                android:id="@+id/btnConfirmar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/borda_botoes"
+                android:text="Confirmar Marcação"
+                android:textColor="@color/white"
+                app:backgroundTint="@null"/>
 
-                <!--<ImageView
-                    style="@style/HomeCardIconStyle"
-                android:src=""-->
-
-                <TextView
-                    style="@style/HomeCardTextStyle"
-                    android:text="___" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!--  -->
-        <androidx.cardview.widget.CardView
-            style="@style/HomeCardStyle"
-            android:id="@+id/card_historico"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1">
-
-            <LinearLayout style="@style/HomeCardLayoutStyle">
-
-                <!--<ImageView
-                    style="@style/HomeCardIconStyle"
-                android:src=""-->
-
-                <TextView
-                    style="@style/HomeCardTextStyle"
-                    android:text="___" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!--  -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_perfil"
-            style="@style/HomeCardStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1">
-
-            <LinearLayout style="@style/HomeCardLayoutStyle">
-
-                <!--<ImageView
-                    style="@style/HomeCardIconStyle"
-                android:src=""-->
-
-                <TextView
-                    style="@style/HomeCardTextStyle"
-                    android:text="___" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-    </GridLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,9 +5,7 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.trabalho.data.AppDatabase
 import pt.ipt.dam2025.trabalho.model.NovoUsuario
@@ -18,17 +16,16 @@ import pt.ipt.dam2025.trabalho.repository.UsuarioRepository
 class UsuarioViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: UsuarioRepository
-    private val userDao = AppDatabase.getDatabase(application).userDao()
 
-    // LiveData para o utilizador individual (PerfilTutorActivity)
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User> = _user
+    // LiveData para o utilizador individual (Perfil)
+    private val _user = MutableLiveData<User?>()
+    val user: LiveData<User?> = _user
 
-    // Para a lista de utilizadores (UserListActivity)
+    // LiveData para a lista de utilizadores (Ecrã de Admin/Lista)
     private val _usuarios = MutableLiveData<List<Usuario>>()
     val usuarios: LiveData<List<Usuario>> = _usuarios
 
-    // Para feedback à UI
+    // LiveData para feedback à UI (Carregamento, Mensagens, Erros)
     private val _carregando = MutableLiveData<Boolean>()
     val carregando: LiveData<Boolean> = _carregando
 
@@ -39,50 +36,75 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
     val erro: LiveData<String> = _erro
 
     init {
+        val userDao = AppDatabase.getDatabase(application).userDao()
         repository = UsuarioRepository(userDao)
-        loadCurrentUser() // Carrega o utilizador ao iniciar
+        loadCurrentUser()
     }
 
-    fun loadCurrentUser() {
+    /**
+     * Obtém o token de autenticação das SharedPreferences.
+     */
+    private fun getToken(): String? {
+        val sharedPrefs = getApplication<Application>().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        return sharedPrefs.getString("AUTH_TOKEN", null)
+    }
+
+    /**
+     * Carrega o utilizador logado, observando a base de dados local.
+     */
+    private fun loadCurrentUser() {
         viewModelScope.launch {
-            val sharedPrefs = getApplication<Application>().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            val userId = sharedPrefs.getInt("LOGGED_IN_USER_ID", -1)
+            val sharedPrefs = getApplication<Application>().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            val userId = sharedPrefs.getInt("USER_ID", -1)
             if (userId != -1) {
-                repository.getUser(userId).filterNotNull().asLiveData().observeForever {
-                    _user.postValue(it)
+                // Começa a observar a base de dados para atualizações locais
+                repository.getUser(userId).collect { userFromDb ->
+                    _user.postValue(userFromDb)
                 }
             } else {
-                _user.postValue(null) // Limpa o utilizador se não houver ID
+                _user.postValue(null) // Limpa se não houver utilizador logado
             }
         }
     }
 
+    /**
+     * Obtém a lista completa de utilizadores da API (requer autenticação).
+     */
     fun carregarUsuarios() {
+        val token = getToken()
+        if (token == null) {
+            _erro.postValue("Sessão inválida. Por favor, faça login novamente.")
+            return
+        }
+
         _carregando.value = true
         viewModelScope.launch {
             try {
-                val listaUsuarios = repository.getUsuarios()
+                val listaUsuarios = repository.getUsuarios(token)
                 _usuarios.postValue(listaUsuarios)
             } catch (e: Exception) {
-                _erro.postValue("Falha ao carregar usuários: ${e.message}")
+                _erro.postValue("Falha ao carregar utilizadores: ${e.message}")
             } finally {
                 _carregando.postValue(false)
             }
         }
     }
 
-    fun adicionarUsuario(nome: String, email: String, tipo: String) {
+    /**
+     * Cria um novo utilizador.
+     */
+    fun adicionarUsuario(nome: String, email: String, telemovel: String, tipo: String) {
         _carregando.value = true
         viewModelScope.launch {
             try {
-                val novoUsuario = NovoUsuario(nome = nome, email = email, tipo = tipo)
+                val novoUsuario = NovoUsuario(nome, email, telemovel, tipo)
                 val result = repository.criarUsuario(novoUsuario)
                 result.onSuccess {
-                    _mensagem.postValue("Usuário \"${it.nome}\" criado com sucesso.")
-                    carregarUsuarios() // Recarrega a lista
+                    _mensagem.postValue("Utilizador \"${it.nome}\" criado com sucesso.")
+                    carregarUsuarios() // Atualiza a lista automaticamente
                 }
                 result.onFailure {
-                    _erro.postValue("Erro ao criar usuário: ${it.message}")
+                    _erro.postValue("Erro ao criar utilizador: ${it.message}")
                 }
             } catch (e: Exception) {
                 _erro.postValue("Erro inesperado: ${e.message}")
@@ -92,14 +114,22 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    /**
+     * Apaga um utilizador (requer autenticação).
+     */
     fun apagarUsuario(usuario: Usuario) {
+        val token = getToken()
+        if (token == null) {
+            _erro.postValue("Sessão inválida.")
+            return
+        }
+
         viewModelScope.launch {
             _carregando.postValue(true)
             try {
-                repository.deletarUsuario(usuario.id)
+                repository.deletarUsuario(token, usuario.id)
                 _mensagem.postValue("Utilizador apagado com sucesso")
-                // Recarrega a lista para atualizar a UI
-                carregarUsuarios()
+                carregarUsuarios() // Atualiza a lista
             } catch (e: Exception) {
                 _erro.postValue("Falha ao apagar utilizador: ${e.message}")
             } finally {
@@ -108,18 +138,36 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun updateUser(user: User) = viewModelScope.launch {
-        try {
-            repository.updateUser(user)
-            _mensagem.postValue("Perfil atualizado com sucesso!")
-        } catch (e: Exception) {
-            _erro.postValue("Falha ao atualizar perfil: ${e.message}")
+    /**
+     * Atualiza o perfil do utilizador (requer autenticação).
+     */
+    fun updateUser(user: User) {
+        val token = getToken()
+        if (token == null) {
+            _erro.postValue("Sessão inválida.")
+            return
+        }
+        viewModelScope.launch {
+            try {
+                repository.updateUser(token, user)
+                _mensagem.postValue("Perfil atualizado com sucesso!")
+            } catch (e: Exception) {
+                _erro.postValue("Falha ao atualizar perfil: ${e.message}")
+            }
         }
     }
 
-    fun refreshUser() = viewModelScope.launch {
-        user.value?.id?.let {
-            repository.refreshUser(it)
+    /**
+     * Sincroniza os dados do utilizador logado com o servidor (requer autenticação).
+     */
+    fun refreshUser() {
+        val token = getToken()
+        val userId = _user.value?.id
+        if (token == null || userId == null) {
+            return // Não faz nada se não houver sessão
+        }
+        viewModelScope.launch {
+            repository.refreshUser(token, userId)
         }
     }
 }

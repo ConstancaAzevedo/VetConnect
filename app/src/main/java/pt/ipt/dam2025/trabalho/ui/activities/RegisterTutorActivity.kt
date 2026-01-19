@@ -13,8 +13,11 @@ import kotlinx.coroutines.launch
 import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.model.NovoUsuario
+import pt.ipt.dam2025.trabalho.model.RegistrationResponse
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
+
 
 class RegisterTutorActivity : AppCompatActivity() {
 
@@ -50,28 +53,36 @@ class RegisterTutorActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val novoUsuario = NovoUsuario(nome = name, email = email, tipo = "tutor")
+                    val novoUsuario = NovoUsuario(nome = name, email = email, telemovel = phone, tipo = "tutor")
 
                     val response = ApiClient.apiService.criarUsuario(novoUsuario)
-                    val user = response.user
-                    val codigoVerificacao = response.codigoVerificacao
+                    if (response.isSuccessful) {
+                        val registrationData = response.body()
+                        if (registrationData != null) {
+                            val user = registrationData.user
+                            val codigoVerificacao = registrationData.verificationCode
 
-                    val intent = Intent(this@RegisterTutorActivity, VerificTutorActivity::class.java).apply {
-                        putExtra("USER_NAME", user.nome)
-                        putExtra("USER_EMAIL", user.email)
-                        putExtra("VERIFICATION_CODE", codigoVerificacao)
-                    }
-                    startActivity(intent)
-                    finish()
-
-                } catch (e: HttpException) {
-                    val errorMessage = if (e.code() == 400) {
-                        "Este email já se encontra registado. Tente outro."
+                            val intent = Intent(this@RegisterTutorActivity, VerificTutorActivity::class.java).apply {
+                                putExtra("USER_NAME", user.nome)
+                                putExtra("USER_EMAIL", user.email)
+                                putExtra("USER_PHONE", user.telemovel)
+                                putExtra("VERIFICATION_CODE", codigoVerificacao)
+                            }
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Log.e("RegisterTutorActivity", "Corpo da resposta vazio ou nulo")
+                            Snackbar.make(rootView, "Ocorreu um erro inesperado.", Snackbar.LENGTH_LONG).show()
+                        }
                     } else {
-                        "Erro do servidor. Por favor, tente mais tarde."
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("RegisterTutorActivity", "Erro de API: ${response.code()} - $errorBody")
+                        val errorMessage = when (response.code()) {
+                            400 -> "Dados inválidos ou utilizador já existente. Verifique os dados e tente novamente."
+                            else -> "Erro do servidor. Por favor, tente mais tarde."
+                        }
+                        Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
                     }
-                    Log.e("RegisterTutorActivity", "Erro de API: ${e.code()}", e)
-                    Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
 
                 } catch (e: IOException) {
                     // Erro de rede (sem internet, servidor offline)

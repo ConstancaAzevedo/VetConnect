@@ -5,8 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Permissões da camara -->
-    <uses-feature android:name="android.hardware.camera.any" /> //Permite que a aplicação qualquer camara
-    <uses-permission android:name="android.permission.CAMERA" /> //Pede permissão para usar a camara
+    <uses-feature android:name="android.hardware.camera.any" /> <!-- Permite que a aplicação use qualquer câmara -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Pede permissão para usar a câmara -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -28,11 +29,12 @@
             android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" /> //Identifica como ponto de entrada principal
+                <action android:name="android.intent.action.MAIN" /> <!-- Identifica como ponto de entrada principal -->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- telas secundárias -->
         <activity android:name=".ui.activities.AboutActivity" />
         <activity android:name=".ui.activities.EscolhaActivity" />
         <activity android:name=".ui.activities.VerificTutorActivity" />
@@ -45,11 +47,23 @@
         <activity android:name=".ui.activities.RegisterTutorActivity" />
         <activity android:name=".ui.activities.CreatePinActivity" />
         <activity android:name=".ui.activities.CameraActivity" />
+        <activity android:name=".ui.activities.ScanQrCodeActivity" />
 
+        <!-- lista de utilizadores -->
         <activity android:name=".ui.activities.UserListActivity"
             android:exported="true">
-
         </activity>
+
+        <!-- provider para o FileProvider -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="pt.ipt.dam2025.trabalho.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
 
     </application>

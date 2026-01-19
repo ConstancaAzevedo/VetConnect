@@ -5,43 +5,39 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import pt.ipt.dam2025.trabalho.model.Animal
-import pt.ipt.dam2025.trabalho.model.HistoricoItem
+import pt.ipt.dam2025.trabalho.model.Exame
+import pt.ipt.dam2025.trabalho.model.Receita
 import pt.ipt.dam2025.trabalho.model.User
+import pt.ipt.dam2025.trabalho.model.Vacina
 
 /**
  * Classe principal da base de dados da aplicação
  */
-
-@Database(entities = [HistoricoItem::class, User::class, Animal::class], version = 7, exportSchema = true)
-//a lista de todas as classes de entidades que estão na base de dados;
-//incrementar a versão sempre que se faz alterações na base de dados
+@Database(entities = [User::class, Animal::class, Receita::class, Exame::class, Vacina::class], version = 9, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
 
-
-    //funções abstratas que retornam os DAOs correspondentes a cada entidade
-    abstract fun historicoDao(): HistoricoDao
+    // Funções abstratas que retornam os DAOs correspondentes a cada entidade
     abstract fun userDao(): UserDao
     abstract fun animalDao(): AnimalDao
+    abstract fun receitaDao(): ReceitaDao
+    abstract fun exameDao(): ExameDao
+    abstract fun vacinaDao(): VacinaDao
 
-    //Bloco que contém membros estáticos, o conteúdo pertence à AppDataBase em si, não a uma instância dela
     companion object {
-        @Volatile //garante que o valor da variável INSTANCE será sempre a mais recente
+        @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        //retorna a instância da base de dados
         fun getDatabase(context: Context): AppDatabase {
-            //se já existir uma instância devolve-a; caso contrário cria uma nova; synchronized garante que só uma thread acesse o código por vez
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext, //contexto da aplicação
-                    AppDatabase::class.java, //classe da base de dados
-                    "vetconnect_database" //nome do ficheiro de base de dados
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "vetconnect_database"
                 )
-                .fallbackToDestructiveMigration() //apaga completamente a base de dados antiga e cria uma nova
-                //APGAR ESTA LINHA ANTES DE PUBLICAR A APLICAÇÃO
+                .fallbackToDestructiveMigration() // Recria a BD se não houver migração
                 .build()
                 INSTANCE = instance
-                instance //devolve a instância
+                instance
             }
         }
     }

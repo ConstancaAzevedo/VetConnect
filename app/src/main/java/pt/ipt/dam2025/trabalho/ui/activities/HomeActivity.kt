@@ -10,10 +10,15 @@ import pt.ipt.dam2025.trabalho.R
 
 //tela principal
 class HomeActivity : AppCompatActivity() {
+
+    private var currentAnimalId: Int = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        // Ler o ID do animal passado para esta atividade
+        currentAnimalId = intent.getIntExtra("ANIMAL_ID", -1)
 
         //encontrar cardviews por id
         val cardMarcarConsulta = findViewById<CardView>(R.id.card_marcar_consulta)
@@ -23,29 +28,30 @@ class HomeActivity : AppCompatActivity() {
 
         //ação de clique para o cartão "Marcar Consulta"
         cardMarcarConsulta.setOnClickListener {
-            //ir para a pagina de marcar consulta
-            val intent = Intent(this, MarcarConsultaActivity::class.java) // Substitua "MarcarConsultaActivity" pelo nome real da sua atividade
+            val intent = Intent(this, MarcarConsultaActivity::class.java)
+            // Adicionar o ID do animal ao Intent
+            intent.putExtra("ANIMAL_ID", currentAnimalId)
             startActivity(intent)
         }
 
         //ação de clique para o cartão "O Meu Animal"
         cardAnimal.setOnClickListener {
-            // Navegar para a página do perfil do animal
-            val intent = Intent(this, AnimalActivity::class.java) // Substitua pelo nome correto
+            val intent = Intent(this, AnimalActivity::class.java)
+            intent.putExtra("ANIMAL_ID", currentAnimalId)
             startActivity(intent)
         }
 
         //ação de clique para o cartão "Histórico"
         cardHistorico.setOnClickListener {
-            //ir para a página do histórico do animal
-            val intent = Intent(this, HistoricoActivity::class.java) // Substitua pelo nome correto
+            val intent = Intent(this, HistoricoActivity::class.java)
+            intent.putExtra("ANIMAL_ID", currentAnimalId)
             startActivity(intent)
         }
 
         //ação de clique para o cartão "Perfil"
         cardPerfil.setOnClickListener {
         //ir para a página do perfil do utilziador
-            val intent = Intent(this, PerfilTutorActivity::class.java) // Substitua pelo nome correto
+            val intent = Intent(this, PerfilTutorActivity::class.java)
             startActivity(intent)
         }
 

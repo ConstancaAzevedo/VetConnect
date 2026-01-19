@@ -21,14 +21,14 @@ data class Usuario(
 data class NovoUsuario(
     val nome: String,
     val email: String,
+    val telemovel: String,
     val tipo: String
 )
 
 //data class para a resposta do registo, que contém o utilizador criado
 data class RegistrationResponse(
     val user: Usuario,
-    @SerializedName("verificationCode")
-    val codigoVerificacao: String?
+    val verificationCode: String?
 )
 
 //data class para validar o código de verificação
@@ -43,9 +43,10 @@ data class VerificationResponse(
     val message: String
 )
 
+
 //data class para o corpo do pedido de criação de PIN
 data class CreatePinRequest(
-    val nome: String,
+    val email: String,
     val pin: String
 )
 
@@ -65,4 +66,20 @@ data class LoginResponse(
     val message: String,
     val token: String,
     val user: Usuario //recebe os dados do utilizador no login
+)
+
+/**
+ * Data class para a resposta do endpoint de documentos
+ */
+data class DocumentosResponse(
+    val receitas: List<Receita>,
+    val vacinas: List<Vacina>,
+    val exames: List<Exame>
+)
+
+/**
+ * Data class para enviar o URL da foto
+ */
+data class FotoRequest(
+    val fotoUrl: String
 )

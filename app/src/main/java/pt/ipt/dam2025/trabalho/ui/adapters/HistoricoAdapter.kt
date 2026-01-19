@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import pt.ipt.dam2025.trabalho.R
-import pt.ipt.dam2025.trabalho.model.HistoricoItem
 
 /*
  *adaptador da lista - liga os dados (lista de HsitoricoItem)

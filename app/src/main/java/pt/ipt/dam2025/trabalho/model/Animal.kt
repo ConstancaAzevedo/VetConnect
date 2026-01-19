@@ -4,18 +4,19 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Estrutura de dados para um animal
+ * estrutura de dados para um animal
  */
 
 @Entity(tableName = "animais")
 data class Animal(
-    //Propriedades
+    // propriedades
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0, //chave primária autogerada única
-    var tutorId: Int = 0, //associar ao tutor
+    val id: Int = 0, // ID único do animal
+    var tutorId: Int = 0, // ID do tutor do animal
     val nome: String,
     val especie: String,
     val raca: String,
-    val dataNascimento: String,
-    val fotoUri: String
+    val dataNascimento: String?,
+    val fotoUrl: String?,
+    val numeroChip: Int?
 )

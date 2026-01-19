@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Perfil do Animal"
+        android:text="Dados do Animal"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -21,109 +21,125 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Foto do Animal -->
-    <ImageView
-        android:id="@+id/animal_photo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/borda_botoes"
-        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Campos de Texto -->
-    <EditText
-        android:id="@+id/etNomeAnimal"
-        style="@style/ValueStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:hint="Nome do Animal"
-        app:layout_constraintBottom_toBottomOf="@id/animal_photo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/animal_photo"
-        app:layout_constraintTop_toTopOf="@id/animal_photo" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <TextView
-        android:id="@+id/labelEspecie"
-        style="@style/LabelStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Espécie:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/animal_photo" />
+            <!-- Imagem do Animal -->
+            <ImageView
+                android:id="@+id/ivAnimalFoto"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/borda_botoes"
+                android:src="@drawable/ic_default_animal"
+                android:scaleType="centerCrop"/>
 
-    <EditText
-        android:id="@+id/etEspecie"
-        style="@style/ValueStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:hint="Ex: Cão, Gato"
-        app:layout_constraintBaseline_toBaselineOf="@id/labelEspecie"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/barrier" />
+            <!-- Nome -->
+            <EditText
+                android:id="@+id/etAnimalNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/borda_botoes"
+                android:hint="Nome do Animal"
+                android:textColor="@android:color/white"
+                android:textColorHint="#AFAFAF"
+                android:padding="12dp" />
 
-    <TextView
-        android:id="@+id/labelRaca"
-        style="@style/LabelStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Raça:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etEspecie" />
+            <!-- Espécie e Raça -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/etRaca"
-        style="@style/ValueStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:hint="Ex: Golden Retriever"
-        app:layout_constraintBaseline_toBaselineOf="@id/labelRaca"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/barrier" />
+                <EditText
+                    android:id="@+id/etAnimalEspecie"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/borda_botoes"
+                    android:hint="Espécie"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="#AFAFAF"
+                    android:padding="12dp" />
 
-    <TextView
-        android:id="@+id/labelDataNascimentoAnimal"
-        style="@style/LabelStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Data de Nascimento:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etRaca" />
+                <EditText
+                    android:id="@+id/etAnimalRaca"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/borda_botoes"
+                    android:hint="Raça"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="#AFAFAF"
+                    android:padding="12dp" />
+            </LinearLayout>
 
-    <EditText
-        android:id="@+id/etDataNascimentoAnimal"
-        style="@style/ValueStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:hint="DD/MM/AAAA"
-        android:inputType="date"
-        app:layout_constraintBaseline_toBaselineOf="@id/labelDataNascimentoAnimal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/barrier" />
+            <!-- Data de Nascimento -->
+            <EditText
+                android:id="@+id/etAnimalData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/borda_botoes"
+                android:hint="Data de Nascimento"
+                android:textColor="@android:color/white"
+                android:textColorHint="#AFAFAF"
+                android:padding="12dp"
+                android:focusable="false"
+                android:clickable="true" />
 
-    <!-- Barrier para alinhar -->
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="end"
-        app:constraint_referenced_ids="labelEspecie,labelRaca,labelDataNascimentoAnimal" />
+            <!-- Número do Chip -->
+            <EditText
+                android:id="@+id/etAnimalChip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/borda_botoes"
+                android:hint="Nº do Chip (Opcional)"
+                android:textColor="@android:color/white"
+                android:textColorHint="#AFAFAF"
+                android:padding="12dp" />
 
-    <Button
-        android:id="@+id/btnGuardarAnimal"
-        style="@style/ButtonStyle"
-        android:layout_marginTop="32dp"
-        android:text="GUARDAR"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etDataNascimentoAnimal" />
+            <!-- Botão Guardar -->
+            <Button
+                android:id="@+id/btnGuardarAnimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/borda_botoes"
+                android:text="Guardar"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@null"/>
+
+            <!-- Botão Eliminar -->
+            <Button
+                android:id="@+id/btnApagarAnimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/borda_botoes_vermelho"
+                android:text="Eliminar Animal"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                app:backgroundTint="@null"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

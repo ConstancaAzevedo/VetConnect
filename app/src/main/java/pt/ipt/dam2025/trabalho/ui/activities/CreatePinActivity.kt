@@ -92,7 +92,7 @@ class CreatePinActivity : AppCompatActivity() {
         val rootView = findViewById<android.view.View>(android.R.id.content)
         lifecycleScope.launch {
             try {
-                val request = CreatePinRequest(nome = userName, pin = pin.toString())
+                val request = CreatePinRequest(email = userEmail, pin = pin.toString())
                 val response = ApiClient.apiService.criarPin(request)
 
                 // Guarda os dados da conta no novo formato (Nome:::Email)

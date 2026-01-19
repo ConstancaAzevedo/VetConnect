@@ -1,5 +1,6 @@
 package pt.ipt.dam2025.trabalho.ui.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,16 +16,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.api.ApiClient
-import pt.ipt.dam2025.trabalho.data.AppDatabase
 import pt.ipt.dam2025.trabalho.model.LoginRequest
-import pt.ipt.dam2025.trabalho.model.User
 import pt.ipt.dam2025.trabalho.model.Usuario
-import retrofit2.HttpException
 import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
@@ -59,43 +55,47 @@ class LoginActivity : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.text_forgot_pin).setOnClickListener {
-            Toast.makeText(this, R.string.login_feature_to_be_implemented, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Funcionalidade a implementar", Toast.LENGTH_SHORT).show()
         }
 
-        // Load users from API
         loadUsersFromApi()
     }
 
     private fun loadUsersFromApi() {
         lifecycleScope.launch {
             try {
-                registeredAccounts = ApiClient.apiService.getUsuarios()
+                val response = ApiClient.apiService.getUsuarios()
+                if (response.isSuccessful) {
+                    registeredAccounts = response.body() ?: emptyList()
 
-                if (registeredAccounts.isEmpty()) {
-                    Toast.makeText(this@LoginActivity, R.string.login_no_registered_users, Toast.LENGTH_LONG).show()
-                    finish()
-                    return@launch
-                }
-
-                val accountNames = registeredAccounts.map { it.nome ?: "Conta Inválida" }
-                val adapter = ArrayAdapter(this@LoginActivity, android.R.layout.simple_spinner_item, accountNames)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                accountSpinner.adapter = adapter
-
-                accountSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        selectedEmail = registeredAccounts[position].email
-                        pin.clear()
-                        updatePinDots()
+                    if (registeredAccounts.isEmpty()) {
+                        Toast.makeText(this@LoginActivity, "Nenhum utilizador registado", Toast.LENGTH_LONG).show()
+                        finish()
+                        return@launch
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        selectedEmail = null
+                    val accountNames = registeredAccounts.map { it.nome ?: "Conta Inválida" }
+                    val adapter = ArrayAdapter(this@LoginActivity, android.R.layout.simple_spinner_item, accountNames)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    accountSpinner.adapter = adapter
+
+                    accountSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                            selectedEmail = registeredAccounts.getOrNull(position)?.email
+                            pin.clear()
+                            updatePinDots()
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            selectedEmail = null
+                        }
                     }
+                } else {
+                    throw IOException("Erro ao carregar utilizadores: ${response.code()}")
                 }
             } catch (e: Exception) {
-                Log.e("LoginActivity", "Failed to load users from API", e)
-                Toast.makeText(this@LoginActivity, R.string.login_failed_to_load_users, Toast.LENGTH_LONG).show()
+                Log.e("LoginActivity", "Falha ao carregar utilizadores da API", e)
+                Toast.makeText(this@LoginActivity, "Falha ao carregar utilizadores", Toast.LENGTH_LONG).show()
                 finish()
             }
         }
@@ -134,7 +134,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun attemptLoginWithApi() {
         if (selectedEmail == null) {
-            Toast.makeText(this, R.string.login_select_account, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Selecione uma conta", Toast.LENGTH_SHORT).show()
             pin.clear()
             updatePinDots()
             return
@@ -145,62 +145,37 @@ class LoginActivity : AppCompatActivity() {
                 val request = LoginRequest(email = selectedEmail!!, pin = pin.toString())
                 val response = ApiClient.apiService.login(request)
 
-                val userFromApi = response.user
-                val userDao = AppDatabase.getDatabase(applicationContext).userDao()
+                if (response.isSuccessful) {
+                    val loginData = response.body()
+                    if (loginData != null && loginData.token.isNotEmpty()) {
+                        // Guardar dados da sessão
+                        val sharedPrefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+                        sharedPrefs.edit {
+                            putInt("USER_ID", loginData.user.id)
+                            putString("AUTH_TOKEN", loginData.token)
+                            putString("USER_NAME", loginData.user.nome)
+                            putString("USER_EMAIL", loginData.user.email)
+                        }
 
-                withContext(Dispatchers.IO) {
-                    val localUser = userDao.getUserByIdOnce(userFromApi.id)
+                        Toast.makeText(this@LoginActivity, loginData.message, Toast.LENGTH_SHORT).show()
 
-                    val userToSave = localUser?.apply {
-                        nome = userFromApi.nome
-                        email = userFromApi.email
-                        telemovel = userFromApi.telemovel
-                        token = response.token
-                    } ?: User(
-                        id = userFromApi.id,
-                        nome = userFromApi.nome,
-                        email = userFromApi.email,
-                        telemovel = userFromApi.telemovel,
-                        token = response.token,
-                        nacionalidade = null,
-                        sexo = null,
-                        cc = null,
-                        dataNascimento = null,
-                        morada = null
-                    )
-
-                    userDao.insertOrUpdate(userToSave)
-
-                    val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-                    sharedPrefs.edit {
-                        putInt("LOGGED_IN_USER_ID", userToSave.id)
+                        // Navegar para a HomeActivity
+                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        throw IOException("Resposta de login inválida do servidor")
                     }
+                } else {
+                    // Erro de autenticação (ex: PIN incorreto)
+                    Toast.makeText(this@LoginActivity, "PIN incorreto. Tente novamente.", Toast.LENGTH_LONG).show()
+                    pin.clear()
+                    updatePinDots()
                 }
-
-                Toast.makeText(this@LoginActivity, response.message, Toast.LENGTH_SHORT).show()
-
-                val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
-
-            } catch (e: HttpException) {
-                Log.e("LoginActivity", "Erro de API: ${e.code()}", e)
-                val errorMessage = when (e.code()) {
-                    401 -> getString(R.string.login_incorrect_pin)
-                    else -> getString(R.string.login_server_error)
-                }
-                Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
-                pin.clear()
-                updatePinDots()
-            } catch (e: IOException) {
-                Log.e("LoginActivity", "Erro de rede", e)
-                Toast.makeText(this@LoginActivity, getString(R.string.login_network_error), Toast.LENGTH_LONG).show()
-                pin.clear()
-                updatePinDots()
             } catch (e: Exception) {
-                Log.e("LoginActivity", "Erro inesperado no login: ", e)
-                Toast.makeText(this@LoginActivity, getString(R.string.login_unexpected_error), Toast.LENGTH_LONG).show()
+                Log.e("LoginActivity", "Erro inesperado no login", e)
+                Toast.makeText(this@LoginActivity, "Ocorreu um erro no login. Verifique a ligação.", Toast.LENGTH_LONG).show()
                 pin.clear()
                 updatePinDots()
             }

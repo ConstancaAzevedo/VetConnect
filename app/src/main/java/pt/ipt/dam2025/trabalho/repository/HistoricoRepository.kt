@@ -16,36 +16,63 @@ class HistoricoRepository(private val historicoDao: HistoricoDao) {
 
     /**
      * Insere um novo item na base de dados local.
-     * No futuro, poderia também fazer uma chamada POST à API.
      */
     suspend fun insert(item: HistoricoItem) {
         historicoDao.insert(item)
-        // Opcional: Chamar a API para sincronizar a inserção com o servidor
-        // try {
-        //     ApiClient.apiService.addHistoricoItem(item)
-        // } catch (e: Exception) {
-        //     Log.e("HistoricoRepository", "Erro ao sincronizar novo item com a API", e)
-        // }
     }
 
     /**
-     * Atualiza os dados locais com os dados da API.
-     * Esta função é chamada para sincronizar os dados.
+     * Atualiza os dados locais com os dados da API para um animal específico.
      */
-    suspend fun refreshHistorico() {
+    suspend fun refreshHistorico(token: String, animalId: Int) {
         try {
             // 1. Ir buscar os dados mais recentes à API
-            val itemsFromApi = ApiClient.apiService.getHistorico()
-            Log.d("HistoricoRepository", "Dados da API recebidos: $itemsFromApi")
+            val response = ApiClient.apiService.getDocumentosDoAnimal("Bearer $token", animalId)
 
-            // 2. Opcional: Inserir ou atualizar os dados na base de dados local
-            // Uma estratégia comum é limpar a tabela e inserir os novos dados.
-            // Para isso, precisaríamos de uma função deleteAll() no DAO.
-            itemsFromApi.forEach { item ->
-                historicoDao.insert(item) // O OnConflictStrategy.REPLACE irá atualizar se já existir
+            if (response.isSuccessful) {
+                val documentosResponse = response.body()
+                if (documentosResponse != null) {
+                    val historicoItems = mutableListOf<HistoricoItem>()
+
+                    // Mapear Receitas para HistoricoItem
+                    documentosResponse.receitas.forEach {
+                        historicoItems.add(
+                            HistoricoItem(
+                                data = it.data, // Assumindo que 'data' é a data da prescrição
+                                descricao = "Receita: ${it.medicamento}"
+                            )
+                        )
+                    }
+
+                    // Mapear Vacinas para HistoricoItem
+                    documentosResponse.vacinas.forEach {
+                        historicoItems.add(
+                            HistoricoItem(
+                                data = it.data, // Assumindo que 'data' é a data da aplicação
+                                descricao = "Vacina: ${it.nomeVacina}"
+                            )
+                        )
+                    }
+
+                    // Mapear Exames para HistoricoItem
+                    documentosResponse.exames.forEach {
+                        historicoItems.add(
+                            HistoricoItem(
+                                data = it.data, // Assumindo que 'data' é a data do exame
+                                descricao = "Exame: ${it.tipoExame}"
+                            )
+                        )
+                    }
+
+                    // 2. Limpar a tabela local e inserir os novos dados
+                    historicoDao.deleteAll() // Nota: Esta função precisa existir no seu HistoricoDao
+                    historicoItems.forEach { historicoDao.insert(it) }
+
+                    Log.d("HistoricoRepository", "Base de dados local atualizada com sucesso.")
+                }
+            } else {
+                Log.e("HistoricoRepository", "Erro na resposta da API: ${response.code()}")
             }
-            Log.d("HistoricoRepository", "Base de dados local atualizada com sucesso.")
-
         } catch (e: Exception) {
             Log.e("HistoricoRepository", "Erro ao atualizar o histórico a partir da API", e)
             // Em caso de erro de rede, a app continua a funcionar com os dados locais que já tinha.

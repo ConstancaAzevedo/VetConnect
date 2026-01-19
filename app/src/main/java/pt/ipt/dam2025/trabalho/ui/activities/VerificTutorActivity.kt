@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.model.VerificationRequest
+import java.io.IOException
 
 /**
  * Ecrã para o utilizador inserir o código de verificação recebido (simulado por SMS).
@@ -71,24 +72,39 @@ class VerificTutorActivity : AppCompatActivity() {
                 val request = VerificationRequest(email = userEmail, codigoVerificacao = codigo)
                 val response = ApiClient.apiService.verificarCodigo(request)
 
-                Snackbar.make(rootView, response.message, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                        super.onDismissed(transientBottomBar, event)
-                        // Navega para a criação do PIN, passando o nome e o email do utilizador
-                        val intent = Intent(this@VerificTutorActivity, CreatePinActivity::class.java).apply {
-                            putExtra("USER_NAME", userName)
-                            putExtra("USER_EMAIL", userEmail)
+                if (response.isSuccessful) {
+                    val successMessage = response.body()?.message ?: "Verificado com sucesso!"
+                    Snackbar.make(rootView, successMessage, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            super.onDismissed(transientBottomBar, event)
+                            // Navega para a criação do PIN
+                            val intent = Intent(this@VerificTutorActivity, CreatePinActivity::class.java).apply {
+                                putExtra("USER_NAME", userName)
+                                putExtra("USER_EMAIL", userEmail)
+                            }
+                            startActivity(intent)
+                            finish()
                         }
-                        startActivity(intent)
-                        finish()
+                    }).show()
+                } else {
+                    // Erro da API (ex: código inválido, 400 Bad Request)
+                    val errorMessage = when (response.code()) {
+                        400 -> "Código de verificação inválido. Tente novamente."
+                        404 -> "Utilizador não encontrado."
+                        else -> "Ocorreu um erro. Tente novamente."
                     }
-                }).show()
+                    Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
+                    findViewById<EditText>(R.id.verification_code_input).text.clear()
+                }
 
+            } catch (e: IOException) {
+                // Erro de rede
+                Log.e("VerificTutorActivity", "Erro de rede na verificação", e)
+                Snackbar.make(rootView, "Falha na ligação. Verifique a sua internet.", Snackbar.LENGTH_LONG).show()
             } catch (e: Exception) {
-                // Trata de erros de rede ou respostas de erro da API (HTTP 4xx, 5xx)
-                Log.e("VerificTutorActivity", "Erro na verificação do código", e)
-                val errorMessage = e.message ?: "Código de verificação inválido"
-                Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
+                // Outros erros inesperados
+                Log.e("VerificTutorActivity", "Erro inesperado na verificação", e)
+                Snackbar.make(rootView, "Ocorreu um erro inesperado.", Snackbar.LENGTH_LONG).show()
                 findViewById<EditText>(R.id.verification_code_input).text.clear()
             }
         }
