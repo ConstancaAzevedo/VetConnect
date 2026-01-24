@@ -8,8 +8,8 @@ import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2025.trabalho.R
 
 /**
- * Ecrã onde o utilizador escolhe o tipo de perfil para o registo.
- * O propósito deste ecrã é apenas direcionar para o fluxo de registo correto.
+ * Ecrã onde o utilizador escolhe o tipo de perfil para o registo
+ * O propósito deste ecrã é apenas direcionar para o fluxo de registo correto
  */
 class EscolhaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

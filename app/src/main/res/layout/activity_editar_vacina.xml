@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/background">
+
+    <!-- página de detalhes da vacina -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editar Vacina"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Animal"
+        android:textColor="@color/white" />
+
+    <Spinner
+        android:id="@+id/spinner_animal_vacina"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/borda_branca"
+        android:enabled="false"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Tipo de Vacina"
+        android:textColor="@color/white" />
+
+    <Spinner
+        android:id="@+id/spinner_tipo_vacina"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/borda_branca"/>
+
+    <EditText
+        android:id="@+id/et_data_hora_vacina"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:hint="Data e Hora"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:backgroundTint="@color/white"
+        android:focusable="false"
+        android:clickable="true" />
+
+    <EditText
+        android:id="@+id/et_observacoes_vacina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Observações (opcional)"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:backgroundTint="@color/white"
+        android:minLines="3"
+        android:gravity="top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="24dp">
+
+        <Button
+            android:id="@+id/btn_guardar_alteracoes_vacina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar Alterações"
+            android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:id="@+id/btn_apagar_vacina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apagar" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,44 +7,56 @@
     android:background="@drawable/background"
     tools:context=".ui.activities.HistoricoActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <!-- página de histórico do animal -->
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="16dp"
-            android:text="Histórico do Animal"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+   <com.google.android.material.appbar.AppBarLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabTextColor="@android:color/white"/>
+       <TextView
+           android:id="@+id/tvTitle"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center_horizontal"
+           android:padding="16dp"
+           android:text="Histórico do Animal"
+           android:textColor="@color/white"
+           android:textSize="20sp"
+           android:textStyle="bold" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+       <com.google.android.material.tabs.TabLayout
+           android:id="@+id/tab_layout"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:tabIndicatorColor="@color/white"
+           app:tabTextColor="@color/white"/>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+   </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_documento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Adicionar Documento"
-        android:src="@android:drawable/ic_menu_camera" />
+   <androidx.viewpager2.widget.ViewPager2
+       android:id="@+id/view_pager"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+   <com.google.android.material.floatingactionbutton.FloatingActionButton
+       android:id="@+id/fab_add_manual"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="bottom|end"
+       android:layout_marginEnd="16dp"
+       android:layout_marginBottom="90dp"
+       android:contentDescription="Adicionar Documento Manualmente"
+       android:src="@android:drawable/ic_menu_edit" />
+
+   <com.google.android.material.floatingactionbutton.FloatingActionButton
+       android:id="@+id/fab_scan_qr"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="bottom|end"
+       android:layout_margin="16dp"
+       android:contentDescription="Adicionar Documento por QR Code"
+       android:src="@android:drawable/ic_menu_camera" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

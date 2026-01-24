@@ -3,14 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- Permissões da camara -->
     <uses-feature android:name="android.hardware.camera.any" /> <!-- Permite que a aplicação use qualquer câmara -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- Pede permissão para usar a câmara -->
+
+    <!-- Permissões de armazenamento -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
+
+    <!-- Permissões da localização -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".VetConnectApplication"
@@ -48,6 +56,12 @@
         <activity android:name=".ui.activities.CreatePinActivity" />
         <activity android:name=".ui.activities.CameraActivity" />
         <activity android:name=".ui.activities.ScanQrCodeActivity" />
+        <activity android:name=".ui.activities.SettingsActivity" />
+        <activity android:name=".ui.activities.AgendarVacinaActivity" />
+        <activity android:name=".ui.activities.MinhasVacinasActivity" />
+        <activity android:name=".ui.activities.DetalhesReceitaActivity" />
+        <activity android:name=".ui.activities.DetalhesVacinaActivity" />
+        <activity android:name=".ui.activities.DetalhesExameActivity" />
 
         <!-- lista de utilizadores -->
         <activity android:name=".ui.activities.UserListActivity"

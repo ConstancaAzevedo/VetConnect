@@ -5,25 +5,30 @@ import pt.ipt.dam2025.trabalho.model.Exame
 import pt.ipt.dam2025.trabalho.model.Receita
 import pt.ipt.dam2025.trabalho.model.Vacina
 
+// Repositório para as funcionalidades de histórico
 class HistoricoRepository(
+    // Injeção de dependência dos DAOs
     private val receitaDao: ReceitaDao,
     private val exameDao: ExameDao,
     private val vacinaDao: VacinaDao
 ) {
 
+    // Funções para aceder os dados na base de dados
     val todasReceitas: Flow<List<Receita>> = receitaDao.getAllReceitas()
     val todosExames: Flow<List<Exame>> = exameDao.getAllExames()
     val todasVacinas: Flow<List<Vacina>> = vacinaDao.getAllVacinas()
 
-    suspend fun insertReceita(receita: Receita) {
-        receitaDao.insert(receita)
+    // Funções para inserir dados na base de dados
+    suspend fun insertReceitas(receitas: List<Receita>) {
+        receitaDao.insertAll(receitas)
     }
 
-    suspend fun insertExame(exame: Exame) {
-        exameDao.insert(exame)
+    // Funções para inserir dados no base de dados
+    suspend fun insertExames(exames: List<Exame>) {
+        exameDao.insertAll(exames)
     }
 
-    suspend fun insertVacina(vacina: Vacina) {
-        vacinaDao.insert(vacina)
+    suspend fun insertVacinas(vacinas: List<Vacina>) {
+        vacinaDao.insertAll(vacinas)
     }
 }

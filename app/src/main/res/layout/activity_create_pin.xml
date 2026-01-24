@@ -7,13 +7,15 @@
     android:background="@drawable/background"
     tools:context=".ui.activities.CreatePinActivity">
 
+    <!-- página de criação de PIN -->
+
     <TextView
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="Defina o seu PIN de Acesso"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +28,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Crie um PIN de 6 dígitos para\nacesso rápido e seguro."
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

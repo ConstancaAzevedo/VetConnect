@@ -14,9 +14,8 @@ import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.model.VerificationRequest
 import java.io.IOException
 
-/**
- * Ecrã para o utilizador inserir o código de verificação recebido (simulado por SMS).
- */
+
+// Ecrã para o utilizador inserir o código de verificação recebido (simulado por SMS)
 class VerificTutorActivity : AppCompatActivity() {
 
     private lateinit var userEmail: String
@@ -69,10 +68,11 @@ class VerificTutorActivity : AppCompatActivity() {
         val rootView = findViewById<android.view.View>(android.R.id.content)
         lifecycleScope.launch {
             try {
-                val request = VerificationRequest(email = userEmail, codigoVerificacao = codigo)
+                val request = VerificationRequest(email = userEmail, codigo = codigo)
                 val response = ApiClient.apiService.verificarCodigo(request)
 
                 if (response.isSuccessful) {
+                    val userId = response.body()?.userId
                     val successMessage = response.body()?.message ?: "Verificado com sucesso!"
                     Snackbar.make(rootView, successMessage, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
@@ -81,6 +81,7 @@ class VerificTutorActivity : AppCompatActivity() {
                             val intent = Intent(this@VerificTutorActivity, CreatePinActivity::class.java).apply {
                                 putExtra("USER_NAME", userName)
                                 putExtra("USER_EMAIL", userEmail)
+                                putExtra("USER_ID", userId)
                             }
                             startActivity(intent)
                             finish()

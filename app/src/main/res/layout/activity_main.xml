@@ -7,6 +7,8 @@
     android:background="@drawable/background"
     tools:context=".ui.activities.MainActivity">
 
+    <!-- página de login -->
+
     <ImageView
         android:id="@+id/logo_image"
         android:layout_width="150dp"
@@ -49,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="Sobre"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

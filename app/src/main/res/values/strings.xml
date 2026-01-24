@@ -14,4 +14,9 @@
     <string name="login_failed_to_load_users">Falha ao carregar utilizadores. Verifique a sua ligação.</string>
     <string name="apagar_usuario">Apagar utilizador</string>
     <string name="login_debug_no_users_from_api">DEBUG: A API não retornou utilizadores.</string>
+    <string name="cancelar_consulta">Cancelar Consulta</string>
+    <string name="animal_label">Animal: %s</string>
+    <string name="clinica_label">Clínica: %s</string>
+    <string name="veterinario_label">Veterinário: %s</string>
+    <string name="status_label">Estado: %s</string>
 </resources>

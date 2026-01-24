@@ -1,102 +1,104 @@
 package pt.ipt.dam2025.trabalho.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import pt.ipt.dam2025.trabalho.R
-import pt.ipt.dam2025.trabalho.model.User
+import pt.ipt.dam2025.trabalho.databinding.ActivityPerfilTutorBinding
+import pt.ipt.dam2025.trabalho.model.UpdateUserRequest
+import pt.ipt.dam2025.trabalho.model.Usuario
+import pt.ipt.dam2025.trabalho.util.SessionManager
 import pt.ipt.dam2025.trabalho.viewmodel.UsuarioViewModel
+import pt.ipt.dam2025.trabalho.viewmodel.ViewModelFactory
 
+// Activity para visualizar e editar o perfil do tutor
 class PerfilTutorActivity : AppCompatActivity() {
-    private var isEditing = false
-    private val viewModel: UsuarioViewModel by viewModels()
 
-    private lateinit var etNome: EditText
-    private lateinit var etEmail: EditText
-    private lateinit var etTelemovel: EditText
-    private lateinit var etNacionalidade: EditText
-    private lateinit var etSexo: EditText
-    private lateinit var etCC: EditText
-    private lateinit var etDataNascimento: EditText
-    private lateinit var etMorada: EditText
-    private lateinit var editableFields: List<EditText>
+    private lateinit var binding: ActivityPerfilTutorBinding
+    private lateinit var sessionManager: SessionManager
+    private var currentUser: Usuario? = null
+
+    private val viewModel: UsuarioViewModel by viewModels { ViewModelFactory(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_perfil_tutor)
+        binding = ActivityPerfilTutorBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        sessionManager = SessionManager(this)
 
-        // Inicialização das Vistas
-        val btnEditarGuardar = findViewById<Button>(R.id.btnEditarGuardar)
-        etNome = findViewById(R.id.etNome)
-        etEmail = findViewById(R.id.etEmail)
-        etTelemovel = findViewById(R.id.etTelemovel)
-        etNacionalidade = findViewById(R.id.etNacionalidade)
-        etSexo = findViewById(R.id.etSexo)
-        etCC = findViewById(R.id.etCC)
-        etDataNascimento = findViewById(R.id.etDataNascimento)
-        etMorada = findViewById(R.id.etMorada)
+        observeViewModel()
+        setupClickListeners()
 
-        editableFields = listOf(
-            etNome, etEmail, etTelemovel, etNacionalidade,
-            etSexo, etCC, etDataNascimento, etMorada
-        )
+        val token = sessionManager.getAuthToken()
+        val userId = sessionManager.getUserId()
 
-        // Inicia os campos como desativados
-        editableFields.forEach { it.isEnabled = false }
+        if (token != null && userId != -1) {
+            viewModel.refreshUser(token, userId)
+        } else {
+            handleAuthenticationError()
+        }
+    }
 
-        // Observa os dados do utilizador e preenche a UI
-        viewModel.user.observe(this) { user ->
-            user?.let { // Garante que o utilizador não é nulo
-                etNome.setText(it.nome)
-                etEmail.setText(it.email)
-                etTelemovel.setText(it.telemovel ?: "")
-                etNacionalidade.setText(it.nacionalidade ?: "")
-                etSexo.setText(it.sexo ?: "")
-                etCC.setText(it.cc ?: "")
-                etDataNascimento.setText(it.dataNascimento ?: "")
-                etMorada.setText(it.morada ?: "")
+    private fun observeViewModel() {
+        viewModel.refreshResult.observe(this) { result ->
+            result.onSuccess { user ->
+                currentUser = user
+                populateUI(user)
+            }.onFailure {
+                handleAuthenticationError()
             }
         }
 
-        btnEditarGuardar.setOnClickListener {
-            isEditing = !isEditing
-            if (isEditing) {
-                // Entra em modo de edição
-                btnEditarGuardar.text = "GUARDAR"
-                editableFields.forEach { it.isEnabled = true }
-            } else {
-                // Sai do modo de edição e guarda os dados
-                btnEditarGuardar.text = "EDITAR"
-                editableFields.forEach { it.isEnabled = false }
-
-                // Recolhe os dados e chama o ViewModel para atualizar
-                val currentUser = viewModel.user.value
-                if (currentUser != null) {
-                    val updatedUser = currentUser.copy(
-                        nome = etNome.text.toString(),
-                        email = etEmail.text.toString(),
-                        telemovel = etTelemovel.text.toString().takeIf { it.isNotBlank() },
-                        nacionalidade = etNacionalidade.text.toString().takeIf { it.isNotBlank() },
-                        sexo = etSexo.text.toString().takeIf { it.isNotBlank() },
-                        cc = etCC.text.toString().takeIf { it.isNotBlank() },
-                        dataNascimento = etDataNascimento.text.toString().takeIf { it.isNotBlank() },
-                        morada = etMorada.text.toString().takeIf { it.isNotBlank() }
-                    )
-                    viewModel.updateUser(updatedUser)
-                    Toast.makeText(this, "Perfil atualizado!", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Erro: Não foi possível guardar. Tente novamente.", Toast.LENGTH_SHORT).show()
-                }
+        viewModel.updateResult.observe(this) { result ->
+            result.onSuccess {
+                Toast.makeText(this, "Perfil atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+            }.onFailure {
+                Toast.makeText(this, "Erro ao atualizar o perfil: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // ao voltar à atividade atualiza os dados do utilizador que tem sessão iniciada
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadCurrentUser()
+    private fun populateUI(user: Usuario) {
+        binding.etNome.setText(user.nome)
+        binding.etEmail.setText(user.email)
+        binding.etTelemovel.setText(user.telemovel)
+        binding.etNacionalidade.setText(user.nacionalidade)
+        binding.etSexo.setText(user.sexo)
+        binding.etCC.setText(user.cc)
+        binding.etDataNascimento.setText(user.dataNascimento)
+        binding.etMorada.setText(user.morada)
+    }
+
+    private fun setupClickListeners() {
+        binding.btnEditarGuardar.setOnClickListener {
+            saveProfileChanges()
+        }
+    }
+
+    private fun saveProfileChanges() {
+        val token = sessionManager.getAuthToken()
+        val userId = sessionManager.getUserId()
+
+        if (token == null || userId == -1) {
+            handleAuthenticationError()
+            return
+        }
+
+        val request = UpdateUserRequest(
+            nome = binding.etNome.text.toString(),
+            email = binding.etEmail.text.toString(),
+            tipo = currentUser?.tipo ?: "tutor" // Assume 'tutor' como default se não estiver definido
+        )
+
+        viewModel.updateUser(token, userId, request)
+    }
+
+    private fun handleAuthenticationError() {
+        Toast.makeText(this, "Erro de autenticação. Por favor, faça login novamente.", Toast.LENGTH_LONG).show()
+        // Opcionalmente, redirecionar para a tela de login. Ex:
+        // val intent = Intent(this, LoginActivity::class.java)
+        // startActivity(intent)
+        // finish()
     }
 }

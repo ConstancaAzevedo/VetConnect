@@ -5,34 +5,38 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import pt.ipt.dam2025.trabalho.model.Animal
+import pt.ipt.dam2025.trabalho.model.AnimalResponse
 
 /**
  * DAO responsável por todas as interações com a tabela de animais
  */
-
 @Dao
 interface AnimalDao {
 
-    //Insere o objeto animal na tabela; se já existir, substitui
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(animal: Animal)
-
-
-    /*
-     *Retorna todos os animais ordenados por nome em ordem crescente
-     *O fluxo retornará uma lista de animais atualizada sempre que houver alterações
+    /**
+     * Insere um animal na tabela
+     * Se o animal já existir, é substituído
      */
-    @Query("SELECT * FROM animais ORDER BY nome ASC")
-    fun getAll(): Flow<List<Animal>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOrUpdate(animal: AnimalResponse)
 
+    /**
+     * Obtém todos os animais de um tutor específico, ordenados por nome
+     * Retorna um Flow para que a UI possa observar alterações em tempo real
+     */
+    @Query("SELECT * FROM animais WHERE tutorId = :tutorId ORDER BY nome ASC")
+    fun getAnimalsByTutorId(tutorId: Int): Flow<List<AnimalResponse>>
 
-
-
-    //continuar a comentar
+    /**
+     * Obtém um animal específico pelo seu ID
+     * Retorna um Flow para que a UI possa observar alterações em tempo real
+     */
     @Query("SELECT * FROM animais WHERE id = :id LIMIT 1")
-    fun getById(id: Long): Animal?
+    fun getById(id: Int): Flow<AnimalResponse?>
 
-    @Query("SELECT * FROM animais WHERE tutorId = :tutorId LIMIT 1")
-    fun getAnimalByTutorId(tutorId: Int): Animal?
+    /**
+     * Apaga um animal da base de dados pelo seu ID
+     */
+    @Query("DELETE FROM animais WHERE id = :id")
+    suspend fun deleteById(id: Int)
 }

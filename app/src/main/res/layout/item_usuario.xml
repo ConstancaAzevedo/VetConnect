@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <!-- Conteúdo de texto original -->
+    <!-- página de histórico de vacinas -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,6 +43,6 @@
         android:layout_gravity="end|center_vertical"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/apagar_usuario"
-        android:src="@android:drawable/ic_delete" />
+        android:src="@drawable/delete_icon" />
 
 </FrameLayout>

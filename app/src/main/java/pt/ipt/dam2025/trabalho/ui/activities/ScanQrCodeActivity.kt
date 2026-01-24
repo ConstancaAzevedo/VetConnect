@@ -1,125 +1,127 @@
 package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.common.util.concurrent.ListenableFuture
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.barcode.common.Barcode
-import com.google.mlkit.vision.common.InputImage
-import pt.ipt.dam2025.trabalho.R
+import pt.ipt.dam2025.trabalho.databinding.ActivityScanQrcodeBinding
+import pt.ipt.dam2025.trabalho.util.SessionManager
+import pt.ipt.dam2025.trabalho.viewmodel.ScanViewModel
+import pt.ipt.dam2025.trabalho.viewmodel.ScanViewModelFactory
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+
+// Activity para escanear um código QR
 class ScanQrCodeActivity : AppCompatActivity() {
 
-    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
+    private lateinit var binding: ActivityScanQrcodeBinding
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var previewView: PreviewView
+    private lateinit var sessionManager: SessionManager
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                startCamera()
-            } else {
-                Toast.makeText(this, "A permissão da câmara é necessária para ler o QR Code.", Toast.LENGTH_LONG).show()
-                finish()
-            }
-        }
+    private val viewModel: ScanViewModel by viewModels {
+        ScanViewModelFactory(application)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scan_qrcode)
-        previewView = findViewById(R.id.preview_view)
+        binding = ActivityScanQrcodeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        sessionManager = SessionManager(this)
+
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        checkCameraPermission()
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else {
+            ActivityCompat.requestPermissions(
+                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+        }
+
+        observeViewModel()
     }
 
-    private fun checkCameraPermission() {
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                startCamera()
-            }
-            else -> {
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+    private fun observeViewModel() {
+        viewModel.uploadStatus.observe(this) { result ->
+            result.onSuccess {
+                Toast.makeText(this, "Código QR enviado com sucesso!", Toast.LENGTH_SHORT).show()
+                finish()
+            }.onFailure {
+                Toast.makeText(this, "Erro ao enviar o código QR.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun startCamera() {
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+
         cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
-            bindCameraUseCases(cameraProvider)
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            val preview = Preview.Builder().build().also {
+                it.setSurfaceProvider(binding.previewView.surfaceProvider)
+            }
+
+            val imageAnalyzer = ImageAnalysis.Builder()
+                .build()
+                .also {
+                    it.setAnalyzer(cameraExecutor, QrCodeAnalyzer { qrCodeData ->
+                        runOnUiThread {
+                           sessionManager.getAuthToken()?.let { token ->
+                               viewModel.sendQrCode(token, qrCodeData)
+                           }
+                        }
+                    })
+                }
+
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview, imageAnalyzer)
+            } catch(exc: Exception) {
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun bindCameraUseCases(cameraProvider: ProcessCameraProvider) {
-        val preview = Preview.Builder().build().also {
-            it.setSurfaceProvider(previewView.surfaceProvider)
-        }
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(
+            baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
 
-        val imageAnalysis = ImageAnalysis.Builder()
-            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-            .build()
-
-        val options = BarcodeScannerOptions.Builder()
-            .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
-            .build()
-
-        val scanner = BarcodeScanning.getClient(options)
-
-        imageAnalysis.setAnalyzer(cameraExecutor) { imageProxy ->
-            val mediaImage = imageProxy.image
-            if (mediaImage != null) {
-                val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
-                scanner.process(image)
-                    .addOnSuccessListener { barcodes ->
-                        if (barcodes.isNotEmpty()) {
-                            barcodes.firstOrNull()?.rawValue?.let { qrCodeValue ->
-                                val resultIntent = Intent()
-                                resultIntent.putExtra("QR_CODE_DATA", qrCodeValue)
-                                setResult(Activity.RESULT_OK, resultIntent)
-                                finish()
-                            }
-                        }
-                    }
-                    .addOnCompleteListener {
-                        imageProxy.close()
-                    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+                Toast.makeText(this, "Permissões não concedidas.", Toast.LENGTH_SHORT).show()
+                finish()
             }
-        }
-
-        val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-        try {
-            cameraProvider.unbindAll()
-            cameraProvider.bindToLifecycle(
-                this, cameraSelector, preview, imageAnalysis
-            )
-        } catch (e: Exception) {
-            Toast.makeText(this, "Falha ao iniciar a câmara.", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
+    }
+
+    companion object {
+        private const val TAG = "ScanQrCodeActivity"
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 }

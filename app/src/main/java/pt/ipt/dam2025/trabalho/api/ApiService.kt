@@ -23,8 +23,23 @@ interface ApiService {
     @POST("usuarios/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
+    @POST("usuarios/recuperar-pin")
+    suspend fun recuperarPin(@Body request: RecuperarPinRequest): Response<RecuperarPinResponse>
+
+    @POST("usuarios/redefinir-pin")
+    suspend fun redefinirPin(@Body request: RedefinirPinRequest): Response<RedefinirPinResponse>
+
+    @POST("usuarios/alterar-pin")
+    suspend fun alterarPin(
+        @Header("Authorization") token: String,
+        @Body request: AlterarPinRequest
+    ): Response<ChangePinResponse>
+
+    @POST("usuarios/logout")
+    suspend fun logout(@Header("Authorization") token: String): Response<LogoutResponse>
+
     @GET("usuarios")
-    suspend fun getUsuarios(): Response<List<Usuario>>
+    suspend fun getUsuarios(@Header("Authorization") token: String): Response<List<Usuario>>
 
     @GET("usuarios/{id}")
     suspend fun getUsuario(
@@ -36,67 +51,67 @@ interface ApiService {
     suspend fun updateUsuario(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
-        @Body usuario: NovoUsuario
-    ): Response<Unit>
+        @Body usuario: UpdateUserRequest
+    ): Response<GenericMessageResponse>
 
     @DELETE("usuarios/{id}")
     suspend fun deleteUsuario(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<Unit>
+    ): Response<GenericMessageResponse>
 
     // animais==============================================
     @POST("animais")
     suspend fun createAnimal(
         @Header("Authorization") token: String,
-        @Body animal: Animal
-    ): Response<Animal>
+        @Body animal: CreateAnimalRequest
+    ): Response<AnimalResponse>
+
+    @DELETE("animais/{animalId}")
+    suspend fun deleteAnimal(
+        @Header("Authorization") token: String,
+        @Path("animalId") animalId: Int
+    ): Response<GenericMessageResponse>
 
     @GET("usuarios/{userId}/animais")
     suspend fun getAnimaisDoTutor(
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
-    ): Response<List<Animal>>
+    ): Response<List<AnimalResponse>>
 
     @GET("animais/{animalId}")
     suspend fun getAnimal(
         @Header("Authorization") token: String,
         @Path("animalId") animalId: Int
-    ): Response<Animal>
-
-    @PUT("animais/{id}")
-    suspend fun updateAnimal(
-        @Header("Authorization") token: String,
-        @Path("id") animalId: Int,
-        @Body animal: Animal
-    ): Response<Animal>
-
-    @DELETE("animais/{id}")
-    suspend fun deleteAnimal(
-        @Header("Authorization") token: String,
-        @Path("id") animalId: Int
-    ): Response<Unit>
+    ): Response<AnimalResponse>
 
     @Multipart
     @POST("animais/{animalId}/foto")
     suspend fun uploadFoto(
         @Header("Authorization") token: String,
         @Path("animalId") animalId: Int,
-        @Part("foto") foto: MultipartBody.Part
-    ): Response<UploadFotoResponse>
+        @Part foto: MultipartBody.Part
+    ): Response<UploadResponse>
 
     // documentos(histórico)==============================================
     @POST("documentos")
     suspend fun createDocumento(
         @Header("Authorization") token: String,
-        @Body payload: QrCodePayload
-    ): Response<Unit>
+        @Body payload: CreateDocumentRequest
+    ): Response<CreateDocumentResponse>
 
     @GET("animais/{animalId}/documentos")
     suspend fun getDocumentosDoAnimal(
         @Header("Authorization") token: String,
         @Path("animalId") animalId: Int
     ): Response<DocumentosResponse>
+
+    @DELETE("documentos/{tipo}/{id}")
+    suspend fun deleteDocumento(
+        @Header("Authorization") token: String,
+        @Path("tipo") tipo: String,
+        @Path("id") id: Long
+    ): Response<DeleteDocumentResponse>
 
     // consultas==============================================
     @GET("clinicas")
@@ -124,5 +139,46 @@ interface ApiService {
     suspend fun cancelarConsulta(
         @Header("Authorization") token: String,
         @Path("id") consultaId: Int
-    ): Response<Unit>
+    ): Response<CancelConsultaResponse>
+
+    // Vacinas ==============================================
+    @GET("vacinas/tipos")
+    suspend fun getTiposVacina(): Response<TiposVacinaResponse>
+
+    @POST("vacinas/agendar")
+    suspend fun agendarVacina(
+        @Header("Authorization") token: String,
+        @Body request: AgendarVacinaRequest
+    ): Response<AgendarVacinaResponse>
+
+    @GET("animais/{animalId}/vacinas/agendadas")
+    suspend fun getVacinasAgendadas(
+        @Header("Authorization") token: String,
+        @Path("animalId") animalId: Int
+    ): Response<VacinasAgendadasResponse>
+
+    @PUT("vacinas/{id}")
+    suspend fun updateVacina(
+        @Header("Authorization") token: String,
+        @Path("id") vacinaId: Int,
+        @Body request: UpdateVacinaRequest
+    ): Response<UpdateVacinaResponse>
+
+    @DELETE("vacinas/{id}")
+    suspend fun cancelarVacina(
+        @Header("Authorization") token: String,
+        @Path("id") vacinaId: Int
+    ): Response<CancelVacinaResponse>
+
+    @GET("vacinas/proximas")
+    suspend fun getVacinasProximas(
+        @Header("Authorization") token: String
+    ): Response<VacinasProximasResponse>
+
+    @POST("vacinas/{id}/realizada")
+    suspend fun marcarVacinaRealizada(
+        @Header("Authorization") token: String,
+        @Path("id") vacinaId: Int,
+        @Body request: MarcarVacinaRealizadaRequest
+    ): Response<MarkVacinaRealizadaResponse>
 }

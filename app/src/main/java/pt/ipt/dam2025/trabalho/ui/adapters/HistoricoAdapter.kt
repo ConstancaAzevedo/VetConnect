@@ -1,63 +1,62 @@
 package pt.ipt.dam2025.trabalho.ui.adapters
 
+import android.os.Build
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import pt.ipt.dam2025.trabalho.R
+import pt.ipt.dam2025.trabalho.databinding.ItemHistoricoBinding
+import pt.ipt.dam2025.trabalho.model.Documento
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
-/*
- *adaptador da lista - liga os dados (lista de HsitoricoItem)
- * à interface (RecycleView)
- */
-class HistoricoAdapter : ListAdapter<HistoricoItem, HistoricoAdapter.HistoricoViewHolder>(HistoricoDiffCallback()) {
-    // classe principal
-    // LisAdapter é específico para lista de itens que vão alterando
+// Adapter para a lista de documentos
+class HistoricoAdapter(
+    private var documentos: List<Documento>,
+    private val onItemClick: (Documento) -> Unit
+) : RecyclerView.Adapter<HistoricoAdapter.HistoricoViewHolder>() {
 
+    // Formatador de data movido para aqui para maior eficiência e robustez
+    private val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault())
 
-    // esta classe representa um único item na lista
-    // segura (holds) as referências para as TextViews que estão dentro do layout item_historico
-    class HistoricoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val dataTextView: TextView = itemView.findViewById(R.id.historicoData)
-        private val descricaoTextView: TextView = itemView.findViewById(R.id.historicoDescricao)
-
-        // função que recebe um objeto HistoricoItem e é responsável por pegar nos dados do objeto (item.data e item.descricao)
-        // e colocar na interface
-        fun bind(item: HistoricoItem) {
-            dataTextView.text = item.data
-            descricaoTextView.text = item.descricao
-        }
-    }
-
-    // cria a estretura visual vazia de um item da lista, nem sempre a Recycleview o chama, só quando
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoricoViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_historico, parent, false)
-        return HistoricoViewHolder(itemView)
+        val binding = ItemHistoricoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return HistoricoViewHolder(binding)
     }
 
-    // pega numa estretura visual já existente e preenche-la com os dados corretos
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: HistoricoViewHolder, position: Int) {
-        val currentItem = getItem(position) // vai buscar os dados do item na posição
-        holder.bind(currentItem) // entrega os dados para a função holder bind
-    }
-}
-
-
-// quando a lista muda, o DiffUtil usa este callback para perceber o que se passou
-class HistoricoDiffCallback : DiffUtil.ItemCallback<HistoricoItem>() {
-    // compara a chave primária(id) - se os itens são os mesmos
-    override fun areItemsTheSame(oldItem: HistoricoItem, newItem: HistoricoItem): Boolean {
-        // o ID é único para cada item
-        return oldItem.id == newItem.id
+        holder.bind(documentos[position])
     }
 
-    // verifica se os conteúdos são os mesmos
-    override fun areContentsTheSame(oldItem: HistoricoItem, newItem: HistoricoItem): Boolean {
-        // verifica se os conteúdos dos campos são os mesmos
-        return oldItem == newItem
+    override fun getItemCount(): Int = documentos.size
+
+    fun updateData(newDocumentos: List<Documento>) {
+        documentos = newDocumentos
+        notifyDataSetChanged() // Para uma otimização futura, considere usar DiffUtil
+    }
+
+    inner class HistoricoViewHolder(private val binding: ItemHistoricoBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            itemView.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    onItemClick(documentos[adapterPosition])
+                }
+            }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun bind(documento: Documento) {
+            binding.historicoData.text = try {
+                // Usar a API moderna java.time para maior segurança e flexibilidade
+                val dateTime = OffsetDateTime.parse(documento.data)
+                dateTime.format(outputFormatter)
+            } catch (e: Exception) {
+                // Fallback seguro em caso de erro na análise da data
+                documento.data.substringBefore('T') ?: "Data inválida"
+            }
+            binding.historicoDescricao.text = "${documento.tipo}: ${documento.nome}"
+        }
     }
 }

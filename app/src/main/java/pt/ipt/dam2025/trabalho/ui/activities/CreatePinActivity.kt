@@ -16,12 +16,14 @@ import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.model.CreatePinRequest
 
+// Activity para criar o PIN
 class CreatePinActivity : AppCompatActivity() {
 
     private val pin = StringBuilder()
     private lateinit var pinDots: List<ImageView>
     private lateinit var userName: String
     private lateinit var userEmail: String
+    private var userId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +33,9 @@ class CreatePinActivity : AppCompatActivity() {
         // Lê os dados passados pelo ecrã de verificação
         userName = intent.getStringExtra("USER_NAME") ?: ""
         userEmail = intent.getStringExtra("USER_EMAIL") ?: ""
+        userId = intent.getIntExtra("USER_ID", -1)
 
-        if (userName.isEmpty() || userEmail.isEmpty()) {
+        if (userName.isEmpty() || userEmail.isEmpty() || userId == -1) {
             Snackbar.make(rootView, "Ocorreu um erro. Tente novamente.", Snackbar.LENGTH_LONG).show()
             finish()
             return
@@ -95,30 +98,42 @@ class CreatePinActivity : AppCompatActivity() {
                 val request = CreatePinRequest(email = userEmail, pin = pin.toString())
                 val response = ApiClient.apiService.criarPin(request)
 
-                // Guarda os dados da conta no novo formato (Nome:::Email)
-                val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-                val registeredAccounts = sharedPrefs.getStringSet("REGISTERED_ACCOUNTS", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
-                val accountString = "$userName:::$userEmail"
-                registeredAccounts.add(accountString)
+                if (response.isSuccessful) {
+                    // Guarda os dados da conta no novo formato (Nome:::Email)
+                    val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                    val registeredAccounts = sharedPrefs.getStringSet("REGISTERED_ACCOUNTS", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
+                    val accountString = "$userName:::$userEmail"
+                    registeredAccounts.add(accountString)
 
-                with(sharedPrefs.edit()) {
-                    putStringSet("REGISTERED_ACCOUNTS", registeredAccounts)
-                    apply()
-                }
-
-                Snackbar.make(rootView, response.message, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                        super.onDismissed(transientBottomBar, event)
-                        val intent = Intent(this@CreatePinActivity, HomeActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                        finish()
+                    with(sharedPrefs.edit()) {
+                        putStringSet("REGISTERED_ACCOUNTS", registeredAccounts)
+                        apply()
                     }
-                }).show()
+
+                    // Mensagem de sucesso
+                    val successMessage = "PIN criado com sucesso!"
+
+                    Snackbar.make(rootView, successMessage, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            super.onDismissed(transientBottomBar, event)
+                            val intent = Intent(this@CreatePinActivity, HomeActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                            finish()
+                        }
+                    }).show()
+
+                } else {
+                    // Mensagem de erro explícita, definida diretamente no código
+                    val errorMessage = "Ocorreu um erro. O PIN não foi guardado."
+                    Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
+                    pin.clear()
+                    updatePinDots()
+                }
 
             } catch (e: Exception) {
                 Log.e("CreatePinActivity", "Erro ao criar o PIN", e)
-                val errorMessage = e.message ?: "Não foi possível criar o PIN. Tente novamente."
+                val errorMessage = "Falha na ligação. Verifique a sua internet e tente novamente."
                 Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
                 pin.clear()
                 updatePinDots()

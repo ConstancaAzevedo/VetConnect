@@ -1,53 +1,64 @@
 package pt.ipt.dam2025.trabalho.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
- * Data class que representa a estrutura genérica de um QR Code lido.
+ * Interface comum para todos os tipos de documentos (Receita, Exame, Vacina)
+ * Permite que sejam tratados de forma polimórfica numa lista de histórico
  */
-data class QrCodePayload(
+interface Documento : Serializable {
+    // Propriedades comuns a todos os documentos
+    val id: Long
+    val animalId: Int
+    val data: String
+    val tipo: String // "Receita", "Exame", "Vacina"
+    val nome: String   // Nome do medicamento, tipo de exame ou nome da vacina
+}
+
+// Modelos para a CRIAÇÃO de documentos
+
+/**
+ * Payload genérico para criar qualquer documento
+ * Contém um sub-objeto "dados"
+ */
+data class CreateDocumentRequestInternal(
     @SerializedName("tipo") val tipo: String, // "receita", "vacina", "exame"
     @SerializedName("animalId") val animalId: Int,
-    @SerializedName("dados") val dados: Map<String, Any>
+    @SerializedName("dados") val dados: Any // ReceitaData, VacinaData ou ExameData
 )
 
-/**
- * Data class para uma Receita. Agora é uma entidade Room.
- */
-@Entity(tableName = "receitas")
-data class Receita(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
-    val data: String,
-    val medicamento: String,
-    val posologia: String,
-    val medico: String
+
+// Detalhes específicos para criar uma Receita
+data class ReceitaData(
+    @SerializedName("dataPrescricao") val dataPrescricao: String,
+    @SerializedName("medicamento") val medicamento: String,
+    @SerializedName("dosagem") val dosagem: String?,
+    @SerializedName("frequencia") val frequencia: String?,
+    @SerializedName("duracao") val duracao: String?,
+    @SerializedName("veterinario") val veterinario: String?,
+    @SerializedName("observacoes") val observacoes: String?
 )
 
-/**
- * Data class para um Exame. Agora é uma entidade Room.
- */
-@Entity(tableName = "exames")
-data class Exame(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
-    val data: String,
-    val tipoExame: String,
-    val resultado: String,
-    val laboratorio: String
+
+// Detalhes específicos para criar uma Vacina
+data class VacinaData(
+    @SerializedName("dataAplicacao") val dataAplicacao: String?,
+    @SerializedName("tipo") val tipo: String,
+    @SerializedName("dataProxima") val dataProxima: String?,
+    @SerializedName("veterinario") val veterinario: String?,
+    @SerializedName("lote") val lote: String?,
+    @SerializedName("observacoes") val observacoes: String?
 )
 
-/**
- * Data class para uma Vacina. Agora é uma entidade Room.
- */
-@Entity(tableName = "vacinas")
-data class Vacina(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
-    val data: String,
-    val nomeVacina: String,
-    val lote: String,
-    val proximaDose: String
+
+// Detalhes específicos para criar um Exame
+data class ExameData(
+    @SerializedName("dataExame") val dataExame: String,
+    @SerializedName("tipo") val tipo: String,
+    @SerializedName("resultado") val resultado: String?,
+    @SerializedName("laboratorio") val laboratorio: String?,
+    @SerializedName("veterinario") val veterinario: String?,
+    @SerializedName("ficheiroUrl") val ficheiroUrl: String?,
+    @SerializedName("observacoes") val observacoes: String?
 )

@@ -2,23 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:gravity="center_vertical">
 
-    <!--layout para definir a aparência de cada item na sua lista de histórico -->
-    <TextView
-        android:id="@+id/historicoData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Data do Evento"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+    <!-- página de histórico de eventos -->
 
-    <TextView
-        android:id="@+id/historicoDescricao"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Descrição do evento."
-        android:textColor="@color/white"/>
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/historico_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data do Evento"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/historico_descricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descrição do evento."
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
 
 </LinearLayout>

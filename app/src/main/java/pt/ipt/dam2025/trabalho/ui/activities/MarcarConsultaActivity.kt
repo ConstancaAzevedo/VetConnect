@@ -2,7 +2,6 @@ package pt.ipt.dam2025.trabalho.ui.activities
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -18,11 +17,13 @@ import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.model.Clinica
 import pt.ipt.dam2025.trabalho.model.NovaConsulta
 import pt.ipt.dam2025.trabalho.model.Veterinario
+import pt.ipt.dam2025.trabalho.util.SessionManager
 import pt.ipt.dam2025.trabalho.viewmodel.MarcarConsultaViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+// Activity para marcar uma consulta
 class MarcarConsultaActivity : AppCompatActivity() {
 
     private lateinit var spinnerClinica: Spinner
@@ -33,26 +34,33 @@ class MarcarConsultaActivity : AppCompatActivity() {
     private lateinit var btnConfirmar: Button
 
     private val viewModel: MarcarConsultaViewModel by viewModels()
+    private lateinit var sessionManager: SessionManager
 
     private var listaClinicas: List<Clinica> = emptyList()
     private var listaVeterinarios: List<Veterinario> = emptyList()
 
-    // IDs reais
     private var animalId: Int = -1
     private var userId: Int = -1
+    private var authToken: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_marcar_consulta)
 
-        // Obter os IDs
-        animalId = intent.getIntExtra("ANIMAL_ID", -1)
-        val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        userId = sharedPrefs.getInt("LOGGED_IN_USER_ID", -1)
+        sessionManager = SessionManager(this)
+
+        // Obter TODOS os IDs a partir do SessionManager
+        animalId = sessionManager.getAnimalId()
+        userId = sessionManager.getUserId()
+        authToken = sessionManager.getAuthToken()
 
         // Validar se os IDs são válidos
-        if (animalId == -1 || userId == -1) {
-            Toast.makeText(this, "Erro: IDs de utilizador ou animal inválidos", Toast.LENGTH_LONG).show()
+        if (animalId == -1 || userId == -1 || authToken == null) {
+            Toast.makeText(this, "Erro de sessão. Por favor, faça login novamente.", Toast.LENGTH_LONG).show()
+            // Redirecionar para o login para forçar a renovação da sessão
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
             finish()
             return
         }
@@ -74,7 +82,7 @@ class MarcarConsultaActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.clinicas.observe(this) { clinicas ->
             listaClinicas = clinicas
-            val nomesClinicas = clinicas.map { it.nome }
+            val nomesClinicas = listOf("Selecione uma clínica") + clinicas.map { it.nome }
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, nomesClinicas)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerClinica.adapter = adapter
@@ -103,9 +111,11 @@ class MarcarConsultaActivity : AppCompatActivity() {
     private fun setupListeners() {
         spinnerClinica.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (listaClinicas.isNotEmpty()) {
-                    val clinicaSelecionada = listaClinicas[position]
+                if (position > 0 && listaClinicas.isNotEmpty()) {
+                    val clinicaSelecionada = listaClinicas[position - 1]
                     viewModel.fetchVeterinariosPorClinica(clinicaSelecionada.id)
+                } else {
+                    updateVeterinariosSpinner(emptyList())
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -119,26 +129,44 @@ class MarcarConsultaActivity : AppCompatActivity() {
     private fun marcarConsulta() {
         val clinicaPosition = spinnerClinica.selectedItemPosition
         val veterinarioPosition = spinnerVeterinario.selectedItemPosition
-
-        if (listaClinicas.isEmpty() || clinicaPosition < 0 || listaVeterinarios.isEmpty() || veterinarioPosition < 0) {
-            Toast.makeText(this, "Por favor aguarde o carregamento e selecione uma clínica e veterinário", Toast.LENGTH_LONG).show()
-            return
-        }
-
-        val clinicaSelecionada = listaClinicas[clinicaPosition]
-        val veterinarioSelecionado = listaVeterinarios[veterinarioPosition]
         val data = etData.text.toString()
         val hora = etHora.text.toString()
-        val motivo = etAssunto.text.toString()
+        val motivo = etAssunto.text.toString().trim()
 
-        if (data.isEmpty() || hora.isEmpty() || motivo.isEmpty()) {
-            Toast.makeText(this, "Por favor preencha todos os campos", Toast.LENGTH_SHORT).show()
-            return
+        var isValid = true
+
+        if (clinicaPosition <= 0) {
+            Toast.makeText(this, "Selecione uma clínica", Toast.LENGTH_SHORT).show()
+            isValid = false
         }
 
+        if (listaVeterinarios.isEmpty() || veterinarioPosition < 0 || spinnerVeterinario.selectedItemPosition <= 0) {
+            Toast.makeText(this, "Selecione um veterinário", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (data.isEmpty()) {
+            etData.error = "A data é obrigatória"
+            isValid = false
+        }
+
+        if (hora.isEmpty()) {
+            etHora.error = "A hora é obrigatória"
+            isValid = false
+        }
+
+        if (motivo.isEmpty()) {
+            etAssunto.error = "O motivo é obrigatório"
+            isValid = false
+        }
+
+        if (!isValid) return
+
+        val clinicaSelecionada = listaClinicas[clinicaPosition - 1]
+        val veterinarioSelecionado = listaVeterinarios[veterinarioPosition - 1]
+
         val novaConsulta = NovaConsulta(
-            userId = this.userId, // <-- ID Real do Utilizador
-            animalId = this.animalId, // <-- ID Real do Animal
+            animalId = this.animalId,
             clinicaId = clinicaSelecionada.id,
             veterinarioId = veterinarioSelecionado.id,
             data = data,
@@ -146,11 +174,11 @@ class MarcarConsultaActivity : AppCompatActivity() {
             motivo = motivo
         )
 
-        viewModel.marcarConsulta(novaConsulta)
+        viewModel.marcarConsulta(authToken!!, novaConsulta)
     }
 
     private fun updateVeterinariosSpinner(veterinarios: List<Veterinario>) {
-        val nomesVeterinarios = veterinarios.map { it.nome }
+        val nomesVeterinarios = listOf("Selecione um veterinário") + veterinarios.map { it.nome }
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, nomesVeterinarios)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerVeterinario.adapter = adapter

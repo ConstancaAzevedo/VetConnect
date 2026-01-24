@@ -2,6 +2,7 @@ package pt.ipt.dam2025.trabalho.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 /**
  * define como os dados de um utilizador são guardados na base de dados do telemóvel (Room)
@@ -9,17 +10,18 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "users")
 data class User(
-    // propriedades
+    //Propriedades da entidade
     @PrimaryKey
-    val id: Int, // ID único do utilizador
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("nome")
     var nome: String,
+    @SerializedName("email")
     var email: String,
-    var telemovel: String? = null,
-    var nacionalidade: String? = null,
-    var sexo: String? = null,
-    var cc: String? = null,
-    var dataNascimento: String? = null,
-    var morada: String? = null,
-    var token: String? = null, // token de autenticação recebido da API
-    var codigo: String? = null // código de verificação
+    @SerializedName("telemovel")
+    var telemovel: String,
+    @SerializedName("tipo")
+    var tipo: String,
+    @SerializedName("token")
+    var token: String?
 )

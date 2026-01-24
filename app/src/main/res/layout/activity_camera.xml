@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.CameraActivity">
 
+    <!-- página de captura de fotos -->
+
     <androidx.camera.view.PreviewView
         android:id="@+id/viewFinder"
         android:layout_width="match_parent"

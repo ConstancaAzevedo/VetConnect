@@ -25,6 +25,7 @@ import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+// Activity para capturar uma foto
 class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
@@ -33,6 +34,7 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var viewFinder: PreviewView
     private lateinit var captureButton: Button
 
+    // Configuração da UI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
@@ -46,10 +48,14 @@ class CameraActivity : AppCompatActivity() {
             requestPermissions()
         }
 
+        // Listener para o botão de captura de foto
         captureButton.setOnClickListener { takePhoto() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
+
+
+    // Capturar uma foto
 
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
@@ -63,12 +69,15 @@ class CameraActivity : AppCompatActivity() {
             }
         }
 
+        // Criar um arquivo para a foto
+
         val outputOptions = ImageCapture.OutputFileOptions.Builder(
             contentResolver,
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             contentValues
         ).build()
 
+        // Capturar a foto e salvar no arquivo
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this),
@@ -108,6 +117,7 @@ class CameraActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+    // Solicitar permissões
     private fun requestPermissions() {
         activityResultLauncher.launch(REQUIRED_PERMISSIONS)
     }

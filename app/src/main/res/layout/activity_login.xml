@@ -7,14 +7,15 @@
     android:background="@drawable/background"
     tools:context=".ui.activities.LoginActivity">
 
+    <!-- página de login -->
 
-    <!-- Mensagem de boas-vindas -->
+        <!-- Mensagem de boas-vindas -->
     <TextView
         android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +29,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
-        android:background="@android:drawable/edit_text"
+        android:background="@drawable/borda_edittext"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +43,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Insira o seu PIN de acesso para\ndesbloquear a aplicação"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,12 +105,12 @@
 
     <!-- Botão "Esqueci o PIN" -->
     <TextView
-        android:id="@+id/text_forgot_pin"
+        android:id="@+id/forgot_pin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Esqueci-me do PIN"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"

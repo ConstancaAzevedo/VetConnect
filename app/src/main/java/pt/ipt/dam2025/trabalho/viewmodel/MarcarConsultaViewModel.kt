@@ -13,6 +13,7 @@ import pt.ipt.dam2025.trabalho.model.NovaConsulta
 import pt.ipt.dam2025.trabalho.model.Veterinario
 import java.io.IOException
 
+// ViewModel para marcar consulta
 class MarcarConsultaViewModel : ViewModel() {
 
     private val _clinicas = MutableLiveData<List<Clinica>>()
@@ -84,9 +85,11 @@ class MarcarConsultaViewModel : ViewModel() {
                 } else {
                     // Lida com erros específicos da API, como conflito de horário
                     val errorMsg = when(response.code()) {
+                        401 -> "Não autorizado. A sua sessão pode ter expirado."
+                        403 -> "Acesso proibido. Verifique as suas permissões."
                         409 -> "Já existe uma consulta neste horário."
                         400 -> "Dados da consulta inválidos."
-                        else -> "Ocorreu um erro no servidor."
+                        else -> "Ocorreu um erro no servidor: ${response.code()}"
                     }
                     throw IOException(errorMsg)
                 }

@@ -1,17 +1,15 @@
 package pt.ipt.dam2025.trabalho.ui.activities
 
-import android.Manifest
-import android.app.AlertDialog
+import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -20,222 +18,242 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import pt.ipt.dam2025.trabalho.R
-import pt.ipt.dam2025.trabalho.api.ApiClient
+import pt.ipt.dam2025.trabalho.databinding.ActivityAnimalBinding
 import pt.ipt.dam2025.trabalho.model.Animal
+import pt.ipt.dam2025.trabalho.util.SessionManager
 import pt.ipt.dam2025.trabalho.viewmodel.AnimalViewModel
 import pt.ipt.dam2025.trabalho.viewmodel.AnimalViewModelFactory
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
+// Activity para visualizar e editar os detalhes de um animal
 class AnimalActivity : AppCompatActivity() {
 
+    // ViewModel para esta Activity
+    private lateinit var binding: ActivityAnimalBinding
+    private var fotoUri: Uri? = null
+    private lateinit var currentPhotoPath: String
+    private lateinit var sessionManager: SessionManager
+
+    // ViewModel para esta Activity
     private val viewModel: AnimalViewModel by viewModels {
-        AnimalViewModelFactory(application, ApiClient.apiService)
+        AnimalViewModelFactory(application)
     }
 
-    private lateinit var ivAnimalFoto: ImageView
-    private lateinit var etAnimalNome: EditText
-    private lateinit var etAnimalEspecie: EditText
-    private lateinit var etAnimalRaca: EditText
-    private lateinit var etAnimalData: EditText
-    private lateinit var etAnimalChip: EditText
-    private lateinit var btnGuardarAnimal: Button
-    private lateinit var btnApagarAnimal: Button
-
-    private var currentAnimalId: Int = -1
-    private var userId: Int = -1
-    private var authToken: String? = null
-    private var isEditMode = false
-    private var newFotoUri: Uri? = null
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                tirarFoto()
-            } else {
-                Toast.makeText(this, "Permissão da câmara negada.", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success) {
-            newFotoUri?.let {
-                ivAnimalFoto.setImageURI(it)
-                if (currentAnimalId != -1 && authToken != null) {
-                    viewModel.uploadFotoAnimal(authToken!!, currentAnimalId, it)
-                }
-            }
+    // Solicitar permissão da câmara
+    private val requestCameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        if (isGranted) {
+            openCamera()
+        } else {
+            Toast.makeText(this, "Permissão da câmara negada.", Toast.LENGTH_SHORT).show()
         }
     }
 
+    // Capturar foto
+    private val takePicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            fotoUri = Uri.fromFile(File(currentPhotoPath))
+            binding.ivAnimalFoto.setImageURI(fotoUri)
+            uploadFoto()
+        }
+    }
+
+    // Configuração da UI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_animal)
+        binding = ActivityAnimalBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        sessionManager = SessionManager(this)
 
-        ivAnimalFoto = findViewById(R.id.ivAnimalFoto)
-        etAnimalNome = findViewById(R.id.etAnimalNome)
-        etAnimalEspecie = findViewById(R.id.etAnimalEspecie)
-        etAnimalRaca = findViewById(R.id.etAnimalRaca)
-        etAnimalData = findViewById(R.id.etAnimalData)
-        etAnimalChip = findViewById(R.id.etAnimalChip)
-        btnGuardarAnimal = findViewById(R.id.btnGuardarAnimal)
-        btnApagarAnimal = findViewById(R.id.btnApagarAnimal)
+        // Obter IDs do SessionManager
+        val animalId = sessionManager.getAnimalId()
+        val token = sessionManager.getAuthToken()
 
-        currentAnimalId = intent.getIntExtra("ANIMAL_ID", -1)
-        val sharedPrefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        userId = sharedPrefs.getInt("USER_ID", -1)
-        authToken = sharedPrefs.getString("AUTH_TOKEN", null)
+        // Validar sessão
+        if (animalId == -1 || token == null) {
+            // Se não houver animal na sessão, pode ser a criação de um novo
+            // Não fazemos logout aqui, a menos que seja estritamente necessário
+            binding.tvCodigoUnico.visibility = View.GONE
+            binding.btnApagarAnimal.visibility = View.GONE
+        } else {
+            binding.btnApagarAnimal.visibility = View.VISIBLE
+            viewModel.getAnimal(token, animalId)
+        }
 
-        if (userId == -1 || authToken == null) {
-            Toast.makeText(this, "Erro: Utilizador não autenticado", Toast.LENGTH_LONG).show()
-            finish()
+        setupDatePicker()
+        setupClickListeners()
+        observeViewModel()
+    }
+
+    // Observa as mudanças no ViewModel
+    private fun observeViewModel() {
+        viewModel.animal.observe(this) { animal ->
+            animal?.let { populateUI(it) }
+        }
+        viewModel.operationStatus.observe(this) { status ->
+            if (status.isSuccess) {
+                Toast.makeText(this, "Operação realizada com sucesso!", Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                Toast.makeText(this, "Erro na operação: ${status.exceptionOrNull()?.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.fotoUrl.observe(this) { url ->
+            url?.let {
+                Glide.with(this).load(it).into(binding.ivAnimalFoto)
+            }
+        }
+    }
+
+    private fun populateUI(animal: Animal) {
+        if (!animal.codigoUnico.isNullOrEmpty()) {
+            binding.tvCodigoUnico.text = animal.codigoUnico
+            binding.tvCodigoUnico.visibility = View.VISIBLE
+        } else {
+            binding.tvCodigoUnico.visibility = View.GONE
+        }
+        binding.etAnimalNome.setText(animal.nome)
+        binding.etAnimalEspecie.setText(animal.especie)
+        binding.etAnimalRaca.setText(animal.raca)
+        binding.etAnimalData.setText(animal.dataNascimento)
+        binding.etAnimalChip.setText(animal.numeroChip)
+        if (!animal.fotoUrl.isNullOrEmpty()) {
+            Glide.with(this).load(animal.fotoUrl).into(binding.ivAnimalFoto)
+        }
+    }
+
+    // Configuração dos listeners
+    private fun setupClickListeners() {
+        binding.btnGuardarAnimal.setOnClickListener {
+            saveAnimal()
+        }
+        binding.btnApagarAnimal.setOnClickListener {
+            val animalId = sessionManager.getAnimalId()
+            val token = sessionManager.getAuthToken()
+            if (animalId != -1 && token != null) {
+                viewModel.deleteAnimal(token, animalId)
+            }
+        }
+        binding.ivAnimalFoto.setOnClickListener {
+            dispatchTakePictureIntent()
+        }
+    }
+
+    // Salvar o animal
+    private fun saveAnimal() {
+        val nome = binding.etAnimalNome.text.toString()
+        val especie = binding.etAnimalEspecie.text.toString()
+        val raca = binding.etAnimalRaca.text.toString()
+        val dataNascimento = binding.etAnimalData.text.toString()
+        val chip = binding.etAnimalChip.text.toString()
+
+        if (nome.isEmpty() || especie.isEmpty()) {
+            Toast.makeText(this, "Nome e espécie são obrigatórios", Toast.LENGTH_SHORT).show()
             return
         }
 
-        setupViewModelObservers()
-        setupClickListeners()
+        // Obter IDs do SessionManager
+        val animalId = sessionManager.getAnimalId()
+        val token = sessionManager.getAuthToken()
+        val userId = sessionManager.getUserId()
 
-        if (currentAnimalId == -1) {
-            isEditMode = true
-            updateUiForMode()
-        } else {
-            isEditMode = false
-            updateUiForMode()
-            viewModel.fetchAnimal(authToken!!, currentAnimalId)
+        if (token == null) return
+
+        // Criar o objeto Animal
+        val animal = Animal(
+            id = if (animalId == -1) 0 else animalId,
+            tutorId = userId,
+            nome = nome,
+            especie = especie,
+            raca = raca,
+            dataNascimento = dataNascimento,
+            fotoUrl = null, // A foto é tratada em separado
+            numeroChip = chip,
+            codigoUnico = viewModel.animal.value?.codigoUnico ?: "",
+            dataRegisto = null,
+            tutorNome = null,
+            tutorEmail = null
+        )
+
+        viewModel.saveAnimal(token, animal)
+    }
+
+
+    // Configuração do date picker
+    private fun setupDatePicker() {
+        binding.etAnimalData.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            DatePickerDialog(this, { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
+                val formattedDate = String.format("%02d-%02d-%d", selectedDay, selectedMonth + 1, selectedYear)
+                binding.etAnimalData.setText(formattedDate)
+            }, year, month, day).show()
         }
     }
 
-    private fun setupViewModelObservers() {
-        viewModel.animal.observe(this) { animal ->
-            animal?.let {
-                etAnimalNome.setText(it.nome)
-                etAnimalEspecie.setText(it.especie)
-                etAnimalRaca.setText(it.raca)
-                etAnimalData.setText(it.dataNascimento)
-                etAnimalChip.setText(it.numeroChip?.toString() ?: "")
-                Glide.with(this)
-                    .load(it.fotoUrl)
-                    .placeholder(R.drawable.perfil_icon) // Imagem padrão
-                    .into(ivAnimalFoto)
-            }
-        }
-
-        viewModel.operationStatus.observe(this) { result ->
-            result.onSuccess { message ->
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-                if (message.contains("eliminado")) {
-                    finish()
-                }
-            }.onFailure { exception ->
-                Toast.makeText(this, "Erro: ${exception.message}", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    private fun setupClickListeners() {
-        btnGuardarAnimal.setOnClickListener {
-            if (isEditMode) {
-                saveAnimalData()
-            } else {
-                isEditMode = true
-                updateUiForMode()
-            }
-        }
-
-        btnApagarAnimal.setOnClickListener {
-            showDeleteConfirmationDialog()
-        }
-
-        etAnimalData.setOnClickListener {
-            if (isEditMode) showDatePickerDialog()
-        }
-
-        ivAnimalFoto.setOnClickListener {
-            if (isEditMode) pedirPermissaoCamera()
-        }
-    }
-
-    private fun pedirPermissaoCamera() {
-        when {
-            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED -> {
-                tirarFoto()
-            }
-            else -> {
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
-        }
-    }
-
-    private fun tirarFoto() {
-        val photoFile: File = createImageFile()
-        newFotoUri = FileProvider.getUriForFile(this, "pt.ipt.dam2025.trabalho.fileprovider", photoFile)
-        newFotoUri?.let { takePictureLauncher.launch(it) }
-    }
-
+    // Configuração da captura de foto
+    @Throws(IOException::class)
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
-    }
-
-    private fun saveAnimalData() {
-        val nome = etAnimalNome.text.toString()
-        if (nome.isEmpty()) {
-            etAnimalNome.error = "Nome é obrigatório"
-            return
+        return File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        ).apply {
+            currentPhotoPath = absolutePath
         }
-
-        val animal = Animal(
-            id = if (currentAnimalId == -1) 0 else currentAnimalId,
-            tutorId = this.userId,
-            nome = nome,
-            especie = etAnimalEspecie.text.toString(),
-            raca = etAnimalRaca.text.toString(),
-            dataNascimento = etAnimalData.text.toString(),
-            numeroChip = etAnimalChip.text.toString().toIntOrNull(),
-            fotoUrl = viewModel.animal.value?.fotoUrl // Preserva a foto URL existente
-        )
-
-        authToken?.let { viewModel.saveAnimal(it, animal) }
     }
 
-    private fun showDeleteConfirmationDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Eliminar Animal")
-            .setMessage("Tem a certeza que deseja eliminar este animal?")
-            .setPositiveButton("Sim, Eliminar") { _, _ ->
-                authToken?.let { viewModel.deleteAnimal(it, currentAnimalId) }
+    // Solicitar permissão da câmara
+    private fun dispatchTakePictureIntent() {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                openCamera()
             }
-            .setNegativeButton("Cancelar", null)
-            .show()
-    }
-
-    private fun updateUiForMode() {
-        val isEnabled = isEditMode
-        etAnimalNome.isEnabled = isEnabled
-        etAnimalEspecie.isEnabled = isEnabled
-        etAnimalRaca.isEnabled = isEnabled
-        etAnimalData.isClickable = isEnabled
-        etAnimalChip.isEnabled = isEnabled
-
-        if (isEnabled) {
-            btnGuardarAnimal.text = "Guardar"
-            btnApagarAnimal.visibility = if (currentAnimalId != -1) View.VISIBLE else View.GONE
-        } else {
-            btnGuardarAnimal.text = "Editar"
-            btnApagarAnimal.visibility = View.GONE
+            else -> {
+                requestCameraPermission.launch(android.Manifest.permission.CAMERA)
+            }
         }
     }
-
-    private fun showDatePickerDialog() {
-        val calendar = Calendar.getInstance()
-        DatePickerDialog(this, { _, year, month, day ->
-            val selectedDate = Calendar.getInstance().apply { set(year, month, day) }
-            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            etAnimalData.setText(format.format(selectedDate.time))
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+    private fun openCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also { _ ->
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    null
+                }
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "pt.ipt.dam2025.trabalho.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    takePicture.launch(takePictureIntent)
+                }
+            }
+        }
+    }
+    private fun uploadFoto(){
+        fotoUri?.let{
+            val animalId = sessionManager.getAnimalId()
+            val token = sessionManager.getAuthToken()
+            if(animalId != -1 && token != null){
+                viewModel.uploadPhoto(token, animalId, it)
+            }
+        }
     }
 }

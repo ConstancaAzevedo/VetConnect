@@ -2,101 +2,90 @@ package pt.ipt.dam2025.trabalho.viewmodel
 
 import android.app.Application
 import android.net.Uri
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import pt.ipt.dam2025.trabalho.api.ApiService
+import pt.ipt.dam2025.trabalho.api.ApiClient
+import pt.ipt.dam2025.trabalho.data.AppDatabase
 import pt.ipt.dam2025.trabalho.model.Animal
+import pt.ipt.dam2025.trabalho.model.AnimalResponse
+import pt.ipt.dam2025.trabalho.model.CreateAnimalRequest
+import pt.ipt.dam2025.trabalho.repository.AnimalRepository
 
-class AnimalViewModel(private val application: Application, private val apiService: ApiService) : ViewModel() {
+// ViewModel para Animal
+class AnimalViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _animal = MutableLiveData<Animal>()
-    val animal: LiveData<Animal> = _animal
+    private val repository: AnimalRepository
 
-    private val _operationStatus = MutableLiveData<Result<String>>()
-    val operationStatus: LiveData<Result<String>> = _operationStatus
+    private val _animal = MutableLiveData<Animal?>()
+    val animal: LiveData<Animal?> = _animal
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> = _errorMessage
+    private val _operationStatus = MutableLiveData<Result<Unit>>()
+    val operationStatus: LiveData<Result<Unit>> = _operationStatus
 
-    fun fetchAnimal(token: String, animalId: Int) {
+    private val _fotoUrl = MutableLiveData<String?>()
+    val fotoUrl: LiveData<String?> = _fotoUrl
+
+    init {
+        val animalDao = AppDatabase.getDatabase(application).animalDao()
+        repository = AnimalRepository(ApiClient.apiService, animalDao, getApplication())
+    }
+
+    fun getAnimal(token: String, animalId: Int) {
         viewModelScope.launch {
-            try {
-                val response = apiService.getAnimal("Bearer $token", animalId)
-                if (response.isSuccessful) {
-                    _animal.postValue(response.body())
-                } else {
-                    _errorMessage.postValue("Erro ao carregar dados do animal")
-                }
-            } catch (e: Exception) {
-                _errorMessage.postValue("Falha na ligação: ${e.message}")
+            repository.getAnimal(token, animalId).collect {
+                _animal.postValue(it?.toAnimal())
             }
         }
     }
 
     fun saveAnimal(token: String, animal: Animal) {
         viewModelScope.launch {
-            try {
-                val response = if (animal.id == 0) {
-                    apiService.createAnimal("Bearer $token", animal)
-                } else {
-                    apiService.updateAnimal("Bearer $token", animal.id, animal)
-                }
-
-                if (response.isSuccessful) {
-                    _operationStatus.postValue(Result.success("Animal guardado com sucesso"))
-                } else {
-                    _operationStatus.postValue(Result.failure(Exception("Erro ao guardar animal")))
-                }
-            } catch (e: Exception) {
-                _operationStatus.postValue(Result.failure(e))
-            }
+            val request = CreateAnimalRequest(
+                nome = animal.nome,
+                dataNascimento = animal.dataNascimento,
+                raca = animal.raca,
+                especie = animal.especie,
+                numeroChip = animal.numeroChip
+            )
+            val result = repository.createAnimal(token, request)
+            _operationStatus.postValue(result.map {})
         }
     }
 
     fun deleteAnimal(token: String, animalId: Int) {
         viewModelScope.launch {
-            try {
-                val response = apiService.deleteAnimal("Bearer $token", animalId)
-                if (response.isSuccessful) {
-                    _operationStatus.postValue(Result.success("Animal eliminado com sucesso"))
-                } else {
-                    _operationStatus.postValue(Result.failure(Exception("Erro ao eliminar animal")))
-                }
-            } catch (e: Exception) {
-                _operationStatus.postValue(Result.failure(e))
-            }
+            val result = repository.deleteAnimal(token, animalId)
+            _operationStatus.postValue(result)
         }
     }
 
-    fun uploadFotoAnimal(token: String, animalId: Int, fotoUri: Uri) {
+    fun uploadPhoto(token: String, animalId: Int, photoUri: Uri) {
         viewModelScope.launch {
-            try {
-                val inputStream = application.contentResolver.openInputStream(fotoUri)
-                val fileBytes = inputStream?.readBytes()
-                inputStream?.close()
-
-                if (fileBytes != null) {
-                    val requestFile = fileBytes.toRequestBody("image/jpeg".toMediaTypeOrNull())
-                    val body = MultipartBody.Part.createFormData("foto", "foto.jpg", requestFile)
-
-                    val response = apiService.uploadFoto("Bearer $token", animalId, body)
-                    if (response.isSuccessful) {
-                        _operationStatus.postValue(Result.success("Foto atualizada com sucesso."))
-                        // Pode ser útil recarregar os dados do animal para obter a nova URL da foto
-                        fetchAnimal(token, animalId)
-                    } else {
-                        _operationStatus.postValue(Result.failure(Exception("Erro ao enviar foto.")))
-                    }
-                }
-            } catch (e: Exception) {
-                _operationStatus.postValue(Result.failure(e))
+            val result = repository.uploadFotoAnimal(token, animalId, photoUri)
+            result.onSuccess { response ->
+                _fotoUrl.postValue(response.fotoUrl)
             }
+            _operationStatus.postValue(result.map { })
         }
+    }
+
+    private fun AnimalResponse.toAnimal(): Animal {
+        return Animal(
+            id = this.id,
+            nome = this.nome,
+            dataNascimento = this.dataNascimento,
+            raca = this.raca,
+            especie = this.especie,
+            tutorId = this.tutorId,
+            fotoUrl = this.fotoUrl,
+            numeroChip = this.numeroChip,
+            codigoUnico = this.codigoUnico,
+            dataRegisto = this.dataRegisto,
+            tutorNome = this.tutorNome,
+            tutorEmail = this.tutorEmail
+        )
     }
 }

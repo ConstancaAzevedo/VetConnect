@@ -2,23 +2,24 @@ package pt.ipt.dam2025.trabalho.repository
 
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
-import pt.ipt.dam2025.trabalho.api.ApiClient
+import kotlinx.coroutines.flow.firstOrNull
+import pt.ipt.dam2025.trabalho.api.ApiService
 import pt.ipt.dam2025.trabalho.data.UserDao
-import pt.ipt.dam2025.trabalho.model.NovoUsuario
-import pt.ipt.dam2025.trabalho.model.User
-import pt.ipt.dam2025.trabalho.model.Usuario
+import pt.ipt.dam2025.trabalho.model.*
 import java.io.IOException
 
-class UsuarioRepository(private val userDao: UserDao) {
-
-    // --- Funções para a UserListActivity (Exemplo de CRUD) ---
+// Classe de repositório para utilizadores
+class UsuarioRepository(
+    private val apiService: ApiService,
+    private val userDao: UserDao
+) {
 
     /**
      * Obtém a lista de todos os utilizadores da API.
      */
     suspend fun getUsuarios(token: String): List<Usuario> {
         return try {
-            val response = ApiClient.apiService.getUsuarios("Bearer $token")
+            val response = apiService.getUsuarios("Bearer $token")
             if (response.isSuccessful) {
                 response.body() ?: emptyList()
             } else {
@@ -32,17 +33,15 @@ class UsuarioRepository(private val userDao: UserDao) {
     }
 
     /**
-     * Cria um novo utilizador através da API.
+     * Cria um novo utilizador na API.
      */
-    suspend fun criarUsuario(usuario: NovoUsuario): Result<Usuario> {
+    suspend fun criarUsuario(usuario: NovoUsuario): Result<RegistrationResponse> {
         return try {
-            val response = ApiClient.apiService.criarUsuario(usuario)
-            if (response.isSuccessful) {
-                response.body()?.user?.let {
-                    Result.success(it)
-                } ?: Result.failure(Exception("Resposta da API nula ou inválida no registo"))
+            val response = apiService.criarUsuario(usuario)
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
             } else {
-                Result.failure(Exception("Erro na API ao criar utilizador: ${response.code()}"))
+                Result.failure(IOException("Erro na API ao criar utilizador: ${response.code()} - ${response.errorBody()?.string()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -50,16 +49,19 @@ class UsuarioRepository(private val userDao: UserDao) {
     }
 
     /**
-     * Apaga um utilizador através da API.
+     * Apaga um utilizador através da API e depois localmente.
      */
-    suspend fun deletarUsuario(token: String, id: Int) {
-        try {
-            val response = ApiClient.apiService.deleteUsuario("Bearer $token", id)
-            if (!response.isSuccessful) {
-                Log.e("UsuarioRepository", "Erro ao apagar utilizador: ${response.code()}")
+    suspend fun deletarUsuario(token: String, id: Int): Result<Unit> {
+        return try {
+            val response = apiService.deleteUsuario("Bearer $token", id)
+            if (response.isSuccessful) {
+                userDao.deleteById(id)
+                Result.success(Unit)
+            } else {
+                Result.failure(IOException("Erro da API ao apagar utilizador: ${response.code()}"))
             }
         } catch (e: Exception) {
-            Log.e("UsuarioRepository", "Falha na chamada para apagar utilizador", e)
+            Result.failure(e)
         }
     }
 
@@ -68,56 +70,49 @@ class UsuarioRepository(private val userDao: UserDao) {
     /**
      * Obtém os dados de um utilizador da base de dados local.
      */
-    fun getUser(userId: Int): Flow<User?> = userDao.getUserById(userId)
+    fun getUser(userId: Int): Flow<Usuario?> = userDao.getUserById(userId)
 
     /**
      * Atualiza os dados de um utilizador na API e depois na base de dados local.
      */
-    suspend fun updateUser(token: String, user: User) {
-        try {
-            val updatedUserApi = NovoUsuario(
-                nome = user.nome,
-                email = user.email,
-                telemovel = user.telemovel ?: "",
-                tipo = "tutor" // O tipo pode não ser editável, mas é necessário para o modelo
-            )
-
-            val response = ApiClient.apiService.updateUsuario("Bearer $token", user.id, updatedUserApi)
+    suspend fun updateUser(token: String, userId: Int, request: UpdateUserRequest): Result<Unit> {
+        return try {
+            val response = apiService.updateUsuario("Bearer $token", userId, request)
 
             if (response.isSuccessful) {
                 // Se a API atualizou com sucesso, atualiza também a base de dados local.
-                userDao.insertOrUpdate(user)
+                refreshUser(token, userId) // Força a atualização para obter todos os dados
+                Result.success(Unit)
             } else {
-                Log.e("UsuarioRepository", "Erro ao atualizar utilizador na API: ${response.code()}")
-                throw IOException("Falha ao atualizar dados no servidor.")
+                Result.failure(IOException("Falha ao atualizar dados no servidor: ${response.code()}"))
             }
         } catch (e: Exception) {
-            Log.e("UsuarioRepository", "Falha na chamada para atualizar utilizador", e)
-            throw e
+            Result.failure(e)
         }
     }
 
-    /**
-     * Sincroniza os dados de um utilizador da API para a base de dados local.
+   /**
+     * Sincroniza os dados de um utilizador a partir da API e guarda-os na base de dados local.
      */
-    suspend fun refreshUser(token: String, userId: Int) {
-        try {
-            val response = ApiClient.apiService.getUsuario("Bearer $token", userId)
+    suspend fun refreshUser(token: String, userId: Int): Result<Unit> {
+        return try {
+            val response = apiService.getUsuario("Bearer $token", userId)
             if (response.isSuccessful) {
                 response.body()?.let { usuarioDaApi ->
-                    val userLocal = User(
-                        id = usuarioDaApi.id,
-                        nome = usuarioDaApi.nome,
-                        email = usuarioDaApi.email,
-                        telemovel = usuarioDaApi.telemovel
-                    )
-                    userDao.insertOrUpdate(userLocal)
-                }
+                    // O token não vem da API, por isso precisamos de o preservar
+                    val localUser = userDao.getUserByIdOnce(userId)
+                    val userToSave = usuarioDaApi.copy(token = localUser?.token ?: token)
+                    userDao.insertOrUpdate(userToSave)
+                    Result.success(Unit)
+                } ?: Result.failure(IOException("O corpo da resposta da API ao refrescar o utilizador está vazio."))
             } else {
-                Log.e("UsuarioRepository", "Erro ao obter dados do utilizador: ${response.code()}")
+                val errorBody = response.errorBody()?.string()
+                Log.e("UsuarioRepository", "Erro ao obter dados do utilizador: ${response.code()} - $errorBody")
+                Result.failure(IOException("Erro ao obter dados do utilizador: ${response.code()}"))
             }
         } catch (e: Exception) {
             Log.e("UsuarioRepository", "Falha na chamada para refrescar utilizador", e)
+            Result.failure(e)
         }
     }
 }
