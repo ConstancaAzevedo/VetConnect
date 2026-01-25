@@ -19,7 +19,7 @@ class UsuarioRepository(
      */
     suspend fun getUsuarios(token: String): List<Usuario> {
         return try {
-            val response = apiService.getUsuarios("Bearer $token")
+            val response = apiService.getUsuarios()
             if (response.isSuccessful) {
                 response.body() ?: emptyList()
             } else {

@@ -49,20 +49,25 @@ class MarcarConsultaActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        // Obter TODOS os IDs a partir do SessionManager
+        // Obter IDs a partir do SessionManager
         animalId = sessionManager.getAnimalId()
         userId = sessionManager.getUserId()
         authToken = sessionManager.getAuthToken()
 
-        // Validar se os IDs são válidos
-        if (animalId == -1 || userId == -1 || authToken == null) {
+        // Validar se a SESSÃO do UTILIZADOR é válida (token e userId)
+        // O animalId pode ser validado apenas no momento de marcar, se necessário
+        if (userId == -1 || authToken == null) {
             Toast.makeText(this, "Erro de sessão. Por favor, faça login novamente.", Toast.LENGTH_LONG).show()
-            // Redirecionar para o login para forçar a renovação da sessão
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
             return
+        }
+
+        // Se o animalId for -1, avisamos mas não expulsamos o utilizador imediatamente
+        if (animalId == -1) {
+            Toast.makeText(this, "Aviso: Nenhum animal selecionado.", Toast.LENGTH_SHORT).show()
         }
 
         // Inicializar as vistas
@@ -127,6 +132,11 @@ class MarcarConsultaActivity : AppCompatActivity() {
     }
 
     private fun marcarConsulta() {
+        if (animalId == -1) {
+            Toast.makeText(this, "Erro: Não é possível marcar consulta sem um animal selecionado.", Toast.LENGTH_LONG).show()
+            return
+        }
+
         val clinicaPosition = spinnerClinica.selectedItemPosition
         val veterinarioPosition = spinnerVeterinario.selectedItemPosition
         val data = etData.text.toString()
@@ -140,7 +150,7 @@ class MarcarConsultaActivity : AppCompatActivity() {
             isValid = false
         }
 
-        if (listaVeterinarios.isEmpty() || veterinarioPosition < 0 || spinnerVeterinario.selectedItemPosition <= 0) {
+        if (listaVeterinarios.isEmpty() || veterinarioPosition <= 0) {
             Toast.makeText(this, "Selecione um veterinário", Toast.LENGTH_SHORT).show()
             isValid = false
         }

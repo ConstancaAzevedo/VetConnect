@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.NonCancellable
 import pt.ipt.dam2025.trabalho.R
 import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.util.SessionManager
@@ -44,27 +46,39 @@ class HomeActivity : AppCompatActivity() {
 
         // Configurar os cliques nos cartões, garantindo que o ANIMAL_ID é lido do SessionManager
         cardMarcarConsulta.setOnClickListener {
-            startActivity(Intent(this, MarcarConsultaActivity::class.java))
+            val intent = Intent(this, MarcarConsultaActivity::class.java)
+            intent.putExtra("ANIMAL_ID", sessionManager.getAnimalId())
+            startActivity(intent)
         }
 
         cardAgendarVacina.setOnClickListener {
-            startActivity(Intent(this, AgendarVacinaActivity::class.java))
+            val intent = Intent(this, AgendarVacinaActivity::class.java)
+            intent.putExtra("ANIMAL_ID", sessionManager.getAnimalId())
+            startActivity(intent)
         }
 
         cardConsultas.setOnClickListener {
-            startActivity(Intent(this, HistoricoActivity::class.java))
+            val intent = Intent(this, HistoricoActivity::class.java)
+            intent.putExtra("ANIMAL_ID", sessionManager.getAnimalId())
+            startActivity(intent)
         }
 
         cardMinhasVacinas.setOnClickListener {
-            startActivity(Intent(this, MinhasVacinasActivity::class.java))
+            val intent = Intent(this, MinhasVacinasActivity::class.java)
+            intent.putExtra("ANIMAL_ID", sessionManager.getAnimalId())
+            startActivity(intent)
         }
 
         cardAnimal.setOnClickListener {
-            startActivity(Intent(this, AnimalActivity::class.java))
+            val intent = Intent(this, AnimalActivity::class.java)
+            intent.putExtra("ANIMAL_ID", sessionManager.getAnimalId())
+            startActivity(intent)
         }
 
         cardHistorico.setOnClickListener {
-            startActivity(Intent(this, HistoricoActivity::class.java))
+            val intent = Intent(this, HistoricoActivity::class.java)
+            intent.putExtra("ANIMAL_ID", sessionManager.getAnimalId())
+            startActivity(intent)
         }
 
         cardPerfil.setOnClickListener {
@@ -90,15 +104,18 @@ class HomeActivity : AppCompatActivity() {
 
     private fun performLogout() {
         val authToken = sessionManager.getAuthToken()
-
         lifecycleScope.launch {
             try {
                 if (authToken != null) {
-                    ApiClient.apiService.logout("Bearer $authToken")
+                    // Garante que a chamada de logout não seja cancelada
+                    withContext(NonCancellable) {
+                        ApiClient.apiService.logout("Bearer $authToken")
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("HomeActivity", "Falha ao invalidar token no servidor", e)
             } finally {
+                // O código no finally será executado mesmo se a corrotina for cancelada
                 sessionManager.clearAuth()
                 Toast.makeText(this@HomeActivity, "Sessão terminada.", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@HomeActivity, LoginActivity::class.java)

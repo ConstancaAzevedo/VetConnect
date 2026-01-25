@@ -162,7 +162,10 @@ class AnimalActivity : AppCompatActivity() {
         val token = sessionManager.getAuthToken()
         val userId = sessionManager.getUserId()
 
-        if (token == null) return
+        if (token == null || userId == -1) {
+            Toast.makeText(this, "Sessão inválida. Por favor, faça login novamente.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         // Criar o objeto Animal
         val animal = Animal(
@@ -193,7 +196,7 @@ class AnimalActivity : AppCompatActivity() {
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
             DatePickerDialog(this, { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
-                val formattedDate = String.format("%02d-%02d-%d", selectedDay, selectedMonth + 1, selectedYear)
+                val formattedDate = String.format("%d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
                 binding.etAnimalData.setText(formattedDate)
             }, year, month, day).show()
         }

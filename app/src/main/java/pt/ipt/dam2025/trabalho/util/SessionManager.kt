@@ -9,7 +9,7 @@ class SessionManager(context: Context) {
     // Usar o nome "prefs" que é o consistente na aplicação
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
 
-    // CORREÇÃO FINAL: As chaves DEVEM ser exatamente iguais às usadas no Login e outras partes
+    // As chaves DEVEM ser exatamente iguais às usadas no Login e outras partes
     companion object {
         private const val AUTH_TOKEN = "AUTH_TOKEN"
         private const val USER_ID = "USER_ID"

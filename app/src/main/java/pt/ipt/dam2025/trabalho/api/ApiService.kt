@@ -39,7 +39,7 @@ interface ApiService {
     suspend fun logout(@Header("Authorization") token: String): Response<LogoutResponse>
 
     @GET("usuarios")
-    suspend fun getUsuarios(@Header("Authorization") token: String): Response<List<Usuario>>
+    suspend fun getUsuarios(): Response<List<Usuario>>
 
     @GET("usuarios/{id}")
     suspend fun getUsuario(

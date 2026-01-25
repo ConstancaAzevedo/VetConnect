@@ -5,7 +5,9 @@ import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import pt.ipt.dam2025.trabalho.api.ApiClient
 import pt.ipt.dam2025.trabalho.data.AppDatabase
+import pt.ipt.dam2025.trabalho.util.SessionManager
 import pt.ipt.dam2025.trabalho.worker.VaccineReminderWorker
 import java.util.concurrent.TimeUnit
 
@@ -20,6 +22,10 @@ class VetConnectApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        // Inicializa o SessionManager
+        val sessionManager = SessionManager(this)
+        // Inicializa o ApiClient com o token de autenticação
+        ApiClient.init(sessionManager)
         setupRecurringWork()
     }
 
