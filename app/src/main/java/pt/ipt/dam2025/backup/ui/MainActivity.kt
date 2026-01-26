@@ -1,10 +1,11 @@
-package pt.ipt.dam2025.backup
+package pt.ipt.dam2025.backup.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import pt.ipt.dam2025.backup.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

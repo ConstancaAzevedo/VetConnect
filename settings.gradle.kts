@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Backup"
+rootProject.name = "VetConnect"
 include(":app")
  
