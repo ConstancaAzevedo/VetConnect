@@ -9,7 +9,7 @@
     <!-- página home -->
 
     <TextView
-        android:id="@+id/welcome_text"
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -22,7 +22,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <GridLayout
-        android:id="@+id/card_grid"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:alignmentMode="alignMargins"
@@ -31,11 +30,11 @@
         android:rowCount="4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_text">
+        app:layout_constraintTop_toBottomOf="@+id/welcome">
 
         <!-- marcar consulta -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_marcar_consulta"
+            android:id="@+id/cardMarcarConsulta"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -55,7 +54,7 @@
 
         <!-- agendar vacina -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_agendar_vacina"
+            android:id="@+id/cardAgendarVacina"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -75,7 +74,7 @@
 
         <!-- minhas consultas -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_consultas"
+            android:id="@+id/cardConsultas"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -95,7 +94,7 @@
 
         <!-- minhas cacinas -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_minhas_vacinas"
+            android:id="@+id/cardMinhasVacinas"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -115,7 +114,7 @@
 
         <!-- animais -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_animal"
+            android:id="@+id/cardAnimal"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -135,7 +134,7 @@
 
         <!-- histórico -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_historico"
+            android:id="@+id/cardHistorico"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -155,7 +154,7 @@
 
         <!-- perfil -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_perfil"
+            android:id="@+id/cardPerfil"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -180,7 +179,6 @@
     </GridLayout>
 
     <LinearLayout
-        android:id="@+id/bottom_buttons_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -191,21 +189,23 @@
 
         <!-- botao de definições -->
         <Button
-            android:id="@+id/settings_button"
+            android:id="@+id/btnDefinicoes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:text="@string/definicoes" />
+            android:text="@string/definicoes"
+            android:textSize="20sp"/>
 
         <!-- botao de logout -->
         <Button
-            android:id="@+id/logout_button"
+            android:id="@+id/btnLogout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="@string/sair" />
+            android:text="@string/sair"
+            android:textSize="20sp"/>
 
     </LinearLayout>
 

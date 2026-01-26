@@ -30,4 +30,8 @@
     <string name="minhas_consultas">Minhas Consultas</string>
     <string name="agendar_vacina">Agendar Vacina</string>
     <string name="marcar_consulta">Marcar Consulta</string>
+    <string name="agendar">Agendar</string>
+    <string name="observacoes">Observações (opcional)</string>
+    <string name="apagar">Apagar</string>
+    <string name="guardar">Guardar</string>
 </resources>

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipt.dam2025.backup.R
 
-/*
+/**
  * Activity para a página about
  */
 

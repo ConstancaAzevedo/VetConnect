@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import pt.ipt.dam2025.backup.R
 
-/*
+/**
  * Activity para a página home da aplicação
  */
 
@@ -19,15 +19,15 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         // referências para os CardViews e botões
-        val cardMarcarConsulta = findViewById<CardView>(R.id.card_marcar_consulta)
-        val cardAgendarVacina = findViewById<CardView>(R.id.card_agendar_vacina)
-        val cardConsultas = findViewById<CardView>(R.id.card_consultas)
-        val cardMinhasVacinas = findViewById<CardView>(R.id.card_minhas_vacinas)
-        val cardAnimal = findViewById<CardView>(R.id.card_animal)
-        val cardHistorico = findViewById<CardView>(R.id.card_historico)
-        val cardPerfil = findViewById<CardView>(R.id.card_perfil)
-        val settingsButton = findViewById<Button>(R.id.settings_button)
-        val logoutButton = findViewById<Button>(R.id.logout_button)
+        val cardMarcarConsulta = findViewById<CardView>(R.id.cardMarcarConsulta)
+        val cardAgendarVacina = findViewById<CardView>(R.id.cardAgendarVacina)
+        val cardConsultas = findViewById<CardView>(R.id.cardConsultas)
+        val cardMinhasVacinas = findViewById<CardView>(R.id.cardMinhasVacinas)
+        val cardAnimal = findViewById<CardView>(R.id.cardAnimal)
+        val cardHistorico = findViewById<CardView>(R.id.cardHistorico)
+        val cardPerfil = findViewById<CardView>(R.id.cardPerfil)
+        val settingsButton = findViewById<Button>(R.id.btnDefinicoes)
+        val logoutButton = findViewById<Button>(R.id.btnLogout)
 
         // reencaminhamento para as páginas
         cardMarcarConsulta.setOnClickListener {

@@ -7,4 +7,8 @@
     <color name="cizento_claro">#ddd</color>
     <color name="cinzento_escuro">#aaa</color>
     <color name="transparente">#00000000</color>
+
+
+    <color name="colorPrimary">#FF6200EE</color>
+    <color name="ic_launcher_background">#FDFDFD</color>
 </resources>

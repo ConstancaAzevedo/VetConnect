@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:padding="16dp">
+
+    <!-- página de marcar consulta -->
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Marcar Consulta"
+        android:textColor="@color/branco"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/titulo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/borda_edittext"
+            android:padding="16dp">
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:text="Tópico"
+               android:textColor="@color/branco"
+               android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/topico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/borda_branca"
+                android:textColor="@color/branco"
+                android:textColorHint="@color/branco"
+                android:padding="12dp"
+                android:gravity="top"
+                android:minLines="3"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/data"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:hint="Data e Hora"
+                android:textSize="20sp"
+                android:textColor="@color/branco"
+                android:textColorHint="@color/branco"
+                android:backgroundTint="@color/branco"
+                android:focusable="false"
+                android:clickable="true" />
+
+
+            <!-- Data e Hora -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <!-- Data -->
+                <EditText
+                    android:id="@+id/etData"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/borda_branca"
+                    android:hint="Data"
+                    android:textColor="@color/branco"
+                    android:textColorHint="@color/branco"
+                    android:padding="12dp"
+                    android:focusable="false"
+                    android:clickable="true" />
+
+                <!-- Hora -->
+                <EditText
+                    android:id="@+id/etHora"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/borda_branca"
+                    android:hint="Hora"
+                    android:textColor="@color/branco"
+                    android:textColorHint="@color/branco"
+                    android:padding="12dp"
+                    android:focusable="false"
+                    android:clickable="true" />
+            </LinearLayout>
+
+            <!-- Assunto -->
+            <EditText
+                android:id="@+id/observacoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/borda_branca"
+                android:hint="@string/observacoes"
+                android:textColor="@color/branco"
+                android:textColorHint="@color/branco"
+                android:padding="12dp"
+                android:gravity="top"
+                android:minLines="3" />
+
+            <!-- Botão de Confirmação -->
+            <Button
+                android:id="@+id/btnConfirmar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/borda_botoes"
+                android:text="Confirmar Marcação"
+                android:textColor="@color/branco"
+                app:backgroundTint="@null"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

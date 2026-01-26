@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.activities.DefinicoesActivity"
+    android:background="@drawable/background">
+
+    <!-- página de alterar PIN -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alterar PIN"
+        android:textColor="@color/branco"
+        android:textSize="30sp"
+        android:layout_marginBottom="24dp"/>
+
+    <EditText
+        android:id="@+id/atualPin"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="PIN Atual"
+        android:inputType="numberPassword"
+        android:maxLength="6"
+        android:textColor="@color/branco"
+        android:textColorHint="@color/branco"
+        android:background="@drawable/borda_edittext"/>
+
+    <EditText
+        android:id="@+id/novoPin"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="Novo PIN"
+        android:textColor="@color/branco"
+        android:textColorHint="@color/branco"
+        android:inputType="numberPassword"
+        android:maxLength="6"
+        android:background="@drawable/borda_edittext"
+        android:layout_marginTop="15dp"
+        />
+
+    <EditText
+        android:id="@+id/confirmarPin"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="Confirmar Novo PIN"
+        android:textColor="@color/branco"
+        android:textColorHint="@color/branco"
+        android:background="@drawable/borda_edittext"
+        android:inputType="numberPassword"
+        android:maxLength="6"
+        android:layout_marginTop="15dp"/>
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="@string/guardar"
+        android:textSize="20sp"/>
+
+</LinearLayout>

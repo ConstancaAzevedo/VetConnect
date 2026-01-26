@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipt.dam2025.backup.R
 
-/*
+/**
  * Activity para a página principal da aplicação
  */
 
@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
 
 
         // cada botão reencaminha para uma nova página
-        val loginButton = findViewById<Button>(R.id.button_login)
-        val registerButton = findViewById<Button>(R.id.button_register)
-        val aboutButton = findViewById<Button>(R.id.about_button)
+        val loginButton = findViewById<Button>(R.id.btnLogin)
+        val registerButton = findViewById<Button>(R.id.btnRegistar)
+        val aboutButton = findViewById<Button>(R.id.btnAbout)
 
         loginButton.setOnClickListener {
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))

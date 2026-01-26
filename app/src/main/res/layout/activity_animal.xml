@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.activities.AnimalActivity">
+
+    <!-- página de anima -->
+
+    <ImageView
+        android:id="@+id/animalFoto"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Foto do animal"
+        android:src="@drawable/animal_icon" />
+
+    <TextView
+        android:id="@+id/codigoUnico"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/branco"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="VC-123456" />
+
+    <EditText
+        android:id="@+id/animalNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:autofillHints="name"
+        android:background="@drawable/borda_edittext"
+        android:hint="Nome do Animal"
+        android:inputType="textPersonName|textCapWords"
+        android:padding="12dp"
+        android:textColor="@color/branco"
+        android:textColorHint="@color/branco" />
+
+    <EditText
+        android:id="@+id/animalEspecie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/borda_edittext"
+        android:hint="Espécie"
+        android:inputType="text|textCapWords"
+        android:padding="12dp"
+        android:textColor="@color/branco"
+        android:textColorHint="@color/branco" />
+
+    <EditText
+        android:id="@+id/animalRaca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/borda_edittext"
+        android:hint="Raça"
+        android:inputType="text|textCapWords"
+        android:padding="12dp"
+        android:textColor="@color/branco"
+        android:textColorHint="@color/branco" />
+
+    <EditText
+        android:id="@+id/animalData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/borda_edittext"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="Data de Nascimento"
+        android:padding="12dp"
+        android:textColor="@color/branco"
+        android:textColorHint="@color/branco" />
+
+    <EditText
+        android:id="@+id/animalChip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/borda_edittext"
+        android:hint="Número do Chip"
+        android:inputType="number"
+        android:padding="12dp"
+        android:textColor="@color/branco"
+        android:textColorHint="@color/branco" />
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="@string/guardar"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/btnApagar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/apagar"
+        android:visibility="gone" 
+        android:textSize="20sp"/>
+
+</LinearLayout>

@@ -16,7 +16,7 @@
 
         <!-- topicos do curso -->
         <TextView
-            android:id="@+id/curso_label"
+            android:id="@+id/cursoLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/curso"
@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/disciplina_label"
+            android:id="@+id/disciplinaLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@+id/curso" />
 
         <TextView
-            android:id="@+id/ano_label"
+            android:id="@+id/anoLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -52,11 +52,10 @@
 
         <!-- barrier para alinhar os valores à direita da maior etiqueta -->
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/label_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="curso_label,disciplina_label,ano_label" />
+            app:constraint_referenced_ids="cursoLabel,disciplinaLabel,anoLabel" />
 
         <!-- dados do curso -->
         <TextView
@@ -67,7 +66,7 @@
             android:text="@string/licenciatura_em_engenharia_inform_tica"
             android:textColor="@color/branco"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/curso_label"
+            app:layout_constraintBaseline_toBaselineOf="@+id/cursoLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/label_barrier" />
 
@@ -79,7 +78,7 @@
             android:text="@string/desenvolvimento_de_aplica_es_m_veis"
             android:textColor="@color/branco"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/disciplina_label"
+            app:layout_constraintBaseline_toBaselineOf="@+id/disciplinaLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/label_barrier" />
 
@@ -91,14 +90,14 @@
             android:text="@string/_2025_2026"
             android:textColor="@color/branco"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/ano_label"
+            app:layout_constraintBaseline_toBaselineOf="@+id/anoLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/label_barrier" />
 
 
         <!-- nossos perfis -->
         <TextView
-            android:id="@+id/autores_label"
+            android:id="@+id/autoresLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -110,54 +109,54 @@
             app:layout_constraintTop_toBottomOf="@+id/ano" />
 
         <ImageView
-            android:id="@+id/const_photo"
+            android:id="@+id/constFoto"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/constanca"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/autores_label"
+            app:layout_constraintTop_toBottomOf="@+id/autoresLabel"
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/const_name"
+            android:id="@+id/constanca"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/_25969_constan_a_azevedo"
             android:textColor="@color/branco"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/const_photo"
+            app:layout_constraintBottom_toBottomOf="@+id/constFoto"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/const_photo"
-            app:layout_constraintTop_toTopOf="@+id/const_photo" />
+            app:layout_constraintStart_toEndOf="@+id/constFoto"
+            app:layout_constraintTop_toTopOf="@+id/constFoto" />
 
         <ImageView
-            android:id="@+id/rui_photo"
+            android:id="@+id/ruiFoto"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/rui"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/const_photo"
+            app:layout_constraintTop_toBottomOf="@+id/constFoto"
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/rui_name"
+            android:id="@+id/rui"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/_25957_rui_dias"
             android:textColor="@color/branco"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/bibliotecas_label"
+            app:layout_constraintBottom_toTopOf="@+id/bibliotecasLabel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rui_photo"
-            app:layout_constraintTop_toTopOf="@+id/rui_photo" />
+            app:layout_constraintStart_toEndOf="@+id/ruiFoto"
+            app:layout_constraintTop_toTopOf="@+id/ruiFoto" />
 
         <!-- bibliotecas e frameworks -->
         <TextView
-            android:id="@+id/bibliotecas_label"
+            android:id="@+id/bibliotecasLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -166,17 +165,17 @@
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rui_photo" />
+            app:layout_constraintTop_toBottomOf="@+id/ruiFoto" />
 
         <LinearLayout
-            android:id="@+id/bibliotecas_container"
+            android:id="@+id/bibliotecasContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bibliotecas_label">
+            app:layout_constraintTop_toBottomOf="@+id/bibliotecasLabel">
 
             <!-- Android Jetpack -->
             <TextView

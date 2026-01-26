@@ -7,15 +7,15 @@
     android:background="@drawable/background"
     tools:context=".ui.activities.MainActivity">
 
-    <!-- página de login -->
+    <!-- página de abertura -->
 
     <!-- imagem no nosso logo-->
     <ImageView
-        android:id="@+id/logo_image"
+        android:id="@+id/logo"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/vetconnectfundoredondo"
-        app:layout_constraintBottom_toTopOf="@+id/button_login"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,37 +23,38 @@
 
     <!-- botao de login -->
     <Button
-        android:id="@+id/button_login"
+        android:id="@+id/btnLogin"
         android:layout_width="220dp"
         android:layout_height="60dp"
         android:layout_marginTop="48dp"
         android:text="Login"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_register"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnRegistar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_image" />
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <!-- botao de registar -->
     <Button
-        android:id="@+id/button_register"
+        android:id="@+id/btnRegistar"
         android:layout_width="220dp"
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
         android:text="Registar"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/about_button"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAbout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <!-- botao sobre -->
     <Button
-        android:id="@+id/about_button"
+        android:id="@+id/btnAbout"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
+        android:textSize="20sp"
         android:text="Sobre"
         android:textColor="@color/branco"
         app:layout_constraintBottom_toBottomOf="parent"
