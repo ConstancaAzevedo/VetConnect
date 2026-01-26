@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:padding="16dp">
+
+    <!-- página home -->
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/bem_vindo"
+        android:textColor="@color/branco"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <GridLayout
+        android:id="@+id/card_grid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:alignmentMode="alignMargins"
+        android:columnCount="2"
+        android:columnOrderPreserved="false"
+        android:rowCount="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text">
+
+        <!-- marcar consulta -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_marcar_consulta"
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/marcar_consulta_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="@string/marcar_consulta" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- agendar vacina -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_agendar_vacina"
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/marcar_vacina_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="@string/agendar_vacina" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- minhas consultas -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_consultas"
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/consultas_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="@string/minhas_consultas" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- minhas cacinas -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_minhas_vacinas"
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/vacinas_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="@string/minhas_vacinas" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- animais -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_animal"
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/animal_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="@string/meu_animal" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- histórico -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_historico"
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+
+            <LinearLayout style="@style/HomeCardLayoutStyle">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/historico_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="@string/historico" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- perfil -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_perfil"
+            style="@style/HomeCardStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal">
+
+            <LinearLayout
+                style="@style/HomeCardLayoutStyle"
+                android:layout_width="352dp"
+                android:layout_height="128dp">
+
+                <ImageView
+                    style="@style/HomeCardIconStyle"
+                    android:src="@drawable/perfil_icon" />
+
+                <TextView
+                    style="@style/HomeCardTextStyle"
+                    android:text="@string/perfil" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_buttons_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- botao de definições -->
+        <Button
+            android:id="@+id/settings_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/definicoes" />
+
+        <!-- botao de logout -->
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/sair" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

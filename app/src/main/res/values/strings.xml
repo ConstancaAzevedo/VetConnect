@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">Backup</string>
+    <string name="curso">Curso:</string>
+    <string name="disciplina">Disciplina:</string>
+    <string name="ano_letivo">Ano Letivo:</string>
+    <string name="licenciatura_em_engenharia_inform_tica">Licenciatura em Engenharia Informática</string>
+    <string name="desenvolvimento_de_aplica_es_m_veis">Desenvolvimento de Aplicações Móveis</string>
+    <string name="autores">Autores:</string>
+    <string name="_2025_2026">2025/2026</string>
+    <string name="_25969_constan_a_azevedo">25969, Constança Azevedo</string>
+    <string name="_25957_rui_dias">25957, Rui Dias</string>
+    <string name="bibliotecas_frameworks_e_c_digo_de_terceiros">Bibliotecas, Frameworks e Código de Terceiros:</string>
+    <string name="asynchronous">Asynchronous Programming (JetBrains)</string>
+    <string name="android_jetpack">Android Jetpack (Google)</string>
+    <string name="networking_square"><![CDATA[Networking (Square, Inc. & Google)]]></string>
+    <string name="user_interface">User Interface</string>
+    <string name="machine_learning">Machine Learning (Google)</string>
+    <string name="android_jetpack_description"><![CDATA[Origem: https://developer.android.com/jetpack\nConjunto de bibliotecas para facilitar o desenvolvimento de apps Android de alta qualidade.\n- Core KTX: Extensões Kotlin para APIs do Android.\n- AppCompat: Permite o uso de funcionalidades modernas em versões antigas do Android.\n- Activity & Fragment KTX: Simplifica o uso de Activities e Fragments.\n- Lifecycle (ViewModel, LiveData, Runtime): Gerencia o ciclo de vida de componentes de UI.\n- Room: Camada de abstração sobre o SQLite para persistência de dados.\n- CameraX: Simplifica a adição de funcionalidades de câmera.\n- ConstraintLayout: Para criar layouts grandes e complexos com uma hierarquia de visualização plana.\n- WorkManager: Para tarefas em segundo plano que precisam ser executadas de forma garantida.\n- ViewBinding: Gera uma classe de vinculação para cada arquivo de layout XML.]]></string>
+    <string name="kotlin_coroutines_description">- Kotlin Coroutines: Para gerenciar operações assíncronas de forma concisa e eficiente. Origem: https://kotlinlang.org/docs/coroutines-overview.html</string>
+    <string name="material_components_dexcription">- Material Components for Android (Google): Componentes e temas para construir interfaces com o Material Design. Origem: https://material.io/develop/android - Glide (Sam Judd / Google): Biblioteca para carregamento de imagens e GIFs. Origem: https://github.com/bumptech/glide</string>
+    <string name="barcode_scanning_description">- Google ML Kit - Barcode Scanning: API para escanear e processar códigos de barras e QR codes. Origem: https://developers.google.com/ml-kit/vision/barcode-scanning</string>
+    <string name="retrofit_description">- Retrofit: Cliente HTTP para Android e Java. Usado para comunicação com a nossa API REST. Origem: https://square.github.io/retrofit/ - OkHttp Logging Interceptor: Interceptor para o OkHttp que registra requisições e respostas HTTP. Origem: https://square.github.io/okhttp/ - Gson: Biblioteca para converter objetos Java/Kotlin para a sua representação JSON e vice-versa. Origem: https://github.com/google/gson - Retrofit Gson Converter: Um conversor que usa Gson para a serialização e desserialização de corpos de requisição e resposta.</string>
+    <string name="bem_vindo">Bem-vindo à VetConnect!</string>
+    <string name="sair">Sair</string>
+    <string name="definicoes">Definições</string>
+    <string name="perfil">Perfil</string>
+    <string name="historico">Histórico</string>
+    <string name="meu_animal">O Meu Animal</string>
+    <string name="minhas_vacinas">Minhas Vacinas</string>
+    <string name="minhas_consultas">Minhas Consultas</string>
+    <string name="agendar_vacina">Agendar Vacina</string>
+    <string name="marcar_consulta">Marcar Consulta</string>
 </resources>

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".ui.activities.AboutActivity">
+
+    <!-- página sobre com os nossos dados -->
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- topicos do curso -->
+        <TextView
+            android:id="@+id/curso_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/curso"
+            android:textColor="@color/branco"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/disciplina_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/disciplina"
+            android:textColor="@color/branco"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/curso" />
+
+        <TextView
+            android:id="@+id/ano_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/ano_letivo"
+            android:textColor="@color/branco"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/disciplina" />
+
+        <!-- barrier para alinhar os valores à direita da maior etiqueta -->
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/label_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="curso_label,disciplina_label,ano_label" />
+
+        <!-- dados do curso -->
+        <TextView
+            android:id="@+id/curso"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/licenciatura_em_engenharia_inform_tica"
+            android:textColor="@color/branco"
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/curso_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_barrier" />
+
+        <TextView
+            android:id="@+id/disciplina"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/desenvolvimento_de_aplica_es_m_veis"
+            android:textColor="@color/branco"
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/disciplina_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_barrier" />
+
+        <TextView
+            android:id="@+id/ano"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/_2025_2026"
+            android:textColor="@color/branco"
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/ano_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_barrier" />
+
+
+        <!-- nossos perfis -->
+        <TextView
+            android:id="@+id/autores_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/autores"
+            android:textColor="@color/branco"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ano" />
+
+        <ImageView
+            android:id="@+id/const_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/constanca"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/autores_label"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/const_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/_25969_constan_a_azevedo"
+            android:textColor="@color/branco"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/const_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/const_photo"
+            app:layout_constraintTop_toTopOf="@+id/const_photo" />
+
+        <ImageView
+            android:id="@+id/rui_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/rui"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/const_photo"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/rui_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/_25957_rui_dias"
+            android:textColor="@color/branco"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/bibliotecas_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rui_photo"
+            app:layout_constraintTop_toTopOf="@+id/rui_photo" />
+
+        <!-- bibliotecas e frameworks -->
+        <TextView
+            android:id="@+id/bibliotecas_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/bibliotecas_frameworks_e_c_digo_de_terceiros"
+            android:textColor="@color/branco"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rui_photo" />
+
+        <LinearLayout
+            android:id="@+id/bibliotecas_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bibliotecas_label">
+
+            <!-- Android Jetpack -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/android_jetpack"
+                android:textColor="@color/branco"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:autoLink="web"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/android_jetpack_description"
+                android:textColor="@color/branco"
+                android:textSize="16sp" />
+
+            <!-- Networking -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/networking_square"
+                android:textColor="@color/branco"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:autoLink="web"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/retrofit_description"
+                android:textColor="@color/branco"
+                android:textSize="16sp" />
+
+            <!-- Asynchronous Programming -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asynchronous"
+                android:textColor="@color/branco"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:autoLink="web"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/kotlin_coroutines_description"
+                android:textColor="@color/branco"
+                android:textSize="16sp" />
+
+            <!-- User Interface -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_interface"
+                android:textColor="@color/branco"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:autoLink="web"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/material_components_dexcription"
+                android:textColor="@color/branco"
+                android:textSize="16sp" />
+
+            <!-- Machine Learning -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/machine_learning"
+                android:textColor="@color/branco"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:autoLink="web"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/barcode_scanning_description"
+                android:textColor="@color/branco"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

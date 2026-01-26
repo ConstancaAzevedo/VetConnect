@@ -5,7 +5,7 @@
         <shape android:shape="rectangle">
             <solid android:color="#40FFFFFF" /> <!-- branco semi-transparente para feedback -->
             <corners android:radius="20dp" />
-            <stroke android:width="2dp" android:color="@color/white" />
+            <stroke android:width="2dp" android:color="@color/branco" />
         </shape>
     </item>
     <!-- Estado Focado -->
@@ -13,15 +13,15 @@
         <shape android:shape="rectangle">
             <solid android:color="#40FFFFFF" /> <!-- branco semi-transparente para feedback -->
             <corners android:radius="20dp" />
-            <stroke android:width="2dp" android:color="@color/white" />
+            <stroke android:width="2dp" android:color="@color/branco" />
         </shape>
     </item>
     <!-- Estado Padrão -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/transparent" />
+            <solid android:color="@color/transparente" />
             <corners android:radius="20dp" />
-            <stroke android:width="2dp" android:color="@color/white" />
+            <stroke android:width="2dp" android:color="@color/branco" />
         </shape>
     </item>
 </selector>
