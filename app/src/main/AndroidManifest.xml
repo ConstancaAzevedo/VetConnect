@@ -2,26 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-    <!-- Permissões da camara -->
-    <uses-feature android:name="android.hardware.camera.any" /> <!-- Permite que a aplicação use qualquer câmara -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- Pede permissão para usar a câmara -->
-
-    <!-- Permissões de armazenamento -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
-
-    <!-- Permissões da localização -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <application
-        android:name=".VetConnectApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -29,58 +10,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Trabalho"
-        android:enableOnBackInvokedCallback="true"
-        android:networkSecurityConfig="@xml/network_security_config">
-
-        <!-- tela principal -->
+        android:theme="@style/Theme.Backup">
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" /> <!-- Identifica como ponto de entrada principal -->
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- telas secundárias -->
-        <activity android:name=".ui.activities.AboutActivity" />
-        <activity android:name=".ui.activities.EscolhaActivity" />
-        <activity android:name=".ui.activities.VerificTutorActivity" />
-        <activity android:name=".ui.activities.LoginActivity" />
-        <activity android:name=".ui.activities.HomeActivity" />
-        <activity android:name=".ui.activities.PerfilTutorActivity" />
-        <activity android:name=".ui.activities.AnimalActivity" />
-        <activity android:name=".ui.activities.MarcarConsultaActivity" />
-        <activity android:name=".ui.activities.HistoricoActivity" />
-        <activity android:name=".ui.activities.RegisterTutorActivity" />
-        <activity android:name=".ui.activities.CreatePinActivity" />
-        <activity android:name=".ui.activities.CameraActivity" />
-        <activity android:name=".ui.activities.ScanQrCodeActivity" />
-        <activity android:name=".ui.activities.SettingsActivity" />
-        <activity android:name=".ui.activities.AgendarVacinaActivity" />
-        <activity android:name=".ui.activities.MinhasVacinasActivity" />
-        <activity android:name=".ui.activities.DetalhesReceitaActivity" />
-        <activity android:name=".ui.activities.DetalhesVacinaActivity" />
-        <activity android:name=".ui.activities.DetalhesExameActivity" />
-
-        <!-- lista de utilizadores -->
-        <activity android:name=".ui.activities.UserListActivity"
-            android:exported="true">
-        </activity>
-
-        <!-- provider para o FileProvider -->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="pt.ipt.dam2025.trabalho.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
-
     </application>
 
 </manifest>
