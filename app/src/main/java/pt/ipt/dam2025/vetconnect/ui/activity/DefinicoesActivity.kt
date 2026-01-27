@@ -3,7 +3,7 @@ package pt.ipt.dam2025.vetconnect.ui.activity
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import pt.ipt.dam2025.backup.R
+import pt.ipt.dam2025.vetconnect.R
 
 /**
  * Activity para a página de definições

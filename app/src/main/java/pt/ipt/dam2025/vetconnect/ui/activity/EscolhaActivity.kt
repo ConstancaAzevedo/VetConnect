@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import pt.ipt.dam2025.backup.R
+import pt.ipt.dam2025.vetconnect.R
 
 /**
  * Activity para a página em que o utilizador qur tipo de perfil irá registar

@@ -6,7 +6,7 @@ import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import pt.ipt.dam2025.backup.R
+import pt.ipt.dam2025.vetconnect.R
 
 /**
  * Activity para a página home da aplicação
@@ -34,17 +34,14 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, MarcarConsultaActivity::class.java)
             startActivity(intent)
         }
-
         cardAgendarVacina.setOnClickListener {
             val intent = Intent(this, AgendarVacinaActivity::class.java)
             startActivity(intent)
         }
-
         cardConsultas.setOnClickListener {
             val intent = Intent(this, ConsultasActivity::class.java)
             startActivity(intent)
         }
-
         cardMinhasVacinas.setOnClickListener {
             val intent = Intent(this, VacinasActivity::class.java)
             startActivity(intent)
