@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/bem_vindo"
         android:textColor="@color/branco"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -162,9 +162,7 @@
             android:layout_gravity="fill_horizontal">
 
             <LinearLayout
-                style="@style/HomeCardLayoutStyle"
-                android:layout_width="352dp"
-                android:layout_height="128dp">
+                style="@style/HomeCardLayoutStyle">
 
                 <ImageView
                     style="@style/HomeCardIconStyle"

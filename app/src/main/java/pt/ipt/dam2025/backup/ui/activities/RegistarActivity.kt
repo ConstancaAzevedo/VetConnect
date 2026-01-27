@@ -1,6 +1,7 @@
 package pt.ipt.dam2025.backup.ui.activities
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipt.dam2025.backup.R
@@ -14,5 +15,8 @@ class RegistarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_registar)
+
+
+
     }
 }

@@ -1,113 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".ui.activities.AnimalActivity">
+    android:fillViewport="true">
 
-    <!-- página de anima -->
-
-    <ImageView
-        android:id="@+id/animalFoto"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="Foto do animal"
-        android:src="@drawable/animal_icon" />
-
-    <TextView
-        android:id="@+id/codigoUnico"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:textColor="@color/branco"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        tools:text="VC-123456" />
-
-    <EditText
-        android:id="@+id/animalNome"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:autofillHints="name"
-        android:background="@drawable/borda_edittext"
-        android:hint="Nome do Animal"
-        android:inputType="textPersonName|textCapWords"
-        android:padding="12dp"
-        android:textColor="@color/branco"
-        android:textColorHint="@color/branco" />
+        android:padding="16dp"
+        tools:context=".ui.activities.AnimalActivity">
 
-    <EditText
-        android:id="@+id/animalEspecie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/borda_edittext"
-        android:hint="Espécie"
-        android:inputType="text|textCapWords"
-        android:padding="12dp"
-        android:textColor="@color/branco"
-        android:textColorHint="@color/branco" />
+        <!-- página do animal -->
 
-    <EditText
-        android:id="@+id/animalRaca"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/borda_edittext"
-        android:hint="Raça"
-        android:inputType="text|textCapWords"
-        android:padding="12dp"
-        android:textColor="@color/branco"
-        android:textColorHint="@color/branco" />
+        <ImageView
+            android:id="@+id/animalFoto"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="Foto do animal"
+            android:src="@drawable/animal_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/animalData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/borda_edittext"
-        android:clickable="true"
-        android:focusable="false"
-        android:hint="Data de Nascimento"
-        android:padding="12dp"
-        android:textColor="@color/branco"
-        android:textColorHint="@color/branco" />
+        <TextView
+            android:id="@+id/codigoUnico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="64dp"
+            android:textColor="@color/branco"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/animalFoto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/animalFoto"
+            tools:text="VC-123456" />
 
-    <EditText
-        android:id="@+id/animalChip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/borda_edittext"
-        android:hint="Número do Chip"
-        android:inputType="number"
-        android:padding="12dp"
-        android:textColor="@color/branco"
-        android:textColorHint="@color/branco" />
+        <EditText
+            android:id="@+id/animalNome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints="name"
+            android:background="@drawable/borda_edittext"
+            android:hint="Nome do Animal"
+            android:inputType="textPersonName|textCapWords"
+            android:padding="12dp"
+            android:textColor="@color/branco"
+            android:textColorHint="@color/branco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animalFoto" />
 
-    <Button
-        android:id="@+id/btnGuardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:text="@string/guardar"
-        android:textSize="20sp"/>
+        <EditText
+            android:id="@+id/animalEspecie"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/borda_edittext"
+            android:hint="Espécie"
+            android:inputType="text|textCapWords"
+            android:padding="12dp"
+            android:textColor="@color/branco"
+            android:textColorHint="@color/branco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animalNome" />
 
-    <Button
-        android:id="@+id/btnApagar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/apagar"
-        android:visibility="gone" 
-        android:textSize="20sp"/>
+        <EditText
+            android:id="@+id/animalRaca"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/borda_edittext"
+            android:hint="Raça"
+            android:inputType="text|textCapWords"
+            android:padding="12dp"
+            android:textColor="@color/branco"
+            android:textColorHint="@color/branco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animalEspecie" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/animalData"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/borda_edittext"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Data de Nascimento"
+            android:padding="12dp"
+            android:textColor="@color/branco"
+            android:textColorHint="@color/branco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animalRaca" />
+
+        <EditText
+            android:id="@+id/animalChip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/borda_edittext"
+            android:hint="Número do Chip"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textColor="@color/branco"
+            android:textColorHint="@color/branco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animalData" />
+
+        <!-- spinner para clinicas -->
+        <TextView
+            android:id="@+id/clinicas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Clinica de preferência"
+            android:textColor="@color/branco"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animalChip" />
+
+        <Spinner
+            android:id="@+id/clinicaSpinner"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/borda_branca"
+            android:enabled="false"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clinicas" />
+
+        <!-- spinner para veterinários -->
+        <TextView
+            android:id="@+id/veterinarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Veterinário de preferência"
+            android:textColor="@color/branco"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clinicaSpinner" />
+
+        <Spinner
+            android:id="@+id/veterinarioSpinner"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/borda_branca"
+            android:enabled="false"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/veterinarios" />
+
+        <Button
+            android:id="@+id/btnGuardar"
+            android:text="@string/guardar"
+            style="@style/ButtonStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/veterinarioSpinner" />
+
+        <Button
+            android:id="@+id/btnApagar"
+            style="@style/ButtonStyle"
+            android:text="@string/apagar"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnGuardar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

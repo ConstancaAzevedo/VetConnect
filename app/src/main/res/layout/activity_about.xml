@@ -52,6 +52,7 @@
 
         <!-- barrier para alinhar os valores à direita da maior etiqueta -->
         <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/label_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
@@ -128,6 +129,7 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/constFoto"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/constFoto"
             app:layout_constraintTop_toTopOf="@+id/constFoto" />
 
@@ -135,12 +137,13 @@
             android:id="@+id/ruiFoto"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/rui"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constFoto"
             tools:ignore="ContentDescription" />
 
+        <!-- bibliotecas e frameworks -->
         <TextView
             android:id="@+id/rui"
             android:layout_width="0dp"
@@ -151,10 +154,11 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/bibliotecasLabel"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/ruiFoto"
-            app:layout_constraintTop_toTopOf="@+id/ruiFoto" />
+            app:layout_constraintTop_toTopOf="@+id/ruiFoto"
+            app:layout_constraintVertical_bias="0.344" />
 
-        <!-- bibliotecas e frameworks -->
         <TextView
             android:id="@+id/bibliotecasLabel"
             android:layout_width="wrap_content"

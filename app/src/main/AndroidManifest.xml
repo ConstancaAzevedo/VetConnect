@@ -37,6 +37,8 @@
         <activity android:name=".ui.activities.VacinasActivity" />
         <activity android:name=".ui.activities.PerfilActivity" />
         <activity android:name=".ui.activities.DefinicoesActivity" />
+        <activity android:name=".ui.activities.ConsultasActivity" />
+
     </application>
 
 </manifest>

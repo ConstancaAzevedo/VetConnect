@@ -6,7 +6,8 @@
 
     <style name="Theme.Backup" parent="Base.Theme.Backup" />
 
-    <!-- estilos dos cards do menu principal -->
+    <!-- página principal -->
+    <!-- estilos dos cards do menu -->
     <style name="HomeCardStyle" parent="CardView.Light">
         <item name="android:layout_margin">12dp</item>
         <item name="cardCornerRadius">16dp</item>
@@ -34,6 +35,48 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <!-- página de login -->
+    <!-- os botões do teclado númerico ficam transparentes e com o texto branco -->
+    <style name="PinButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">88dp</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:textColor">@color/branco</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <!-- style para os botões do números para o pin-->
+    <style name="PinDotStyle">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
 
+    <!-- página de perfil do utilizador -->
+    <style name="LabelStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/branco</item>
+    </style>
+    <style name="ValueStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/branco</item>
+        <item name="android:background">@color/transparente</item>
+    </style>
 
+    <!-- estilo para todos os botões principais da aplicação -->
+    <style name="ButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:background">@drawable/borda_botoes</item>
+        <item name="android:textColor">@color/branco</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:textSize">20sp</item>
+
+    </style>
 </resources>

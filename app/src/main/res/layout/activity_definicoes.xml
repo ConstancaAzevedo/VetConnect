@@ -1,67 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ui.activities.DefinicoesActivity"
-    android:background="@drawable/background">
+    tools:context=".ui.activities.DefinicoesActivity">
 
     <!-- página de alterar PIN -->
 
+    <!-- título -->
     <TextView
+        android:id="@+id/tituloDefinicoes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alterar PIN"
+        android:padding="16dp"
+        android:text="Definições"
         android:textColor="@color/branco"
         android:textSize="30sp"
-        android:layout_marginBottom="24dp"/>
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/atualPin"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:hint="PIN Atual"
-        android:inputType="numberPassword"
-        android:maxLength="6"
-        android:textColor="@color/branco"
-        android:textColorHint="@color/branco"
-        android:background="@drawable/borda_edittext"/>
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tituloDefinicoes">
 
-    <EditText
-        android:id="@+id/novoPin"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:hint="Novo PIN"
-        android:textColor="@color/branco"
-        android:textColorHint="@color/branco"
-        android:inputType="numberPassword"
-        android:maxLength="6"
-        android:background="@drawable/borda_edittext"
-        android:layout_marginTop="15dp"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <EditText
-        android:id="@+id/confirmarPin"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:hint="Confirmar Novo PIN"
-        android:textColor="@color/branco"
-        android:textColorHint="@color/branco"
-        android:background="@drawable/borda_edittext"
-        android:inputType="numberPassword"
-        android:maxLength="6"
-        android:layout_marginTop="15dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Alterar PIN"
+            android:textColor="@color/branco"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tituloDefinicoes" />
 
-    <Button
-        android:id="@+id/btnGuardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:text="@string/guardar"
-        android:textSize="20sp"/>
+        <EditText
+            android:id="@+id/atualPin"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/borda_edittext"
+            android:hint="PIN Atual"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:padding="12dp"
+            android:textColor="@color/branco"
+            android:textColorHint="@color/branco" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/novoPin"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/borda_edittext"
+            android:hint="Novo PIN"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:padding="12dp"
+            android:textColor="@color/branco"
+            android:textColorHint="@color/branco" />
+
+        <EditText
+            android:id="@+id/confirmarPin"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/borda_edittext"
+            android:hint="Confirmar Novo PIN"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:padding="12dp"
+            android:textColor="@color/branco"
+            android:textColorHint="@color/branco" />
+
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_gravity="center_horizontal"
+            style="@style/ButtonStyle"
+            android:text="@string/guardar" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

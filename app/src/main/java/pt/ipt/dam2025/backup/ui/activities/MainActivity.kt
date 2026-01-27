@@ -19,18 +19,20 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-
-        // cada botão reencaminha para uma nova página
+        // botão login -> leva diretamente para a página de login
         val loginButton = findViewById<Button>(R.id.btnLogin)
-        val registerButton = findViewById<Button>(R.id.btnRegistar)
-        val aboutButton = findViewById<Button>(R.id.btnAbout)
-
         loginButton.setOnClickListener {
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
         }
+
+        // botão registar -> leva diretamente para a página de escolha de perfil
+        val registerButton = findViewById<Button>(R.id.btnRegistar)
         registerButton.setOnClickListener {
             startActivity(Intent(this@MainActivity, EscolhaActivity::class.java))
         }
+
+        // botão about -> leva diretamente para a página about
+        val aboutButton = findViewById<Button>(R.id.btnAbout)
         aboutButton.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
         }

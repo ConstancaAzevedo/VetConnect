@@ -17,6 +17,13 @@ class EscolhaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_escolha)
 
+        // botão login -> leva diretamente para a página de login
+        val loginButton = findViewById<Button>(R.id.btnLogin)
+        loginButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
         // botão tutor -> leva diretamente para a página de registo de tutor
         val tutorButton = findViewById<Button>(R.id.btnTutor)
         tutorButton.setOnClickListener {

@@ -41,7 +41,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         cardConsultas.setOnClickListener {
-            val intent = Intent(this, HistoricoActivity::class.java)
+            val intent = Intent(this, ConsultasActivity::class.java)
             startActivity(intent)
         }
 
