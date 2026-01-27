@@ -15,7 +15,7 @@
 
         <!-- página main (abertura da aplicação) -->
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,19 +25,20 @@
         </activity>
 
         <!-- todas as páginas da aplicação -->
-        <activity android:name=".ui.activities.HomeActivity" />
-        <activity android:name=".ui.activities.RegistarActivity" />
-        <activity android:name=".ui.activities.LoginActivity" />
-        <activity android:name=".ui.activities.AboutActivity" />
-        <activity android:name=".ui.activities.AgendarVacinaActivity" />
-        <activity android:name=".ui.activities.AnimalActivity" />
-        <activity android:name=".ui.activities.EscolhaActivity" />
-        <activity android:name=".ui.activities.HistoricoActivity" />
-        <activity android:name=".ui.activities.MarcarConsultaActivity" />
-        <activity android:name=".ui.activities.VacinasActivity" />
-        <activity android:name=".ui.activities.PerfilActivity" />
-        <activity android:name=".ui.activities.DefinicoesActivity" />
-        <activity android:name=".ui.activities.ConsultasActivity" />
+        <activity android:name=".ui.activity.HomeActivity" />
+        <activity android:name=".ui.activity.RegistarActivity" />
+        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.AboutActivity" />
+        <activity android:name=".ui.activity.AgendarVacinaActivity" />
+        <activity android:name=".ui.activity.AnimalActivity" />
+        <activity android:name=".ui.activity.EscolhaActivity" />
+        <activity android:name=".ui.activity.HistoricoActivity" />
+        <activity android:name=".ui.activity.MarcarConsultaActivity" />
+        <activity android:name=".ui.activity.VacinasActivity" />
+        <activity android:name=".ui.activity.PerfilActivity" />
+        <activity android:name=".ui.activity.DefinicoesActivity" />
+        <activity android:name=".ui.activity.ConsultasActivity" />
+        <activity android:name=".ui.activity.CriarPinActivity" />
 
     </application>
 
