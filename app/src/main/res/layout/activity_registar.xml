@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:padding="16dp"
-    tools:context=".ui.activities.RegistarActivity">
+    tools:context=".ui.activity.RegistarActivity">
 
     <!-- página de registo do novo tutor -->
 

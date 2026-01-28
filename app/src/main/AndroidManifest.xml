@@ -2,6 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+
+
+    <!-- permissões da internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- permissões para notificações -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- permissões da camara (código do professor) -->
+    <uses-feature android:name="android.hardware.camera.any" /> <!-- permite que a aplicação use qualquer câmara -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- pede permissão para usar a câmara -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                        android:maxSdkVersion="28" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,7 +24,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Backup">
+        android:theme="@style/Theme.Vetconnect">
 
 
         <!-- página main (abertura da aplicação) -->
@@ -19,7 +33,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,6 +52,17 @@
         <activity android:name=".ui.activity.DefinicoesActivity" />
         <activity android:name=".ui.activity.ConsultasActivity" />
         <activity android:name=".ui.activity.CriarPinActivity" />
+
+        <!-- permitir que a aplicação partilhe fotos com outras aplicações -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="pt.ipt.dam2025.vetconnect.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"> <!-- concede permissões de acesso temporárias para os ficheiros partilhados -->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

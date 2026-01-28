@@ -7,7 +7,7 @@
     android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ui.activities.DefinicoesActivity">
+    tools:context=".ui.activity.DefinicoesActivity">
 
     <!-- página de alterar PIN -->
 

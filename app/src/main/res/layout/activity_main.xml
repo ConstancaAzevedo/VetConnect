@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".ui.activities.MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
     <!-- página de abertura -->
 
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:textSize="20sp"
-        android:text="Sobre"
+        android:text="SOBRE"
         android:textColor="@color/branco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

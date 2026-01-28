@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Backup</string>
+    <string name="app_name">VetConnect</string>
     <string name="curso">Curso:</string>
     <string name="disciplina">Disciplina:</string>
     <string name="ano_letivo">Ano Letivo:</string>
@@ -34,4 +34,5 @@
     <string name="observacoes">Observações (opcional)</string>
     <string name="apagar">Apagar</string>
     <string name="guardar">Guardar</string>
+    <string name="tirar_foto">Tirar foto</string>
 </resources>
