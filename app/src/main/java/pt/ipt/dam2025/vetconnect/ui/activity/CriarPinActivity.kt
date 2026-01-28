@@ -18,7 +18,7 @@ import pt.ipt.dam2025.vetconnect.R
  * Activity para criar o PIN de login
 */
 
-class CreatePinActivity : AppCompatActivity() {
+class CriarPinActivity : AppCompatActivity() {
 
     private val pin = StringBuilder() // armazena o PIN digitado
     private lateinit var pinDots: List<ImageView> // dots que representam os dígitos do PIN
@@ -123,7 +123,7 @@ class CreatePinActivity : AppCompatActivity() {
                         // redireciona para a página home
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                             super.onDismissed(transientBottomBar, event)
-                            val intent = Intent(this@CreatePinActivity, HomeActivity::class.java)
+                            val intent = Intent(this@CriarPinActivity, HomeActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             finish()
