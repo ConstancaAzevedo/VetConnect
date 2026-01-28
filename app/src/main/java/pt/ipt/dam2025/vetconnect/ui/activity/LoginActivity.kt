@@ -1,18 +1,20 @@
 package pt.ipt.dam2025.vetconnect.ui.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import pt.ipt.dam2025.vetconnect.R
+import pt.ipt.dam2025.vetconnect.databinding.ActivityLoginBinding
 
 /**
  * Activity para a página de login
  */
 
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }

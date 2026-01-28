@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.vetconnect.R
+import pt.ipt.dam2025.vetconnect.databinding.ActivityCriarPinBinding
 
 /**
  * Activity para criar o PIN de login
@@ -20,6 +20,7 @@ import pt.ipt.dam2025.vetconnect.R
 
 class CriarPinActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityCriarPinBinding
     private val pin = StringBuilder() // armazena o PIN digitado
     private lateinit var pinDots: List<ImageView> // dots que representam os dígitos do PIN
     private lateinit var userName: String // nome do utilizador
@@ -28,8 +29,8 @@ class CriarPinActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_criar_pin)
-        val rootView = findViewById<android.view.View>(android.R.id.content)
+        binding = ActivityCriarPinBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // lê os dados passados pelo ecrã de verificação
         userName = intent.getStringExtra("USER_NAME") ?: ""
@@ -38,24 +39,24 @@ class CriarPinActivity : AppCompatActivity() {
 
         // verifica se os dados estão corretos
         if (userName.isEmpty() || userEmail.isEmpty() || userId == -1) {
-            Snackbar.make(rootView, "Ocorreu um erro. Tente novamente.", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, "Ocorreu um erro. Tente novamente.", Snackbar.LENGTH_LONG).show()
             finish()
             return
         }
 
         // inicializa os dots
         pinDots = listOf(
-            findViewById(R.id.pin_1),
-            findViewById(R.id.pin_2),
-            findViewById(R.id.pin_3),
-            findViewById(R.id.pin_4),
-            findViewById(R.id.pin_5),
-            findViewById(R.id.pin_6)
+            binding.pin1,
+            binding.pin2,
+            binding.pin3,
+            binding.pin4,
+            binding.pin5,
+            binding.pin6
         )
         setupNumberButtons()
 
         // botão para apagar o último dígito do PIN
-        findViewById<ImageButton>(R.id.btnDelete).setOnClickListener {
+        binding.btnDelete.setOnClickListener {
             if (pin.isNotEmpty()) {
                 pin.deleteCharAt(pin.length - 1)
                 updatePinDots()
@@ -78,10 +79,10 @@ class CriarPinActivity : AppCompatActivity() {
 
         // inicializa os botões de número
         val buttons = listOf<Button>(
-            findViewById(R.id.button_1), findViewById(R.id.button_2), findViewById(R.id.button_3),
-            findViewById(R.id.button_4), findViewById(R.id.button_5), findViewById(R.id.button_6),
-            findViewById(R.id.button_7), findViewById(R.id.button_8), findViewById(R.id.button_9),
-            findViewById(R.id.button_0)
+            binding.button1, binding.button2, binding.button3,
+            binding.button4, binding.button5, binding.button6,
+            binding.button7, binding.button8, binding.button9,
+            binding.button0
         )
         buttons.forEach { it.setOnClickListener(numberButtonClickListener) }
     }
@@ -98,7 +99,6 @@ class CriarPinActivity : AppCompatActivity() {
     }
 
     private fun savePinWithApiAndNavigate() {
-        val rootView = findViewById<android.view.View>(android.R.id.content)
         lifecycleScope.launch {
             try {
                 val request = CreatePinRequest(email = userEmail, pin = pin.toString())
@@ -119,7 +119,7 @@ class CriarPinActivity : AppCompatActivity() {
 
                     // mensagem de sucesso
                     val successMessage = "PIN criado com sucesso"
-                    Snackbar.make(rootView, successMessage, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
+                    Snackbar.make(binding.root, successMessage, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
                         // redireciona para a página home
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                             super.onDismissed(transientBottomBar, event)
@@ -133,7 +133,7 @@ class CriarPinActivity : AppCompatActivity() {
                 } else {
                     // mensagem de erro
                     val errorMessage = "Ocorreu um erro, o PIN não foi guardado"
-                    Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
                     pin.clear()
                     updatePinDots()
                 }
@@ -141,7 +141,7 @@ class CriarPinActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.e("CreatePinActivity", "Erro ao criar o PIN", e)
                 val errorMessage = "Falha na ligação. Verifique a sua internet e tente novamente"
-                Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
                 pin.clear() // limpa o PIN
                 updatePinDots() // atualiza os dots
             }

@@ -33,6 +33,7 @@ android {
     }
 
     //chave que vai ativar o binding
+    // o binding vai criar uma ligação direta entre o kotlin e o xml
     //copiado do outro ficheiro "code-Camera X app.vf"
     // allow the access to objects of the interface, from code,
     // in 'binding'

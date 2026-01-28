@@ -2,6 +2,7 @@ package pt.ipt.dam2025.vetconnect.ui.activity
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -27,6 +28,7 @@ import java.util.concurrent.Executors
 
 /**
  * o código foi fornecido pelo professor
+ * com apenas diferença de que é utilizado pelo AnimalActivity
  * Activity para a página da câmera
  */
 
@@ -42,26 +44,30 @@ class CamaraActivity : AppCompatActivity() {
         binding = ActivityCamaraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        //pedir permissões
+        // pedir permissões
         if (allPermissionsGranted()) {
             startCamera()
         } else {
             requestPermissions()
         }
 
+        // tirar foto ao clicar no botão
         binding.imageCaptureButton.setOnClickListener {
             takePhoto()
         }
 
+        // iniciar executor
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
+    // função para tirar uma foto
     private fun takePhoto() {
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
@@ -86,8 +92,7 @@ class CamaraActivity : AppCompatActivity() {
             )
             .build()
 
-        // Set up image capture listener, which is triggered after photo has
-        // been taken
+        // Set up image capture listener, which is triggered after photo has been taken
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this),
@@ -97,14 +102,17 @@ class CamaraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val msg = "Photo capture succeeded: ${output.savedUri}"
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
+                    val resultIntent = Intent().apply {
+                        putExtra("image_uri", output.savedUri.toString())
+                    }
+                    setResult(RESULT_OK, resultIntent)
+                    finish()
                 }
             }
         )
     }
 
+    // função para iniciar a câmera
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
@@ -141,17 +149,13 @@ class CamaraActivity : AppCompatActivity() {
     }
 
 
-    /**
-     * ask for permissions
-     */
+    // ask for permissions
     private fun requestPermissions() {
         activityResultLauncher.launch(REQUIRED_PERMISSIONS)
     }
 
 
-    /**
-     * define if all permissions has been granted
-     */
+    // define if all permissions has been granted
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
             baseContext, it

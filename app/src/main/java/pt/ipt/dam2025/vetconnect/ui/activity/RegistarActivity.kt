@@ -1,22 +1,20 @@
 package pt.ipt.dam2025.vetconnect.ui.activity
 
 import android.os.Bundle
-import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import pt.ipt.dam2025.vetconnect.R
+import pt.ipt.dam2025.vetconnect.databinding.ActivityRegistarBinding
 
 /**
  * Activity para a página de registo de perfil do tutor
  */
 
 class RegistarActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityRegistarBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_registar)
-
-
-
+        binding = ActivityRegistarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
