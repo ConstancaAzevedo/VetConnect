@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".ui.fragment.PerfilFragment">
 
     <!-- página de perfil do tutor -->
 
@@ -117,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="end"
-        app:constraint_referenced_ids="utiliNome, utiliEmail,utiliTelemovel, utiliSexo, utiliCC, utiliNacionalidade, utiliMorada, utiliData" />
+        app:constraint_referenced_ids="utiliNome,utiliEmail,utiliTelemovel,utiliSexo,utiliCC,utiliNacionalidade,utiliData,utiliMorada" />
 
     <!-- informações do tutor -->
     <EditText

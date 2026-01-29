@@ -1,4 +1,4 @@
-package pt.ipt.dam2025.vetconnect.ui.activity
+package pt.ipt.dam2025.vetconnect.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

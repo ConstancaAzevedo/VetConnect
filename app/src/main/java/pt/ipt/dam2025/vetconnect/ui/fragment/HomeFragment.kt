@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.api.ApiClient
 import pt.ipt.dam2025.vetconnect.databinding.FragmentHomeBinding
-import pt.ipt.dam2025.vetconnect.ui.activity.MainActivity
+import pt.ipt.dam2025.vetconnect.ui.MainActivity
 import pt.ipt.dam2025.vetconnect.utils.SessionManager
 
 /**

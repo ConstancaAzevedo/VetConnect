@@ -5,22 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import pt.ipt.dam2025.vetconnect.databinding.FragmentAboutBinding
+import pt.ipt.dam2025.vetconnect.databinding.FragmentVacinasBinding
 
 /**
- * Fragment para a página "Sobre"
+ * Fragment para a página das vacinas já registadas
  */
 
-class AboutFragment : Fragment() {
+class VacinasFragment : Fragment() {
 
-    private var _binding: FragmentAboutBinding? = null
+    private var _binding: FragmentVacinasBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAboutBinding.inflate(inflater, container, false)
+        _binding = FragmentVacinasBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MainActivity">
+    tools:context=".ui.MainActivity">
 
     <!--FragmentContainerView é o componente central da arquitetura de navegação
     funciona como um "contentor" onde os diferentes ecrãs (Fragments) da aplicação

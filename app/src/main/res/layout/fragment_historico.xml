@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".ui.activity.HistoricoActivity">
+    tools:context=".ui.fragment.HistoricoFragment">
 
     <!-- página de histórico do animal - Versão Simplificada -->
 
@@ -32,7 +32,7 @@
         android:contentDescription="Separadores do histórico do animal"
         app:tabIndicatorColor="@color/branco"
         app:tabTextColor="@color/branco"
-        app:layout_constraintTop_toBottomOf="@+id/tituloHistorico"
+        app:layout_constraintTop_toBottomOf="@id/tituloHistorico"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -40,7 +40,7 @@
         android:id="@+id/view_page"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/tabs"
+        app:layout_constraintTop_toBottomOf="@id/tabs"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

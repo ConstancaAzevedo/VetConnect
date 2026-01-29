@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-
-
     <!-- permissões da internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- permissões para notificações -->
@@ -14,7 +11,6 @@
     <uses-permission android:name="android.permission.CAMERA" /> <!-- pede permissão para usar a câmara -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
                         android:maxSdkVersion="28" />
-
 
     <application
         android:allowBackup="true"
@@ -26,27 +22,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Vetconnect">
 
-
         <!-- página main (abertura da aplicação) -->
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- todas as páginas da aplicação -->
-        <activity android:name=".ui.activity.AgendarVacinaActivity" />
-        <activity android:name=".ui.activity.AnimalActivity" />
-        <activity android:name=".ui.activity.HistoricoActivity" />
-        <activity android:name=".ui.activity.MarcarConsultaActivity" />
-        <activity android:name=".ui.activity.VacinasActivity" />
-        <activity android:name=".ui.activity.PerfilActivity" />
-        <activity android:name=".ui.activity.DefinicoesActivity" />
-        <activity android:name=".ui.activity.ConsultasActivity" />
-
 
         <!-- permitir que a aplicação partilhe fotos com outras aplicações -->
         <provider

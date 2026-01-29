@@ -90,6 +90,97 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_marcarConsultaFragment"
+            app:destination="@id/marcarConsultaFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_agendarVacinaFragment"
+            app:destination="@id/agendarVacinaFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_consultasFragment"
+            app:destination="@id/consultasFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_definicoesFragment"
+            app:destination="@id/definicoesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_animalFragment"
+            app:destination="@id/animalFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_historicoFragment"
+            app:destination="@id/historicoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_vacinasFragment"
+            app:destination="@id/vacinasFragment" />
     </fragment>
+
+    <!-- ecrã Marcar Consulta -->
+    <fragment
+        android:id="@+id/marcarConsultaFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.MarcarConsultaFragment"
+        android:label="Marcar Consulta"
+        tools:layout="@layout/fragment_marcar_consulta" />
+
+    <!-- ecrã Agendar Vacina -->
+    <fragment
+        android:id="@+id/agendarVacinaFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.AgendarVacinaFragment"
+        android:label="Agendar Vacina"
+        tools:layout="@layout/fragment_agendar_vacina" />
+
+    <!-- ecrã Consultas -->
+    <fragment
+        android:id="@+id/consultasFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.ConsultasFragment"
+        android:label="Consultas"
+        tools:layout="@layout/fragment_consultas" />
+
+    <!-- ecrã Definições -->
+    <fragment
+        android:id="@+id/definicoesFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.DefinicoesFragment"
+        android:label="Definições"
+        tools:layout="@layout/fragment_definicoes" />
+
+    <!-- ecrã Perfil -->
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.PerfilFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_perfil" />
+
+    <!-- ecrã Animal -->
+    <fragment
+        android:id="@+id/animalFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.AnimalFragment"
+        android:label="Animal"
+        tools:layout="@layout/fragment_animal">
+        <action
+            android:id="@+id/action_animalFragment_to_camaraFragment"
+            app:destination="@id/camaraFragment" />
+    </fragment>
+
+    <!-- ecrã Histórico -->
+    <fragment
+        android:id="@+id/historicoFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.HistoricoFragment"
+        android:label="Histórico"
+        tools:layout="@layout/fragment_historico" />
+
+    <!-- ecrã Vacinas -->
+    <fragment
+        android:id="@+id/vacinasFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.VacinasFragment"
+        android:label="Vacinas"
+        tools:layout="@layout/fragment_vacinas" />
+
+    <!-- ecrã Camara -->
+    <fragment
+        android:id="@+id/camaraFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.CamaraFragment"
+        android:label="Câmara"
+        tools:layout="@layout/fragment_camara" />
 
 </navigation>

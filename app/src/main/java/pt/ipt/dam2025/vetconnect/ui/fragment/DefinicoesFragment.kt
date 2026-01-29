@@ -5,22 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import pt.ipt.dam2025.vetconnect.databinding.FragmentAboutBinding
+import pt.ipt.dam2025.vetconnect.databinding.FragmentDefinicoesBinding
 
-/**
- * Fragment para a página "Sobre"
- */
+class DefinicoesFragment : Fragment() {
 
-class AboutFragment : Fragment() {
-
-    private var _binding: FragmentAboutBinding? = null
+    private var _binding: FragmentDefinicoesBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAboutBinding.inflate(inflater, container, false)
+        _binding = FragmentDefinicoesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
