@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:padding="16dp"
-    tools:context=".ui.activity.VerificUtiActivity">
+    tools:context=".ui.fragment.VerificacaoFragment">
 
     <!--página onde o tutor deverá introduzir o código que receberá por mensagem-->
 

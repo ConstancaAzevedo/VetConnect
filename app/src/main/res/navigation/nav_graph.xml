@@ -7,23 +7,89 @@
 
     <!-- gere o fluxo da navegação -->
 
-    <!-- ecrã de abertura da aplicação -->
+    <!-- ecrã principal -->
     <fragment
         android:id="@+id/mainFragment"
         android:name="pt.ipt.dam2025.vetconnect.ui.fragment.MainFragment"
         android:label="Principal"
-        tools:layout="@layout/fragment_main" >
-        <!-- ação para navegar do MainFragment para o LoginFragment -->
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
         <action
             android:id="@+id/action_mainFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_registarFragment"
+            app:destination="@id/registarFragment" />
     </fragment>
 
-    <!-- login -->
+    <!-- ecrã sobre -->
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.AboutFragment"
+        android:label="Sobre"
+        tools:layout="@layout/fragment_about" />
+
+    <!-- ecrã de login -->
     <fragment
         android:id="@+id/loginFragment"
         android:name="pt.ipt.dam2025.vetconnect.ui.fragment.LoginFragment"
         android:label="Login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- ecrã de registo -->
+    <fragment
+        android:id="@+id/registarFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.RegistarFragment"
+        android:label="Registo"
+        tools:layout="@layout/fragment_registar">
+        <action
+            android:id="@+id/action_registarFragment_to_verificacaoFragment"
+            app:destination="@id/verificacaoFragment" />
+    </fragment>
+
+    <!-- ecrã de verificação de código -->
+    <fragment
+        android:id="@+id/verificacaoFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.VerificacaoFragment"
+        android:label="Verificação"
+        tools:layout="@layout/fragment_verificacao">
+        <action
+            android:id="@+id/action_verificacaoFragment_to_criarPinFragment"
+            app:destination="@id/criarPinFragment" />
+    </fragment>
+
+    <!-- ecrã de criação de PIN -->
+    <fragment
+        android:id="@+id/criarPinFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.CriarPinFragment"
+        android:label="Criar PIN"
+        tools:layout="@layout/fragment_criar_pin">
+        <action
+            android:id="@+id/action_criarPinFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- ecrã Home -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

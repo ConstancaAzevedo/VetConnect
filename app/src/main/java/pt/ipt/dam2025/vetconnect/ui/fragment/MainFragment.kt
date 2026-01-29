@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentMainBinding
-import pt.ipt.dam2025.vetconnect.ui.activity.AboutActivity
-import pt.ipt.dam2025.vetconnect.ui.activity.EscolhaActivity
 
 /**
  * Fragment para a página principal
@@ -39,11 +37,13 @@ class MainFragment : Fragment() {
 
         // botão registar -> leva diretamente para a página de escolha de perfil
         binding.btnRegistar.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_registarFragment)        }
+            findNavController().navigate(R.id.action_mainFragment_to_escolhaFragment)        
+        }
 
         // botão about -> leva diretamente para a página about
         binding.btnAbout.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_aboutFragment)        }
+            findNavController().navigate(R.id.action_mainFragment_to_aboutFragment)
+        }
     }
 
     override fun onDestroyView() {

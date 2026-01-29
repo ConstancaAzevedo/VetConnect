@@ -38,20 +38,14 @@
         </activity>
 
         <!-- todas as páginas da aplicação -->
-        <activity android:name=".ui.activity.HomeActivity" />
-        <activity android:name=".ui.activity.RegistarActivity" />
-        <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.AgendarVacinaActivity" />
         <activity android:name=".ui.activity.AnimalActivity" />
-        <activity android:name=".ui.activity.EscolhaActivity" />
         <activity android:name=".ui.activity.HistoricoActivity" />
         <activity android:name=".ui.activity.MarcarConsultaActivity" />
         <activity android:name=".ui.activity.VacinasActivity" />
         <activity android:name=".ui.activity.PerfilActivity" />
         <activity android:name=".ui.activity.DefinicoesActivity" />
         <activity android:name=".ui.activity.ConsultasActivity" />
-        <activity android:name=".ui.activity.CriarPinActivity" />
-        <activity android:name=".ui.activity.VerificUtiActivity" />
 
 
         <!-- permitir que a aplicação partilhe fotos com outras aplicações -->

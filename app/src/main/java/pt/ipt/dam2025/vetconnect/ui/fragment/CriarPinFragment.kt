@@ -1,61 +1,62 @@
-package pt.ipt.dam2025.vetconnect.ui.activity
+package pt.ipt.dam2025.vetconnect.ui.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.vetconnect.R
-import pt.ipt.dam2025.vetconnect.databinding.ActivityCriarPinBinding
+import pt.ipt.dam2025.vetconnect.api.ApiClient
+import pt.ipt.dam2025.vetconnect.api.CreatePinRequest
+import pt.ipt.dam2025.vetconnect.databinding.FragmentCriarPinBinding
 
-/**
- * Activity para criar o PIN de login
-*/
+class CriarPinFragment : Fragment() {
 
-class CriarPinActivity : AppCompatActivity() {
+    private var _binding: FragmentCriarPinBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var binding: ActivityCriarPinBinding
-    private val pin = StringBuilder() // armazena o PIN digitado
-    private lateinit var pinDots: List<ImageView> // dots que representam os dígitos do PIN
-    private lateinit var userName: String // nome do utilizador
-    private lateinit var userEmail: String // email do utilizador
-    private var userId: Int = -1 // id do utilizador
+    private val pin = StringBuilder()
+    private lateinit var pinDots: List<ImageView>
+    private lateinit var userName: String
+    private lateinit var userEmail: String
+    private var userId: Int = -1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityCriarPinBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCriarPinBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        // lê os dados passados pelo ecrã de verificação
-        userName = intent.getStringExtra("USER_NAME") ?: ""
-        userEmail = intent.getStringExtra("USER_EMAIL") ?: ""
-        userId = intent.getIntExtra("USER_ID", -1)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // verifica se os dados estão corretos
+        // Lê os dados passados pelos argumentos
+        userName = arguments?.getString("USER_NAME") ?: ""
+        userEmail = arguments?.getString("USER_EMAIL") ?: ""
+        userId = arguments?.getInt("USER_ID", -1) ?: -1
+
         if (userName.isEmpty() || userEmail.isEmpty() || userId == -1) {
             Snackbar.make(binding.root, "Ocorreu um erro. Tente novamente.", Snackbar.LENGTH_LONG).show()
-            finish()
+            findNavController().popBackStack()
             return
         }
 
-        // inicializa os dots
         pinDots = listOf(
-            binding.pin1,
-            binding.pin2,
-            binding.pin3,
-            binding.pin4,
-            binding.pin5,
-            binding.pin6
+            binding.pin1, binding.pin2, binding.pin3,
+            binding.pin4, binding.pin5, binding.pin6
         )
         setupNumberButtons()
 
-        // botão para apagar o último dígito do PIN
         binding.btnDelete.setOnClickListener {
             if (pin.isNotEmpty()) {
                 pin.deleteCharAt(pin.length - 1)
@@ -64,7 +65,6 @@ class CriarPinActivity : AppCompatActivity() {
         }
     }
 
-    // inicializa os botões de número
     private fun setupNumberButtons() {
         val numberButtonClickListener = View.OnClickListener { view ->
             if (pin.length < 6) {
@@ -77,7 +77,6 @@ class CriarPinActivity : AppCompatActivity() {
             }
         }
 
-        // inicializa os botões de número
         val buttons = listOf<Button>(
             binding.button1, binding.button2, binding.button3,
             binding.button4, binding.button5, binding.button6,
@@ -87,14 +86,12 @@ class CriarPinActivity : AppCompatActivity() {
         buttons.forEach { it.setOnClickListener(numberButtonClickListener) }
     }
 
-    // atualiza os dots do PIN
     private fun updatePinDots() {
         for (i in pinDots.indices) {
-            if (i < pin.length) {
-                pinDots[i].setImageResource(R.drawable.ic_pin_dot_depois)
-            } else {
-                pinDots[i].setImageResource(R.drawable.ic_pin_dot_antes)
-            }
+            pinDots[i].setImageResource(
+                if (i < pin.length) R.drawable.ic_pin_dot_depois
+                else R.drawable.ic_pin_dot_antes
+            )
         }
     }
 
@@ -105,33 +102,26 @@ class CriarPinActivity : AppCompatActivity() {
                 val response = ApiClient.apiService.criarPin(request)
 
                 if (response.isSuccessful) {
-                    // guarda os dados da conta no novo formato (Nome:::Email)
-                    val sharedPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                    val sharedPrefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
                     val registeredAccounts = sharedPrefs.getStringSet("REGISTERED_ACCOUNTS", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
                     val accountString = "$userName:::$userEmail"
                     registeredAccounts.add(accountString)
 
-                    // guarda os dados no shared preferences
                     with(sharedPrefs.edit()) {
                         putStringSet("REGISTERED_ACCOUNTS", registeredAccounts)
                         apply()
                     }
 
-                    // mensagem de sucesso
                     val successMessage = "PIN criado com sucesso"
                     Snackbar.make(binding.root, successMessage, Snackbar.LENGTH_SHORT).addCallback(object : Snackbar.Callback() {
-                        // redireciona para a página home
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                             super.onDismissed(transientBottomBar, event)
-                            val intent = Intent(this@CriarPinActivity, HomeActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
-                            finish()
+                            // Navega para a Home, limpando o back stack
+                            findNavController().navigate(R.id.action_criarPinFragment_to_homeFragment)
                         }
                     }).show()
 
                 } else {
-                    // mensagem de erro
                     val errorMessage = "Ocorreu um erro, o PIN não foi guardado"
                     Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
                     pin.clear()
@@ -139,12 +129,17 @@ class CriarPinActivity : AppCompatActivity() {
                 }
 
             } catch (e: Exception) {
-                Log.e("CreatePinActivity", "Erro ao criar o PIN", e)
+                Log.e("CriarPinFragment", "Erro ao criar o PIN", e)
                 val errorMessage = "Falha na ligação. Verifique a sua internet e tente novamente"
                 Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
-                pin.clear() // limpa o PIN
-                updatePinDots() // atualiza os dots
+                pin.clear()
+                updatePinDots()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
