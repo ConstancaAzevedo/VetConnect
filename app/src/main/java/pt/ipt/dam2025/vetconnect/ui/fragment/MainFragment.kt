@@ -12,6 +12,10 @@ import pt.ipt.dam2025.vetconnect.databinding.FragmentMainBinding
 import pt.ipt.dam2025.vetconnect.ui.activity.AboutActivity
 import pt.ipt.dam2025.vetconnect.ui.activity.EscolhaActivity
 
+/**
+ * Fragment para a página principal
+ */
+
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null

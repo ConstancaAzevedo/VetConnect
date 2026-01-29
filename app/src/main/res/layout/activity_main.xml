@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
-    <!--
-    Este FragmentContainerView é o componente central da nossa arquitetura de navegação.
-    Ele funciona como um "contentor" onde os diferentes ecrãs (Fragments) da aplicação
-    serão carregados e exibidos.
-    -->
+    <!--FragmentContainerView é o componente central da arquitetura de navegação
+    funciona como um "contentor" onde os diferentes ecrãs (Fragments) da aplicação
+    serão carregados e exibidos -->
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"

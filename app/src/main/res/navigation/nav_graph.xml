@@ -5,19 +5,21 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
-    <!-- Ecrã Principal -->
+    <!-- gere o fluxo da navegação -->
+
+    <!-- ecrã de abertura da aplicação -->
     <fragment
         android:id="@+id/mainFragment"
         android:name="pt.ipt.dam2025.vetconnect.ui.fragment.MainFragment"
         android:label="Principal"
         tools:layout="@layout/fragment_main" >
-        <!-- Ação para navegar do MainFragment para o LoginFragment -->
+        <!-- ação para navegar do MainFragment para o LoginFragment -->
         <action
             android:id="@+id/action_mainFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 
-    <!-- Login -->
+    <!-- login -->
     <fragment
         android:id="@+id/loginFragment"
         android:name="pt.ipt.dam2025.vetconnect.ui.fragment.LoginFragment"
