@@ -1,15 +1,14 @@
 package pt.ipt.dam2025.vetconnect.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipt.dam2025.vetconnect.databinding.ActivityMainBinding
 
 /**
- * Activity para a página principal da aplicação
+ * Activity principal que serve como anfitriã para a navegação de Fragments.
+ * O seu único papel é carregar o layout que contém o NavHostFragment.
  */
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -19,21 +18,5 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // botão login -> leva diretamente para a página de login
-        binding.btnLogin.setOnClickListener {
-            startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-        }
-
-        // botão registar -> leva diretamente para a página de escolha de perfil
-        binding.btnRegistar.setOnClickListener {
-            startActivity(Intent(this@MainActivity, EscolhaActivity::class.java))
-        }
-
-        // botão about -> leva diretamente para a página about
-        binding.btnAbout.setOnClickListener {
-            startActivity(Intent(this, AboutActivity::class.java))
-        }
     }
-
 }

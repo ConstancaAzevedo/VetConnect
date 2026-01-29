@@ -40,7 +40,6 @@
         <!-- todas as páginas da aplicação -->
         <activity android:name=".ui.activity.HomeActivity" />
         <activity android:name=".ui.activity.RegistarActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.AgendarVacinaActivity" />
         <activity android:name=".ui.activity.AnimalActivity" />
@@ -52,6 +51,8 @@
         <activity android:name=".ui.activity.DefinicoesActivity" />
         <activity android:name=".ui.activity.ConsultasActivity" />
         <activity android:name=".ui.activity.CriarPinActivity" />
+        <activity android:name=".ui.activity.VerificUtiActivity" />
+
 
         <!-- permitir que a aplicação partilhe fotos com outras aplicações -->
         <provider

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <!-- Ecrã Principal -->
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.MainFragment"
+        android:label="Principal"
+        tools:layout="@layout/fragment_main" >
+        <!-- Ação para navegar do MainFragment para o LoginFragment -->
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <!-- Login -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" />
+
+</navigation>
