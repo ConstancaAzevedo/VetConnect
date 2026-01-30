@@ -1,17 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "pt.ipt.dam2025.vetconnect"
-    compileSdk {
-        version = release(36)
-    }
+    namespace = "pt.ipt.dam2025.trabalho"
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "pt.ipt.dam2025.vetconnect"
         minSdk = 28
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -38,7 +37,8 @@ android {
     // allow the access to objects of the interface, from code,
     // in 'binding'
     buildFeatures {
-        viewBinding=true
+        viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -48,11 +48,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
 
     // Retrofit & Gson -> para a API
     implementation(libs.retrofit)
@@ -61,12 +63,16 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     // WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.11.1")
+    implementation(libs.androidx.work.runtime.ktx)
+
+    // Room Database
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     // código do professor para Camera
     //copiado do outro ficheiro "code-Camera X app.vf"
     // CameraX core library using the camera2 implementation
-    val cameraxVersion = "1.5.1"
     // The following line is optional, as the core library is included indirectly by camera-camera2
     // implementation("androidx.camera:camera-core:${cameraxVersion}")
     implementation(libs.androidx.camera.core)
@@ -85,5 +91,4 @@ dependencies {
     // If you want to additionally use the CameraX Extensions library
     // implementation("androidx.camera:camera-extensions:${cameraxVersion}")
     implementation(libs.androidx.camera.extensions)
-
 }
