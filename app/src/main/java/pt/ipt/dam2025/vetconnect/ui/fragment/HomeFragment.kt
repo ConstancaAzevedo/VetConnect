@@ -18,7 +18,7 @@ import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.api.ApiClient
 import pt.ipt.dam2025.vetconnect.databinding.FragmentHomeBinding
 import pt.ipt.dam2025.vetconnect.ui.MainActivity
-import pt.ipt.dam2025.vetconnect.utils.SessionManager
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 
 /**
  * Fragment para a página home da aplicação
@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_marcarConsultaFragment)
         }
         binding.cardAgendarVacina.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_agendarVacinasFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_agendarVacinaFragment)
         }
         binding.cardConsultas.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_consultasFragment)
@@ -103,7 +103,7 @@ class HomeFragment : Fragment() {
                 Log.e("HomeFragment", "Falha ao invalidar token no servidor", e)
             } finally {
                 // limpa os dados da sessão
-                sessionManager.clearSession()
+                sessionManager.clearAuth()
                 // mostra a mensagem ao utilizador 
                 Toast.makeText(requireContext(), "Sessão terminada", Toast.LENGTH_SHORT).show()
                 // navega para o ecrã de login 

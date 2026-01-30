@@ -60,6 +60,9 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.logging.interceptor)
 
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.11.1")
+
     // código do professor para Camera
     //copiado do outro ficheiro "code-Camera X app.vf"
     // CameraX core library using the camera2 implementation
