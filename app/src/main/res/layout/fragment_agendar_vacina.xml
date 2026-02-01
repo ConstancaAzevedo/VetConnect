@@ -1,164 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:padding="16dp"
-    tools:context=".ui.fragment.AgendarVacinaFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- página de agendar vacina -->
 
-    <TextView
-        android:id="@+id/tituloAgendarVacina"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Agendar Vacina"
-        android:textColor="@color/branco"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:padding="16dp"
+        tools:context=".ui.fragment.AgendarVacinaFragment">
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/tituloAgendarVacina"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        <!-- página de agendar vacina -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tituloAgendarVacina"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_marginTop="16dp"
+            android:text="Agendar Vacina"
+            android:textColor="@color/branco"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- spinner para vacinas -->
-            <TextView
-                android:id="@+id/vacinas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vacina"
-                android:layout_marginTop="15dp"
-                android:textSize="20sp"
-                android:textColor="@color/branco" />
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tituloAgendarVacina"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <Spinner
-                android:id="@+id/vacinaSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/borda_branca"
-                android:textSize="20sp"
-                android:enabled="false"
-                />
-
-            <!-- spinner para clinicas -->
-            <TextView
-                android:id="@+id/clinicas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Clinica"
-                android:layout_marginTop="15dp"
-                android:textSize="20sp"
-                android:textColor="@color/branco" />
-
-            <Spinner
-                android:id="@+id/clinicaSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/borda_branca"
-                android:textSize="20sp"
-                android:enabled="false"
-                />
-
-            <!-- spinner para veterinários -->
-            <TextView
-                android:id="@+id/veterinarios"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Veterinário"
-                android:layout_marginTop="15dp"
-                android:textSize="20sp"
-                android:textColor="@color/branco" />
-
-            <Spinner
-                android:id="@+id/veterinarioSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/borda_branca"
-                android:textSize="20sp"
-                android:enabled="false"
-                />
-
-
-            <!-- data e hora -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <!-- data -->
-                <EditText
-                    android:id="@+id/data"
-                    android:layout_width="0dp"
+                <!-- spinner para vacinas -->
+                <TextView
+                    android:id="@+id/vacinas"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
+                    android:text="Vacina"
+                    android:layout_marginTop="15dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/branco" />
+
+                <Spinner
+                    android:id="@+id/vacinaSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/borda_branca"
-                    android:hint="Data"
+                    android:textSize="20sp"
+                    android:enabled="false"
+                    />
+
+                <!-- spinner para clinicas -->
+                <TextView
+                    android:id="@+id/clinicas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clinica"
+                    android:layout_marginTop="15dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/branco" />
+
+                <Spinner
+                    android:id="@+id/clinicaSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/borda_branca"
+                    android:textSize="20sp"
+                    android:enabled="false"
+                    />
+
+                <!-- spinner para veterinários -->
+                <TextView
+                    android:id="@+id/veterinarios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Veterinário"
+                    android:layout_marginTop="15dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/branco" />
+
+                <Spinner
+                    android:id="@+id/veterinarioSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/borda_branca"
+                    android:textSize="20sp"
+                    android:enabled="false"
+                    />
+
+
+                <!-- data e hora -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <!-- data -->
+                    <EditText
+                        android:id="@+id/data"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/borda_branca"
+                        android:hint="Data"
+                        android:textColor="@color/branco"
+                        android:textColorHint="@color/branco"
+                        android:padding="12dp"
+                        android:focusable="false"
+                        android:clickable="true" />
+
+                    <!-- hora -->
+                    <EditText
+                        android:id="@+id/hora"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/borda_branca"
+                        android:hint="Hora"
+                        android:textColor="@color/branco"
+                        android:textColorHint="@color/branco"
+                        android:padding="12dp"
+                        android:focusable="false"
+                        android:clickable="true" />
+                </LinearLayout>
+
+                <!-- observações -->
+                <EditText
+                    android:id="@+id/observacoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/borda_branca"
+                    android:hint="@string/observacoes"
                     android:textColor="@color/branco"
                     android:textColorHint="@color/branco"
                     android:padding="12dp"
-                    android:focusable="false"
-                    android:clickable="true" />
+                    android:gravity="top"
+                    android:minLines="3" />
 
-                <!-- hora -->
-                <EditText
-                    android:id="@+id/hora"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/borda_branca"
-                    android:hint="Hora"
-                    android:textColor="@color/branco"
-                    android:textColorHint="@color/branco"
-                    android:padding="12dp"
-                    android:focusable="false"
-                    android:clickable="true" />
+                <!-- botão de confirmação -->
+                <Button
+                    android:id="@+id/btnConfirmar"
+                    style="@style/ButtonStyle"
+                    android:text="Confirmar Marcação"
+                    android:layout_gravity="center"/>
+
             </LinearLayout>
+        </ScrollView>
 
-            <!-- observações -->
-            <EditText
-                android:id="@+id/observacoes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/borda_branca"
-                android:hint="@string/observacoes"
-                android:textColor="@color/branco"
-                android:textColorHint="@color/branco"
-                android:padding="12dp"
-                android:gravity="top"
-                android:minLines="3" />
-
-            <!-- botão de confirmação -->
-            <Button
-                android:id="@+id/btnConfirmar"
-                style="@style/ButtonStyle"
-                android:text="Confirmar Marcação"
-                android:layout_gravity="center"/>
-
-        </LinearLayout>
-    </ScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

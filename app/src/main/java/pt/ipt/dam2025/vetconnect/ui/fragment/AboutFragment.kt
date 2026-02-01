@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import pt.ipt.dam2025.vetconnect.databinding.FragmentAboutBinding
 
+
 /**
  * Fragment para a página "Sobre"
  */

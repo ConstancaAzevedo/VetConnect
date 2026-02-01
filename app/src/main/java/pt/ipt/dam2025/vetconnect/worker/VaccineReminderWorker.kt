@@ -3,6 +3,7 @@ package pt.ipt.dam2025.vetconnect.worker
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -11,6 +12,10 @@ import pt.ipt.dam2025.vetconnect.VetConnectApplication
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
+/**
+ * Classe para o worker de notificação
+ */
 
 class VaccineReminderWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
@@ -54,14 +59,12 @@ class VaccineReminderWorker(appContext: Context, workerParams: WorkerParameters)
     private fun sendNotification(animalNome: String, tipoVacina: String, dataVacina: String) {
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                "Lembretes de Vacinas",
-                NotificationManager.IMPORTANCE_HIGH
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
+        val channel = NotificationChannel(
+            CHANNEL_ID,
+            "Lembretes de Vacinas",
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        notificationManager.createNotificationChannel(channel)
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle("Lembrete de Vacina")
