@@ -39,4 +39,6 @@
     <string name="historico_animal">Histórico do Animal</string>
     <string name="adicionar_documento_camara">Adicionar Documento pela Camara</string>
     <string name="adicionar_documento_manualmente">Adicionar Documento Manualmente</string>
+    <string name="cancelar_consulta">Cancelar Consulta</string>
+    <string name="cancelar_vacina">Cancelar Vacina</string>
 </resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/list_item_background">
+
+    <!-- página de um item de vacina -->
+
+    <!-- tools:text apenas ajuda no preview do ecra e nao aparecerá na aplicaçao -->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/vacina_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Raiva (Anual)" />
+
+        <TextView
+            android:id="@+id/vacina_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:textSize="14sp"
+            tools:text="Aplicada em: 15/05/2024" />
+
+    </LinearLayout>
+
+   <!-- botao para cancelar uma vacina -->
+    <ImageButton
+        android:id="@+id/button_apagar_vacina"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/delete_icon"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/cancelar_vacina" />
+
+</LinearLayout>
