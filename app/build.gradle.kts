@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
     alias(libs.plugins.ksp)
 }
 
@@ -29,10 +28,6 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
 
     //chave que vai ativar o binding
     // o binding vai criar uma ligação direta entre o kotlin e o xml
@@ -44,9 +39,10 @@ android {
         dataBinding = true
         buildConfig = true
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {

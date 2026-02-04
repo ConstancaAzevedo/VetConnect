@@ -6,12 +6,12 @@ import retrofit2.Response
 import retrofit2.http.*
 
 /**
- * Interface que define os endpoints da API
+ * Interface que define os endpoints da API para o Retrofit.
  */
 
 interface ApiService {
 
-    // autenticação e utilizadores==============================================
+    // autenticação e utilziadores==============================================
     @POST("usuarios")
     suspend fun criarUsuario(@Body usuario: NovoUsuario): Response<RegistrationResponse>
 
@@ -94,7 +94,7 @@ interface ApiService {
         @Part foto: MultipartBody.Part
     ): Response<UploadResponse>
 
-    // histórico==============================================
+    // documentos(histórico)==============================================
     @POST("documentos")
     suspend fun createDocumento(
         @Header("Authorization") token: String,
@@ -142,7 +142,7 @@ interface ApiService {
         @Path("id") consultaId: Int
     ): Response<CancelConsultaResponse>
 
-    // vacinas==============================================
+    // Vacinas ==============================================
     @GET("vacinas/tipos")
     suspend fun getTiposVacina(): Response<TiposVacinaResponse>
 
