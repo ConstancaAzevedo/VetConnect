@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".ui.fragment.DetalhesVacinaFragment">
+
+    <!-- página para detalhes de uma vacina -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/text_view_nome_vacina_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            tools:text="Raiva (Anual)" />
+
+        <TextView
+            android:id="@+id/text_view_estado_vacina_detalhe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_estado_agendada"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/branco"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            tools:text="ADMINISTRADA" />
+
+        <!-- detalhes da vacina -->
+        <TextView
+            style="?attr/textAppearanceBody2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data de Aplicação"
+            android:textColor="@color/cinzento_claro" />
+
+        <TextView
+            android:id="@+id/text_view_data_aplicacao_detalhe"
+            style="?attr/textAppearanceBody1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:layout_marginBottom="16dp"
+            tools:text="20 de Março de 2024" />
+
+        <TextView
+            style="?attr/textAppearanceBody2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Próxima Dose"
+            android:textColor="@color/cinzento_claro" />
+
+        <TextView
+            android:id="@+id/text_view_proxima_dose_detalhe"
+            style="?attr/textAppearanceBody1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:layout_marginBottom="16dp"
+            tools:text="20 de Março de 2025" />
+
+        <TextView
+            style="?attr/textAppearanceBody2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Veterinário"
+            android:textColor="@color/cinzento_claro" />
+
+        <TextView
+            android:id="@+id/text_view_veterinario_vacina_detalhe"
+            style="?attr/textAppearanceBody1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:layout_marginBottom="16dp"
+            tools:text="Dr. André Sousa" />
+
+        <TextView
+            style="?attr/textAppearanceBody2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lote"
+            android:textColor="@color/cinzento_claro" />
+
+        <TextView
+            android:id="@+id/text_view_lote_detalhe"
+            style="?attr/textAppearanceBody1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:layout_marginBottom="16dp"
+            tools:text="XYZ12345" />
+
+        <Button
+            android:id="@+id/button_editar_vacina"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Editar Informações"
+            android:layout_marginTop="32dp"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -130,6 +130,24 @@
         android:label="Agendar Vacina"
         tools:layout="@layout/fragment_agendar_vacina" />
 
+    <!-- ecrã Adicionar Exame -->
+    <fragment
+        android:id="@+id/adicionarExameFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.AdicionarExameFragment"
+        android:label="Adicionar Exame"
+        tools:layout="@layout/fragment_adicionar_exame" />
+
+    <!-- ecrã Detalhes Exame -->
+    <fragment
+        android:id="@+id/detalhesExameFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.DetalhesExameFragment"
+        android:label="Detalhes do Exame"
+        tools:layout="@layout/fragment_detalhes_exame" >
+        <argument
+            android:name="exame"
+            app:argType="pt.ipt.dam2025.vetconnect.model.Exame" />
+    </fragment>
+
     <!-- ecrã Consultas -->
     <fragment
         android:id="@+id/consultasFragment"
@@ -167,7 +185,14 @@
         android:id="@+id/historicoFragment"
         android:name="pt.ipt.dam2025.vetconnect.ui.fragment.HistoricoFragment"
         android:label="Histórico"
-        tools:layout="@layout/fragment_historico" />
+        tools:layout="@layout/fragment_historico" >
+        <action
+            android:id="@+id/action_historicoFragment_to_adicionarExameFragment"
+            app:destination="@id/adicionarExameFragment" />
+        <action
+            android:id="@+id/action_historicoFragment_to_detalhesExameFragment"
+            app:destination="@id/detalhesExameFragment" />
+    </fragment>
 
     <!-- ecrã Vacinas -->
     <fragment

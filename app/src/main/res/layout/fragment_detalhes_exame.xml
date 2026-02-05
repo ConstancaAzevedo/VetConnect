@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".ui.fragment.DetalhesExameFragment">
+
+    <!-- página para detalhes de um exame -->
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- informação principal -> sempre visível -->
+        <TextView
+            android:id="@+id/text_view_tipo_exame_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            tools:text="Raio-X Torácico" />
+
+        <TextView
+            android:id="@+id/text_view_data_exame_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/cinzento_claro"
+            android:textSize="16sp"
+            android:layout_marginBottom="24dp"
+            tools:text="25 de Maio de 2024" />
+
+        <TextView
+            style="?attr/textAppearanceBody2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clínica"
+            android:textColor="@color/cinzento_claro" />
+
+        <TextView
+            android:id="@+id/text_view_clinica_detalhe"
+            style="?attr/textAppearanceBody1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:layout_marginBottom="16dp"
+            tools:text="Hospital Veterinário do Restelo" />
+
+        <TextView
+            style="?attr/textAppearanceBody2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Veterinário"
+            android:textColor="@color/cinzento_claro" />
+
+        <TextView
+            android:id="@+id/text_view_veterinario_detalhe"
+            style="?attr/textAppearanceBody1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:layout_marginBottom="16dp"
+            tools:text="Dr. André Sousa" />
+
+        <!-- informação opcional -> visibilidade opcional -->
+
+        <!-- resultado -->
+        <LinearLayout
+            android:id="@+id/layout_resultado_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                style="?attr/textAppearanceBody2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Resultado"
+                android:textColor="@color/cinzento_claro" />
+
+            <TextView
+                android:id="@+id/text_view_resultado_detalhe"
+                style="?attr/textAppearanceBody1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/branco"
+                android:layout_marginBottom="16dp"
+                tools:text="Fratura na pata dianteira esquerda." />
+        </LinearLayout>
+
+        <!-- observações -->
+        <LinearLayout
+            android:id="@+id/layout_observacoes_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                style="?attr/textAppearanceBody2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Observações"
+                android:textColor="@color/cinzento_claro" />
+
+            <TextView
+                android:id="@+id/text_view_observacoes_detalhe"
+                style="?attr/textAppearanceBody1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/branco"
+                android:layout_marginBottom="16dp"
+                tools:text="O animal deve evitar esforço físico durante 3 semanas." />
+        </LinearLayout>
+
+        <!-- relatório fotográfico -->
+        <LinearLayout
+            android:id="@+id/layout_foto_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                style="?attr/textAppearanceHeadline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Relatório Fotográfico"
+                android:textColor="@color/branco"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <ImageView
+                android:id="@+id/image_view_relatorio_detalhe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                tools:src="@tools:sample/backgrounds/scenic" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".ui.fragment.AdicionarExameFragment">
+
+    <!-- página para adicionar um novo exame -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adicionar Novo Exame"
+            android:textColor="@color/branco"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- yipo de exame -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tipo de Exame"
+            android:textColorHint="@color/cinzento_claro">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_tipo_exame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- aata do exame -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Data do Exame (DD-MM-AAAA)"
+            android:textColorHint="@color/cinzento_claro">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_data_exame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- clínica -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Clínica"
+            android:textColorHint="@color/cinzento_claro">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_clinica"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- veterinário -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Veterinário"
+            android:textColorHint="@color/cinzento_claro">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_veterinario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- resultado -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Resultado (Opcional)"
+            android:textColorHint="@color/cinzento_claro">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_resultado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- observações -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Observações (Opcional)"
+            android:textColorHint="@color/cinzento_claro">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_observacoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- adicionar foto -->
+        <Button
+            android:id="@+id/button_adicionar_foto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adicionar Foto do Relatório"
+            android:layout_marginTop="24dp"/>
+
+        <ImageView
+            android:id="@+id/image_view_preview"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:scaleType="centerCrop"/>
+
+        <!-- botão guardar -->
+        <Button
+            android:id="@+id/button_guardar_exame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar Exame"
+            android:layout_marginTop="32dp"/>
+
+    </LinearLayout>
+</ScrollView>

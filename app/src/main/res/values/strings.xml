@@ -41,4 +41,12 @@
     <string name="adicionar_documento_manualmente">Adicionar Documento Manualmente</string>
     <string name="cancelar_consulta">Cancelar Consulta</string>
     <string name="cancelar_vacina">Cancelar Vacina</string>
+    <string name="adicionar_exame">Adicionar Exame</string>
+    <string name="agendar_nova_vacina">Agendar Nova Vacina</string>
+    <string name="guardar_alteracoes">Guardar Alterações</string>
+    <string name="lote_opcional">Lote (Opcional)</string>
+    <string name="veterinario">Veterinário</string>
+    <string name="proxima_dose_opcional">Próxima Dose (Opcional)</string>
+    <string name="data_de_aplicacao">Data de Aplicação (DD-MM-AAAA)</string>
+    <string name="editar_vacina">Editar Vacina</string>
 </resources>

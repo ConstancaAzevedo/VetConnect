@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".ui.fragment.EditarVacinaFragment">
+
+    <!-- página para editar uma vacina -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/editar_vacina"
+            android:textColor="@color/branco"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- data de aplicação -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/data_de_aplicacao"
+            android:textColorHint="@color/cinzento_claro">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_data_aplicacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- próxima dose -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/proxima_dose_opcional"
+            android:textColorHint="@color/cinzento_claro">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_proxima_dose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- veterinário -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/veterinario"
+            android:textColorHint="@color/cinzento_claro">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_veterinario_vacina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- lote -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/lote_opcional"
+            android:textColorHint="@color/cinzento_claro">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_lote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/branco"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- botão guardar alterações -->
+        <Button
+            android:id="@+id/button_guardar_alteracoes_vacina"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/guardar_alteracoes"
+            android:layout_marginTop="32dp"/>
+
+    </LinearLayout>
+</ScrollView>

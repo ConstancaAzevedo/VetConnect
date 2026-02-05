@@ -172,25 +172,10 @@ data class UploadResponse(
 )
 
 
-// DOCUMENTOS (RECEITAS, VACINAS, EXAMES)
-@Entity(tableName = "receitas")
-data class Receita(
-    @PrimaryKey @SerializedName("id") val id: Int,
-    @SerializedName("animalid") val animalId: Int,
-    @SerializedName("dataprescricao") val dataPrescricao: String,
-    @SerializedName("medicamento") val medicamento: String,
-    @SerializedName("dosagem") val dosagem: String?,
-    @SerializedName("frequencia") val frequencia: String?,
-    @SerializedName("duracao") val duracao: String?,
-    @SerializedName("veterinario") val veterinario: String?,
-    @SerializedName("observacoes") val observacoes: String?,
-    @SerializedName("dataregisto") val dataRegisto: String?
-) : Serializable
-
-// EXAMES
+// HISTÓRICO - EXAME
 @Entity(tableName = "exames")
 data class Exame(
-    @PrimaryKey @SerializedName("id") val id: Int,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @SerializedName("animalid") val animalId: Int,
     @SerializedName("tipo") val tipo: String,
     @SerializedName("dataexame") val dataExame: String,
@@ -202,16 +187,28 @@ data class Exame(
     @SerializedName("dataregisto") val dataRegisto: String?
 ) : Serializable
 
-// DOCUMENTOS
+@Entity(tableName = "tipos_exame")
+data class TipoExame(
+    @PrimaryKey val id: Int,
+    val nome: String,
+    val descricao: String?
+)
+
+// Resposta da API para os tipos de exame
+data class TiposExameResponse(
+    val success: Boolean,
+    val tipos: List<TipoExame>,
+    val count: Int
+)
+
+// Resposta da API para o histórico de um animal
 data class DocumentosResponse(
-    val receitas: List<Receita>,
-    val vacinas: List<Vacina>,
     val exames: List<Exame>
 )
 
-// CRIAR DOCUMENTO
+// CRIAR DOCUMENTO (agora apenas para exames)
 data class CreateDocumentRequest(
-    val tipo: String, // "receita", "vacina", "exame"
+    val tipo: String, // "exame"
     val animalId: Int,
     val dados: JsonElement
 )
@@ -286,7 +283,7 @@ data class CancelConsultaResponse(
     val consultaId: Int
 )
 
-// VACINAS
+// VACINAS (Funcionalidade isolada)
 @Entity(tableName = "vacinas")
 data class Vacina(
     @PrimaryKey @SerializedName("id") val id: Int,
