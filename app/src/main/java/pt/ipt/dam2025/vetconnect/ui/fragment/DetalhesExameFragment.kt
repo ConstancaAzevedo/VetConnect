@@ -1,5 +1,6 @@
 package pt.ipt.dam2025.vetconnect.ui.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import pt.ipt.dam2025.vetconnect.model.Exame
 /**
  * Fragment para a página de detalhes de um exame
  */
+
 class DetalhesExameFragment : Fragment() {
 
     private var _binding: FragmentDetalhesExameBinding? = null
@@ -28,9 +30,13 @@ class DetalhesExameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Obtém o objeto Exame dos argumentos de forma manual
-        @Suppress("DEPRECATION")
-        val exame = arguments?.getSerializable("exame") as? Exame
+        // Obtém o objeto Exame dos argumentos da forma moderna
+        val exame = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable("exame", Exame::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            arguments?.getParcelable("exame")
+        }
 
         // Se o exame for nulo, não podemos fazer nada para evitar um crash
         if (exame == null) {
@@ -38,13 +44,15 @@ class DetalhesExameFragment : Fragment() {
             return
         }
 
-        // Preenche os campos de texto com os dados do exame
-        binding.textViewTipoExameDetalhe.text = exame.tipo
-        binding.textViewDataExameDetalhe.text = exame.dataExame
+        populateUi(exame)
+    }
 
-        // TODO: O nome da clínica e do veterinário deveriam vir de IDs, mas por agora usamos os campos de texto.
-        binding.textViewClinicaDetalhe.text = exame.laboratorio // O campo no modelo chama-se 'laboratorio'
-        binding.textViewVeterinarioDetalhe.text = exame.veterinario
+    private fun populateUi(exame: Exame) {
+        // Preenche os campos de texto com os dados do exame
+        binding.textViewTipoExameDetalhe.text = exame.tipo ?: "Exame não especificado"
+        binding.textViewDataExameDetalhe.text = exame.dataExame ?: "Sem data"
+        binding.textViewClinicaDetalhe.text = exame.clinicaNome ?: "Clínica não especificada"
+        binding.textViewVeterinarioDetalhe.text = exame.veterinarioNome ?: "Veterinário não especificado"
 
         // Verifica e mostra o resultado se existir
         binding.layoutResultadoDetalhe.isVisible = !exame.resultado.isNullOrBlank()

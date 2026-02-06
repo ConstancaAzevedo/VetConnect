@@ -4,6 +4,11 @@ import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import pt.ipt.dam2025.vetconnect.api.ApiService
 import pt.ipt.dam2025.vetconnect.data.UserDao
+import pt.ipt.dam2025.vetconnect.model.AlterarPinRequest
+import pt.ipt.dam2025.vetconnect.model.CreatePinRequest
+import pt.ipt.dam2025.vetconnect.model.CreatePinResponse
+import pt.ipt.dam2025.vetconnect.model.LoginRequest
+import pt.ipt.dam2025.vetconnect.model.LoginResponse
 import pt.ipt.dam2025.vetconnect.model.NovoUsuario
 import pt.ipt.dam2025.vetconnect.model.RegistrationResponse
 import pt.ipt.dam2025.vetconnect.model.UpdateUserRequest
@@ -55,6 +60,42 @@ class UsuarioRepository(
     }
 
     /**
+     * Cria o PIN do utilizador através da API.
+     */
+    suspend fun criarPin(request: CreatePinRequest): Result<CreatePinResponse> {
+        return try {
+            val response = apiService.criarPin(request)
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(IOException("Erro da API ao criar PIN: ${response.code()} - ${response.errorBody()?.string()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Tenta autenticar um utilizador na API e guarda os seus dados localmente
+     */
+    suspend fun login(email: String, pin: String): Result<LoginResponse> {
+        return try {
+            val request = LoginRequest(email, pin)
+            val response = apiService.login(request)
+            if (response.isSuccessful && response.body() != null) {
+                // Limpa a tabela de utilizadores e insere o novo utilizador logado
+                userDao.clearAll()
+                userDao.insertOrUpdate(response.body()!!.user.copy(token = response.body()!!.token))
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(IOException("Erro de autenticação: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /**
      * Apaga um utilizador através da API e depois localmente.
      */
     suspend fun deletarUsuario(token: String, id: Int): Result<Unit> {
@@ -65,6 +106,39 @@ class UsuarioRepository(
                 Result.success(Unit)
             } else {
                 Result.failure(IOException("Erro da API ao apagar utilizador: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Altera o PIN do utilizador através da API.
+     */
+    suspend fun alterarPin(token: String, request: AlterarPinRequest): Result<Unit> {
+        return try {
+            val response = apiService.alterarPin("Bearer $token", request)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                val errorMsg = response.errorBody()?.string() ?: "Erro desconhecido"
+                Result.failure(IOException("Erro da API ao alterar PIN: ${response.code()} - $errorMsg"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Termina a sessão do utilizador na API
+     */
+    suspend fun logout(token: String): Result<Unit> {
+        return try {
+            val response = apiService.logout("Bearer $token")
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(IOException("Erro da API ao fazer logout: ${response.code()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

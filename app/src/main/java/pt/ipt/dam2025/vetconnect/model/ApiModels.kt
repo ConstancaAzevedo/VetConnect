@@ -1,8 +1,10 @@
 package pt.ipt.dam2025.vetconnect.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 /**
@@ -228,6 +230,7 @@ data class UploadResponse(
  * Pode ser criado manualmente na app ou sincronizado da API
  * Usado como entidade da base de dados (tabela 'exames')
  */
+@Parcelize
 @Entity(tableName = "exames")
 data class Exame(
     @PrimaryKey @SerializedName("id") val id: Int,
@@ -243,7 +246,7 @@ data class Exame(
     @SerializedName("observacoes") val observacoes: String?,
     @SerializedName("fotourl") val ficheiroUrl: String?,
     @SerializedName("dataregisto") val dataRegisto: String?
-) : Serializable
+) : Parcelable
 
 /*
  * representa um tipo de exame (ex: Raio-X, Análise de Sangue)
@@ -389,6 +392,7 @@ data class CancelConsultaResponse(
  * Representa uma vacina (agendada ou administrada)
  * Usado como entidade da base de dados (tabela 'vacinas') e como modelo em respostas da API
  */
+@Parcelize
 @Entity(tableName = "vacinas")
 data class Vacina(
     @PrimaryKey @SerializedName("id") val id: Int,
@@ -409,7 +413,7 @@ data class Vacina(
     @SerializedName("animal_nome") val animalNome: String?,
     @SerializedName("especie") val especie: String?,
     @SerializedName("categoria") val categoria: String?
-) : Serializable
+) : Parcelable
 
 /**
  * Representa um tipo de vacina (ex: Raiva, Leptospirose)

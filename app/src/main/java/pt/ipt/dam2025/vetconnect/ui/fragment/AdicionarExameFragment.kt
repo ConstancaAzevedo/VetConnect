@@ -1,16 +1,41 @@
 package pt.ipt.dam2025.vetconnect.ui.fragment
 
+import android.app.Activity
+import android.app.DatePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.databinding.FragmentAdicionarExameBinding
+import pt.ipt.dam2025.vetconnect.viewmodel.AdicionarExameViewModel
+import pt.ipt.dam2025.vetconnect.viewmodel.AdicionarExameViewModelFactory
+import java.util.Calendar
 
 class AdicionarExameFragment : Fragment() {
 
     private var _binding: FragmentAdicionarExameBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var viewModel: AdicionarExameViewModel
+    private var selectedImageUri: Uri? = null
+
+    // ActivityResultLauncher para a galeria de imagens
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            selectedImageUri = it.data?.data
+            binding.imageViewPreview.setImageURI(selectedImageUri)
+            binding.imageViewPreview.visibility = View.VISIBLE
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,6 +43,93 @@ class AdicionarExameFragment : Fragment() {
     ): View {
         _binding = FragmentAdicionarExameBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val factory = AdicionarExameViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory).get(AdicionarExameViewModel::class.java)
+
+        setupUI()
+        observeViewModel()
+    }
+
+    private fun setupUI() {
+        // TODO: Popular os spinners com dados da API
+        // Exemplo com dados estáticos:
+        val tiposExame = arrayOf("Análise Sanguínea", "Raio-X", "Ecografia")
+        val clinicas = arrayOf("Clínica A", "Clínica B")
+        val veterinarios = arrayOf("Dr. House", "Dr. Dolittle")
+
+        binding.spinnerTipoExame.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, tiposExame))
+        binding.spinnerClinica.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, clinicas))
+        binding.spinnerVeterinario.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, veterinarios))
+
+        // Configura o DatePickerDialog
+        binding.editTextDataExame.setOnClickListener {
+            showDatePicker()
+        }
+
+        // Configura o botão para adicionar foto
+        binding.buttonAdicionarFoto.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            pickImageLauncher.launch(intent)
+        }
+
+        // Configura o botão de guardar
+        binding.buttonGuardarExame.setOnClickListener {
+            guardarExame()
+        }
+    }
+
+    private fun showDatePicker() {
+        val calendar = Calendar.getInstance()
+        DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                val selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
+                binding.editTextDataExame.setText(selectedDate)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun guardarExame() {
+        // TODO: Obter o ID do animal e o token de forma segura
+        val animalId = 1
+        val token = "seu_token_aqui"
+
+        // TODO: Converter os nomes dos spinners para os IDs correspondentes
+        val tipoExameId = 1
+        val clinicaId = 1
+        val veterinarioId = 1
+
+        val dataExame = binding.editTextDataExame.text.toString()
+        val resultado = binding.editTextResultado.text.toString()
+        val observacoes = binding.editTextObservacoes.text.toString()
+
+        if (dataExame.isBlank() || binding.spinnerTipoExame.text.isBlank()) {
+            Toast.makeText(context, "Por favor, preencha o tipo e a data do exame", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        viewModel.adicionarExame(token, animalId, tipoExameId, dataExame, clinicaId, veterinarioId, resultado, observacoes)
+
+        // TODO: Implementar o upload da imagem se uma for selecionada (selectedImageUri)
+    }
+
+    private fun observeViewModel() {
+        viewModel.exameAdicionado.observe(viewLifecycleOwner) {
+            it.onSuccess {
+                Toast.makeText(context, "Exame adicionado com sucesso", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }.onFailure {
+                Toast.makeText(context, "Erro ao adicionar exame: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onDestroyView() {

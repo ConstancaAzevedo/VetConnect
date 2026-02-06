@@ -44,11 +44,6 @@ class VacinasFragment : Fragment() {
 
         setupRecyclerView()
         observeViewModel()
-
-        // TODO: Obter o ID do animal e o token de forma segura
-        val animalId = 1 // Exemplo
-        val token = "seu_token_aqui" // Exemplo
-        viewModel.fetchVacinasAgendadas(token, animalId)
     }
 
     private fun setupRecyclerView() {
@@ -64,25 +59,21 @@ class VacinasFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.vacinas.observe(viewLifecycleOwner) { vacinas ->
-            // Usamos submitList() para passar a nova lista ao ListAdapter
-            vacinas?.let { vacinaAdapter.submitList(it) }
-        }
+        // TODO: Obter o ID do animal e o token de forma segura
+        val animalId = 1 // Exemplo
+        val token = "seu_token_aqui" // Exemplo
 
-        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-            error?.let {
-                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                viewModel.clearErrorMessage()
-            }
+        // Observa o LiveData retornado pelo novo método getVacinas
+        viewModel.getVacinas(token, animalId).observe(viewLifecycleOwner) { vacinas ->
+            // Usamos submitList() para passar a nova lista ao ListAdapter
+            vacinaAdapter.submitList(vacinas)
+            binding.emptyView.visibility = if (vacinas.isNullOrEmpty()) View.VISIBLE else View.GONE
         }
     }
 
     private fun navigateToDetalhes(vacina: Vacina) {
         val bundle = Bundle().apply {
-            // O ideal é que a classe Vacina seja Parcelable
-            // Alternativa: passar os dados individualmente
-            putInt("vacinaId", vacina.id)
-            // Adicione outros dados da vacina que o DetalhesVacinaFragment possa precisar
+            putParcelable("vacina", vacina)
         }
         findNavController().navigate(R.id.action_vacinasFragment_to_detalhesVacinaFragment, bundle)
     }

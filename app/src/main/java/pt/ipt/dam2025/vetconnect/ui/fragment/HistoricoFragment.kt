@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentHistoricoBinding
 import pt.ipt.dam2025.vetconnect.model.Exame
-import pt.ipt.dam2025.vetconnect.ui.adapter.HistoricoAdapter
+import pt.ipt.dam2025.vetconnect.ui.adapter.HistoricoAdapter // Import corrigido
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModelFactory
 
@@ -79,10 +79,7 @@ class HistoricoFragment : Fragment() {
 
     private fun navigateToDetalhes(exame: Exame) {
         val bundle = Bundle().apply {
-            // O ideal é que a classe Exame seja Parcelable para passar o objeto inteiro
-            // Como alternativa, passamos os IDs
-            putInt("exameId", exame.id)
-            putInt("animalId", exame.animalId)
+            putParcelable("exame", exame)
         }
         findNavController().navigate(R.id.action_historicoFragment_to_detalhesExameFragment, bundle)
     }
