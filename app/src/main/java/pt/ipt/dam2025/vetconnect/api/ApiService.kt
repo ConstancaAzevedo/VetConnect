@@ -8,7 +8,6 @@ import retrofit2.http.*
 /**
  * Interface que define os endpoints da API para o Retrofit.
  */
-
 interface ApiService {
 
     // autenticação e utilziadores ==============================================
@@ -40,7 +39,7 @@ interface ApiService {
     suspend fun logout(@Header("Authorization") token: String): Response<LogoutResponse>
 
     @GET("usuarios")
-    suspend fun getUsuarios(): Response<List<Usuario>>
+    suspend fun getUsuarios(@Header("Authorization") token: String): Response<List<Usuario>>
 
     @GET("usuarios/{id}")
     suspend fun getUsuario(

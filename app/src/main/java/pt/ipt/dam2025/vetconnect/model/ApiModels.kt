@@ -443,6 +443,8 @@ data class TiposVacinaResponse(
 data class AgendarVacinaRequest(
     @SerializedName("animalId") val animalId: Int,
     @SerializedName("tipo_vacina_id") val tipoVacinaId: Int,
+    @SerializedName("clinicaId") val clinicaId: Int,
+    @SerializedName("veterinarioId") val veterinarioId: Int,
     @SerializedName("data_agendada") val dataAgendada: String,
     @SerializedName("observacoes") val observacoes: String?
 )

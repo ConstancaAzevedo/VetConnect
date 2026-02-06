@@ -11,7 +11,13 @@ class VacinaViewModelFactory(private val application: Application) : ViewModelPr
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(VacinaViewModel::class.java)) {
             val db = AppDatabase.getDatabase(application)
-            val repository = VacinaRepository(ApiClient.apiService, db.vacinaDao(), db.tipoVacinaDao())
+            val repository = VacinaRepository(
+                apiService = ApiClient.apiService,
+                vacinaDao = db.vacinaDao(),
+                tipoVacinaDao = db.tipoVacinaDao(),
+                clinicaDao = db.clinicaDao(),
+                veterinarioDao = db.veterinarioDao()
+            )
             @Suppress("UNCHECKED_CAST")
             return VacinaViewModel(repository) as T
         }

@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pt.ipt.dam2025.vetconnect.model.AgendarVacinaRequest
-import pt.ipt.dam2025.vetconnect.model.TipoVacina
-import pt.ipt.dam2025.vetconnect.model.UpdateVacinaRequest
-import pt.ipt.dam2025.vetconnect.model.Vacina
+import pt.ipt.dam2025.vetconnect.model.*
 import pt.ipt.dam2025.vetconnect.repository.VacinaRepository
 
 class VacinaViewModel(private val repository: VacinaRepository) : ViewModel() {
@@ -23,6 +20,14 @@ class VacinaViewModel(private val repository: VacinaRepository) : ViewModel() {
 
     fun getTiposVacina(): LiveData<List<TipoVacina>> {
         return repository.getTiposVacina().asLiveData()
+    }
+
+    fun getClinicas(): LiveData<List<Clinica>> {
+        return repository.getClinicas().asLiveData()
+    }
+
+    fun getVeterinariosPorClinica(clinicaId: Int): LiveData<List<Veterinario>> {
+        return repository.getVeterinariosPorClinica(clinicaId).asLiveData()
     }
 
     fun agendarVacina(token: String, request: AgendarVacinaRequest) {

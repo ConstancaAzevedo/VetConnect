@@ -55,4 +55,5 @@
     <string name="veterinario_label">Veterinário: %1$s</string>
     <string name="status_label">Estado: %1$s</string>
     <string name="nao_ha_vacinas_registadas">Não há vacinas registadas</string>
+    <string name="data_e_hora_do_agendamento">Data e Hora do Agendamento</string>
 </resources>

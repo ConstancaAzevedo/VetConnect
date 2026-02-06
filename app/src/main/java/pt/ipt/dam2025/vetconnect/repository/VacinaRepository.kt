@@ -7,18 +7,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.vetconnect.api.ApiService
+import pt.ipt.dam2025.vetconnect.data.ClinicaDao
 import pt.ipt.dam2025.vetconnect.data.TipoVacinaDao
 import pt.ipt.dam2025.vetconnect.data.VacinaDao
-import pt.ipt.dam2025.vetconnect.model.AgendarVacinaRequest
-import pt.ipt.dam2025.vetconnect.model.TipoVacina
-import pt.ipt.dam2025.vetconnect.model.UpdateVacinaRequest
-import pt.ipt.dam2025.vetconnect.model.Vacina
+import pt.ipt.dam2025.vetconnect.data.VeterinarioDao
+import pt.ipt.dam2025.vetconnect.model.*
 import java.io.IOException
 
 class VacinaRepository(
     private val apiService: ApiService,
     private val vacinaDao: VacinaDao,
-    private val tipoVacinaDao: TipoVacinaDao
+    private val tipoVacinaDao: TipoVacinaDao,
+    private val clinicaDao: ClinicaDao,
+    private val veterinarioDao: VeterinarioDao
 ) {
 
     fun getVacinas(token: String, animalId: Int): Flow<List<Vacina>> {
@@ -45,22 +46,50 @@ class VacinaRepository(
     }
 
     fun getTiposVacina(): Flow<List<TipoVacina>> = flow {
-        // Emite os dados locais primeiro
-        val tiposLocais = tipoVacinaDao.getTiposVacina()
-        emit(tiposLocais)
-
-        // Depois vai à API buscar dados frescos
+        emit(tipoVacinaDao.getTiposVacina())
         try {
             val response = apiService.getTiposVacina()
             if (response.isSuccessful) {
                 response.body()?.tipos?.let {
                     tipoVacinaDao.clearAll()
                     tipoVacinaDao.insertAll(it)
-                    emit(it) // Emite os novos dados
+                    emit(it)
                 }
             }
         } catch (e: Exception) {
             Log.e("VacinaRepository", "Falha ao buscar tipos de vacina da API", e)
+        }
+    }
+
+    fun getClinicas(): Flow<List<Clinica>> = flow {
+        emit(clinicaDao.getAllClinicas())
+        try {
+            val response = apiService.getClinicas()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    clinicaDao.clearAll()
+                    clinicaDao.insertAll(it)
+                    emit(it)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("VacinaRepository", "Falha ao buscar clinicas da API", e)
+        }
+    }
+
+    fun getVeterinariosPorClinica(clinicaId: Int): Flow<List<Veterinario>> = flow {
+        emit(veterinarioDao.getVeterinariosByClinica(clinicaId))
+        try {
+            val response = apiService.getVeterinariosPorClinica(clinicaId)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    veterinarioDao.deleteByClinica(clinicaId)
+                    veterinarioDao.insertAll(it)
+                    emit(it)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("VacinaRepository", "Falha ao buscar veterinarios da API", e)
         }
     }
 
