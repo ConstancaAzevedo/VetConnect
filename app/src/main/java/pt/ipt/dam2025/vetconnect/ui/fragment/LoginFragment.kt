@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentLoginBinding
 import pt.ipt.dam2025.vetconnect.util.SessionManager
@@ -103,9 +104,11 @@ class LoginFragment : Fragment() {
             }
         }
 
-        binding.btnEsqueci.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_recuperarPinFragment)
+        // botão de esquecer pin -> mostra uma mensagem de aviso
+        binding.btnEsqueci.setOnClickListener { v ->
+            Snackbar.make(v, "Funcionalidade em desenvolvimento", Snackbar.LENGTH_LONG).show()
         }
+        // TODO: criar fragment para recuperar pin e implementar o código necessário
     }
 
     private fun observeViewModel() {

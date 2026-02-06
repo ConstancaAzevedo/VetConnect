@@ -58,6 +58,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    // Glide
+    implementation("com.github.bumptech.glide:glide:5.0.5")
+    ksp("com.github.bumptech.glide:ksp:5.0.5")
+
     // Retrofit & Gson -> para a API
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

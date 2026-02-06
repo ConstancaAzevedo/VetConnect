@@ -10,22 +10,37 @@ import pt.ipt.dam2025.vetconnect.model.Veterinario
 /**
  * DAO responsável por todas as interações com a tabela de veterinários
  */
-
 @Dao
 interface VeterinarioDao {
-    // Insere ou atualiza uma lista de veterinarios
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(veterinarios: List<Veterinario>)
 
-    // Obtém todos os veterinarios ordenados por nome
+    /*
+     * obtém todos os veterinários, ordenados por nome
+     */
     @Query("SELECT * FROM veterinarios ORDER BY nome ASC")
     fun getAll(): Flow<List<Veterinario>>
 
-    // Obtém os veterinarios de uma clinica específica
+    /*
+     * obtém os veterinários de uma clínica específica, ordenados por nome
+     */
     @Query("SELECT * FROM veterinarios WHERE clinicaId = :clinicaId ORDER BY nome ASC")
-    fun getByClinicaId(clinicaId: Int): Flow<List<Veterinario>>
+    fun getVeterinariosByClinica(clinicaId: Int): Flow<List<Veterinario>>
 
-    // Apaga todos os veterinarios
+    /*
+     * insere uma lista de veterinários na base de dados
+     * se um veterinário com o mesmo ID já existir, será substituído
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(veterinarios: List<Veterinario>)
+
+    /*
+     * apaga os veterinários de uma clínica específica
+     */
+    @Query("DELETE FROM veterinarios WHERE clinicaId = :clinicaId")
+    suspend fun deleteByClinica(clinicaId: Int)
+
+    /*
+     * apaga todos os veterinários da tabela
+     */
     @Query("DELETE FROM veterinarios")
     suspend fun clearAll()
 }

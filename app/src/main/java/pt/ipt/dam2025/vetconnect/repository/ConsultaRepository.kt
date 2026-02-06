@@ -89,11 +89,11 @@ class ConsultaRepository(
     }
 
     /**
-     * Obtém a lista de todas as clínicas, com cache.
+     * obtém a lista de todas as clínicas com cache
      */
     fun getClinicas(): Flow<List<Clinica>> {
         CoroutineScope(Dispatchers.IO).launch { refreshClinicas() }
-        return clinicaDao.getAll()
+        return clinicaDao.getAllClinicas()
     }
 
     private suspend fun refreshClinicas() {
@@ -110,7 +110,7 @@ class ConsultaRepository(
     }
 
     /**
-     * Obtém a lista de todos os veterinários, com cache.
+     * obtém a lista de todos os veterinários com cache
      */
     fun getVeterinarios(): Flow<List<Veterinario>> {
         CoroutineScope(Dispatchers.IO).launch { refreshVeterinarios() }
@@ -136,7 +136,7 @@ class ConsultaRepository(
      */
     fun getVeterinariosPorClinica(clinicaId: Int): Flow<List<Veterinario>> {
         CoroutineScope(Dispatchers.IO).launch { refreshVeterinariosPorClinica(clinicaId) }
-        return veterinarioDao.getByClinicaId(clinicaId)
+        return veterinarioDao.getVeterinariosByClinica(clinicaId)
     }
 
     private suspend fun refreshVeterinariosPorClinica(clinicaId: Int) {

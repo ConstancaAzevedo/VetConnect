@@ -1,11 +1,11 @@
 package pt.ipt.dam2025.vetconnect.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import java.io.Serializable
 
 /**
  * Modelos de Ddos de UTILIZADORES e AUTENTICAÇÃO
@@ -23,7 +23,7 @@ data class Usuario(
     val morada: String?,
     val tipo: String,
     val token: String?,
-    @SerializedName("dataregisto") val dataRegisto: String?,
+    @SerializedName("dataregisto") @ColumnInfo(name = "dataregisto") val dataRegisto: String?,
     val verificado: Boolean?
 )
 
@@ -192,9 +192,9 @@ data class AnimalResponse(
     val fotoUrl: String?,
     val numeroChip: String?,
     val codigoUnico: String,
-    @SerializedName("dataregisto") val dataRegisto: String?,
-    @SerializedName("tutornome") val tutorNome: String?,
-    @SerializedName("tutoremail") val tutorEmail: String?
+    @SerializedName("dataregisto") @ColumnInfo(name = "dataregisto") val dataRegisto: String?,
+    @SerializedName("tutornome") @ColumnInfo(name = "tutornome") val tutorNome: String?,
+    @SerializedName("tutoremail") @ColumnInfo(name = "tutoremail") val tutorEmail: String?
 )
 
 data class CreateAnimalRequest(
@@ -234,18 +234,18 @@ data class UploadResponse(
 @Entity(tableName = "exames")
 data class Exame(
     @PrimaryKey @SerializedName("id") val id: Int,
-    @SerializedName("animalid") val animalId: Int,
-    @SerializedName("tipo_exame_id") val tipoExameId: Int?,
-    @SerializedName("tipo_nome") val tipo: String?,
-    @SerializedName("dataexame") val dataExame: String?,
-    @SerializedName("clinicaid") val clinicaId: Int?,
-    @SerializedName("clinicanome") val clinicaNome: String?,
-    @SerializedName("veterinarioid") val veterinarioId: Int?,
-    @SerializedName("veterinarionome") val veterinarioNome: String?,
+    @SerializedName("animalid") @ColumnInfo(name = "animalid") val animalId: Int,
+    @SerializedName("tipo_exame_id") @ColumnInfo(name = "tipo_exame_id") val tipoExameId: Int?,
+    @SerializedName("tipo_nome") @ColumnInfo(name = "tipo_nome") val tipo: String?,
+    @SerializedName("dataexame") @ColumnInfo(name = "dataexame") val dataExame: String?,
+    @SerializedName("clinicaid") @ColumnInfo(name = "clinicaid") val clinicaId: Int?,
+    @SerializedName("clinicanome") @ColumnInfo(name = "clinicanome") val clinicaNome: String?,
+    @SerializedName("veterinarioid") @ColumnInfo(name = "veterinarioid") val veterinarioId: Int?,
+    @SerializedName("veterinarionome") @ColumnInfo(name = "veterinarionome") val veterinarioNome: String?,
     @SerializedName("resultado") val resultado: String?,
     @SerializedName("observacoes") val observacoes: String?,
-    @SerializedName("fotourl") val ficheiroUrl: String?,
-    @SerializedName("dataregisto") val dataRegisto: String?
+    @SerializedName("fotourl") @ColumnInfo(name = "fotourl") val ficheiroUrl: String?,
+    @SerializedName("dataregisto") @ColumnInfo(name = "dataregisto") val dataRegisto: String?
 ) : Parcelable
 
 /*
@@ -340,7 +340,7 @@ data class Clinica(
 data class Veterinario(
     @PrimaryKey @SerializedName("id") val id: Int,
     val nome: String,
-    @SerializedName("clinicaid") val clinicaId: Int
+    @SerializedName("clinicaid") @ColumnInfo(name = "clinicaid") val clinicaId: Int
 )
 
 /**
@@ -351,19 +351,19 @@ data class Veterinario(
 @Entity(tableName = "consultas")
 data class Consulta(
     @PrimaryKey val id: Int,
-    @SerializedName("userid") val userId: Int,
-    @SerializedName("animalid") val animalId: Int,
-    @SerializedName("clinicaid") val clinicaId: Int,
-    @SerializedName("veterinarioid") val veterinarioId: Int,
+    @SerializedName("userid") @ColumnInfo(name = "userid") val userId: Int,
+    @SerializedName("animalid") @ColumnInfo(name = "animalid") val animalId: Int,
+    @SerializedName("clinicaid") @ColumnInfo(name = "clinicaid") val clinicaId: Int,
+    @SerializedName("veterinarioid") @ColumnInfo(name = "veterinarioid") val veterinarioId: Int,
     val data: String,
     val hora: String,
     val motivo: String?,
     val estado: String,
-    @SerializedName("datamarcacao") val dataMarcacao: String,
+    @SerializedName("datamarcacao") @ColumnInfo(name = "datamarcacao") val dataMarcacao: String,
     // Campos extra obtidos por junção de tabelas na API
-    @SerializedName("animalnome") val animalNome: String?,
-    @SerializedName("clinicanome") val clinicaNome: String?,
-    @SerializedName("veterinarionome") val veterinarioNome: String?
+    @SerializedName("animalnome") @ColumnInfo(name = "animalnome") val animalNome: String?,
+    @SerializedName("clinicanome") @ColumnInfo(name = "clinicanome") val clinicaNome: String?,
+    @SerializedName("veterinarionome") @ColumnInfo(name = "veterinarionome") val veterinarioNome: String?
 )
 
 /*
@@ -395,24 +395,59 @@ data class CancelConsultaResponse(
 @Parcelize
 @Entity(tableName = "vacinas")
 data class Vacina(
-    @PrimaryKey @SerializedName("id") val id: Int,
-    @SerializedName("animalid") val animalId: Int,
-    @SerializedName("tipo") val tipo: String,
-    @SerializedName("tipo_vacina_id") val tipoVacinaId: Int?,
-    @SerializedName("data_agendada") val dataAgendada: String?,
-    @SerializedName("dataaplicacao") val dataAplicacao: String?,
-    @SerializedName("dataproxima") val dataProxima: String?,
-    @SerializedName("veterinario") val veterinario: String?,
-    @SerializedName("lote") val lote: String?,
-    @SerializedName("observacoes") val observacoes: String?,
-    @SerializedName("estado") val estado: String,
-    @SerializedName("notificado") val notificado: Boolean,
-    @SerializedName("dataregisto") val dataRegisto: String?,
-    @SerializedName("descricao") val descricao: String?,
-    @SerializedName("periodicidade") val periodicidade: String?,
-    @SerializedName("animal_nome") val animalNome: String?,
-    @SerializedName("especie") val especie: String?,
-    @SerializedName("categoria") val categoria: String?
+    @PrimaryKey @SerializedName("id")
+    val id: Int,
+
+    @SerializedName("animalid") @ColumnInfo(name = "animalid")
+    val animalId: Int,
+
+    @SerializedName("tipo")
+    val tipo: String,
+
+    @SerializedName("tipo_vacina_id") @ColumnInfo(name = "tipo_vacina_id")
+    val tipoVacinaId: Int?,
+
+    @SerializedName("data_agendada") @ColumnInfo(name = "data_agendada")
+    val dataAgendada: String?,
+
+    @SerializedName("dataaplicacao") @ColumnInfo(name = "dataaplicacao")
+    val dataAplicacao: String?,
+
+    @SerializedName("dataproxima") @ColumnInfo(name = "dataproxima")
+    val dataProxima: String?,
+
+    @SerializedName("veterinario")
+    val veterinario: String?,
+
+    @SerializedName("lote")
+    val lote: String?,
+
+    @SerializedName("observacoes")
+    val observacoes: String?,
+
+    @SerializedName("estado")
+    val estado: String,
+
+    @SerializedName("notificado")
+    val notificado: Boolean,
+
+    @SerializedName("dataregisto") @ColumnInfo(name = "dataregisto")
+    val dataRegisto: String?,
+
+    @SerializedName("descricao")
+    val descricao: String?,
+
+    @SerializedName("periodicidade")
+    val periodicidade: String?,
+
+    @SerializedName("animal_nome") @ColumnInfo(name = "animal_nome")
+    val animalNome: String?,
+
+    @SerializedName("especie")
+    val especie: String?,
+
+    @SerializedName("categoria")
+    val categoria: String?
 ) : Parcelable
 
 /**

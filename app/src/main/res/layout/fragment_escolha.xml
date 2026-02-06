@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:text="Já estou registado"
         android:textColor="@color/branco"
         app:layout_constraintBottom_toBottomOf="parent"

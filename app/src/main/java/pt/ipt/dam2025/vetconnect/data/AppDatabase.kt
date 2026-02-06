@@ -23,7 +23,7 @@ import pt.ipt.dam2025.vetconnect.model.Veterinario
         Usuario::class,
         AnimalResponse::class,
         Exame::class,
-        TipoExame::class, // Adicionado
+        TipoExame::class, 
         Vacina::class,
         TipoVacina::class,
         Consulta::class,
@@ -39,8 +39,9 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun animalDao(): AnimalDao
     abstract fun exameDao(): ExameDao
-    abstract fun tipoExameDao(): TipoExameDao // Adicionado
+    abstract fun tipoExameDao(): TipoExameDao
     abstract fun vacinaDao(): VacinaDao
+    abstract fun tipoVacinaDao(): TipoVacinaDao // Adicionado
     abstract fun consultaDao(): ConsultaDao
     abstract fun clinicaDao(): ClinicaDao
     abstract fun veterinarioDao(): VeterinarioDao

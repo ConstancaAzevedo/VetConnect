@@ -4,7 +4,6 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.vetconnect.api.ApiService
 import pt.ipt.dam2025.vetconnect.data.ClinicaDao
@@ -33,9 +32,9 @@ class VacinaRepository(
         try {
             val response = apiService.getVacinasAgendadas("Bearer $token", animalId)
             if (response.isSuccessful) {
-                response.body()?.vacinas?.let { vacinasDaApi ->
+                response.body()?.vacinas?.let {
                     vacinaDao.deleteByAnimal(animalId)
-                    vacinaDao.insertAll(vacinasDaApi)
+                    vacinaDao.insertAll(it)
                 }
             } else {
                 Log.e("VacinaRepository", "Erro ao refrescar vacinas: ${response.code()}")
@@ -45,15 +44,18 @@ class VacinaRepository(
         }
     }
 
-    fun getTiposVacina(): Flow<List<TipoVacina>> = flow {
-        emit(tipoVacinaDao.getTiposVacina())
+    fun getTiposVacina(): Flow<List<TipoVacina>> {
+        CoroutineScope(Dispatchers.IO).launch { refreshTiposVacina() }
+        return tipoVacinaDao.getTiposVacina()
+    }
+
+    private suspend fun refreshTiposVacina() {
         try {
             val response = apiService.getTiposVacina()
             if (response.isSuccessful) {
                 response.body()?.tipos?.let {
                     tipoVacinaDao.clearAll()
                     tipoVacinaDao.insertAll(it)
-                    emit(it)
                 }
             }
         } catch (e: Exception) {
@@ -61,15 +63,18 @@ class VacinaRepository(
         }
     }
 
-    fun getClinicas(): Flow<List<Clinica>> = flow {
-        emit(clinicaDao.getAllClinicas())
+    fun getClinicas(): Flow<List<Clinica>> {
+        CoroutineScope(Dispatchers.IO).launch { refreshClinicas() }
+        return clinicaDao.getAllClinicas()
+    }
+
+    private suspend fun refreshClinicas() {
         try {
             val response = apiService.getClinicas()
             if (response.isSuccessful) {
                 response.body()?.let {
                     clinicaDao.clearAll()
                     clinicaDao.insertAll(it)
-                    emit(it)
                 }
             }
         } catch (e: Exception) {
@@ -77,15 +82,18 @@ class VacinaRepository(
         }
     }
 
-    fun getVeterinariosPorClinica(clinicaId: Int): Flow<List<Veterinario>> = flow {
-        emit(veterinarioDao.getVeterinariosByClinica(clinicaId))
+    fun getVeterinariosPorClinica(clinicaId: Int): Flow<List<Veterinario>> {
+        CoroutineScope(Dispatchers.IO).launch { refreshVeterinariosPorClinica(clinicaId) }
+        return veterinarioDao.getVeterinariosByClinica(clinicaId)
+    }
+
+    private suspend fun refreshVeterinariosPorClinica(clinicaId: Int) {
         try {
             val response = apiService.getVeterinariosPorClinica(clinicaId)
             if (response.isSuccessful) {
                 response.body()?.let {
                     veterinarioDao.deleteByClinica(clinicaId)
                     veterinarioDao.insertAll(it)
-                    emit(it)
                 }
             }
         } catch (e: Exception) {

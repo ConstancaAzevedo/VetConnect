@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import pt.ipt.dam2025.vetconnect.model.TipoExame
 
 /**
- * DAO responsável por todas as interações com a tabela de tipo de exames
+ * DAO responsável por todas as interações com a tabela de exames
  */
 
 @Dao

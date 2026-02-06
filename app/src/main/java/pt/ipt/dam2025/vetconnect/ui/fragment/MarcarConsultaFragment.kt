@@ -16,21 +16,20 @@ import pt.ipt.dam2025.vetconnect.databinding.FragmentMarcarConsultaBinding
 import pt.ipt.dam2025.vetconnect.model.Clinica
 import pt.ipt.dam2025.vetconnect.model.NovaConsulta
 import pt.ipt.dam2025.vetconnect.model.Veterinario
-import pt.ipt.dam2025.vetconnect.viewmodel.MarcarConsultaViewModel
-import pt.ipt.dam2025.vetconnect.viewmodel.MarcarConsultaViewModelFactory
+import pt.ipt.dam2025.vetconnect.viewmodel.ConsultaViewModel
+import pt.ipt.dam2025.vetconnect.viewmodel.ConsultaViewModelFactory
 import java.util.Calendar
 import java.util.Locale
 
 /**
  * Fragment para a página de marcar consulta
  */
-
 class MarcarConsultaFragment : Fragment() {
 
     private var _binding: FragmentMarcarConsultaBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: MarcarConsultaViewModel
+    private lateinit var viewModel: ConsultaViewModel
     private var listaClinicas: List<Clinica> = emptyList()
     private var listaVeterinarios: List<Veterinario> = emptyList()
 
@@ -45,8 +44,8 @@ class MarcarConsultaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory = MarcarConsultaViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(MarcarConsultaViewModel::class.java)
+        val factory = ConsultaViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory).get(ConsultaViewModel::class.java)
 
         setupUI()
         observeViewModel()
@@ -66,6 +65,15 @@ class MarcarConsultaFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.clinicaSpinner.adapter = adapter
             binding.clinicaSpinner.isEnabled = true
+        }
+
+        viewModel.operationStatus.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(context, "Consulta marcada com sucesso!", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }.onFailure {
+                Toast.makeText(context, "Erro ao marcar consulta: ${it.message}", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -111,14 +119,7 @@ class MarcarConsultaFragment : Fragment() {
         val veterinarioId = listaVeterinarios[vetPosition - 1].id
 
         val novaConsulta = NovaConsulta(animalId, clinicaId, veterinarioId, data, hora, motivo)
-        viewModel.marcarConsulta(token, novaConsulta).observe(viewLifecycleOwner) {
-            it.onSuccess {
-                Toast.makeText(context, "Consulta marcada com sucesso!", Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
-            }.onFailure {
-                Toast.makeText(context, "Erro ao marcar consulta: ${it.message}", Toast.LENGTH_LONG).show()
-            }
-        }
+        viewModel.marcarConsulta(token, novaConsulta)
     }
 
     private fun setupDateTimePickers() {
@@ -129,7 +130,7 @@ class MarcarConsultaFragment : Fragment() {
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
         }
         binding.hora.setOnClickListener {
-            TimePickerDialog(this.context, { _, hour, minute ->
+            TimePickerDialog(requireContext(), { _, hour, minute ->
                 binding.hora.setText(String.format(Locale.ROOT, "%02d:%02d:00", hour, minute))
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
         }

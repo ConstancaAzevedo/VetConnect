@@ -51,8 +51,9 @@ class HistoricoAdapter(
         init {
             // Configura o listener de clique para o item inteiro
             itemView.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    onItemClick(exames[adapterPosition])
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClick(exames[position])
                 }
             }
         }

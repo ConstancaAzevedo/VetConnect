@@ -10,7 +10,6 @@ import pt.ipt.dam2025.vetconnect.model.AnimalResponse
 /**
  * DAO responsável por todas as interações com a tabela de animais
  */
-
 @Dao
 interface AnimalDao {
 
@@ -34,6 +33,12 @@ interface AnimalDao {
      */
     @Query("SELECT * FROM animais WHERE id = :id LIMIT 1")
     fun getById(id: Int): Flow<AnimalResponse?>
+
+    /*
+     * obtém um animal específico pelo seu ID para uma operação única
+     */
+    @Query("SELECT * FROM animais WHERE id = :id LIMIT 1")
+    suspend fun getAnimalById(id: Int): AnimalResponse?
 
     /*
      * apaga um animal da base de dados pelo seu ID

@@ -11,7 +11,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -145,9 +144,18 @@ class AnimalFragment : Fragment() {
     }
 
     private fun openCamera() {
+        /*
+         * tenta criar um ficheiro temporário para guardar a imagem
+         * em caso de erro (ex: falta de espaço) mostra uma mensagem e retorna nulo
+         */
         val photoFile: File? = try {
             createImageFile()
-        } catch (ex: IOException) {
+        } 
+        /* _ -> uma convenção em Kotlin para indicar que um parâmetro existe mas não será usado
+         * apanhamos o erro IOException mas como a única ação é mostrar uma mensagem genérica
+         * não precisamos dos detalhes do erro
+        */
+        catch (_: IOException) {
             Toast.makeText(context, "Erro ao criar ficheiro de imagem", Toast.LENGTH_SHORT).show()
             null
         }

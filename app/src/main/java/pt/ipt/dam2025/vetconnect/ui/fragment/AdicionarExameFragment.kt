@@ -16,16 +16,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.databinding.FragmentAdicionarExameBinding
-import pt.ipt.dam2025.vetconnect.viewmodel.AdicionarExameViewModel
-import pt.ipt.dam2025.vetconnect.viewmodel.AdicionarExameViewModelFactory
+import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModel
+import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModelFactory
 import java.util.Calendar
+import java.util.Locale
 
+/**
+ * Fragment para a página de adicionar um novo exame ao histórico
+ */
 class AdicionarExameFragment : Fragment() {
 
     private var _binding: FragmentAdicionarExameBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: AdicionarExameViewModel
+    private lateinit var viewModel: HistoricoViewModel
     private var selectedImageUri: Uri? = null
 
     // ActivityResultLauncher para a galeria de imagens
@@ -48,8 +52,8 @@ class AdicionarExameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory = AdicionarExameViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(AdicionarExameViewModel::class.java)
+        val factory = HistoricoViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory).get(HistoricoViewModel::class.java)
 
         setupUI()
         observeViewModel()
@@ -57,7 +61,6 @@ class AdicionarExameFragment : Fragment() {
 
     private fun setupUI() {
         // TODO: Popular os spinners com dados da API
-        // Exemplo com dados estáticos:
         val tiposExame = arrayOf("Análise Sanguínea", "Raio-X", "Ecografia")
         val clinicas = arrayOf("Clínica A", "Clínica B")
         val veterinarios = arrayOf("Dr. House", "Dr. Dolittle")
@@ -66,21 +69,12 @@ class AdicionarExameFragment : Fragment() {
         binding.spinnerClinica.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, clinicas))
         binding.spinnerVeterinario.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, veterinarios))
 
-        // Configura o DatePickerDialog
-        binding.editTextDataExame.setOnClickListener {
-            showDatePicker()
-        }
-
-        // Configura o botão para adicionar foto
+        binding.editTextDataExame.setOnClickListener { showDatePicker() }
         binding.buttonAdicionarFoto.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             pickImageLauncher.launch(intent)
         }
-
-        // Configura o botão de guardar
-        binding.buttonGuardarExame.setOnClickListener {
-            guardarExame()
-        }
+        binding.buttonGuardarExame.setOnClickListener { guardarExame() }
     }
 
     private fun showDatePicker() {
@@ -88,7 +82,7 @@ class AdicionarExameFragment : Fragment() {
         DatePickerDialog(
             requireContext(),
             { _, year, month, dayOfMonth ->
-                val selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
+                val selectedDate = String.format(Locale.ROOT, "%04d-%02d-%02d", year, month + 1, dayOfMonth)
                 binding.editTextDataExame.setText(selectedDate)
             },
             calendar.get(Calendar.YEAR),
@@ -122,7 +116,7 @@ class AdicionarExameFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.exameAdicionado.observe(viewLifecycleOwner) {
+        viewModel.operationStatus.observe(viewLifecycleOwner) {
             it.onSuccess {
                 Toast.makeText(context, "Exame adicionado com sucesso", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
