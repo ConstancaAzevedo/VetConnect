@@ -20,8 +20,8 @@
             android:id="@+id/action_mainFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_registarFragment"
-            app:destination="@id/registarFragment" />
+            android:id="@+id/action_mainFragment_to_escolhaFragment"
+            app:destination="@id/escolhaFragment" />
     </fragment>
 
     <!-- ecrã sobre -->
@@ -40,6 +40,19 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- ecrã de escolha -->
+    <fragment
+        android:id="@+id/escolhaFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.EscolhaFragment"
+        android:label="Escolha"
+        tools:layout="@layout/fragment_escolha">
+        <action
+            android:id="@+id/action_escolhaFragment_to_registarFragment"
+            app:destination="@id/registarFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
@@ -199,7 +212,29 @@
         android:id="@+id/vacinasFragment"
         android:name="pt.ipt.dam2025.vetconnect.ui.fragment.VacinasFragment"
         android:label="Vacinas"
-        tools:layout="@layout/fragment_vacinas" />
+        tools:layout="@layout/fragment_vacinas">
+        <action
+            android:id="@+id/action_vacinasFragment_to_detalhesVacinaFragment"
+            app:destination="@id/detalhesVacinaFragment" />
+    </fragment>
+
+    <!-- ecrã de Detalhes de uma Vacina -->
+    <fragment
+        android:id="@+id/detalhesVacinaFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.DetalhesVacinaFragment"
+        android:label="Vacinas"
+        tools:layout="@layout/fragment_detalhes_vacina" >
+        <action
+            android:id="@+id/action_detalhesVacinaFragment_to_editarVacinaFragment"
+            app:destination="@id/editarVacinaFragment" />
+    </fragment>
+
+    <!-- ecrã de Editar uma Vacina -->
+    <fragment
+        android:id="@+id/editarVacinaFragment"
+        android:name="pt.ipt.dam2025.vetconnect.ui.fragment.EditarVacinaFragment"
+        android:label="Editar Vacina"
+        tools:layout="@layout/fragment_editar_vacina" />
 
     <!-- ecrã Camara -->
     <fragment

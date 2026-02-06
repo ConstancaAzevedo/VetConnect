@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.vetconnect.api.ApiClient
+import pt.ipt.dam2025.vetconnect.model.UpdateVacinaRequest
 import pt.ipt.dam2025.vetconnect.model.Vacina
-import pt.ipt.dam2025.vetconnect.model.VacinasAgendadasResponse
 
-// ViewModel para Vacina
+/**
+ * Classe que define o ViewModel para Vacina
+ */
 class VacinaViewModel : ViewModel() {
 
     private val _vacinas = MutableLiveData<List<Vacina>>()
@@ -26,9 +28,8 @@ class VacinaViewModel : ViewModel() {
             try {
                 val response = ApiClient.apiService.getVacinasAgendadas("Bearer $token", animalId)
                 if (response.isSuccessful) {
-                    // a resposta contém o objeto VacinasAgendadasResponse, que tem a lista de vacinas
                     _vacinas.postValue(response.body()?.vacinas ?: emptyList())
-                    _errorMessage.postValue(null) // limpa erros anteriores em caso de sucesso
+                    _errorMessage.postValue(null)
                 } else {
                     _vacinas.postValue(emptyList())
                     _errorMessage.postValue("Falha ao carregar vacinas: ${response.message()}")
@@ -40,8 +41,42 @@ class VacinaViewModel : ViewModel() {
         }
     }
 
-     // limpa a mensagem de erro
-     // deve ser chamado depois de o erro ser tratado na UI
+    fun cancelarVacina(token: String, vacinaId: Int) {
+        viewModelScope.launch {
+            try {
+                val response = ApiClient.apiService.cancelarVacina("Bearer $token", vacinaId)
+                if (response.isSuccessful) {
+                    _operationStatus.postValue(true)
+                    _errorMessage.postValue(null)
+                } else {
+                    _operationStatus.postValue(false)
+                    _errorMessage.postValue("Falha ao apagar vacina: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                _operationStatus.postValue(false)
+                _errorMessage.postValue("Ocorreu um erro: ${e.message}")
+            }
+        }
+    }
+
+    fun updateVacina(token: String, vacinaId: Int, request: UpdateVacinaRequest) {
+        viewModelScope.launch {
+            try {
+                val response = ApiClient.apiService.updateVacina("Bearer $token", vacinaId, request)
+                if (response.isSuccessful) {
+                    _operationStatus.postValue(true)
+                    _errorMessage.postValue(null)
+                } else {
+                    _operationStatus.postValue(false)
+                    _errorMessage.postValue("Falha ao atualizar vacina: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                _operationStatus.postValue(false)
+                _errorMessage.postValue("Ocorreu um erro: ${e.message}")
+            }
+        }
+    }
+
     fun clearErrorMessage() {
         _errorMessage.value = null
     }

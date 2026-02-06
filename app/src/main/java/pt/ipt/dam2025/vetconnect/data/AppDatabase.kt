@@ -17,6 +17,7 @@ import pt.ipt.dam2025.vetconnect.model.Veterinario
 /**
  * Classe principal da base de dados da aplicação
  */
+
 @Database(
     entities = [
         Usuario::class,
@@ -29,12 +30,12 @@ import pt.ipt.dam2025.vetconnect.model.Veterinario
         Clinica::class,
         Veterinario::class
     ],
-    version = 16, // Incrementei a versão devido à alteração do esquema
+    version = 16, // incrementae a versão após alteração do esquema
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    // Funções abstratas que retornam os DAOs correspondentes a cada entidade
+    // funções abstratas que retornam os DAOs correspondentes a cada entidade
     abstract fun userDao(): UserDao
     abstract fun animalDao(): AnimalDao
     abstract fun exameDao(): ExameDao
@@ -44,7 +45,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun clinicaDao(): ClinicaDao
     abstract fun veterinarioDao(): VeterinarioDao
 
-    // Objeto companion para fornecer uma instância única do banco de dados
+    // objeto companion para fornecer uma instância única do banco de dados
     companion object {
 
         @Volatile
@@ -57,7 +58,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "vetconnect_database"
                 )
-                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration(false)
                 .build()
                 INSTANCE = instance
                 instance

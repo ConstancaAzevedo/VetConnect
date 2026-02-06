@@ -49,4 +49,9 @@
     <string name="proxima_dose_opcional">Próxima Dose (Opcional)</string>
     <string name="data_de_aplicacao">Data de Aplicação (DD-MM-AAAA)</string>
     <string name="editar_vacina">Editar Vacina</string>
+    <string name="nao_ha_exames_no_historico">Não há exames no histórico</string>
+    <string name="animal_label">Animal: %1$s</string>
+    <string name="clinica_label">Clínica: %1$s</string>
+    <string name="veterinario_label">Veterinário: %1$s</string>
+    <string name="status_label">Estado: %1$s</string>
 </resources>

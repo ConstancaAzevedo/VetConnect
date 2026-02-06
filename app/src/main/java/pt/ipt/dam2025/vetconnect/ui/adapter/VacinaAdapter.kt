@@ -1,46 +1,70 @@
 package pt.ipt.dam2025.vetconnect.ui.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import pt.ipt.dam2025.vetconnect.databinding.ItemVacinasBinding
+import pt.ipt.dam2025.vetconnect.databinding.ItemVacinaBinding
 import pt.ipt.dam2025.vetconnect.model.Vacina
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 /**
- * Adapter para a lista de vacinas
+ * Adapter para a lista de vacinas, usando ListAdapter para atualizações eficientes
  */
 class VacinaAdapter(
-    private var vacinas: MutableList<Vacina>,
-    private val onApagarClick: (Vacina) -> Unit // função a ser chamada quando o botão de apagar é clicado
-) : RecyclerView.Adapter<VacinaAdapter.VacinaViewHolder>() {
-
-     // ViewHolder que contém as referências para as Views de cada item
-    inner class VacinaViewHolder(val binding: ItemVacinasBinding) : RecyclerView.ViewHolder(binding.root)
+    private val onItemClick: (Vacina) -> Unit
+) : ListAdapter<Vacina, VacinaAdapter.VacinaViewHolder>(VacinaDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacinaViewHolder {
-        val binding = ItemVacinasBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemVacinaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return VacinaViewHolder(binding)
     }
 
-    // atualiza a view com os dados da vacina
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: VacinaViewHolder, position: Int) {
-        val vacina = vacinas[position] // obtém a vacina na posição atual
-        holder.binding.vacinaTipo.text = vacina.tipo // define o texto do tipo de vacina
-        holder.binding.vacinaData.text = "Aplicada em: ${vacina.dataAplicacao}"
+        val vacina = getItem(position)
+        holder.bind(vacina)
+    }
 
-        // define o que acontece quando se clica no botão de apagar
-        holder.binding.buttonApagarVacina.setOnClickListener {
-            onApagarClick(vacina)
+    inner class VacinaViewHolder(private val binding: ItemVacinaBinding) : RecyclerView.ViewHolder(binding.root) {
+        /**
+         * Associa os dados da vacina às views e configura o listener de clique
+         */
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun bind(vacina: Vacina) {
+            // Configura o clique no item
+            binding.root.setOnClickListener { onItemClick(vacina) }
+
+            // Preenche os dados da vacina
+            binding.textViewNomeVacina.text = vacina.tipo
+            binding.textViewEstadoVacina.text = vacina.estado
+
+            // Formata a data de forma segura
+            val dataParaMostrar = vacina.dataAplicacao ?: vacina.dataAgendada
+            binding.textViewDataVacina.text = try {
+                val dateTime = OffsetDateTime.parse(dataParaMostrar)
+                "Aplicada em: ${dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault()))}"
+            } catch (e: Exception) {
+                dataParaMostrar?.substringBefore('T') ?: "Data inválida"
+            }
         }
     }
 
-    // retorna o número de itens na lista
-    override fun getItemCount() = vacinas.size
+    /**
+     * Callback para calcular as diferenças entre duas listas de forma eficiente
+     */
+    class VacinaDiffCallback : DiffUtil.ItemCallback<Vacina>() {
+        override fun areItemsTheSame(oldItem: Vacina, newItem: Vacina): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-
-     // função para atualizar a lista de vacinas e notificar o adapter da mudança
-    fun updateData(newVacinas: List<Vacina>) {
-        this.vacinas = newVacinas.toMutableList()
-        notifyDataSetChanged()
+        override fun areContentsTheSame(oldItem: Vacina, newItem: Vacina): Boolean {
+            return oldItem == newItem
+        }
     }
 }

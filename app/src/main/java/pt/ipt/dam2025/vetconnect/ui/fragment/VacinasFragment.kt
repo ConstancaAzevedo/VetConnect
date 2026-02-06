@@ -6,27 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentVacinasBinding
+import pt.ipt.dam2025.vetconnect.model.Vacina
 import pt.ipt.dam2025.vetconnect.ui.adapter.VacinaAdapter
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModel
-import pt.ipt.dam2025.vetconnect.util.SessionManager
+import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModelFactory
 
 /**
- * Fragment para a página das vacinas já registadas
+ * Fragment para a página das vacinas de um animal
  */
 class VacinasFragment : Fragment() {
 
     private var _binding: FragmentVacinasBinding? = null
     private val binding get() = _binding!!
 
-    // obtém uma instância do ViewModel partilhada com a Activity
-    private val viewModel: VacinaViewModel by activityViewModels()
+    private lateinit var viewModel: VacinaViewModel
     private lateinit var vacinaAdapter: VacinaAdapter
 
-
-    // cria a view do fragment
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,40 +38,53 @@ class VacinasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sessionManager = SessionManager(requireContext())
+        // Inicializa o ViewModel usando a Factory
+        val factory = VacinaViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory).get(VacinaViewModel::class.java)
 
-        vacinaAdapter = VacinaAdapter(mutableListOf()) { vacina ->
-            Toast.makeText(context, "Apagar vacina: ${vacina.tipo}", Toast.LENGTH_SHORT).show()
-            // TODO: Chamar a função do ViewModel para apagar a vacina
+        setupRecyclerView()
+        observeViewModel()
+
+        // TODO: Obter o ID do animal e o token de forma segura
+        val animalId = 1 // Exemplo
+        val token = "seu_token_aqui" // Exemplo
+        viewModel.fetchVacinasAgendadas(token, animalId)
+    }
+
+    private fun setupRecyclerView() {
+        // O adapter agora é um ListAdapter, não precisa de uma lista inicial
+        vacinaAdapter = VacinaAdapter { vacina ->
+            // Navega para os detalhes da vacina quando um item é clicado
+            navigateToDetalhes(vacina)
         }
-
-        // configura o RecyclerView
         binding.recyclerViewVacinas.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = vacinaAdapter
         }
+    }
 
-        // observa o LiveData de vacinas no ViewModel
+    private fun observeViewModel() {
         viewModel.vacinas.observe(viewLifecycleOwner) { vacinas ->
-            vacinas?.let { vacinaAdapter.updateData(it) }
+            // Usamos submitList() para passar a nova lista ao ListAdapter
+            vacinas?.let { vacinaAdapter.submitList(it) }
         }
 
-        // observa o LiveData de erros no ViewModel
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             error?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                viewModel.clearErrorMessage() // limpa o erro depois de o mostrar
+                viewModel.clearErrorMessage()
             }
         }
+    }
 
-        // A lógica do token e ID é tratada pelo ApiClient e SessionManager
-        // Apenas chamamos o método do ViewModel
-        val animalId = sessionManager.getAnimalId()
-        if (animalId != -1) {
-            viewModel.fetchVacinasAgendadas(animalId)
-        } else {
-            Toast.makeText(context, "ID do animal não encontrado.", Toast.LENGTH_LONG).show()
+    private fun navigateToDetalhes(vacina: Vacina) {
+        val bundle = Bundle().apply {
+            // O ideal é que a classe Vacina seja Parcelable
+            // Alternativa: passar os dados individualmente
+            putInt("vacinaId", vacina.id)
+            // Adicione outros dados da vacina que o DetalhesVacinaFragment possa precisar
         }
+        findNavController().navigate(R.id.action_vacinasFragment_to_detalhesVacinaFragment, bundle)
     }
 
     override fun onDestroyView() {

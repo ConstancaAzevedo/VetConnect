@@ -11,7 +11,7 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    // autenticação e utilziadores==============================================
+    // autenticação e utilziadores ==============================================
     @POST("usuarios")
     suspend fun criarUsuario(@Body usuario: NovoUsuario): Response<RegistrationResponse>
 
@@ -61,18 +61,19 @@ interface ApiService {
         @Path("id") id: Int
     ): Response<GenericMessageResponse>
 
-    // animais==============================================
+    // animais ==============================================
     @POST("animais")
     suspend fun createAnimal(
         @Header("Authorization") token: String,
         @Body animal: CreateAnimalRequest
     ): Response<AnimalResponse>
 
-    @DELETE("animais/{animalId}")
-    suspend fun deleteAnimal(
+    @PUT("animais/{animalId}")
+    suspend fun updateAnimal(
         @Header("Authorization") token: String,
-        @Path("animalId") animalId: Int
-    ): Response<GenericMessageResponse>
+        @Path("animalId") animalId: Int,
+        @Body animal: CreateAnimalRequest
+    ): Response<AnimalResponse>
 
     @GET("usuarios/{userId}/animais")
     suspend fun getAnimaisDoTutor(
@@ -94,27 +95,44 @@ interface ApiService {
         @Part foto: MultipartBody.Part
     ): Response<UploadResponse>
 
-    // documentos(histórico)==============================================
-    @POST("documentos")
-    suspend fun createDocumento(
-        @Header("Authorization") token: String,
-        @Body payload: CreateDocumentRequest
-    ): Response<CreateDocumentResponse>
+    // Histórico (Exames) ==============================================
+    @GET("exames/tipos")
+    suspend fun getTiposExame(): Response<TiposExameResponse>
 
-    @GET("animais/{animalId}/documentos")
-    suspend fun getDocumentosDoAnimal(
+    @POST("exames")
+    suspend fun createExame(
+        @Header("Authorization") token: String,
+        @Body payload: CreateExameRequest
+    ): Response<CreateExameResponse>
+
+    @Multipart
+    @POST("exames/{id}/foto")
+    suspend fun addFotoToExame(
+        @Header("Authorization") token: String,
+        @Path("id") exameId: Int,
+        @Part foto: MultipartBody.Part
+    ): Response<AddExameFotoResponse>
+
+    @GET("animais/{animalId}/exames")
+    suspend fun getExamesDoAnimal(
         @Header("Authorization") token: String,
         @Path("animalId") animalId: Int
-    ): Response<DocumentosResponse>
+    ): Response<ExamesResponse>
 
-    @DELETE("documentos/{tipo}/{id}")
-    suspend fun deleteDocumento(
+    @PUT("exames/{id}")
+    suspend fun updateExame(
         @Header("Authorization") token: String,
-        @Path("tipo") tipo: String,
-        @Path("id") id: Long
-    ): Response<DeleteDocumentResponse>
+        @Path("id") exameId: Int,
+        @Body payload: UpdateExameRequest
+    ): Response<CreateExameResponse>
 
-    // consultas==============================================
+    @DELETE("exames/{id}")
+    suspend fun deleteExame(
+        @Header("Authorization") token: String,
+        @Path("id") id: Long
+    ): Response<GenericSuccessResponse>
+
+    // consultas ==============================================
     @GET("clinicas")
     suspend fun getClinicas(): Response<List<Clinica>>
 
@@ -142,7 +160,7 @@ interface ApiService {
         @Path("id") consultaId: Int
     ): Response<CancelConsultaResponse>
 
-    // Vacinas ==============================================
+    // vacinas ==============================================
     @GET("vacinas/tipos")
     suspend fun getTiposVacina(): Response<TiposVacinaResponse>
 

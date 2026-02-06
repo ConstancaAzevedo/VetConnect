@@ -15,21 +15,27 @@ import pt.ipt.dam2025.vetconnect.model.Usuario
 @Dao
 interface UserDao {
 
-    // insere o objeto user na tabela; se já existir, substitui
+    /*
+     * insere o objeto user na tabela se já existir substitui
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdate(user: Usuario)
 
-    // atualiza um utilizador existente na base de dados
+    /*
+     * atualiza um utilizador existente na base de dados
+     */
     @Update
     suspend fun update(user: Usuario)
 
-    // obtém os dados de um utilizador específico pelo seu ID e expõe-os como um Flow
+    /*
+     * obtém os dados de um utilizador específico pelo seu ID e expõe-os como um Flow
+     */
     @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
     fun getUserById(id: Int): Flow<Usuario?>
 
     /*
      * obtém os dados de um utilizador específico pelo seu ID
-     * só é chamada uma vez, vai à base de daos, obtem o utilizador, devolve e termina
+     * só é chamada uma vez vai à base de daos obtem o utilizador devolve e termina
      */
     @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
     suspend fun getUserByIdOnce(id: Int): Usuario?

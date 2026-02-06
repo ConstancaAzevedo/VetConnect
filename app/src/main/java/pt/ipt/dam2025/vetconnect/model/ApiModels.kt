@@ -2,15 +2,15 @@ package pt.ipt.dam2025.vetconnect.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-// representa um utilizador
+/**
+ * Modelos de Ddos de UTILIZADORES e AUTENTICAÇÃO
+ */
 @Entity(tableName = "users")
 data class Usuario(
-    //Propriedades da entidade
-    @PrimaryKey val id: Int, // Chave primária
+    @PrimaryKey val id: Int,
     val nome: String,
     val email: String,
     val telemovel: String?,
@@ -25,7 +25,9 @@ data class Usuario(
     val verificado: Boolean?
 )
 
-// representa um novo utilizador
+/*
+ * modelo de dados para o pedido de criação de um novo utilizador
+ */
 data class NovoUsuario(
     val nome: String,
     val email: String,
@@ -33,113 +35,150 @@ data class NovoUsuario(
     val tipo: String
 )
 
-// update de um utilziador
+/*
+ * modelo para o pedido de atualização dos dados de um utilizador
+ */
 data class UpdateUserRequest(
     val nome: String,
     val email: String,
     val tipo: String
 )
 
-// dados de login
+/*
+ * resposta da API após o registo de um novo utilizador
+ */
 data class RegistrationResponse(
     val user: Usuario,
     val message: String,
     val verificationCode: String
 )
 
-// verificação
+/*
+ * modelo para o pedido de verificação de um código enviado por email
+ */
 data class VerificationRequest(
     val email: String,
     @SerializedName("codigoVerificacao") val codigo: String
 )
 
-// resposta de verificação
+/*
+ * resposta da API após uma verificação de código bem-sucedida
+ */
 data class VerificationResponse(
     val message: String,
     val userId: Int
 )
 
-// criação de PIN
+/*
+ * modelo para o pedido de criação de um PIN de acesso
+ */
 data class CreatePinRequest(
     val email: String,
     val pin: String
 )
 
-// resposta de criação de PIN
+/*
+ * resposta da API após a criação de um PIN
+ */
 data class CreatePinResponse(
     val message: String,
     val userId: Int
 )
 
-// login
+/*
+ * modelo para o pedido de login de um utilizador
+ */
 data class LoginRequest(
     val email: String,
     val pin: String
 )
 
-// recuperar pin
-data class RecuperarPinRequest(
-    val email: String
-)
-
-// recuperação de PIN
-data class RecuperarPinResponse(
-    val message: String,
-    val codigoRecuperacao: String
-)
-
-// alteração de PIN
-data class RedefinirPinRequest(
-    val email: String,
-    val codigoRecuperacao: String,
-    val novoPin: String
-)
-
-// resposta de alteração de PIN
-data class RedefinirPinResponse(
-    val message: String
-)
-
-// logout
-data class AlterarPinRequest(
-    val pinAtual: String,
-    val novoPin: String
-)
-
-// Wrapper para o corpo da resposta de login
+/*
+ * resposta da API após um login bem-sucedido
+ */
 data class LoginResponse(
     val message: String,
     val token: String,
     val user: Usuario
 )
 
-// Wrapper para o corpo da resposta de logout
-data class LogoutResponse(
-    val success: Boolean,
+/*
+ * modelo para o pedido de recuperação de PIN
+ */
+data class RecuperarPinRequest(
+    val email: String
+)
+
+/*
+ * resposta da API ao pedido de recuperação de PIN
+ */
+data class RecuperarPinResponse(
+    val message: String,
+    val codigoRecuperacao: String
+)
+
+/*
+ * modelo para o pedido de redefinição de um novo PIN usando um código de recuperação
+ */
+data class RedefinirPinRequest(
+    val email: String,
+    val codigoRecuperacao: String,
+    val novoPin: String
+)
+
+/*
+ * resposta da API após uma redefinição de PIN bem-sucedida
+ */
+data class RedefinirPinResponse(
     val message: String
 )
 
-// Wrapper para o corpo da resposta de alteração de PIN
+/*
+ * modelo para o pedido de alteração do PIN atual (requer autenticação)
+ */
+data class AlterarPinRequest(
+    val pinAtual: String,
+    val novoPin: String
+)
+
+/*
+ * resposta da API após uma alteração de PIN bem-sucedida
+ */
 data class ChangePinResponse(
     val success: Boolean,
     val message: String
 )
 
-// Respostas genéricas
+/*
+ * resposta da API após um pedido de logout
+ */
+data class LogoutResponse(
+    val success: Boolean,
+    val message: String
+)
+
+/*
+ * modelo de resposta genérico da API contendo apenas uma mensagem
+ */
 data class GenericMessageResponse(val message: String)
+
+/*
+ * modelo de resposta genérico da API contendo um estado de sucesso e uma mensagem
+ */
 data class GenericSuccessResponse(val success: Boolean, val message: String)
 
 
-// ANIMAIS
-data class CreateAnimalRequest(
-    val nome: String,
-    val especie: String,
-    val raca: String?,
-    val dataNascimento: String?,
-    val numeroChip: String?
-)
+/**
+ * Modelos de Dados de ANIMAIS
+ * Representa um animal de estimação
+ * Usado como entidade da base de dados (tabela 'animais')
+ * e como modelo em respostas da API
+ */
 
-// resposta de criação de animal
+/*
+ * modelo para o pedido de criação de um novo animal
+ */
+
 @Entity(tableName = "animais")
 data class AnimalResponse(
     @PrimaryKey val id: Int,
@@ -156,13 +195,25 @@ data class AnimalResponse(
     @SerializedName("tutoremail") val tutorEmail: String?
 )
 
-// resposta de atualização de animal
+data class CreateAnimalRequest(
+    val nome: String,
+    val especie: String,
+    val raca: String?,
+    val dataNascimento: String?,
+    val numeroChip: String?
+)
+
+/*
+ * representa uma versão resumida de um animal usada em respostas de outras operações
+ */
 data class AnimalResumo(
     @SerializedName("id") val id: Int,
     @SerializedName("nome") val nome: String
 )
 
-// resposta de upload de foto
+/*
+ * resposta da API após o upload bem-sucedido da foto de um animal
+ */
 data class UploadResponse(
     @SerializedName("success") val success: Boolean,
     @SerializedName("message") val message: String,
@@ -171,22 +222,33 @@ data class UploadResponse(
     @SerializedName("animal") val animal: AnimalResumo? = null
 )
 
-
-// HISTÓRICO - EXAME
+/**
+ * Modelos de Dados de HISTÓRICO (EXAMES)
+ * Representa um exame médico do histórico de um animal
+ * Pode ser criado manualmente na app ou sincronizado da API
+ * Usado como entidade da base de dados (tabela 'exames')
+ */
 @Entity(tableName = "exames")
 data class Exame(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @PrimaryKey @SerializedName("id") val id: Int,
     @SerializedName("animalid") val animalId: Int,
-    @SerializedName("tipo") val tipo: String,
-    @SerializedName("dataexame") val dataExame: String,
+    @SerializedName("tipo_exame_id") val tipoExameId: Int?,
+    @SerializedName("tipo_nome") val tipo: String?,
+    @SerializedName("dataexame") val dataExame: String?,
+    @SerializedName("clinicaid") val clinicaId: Int?,
+    @SerializedName("clinicanome") val clinicaNome: String?,
+    @SerializedName("veterinarioid") val veterinarioId: Int?,
+    @SerializedName("veterinarionome") val veterinarioNome: String?,
     @SerializedName("resultado") val resultado: String?,
-    @SerializedName("laboratorio") val laboratorio: String?,
-    @SerializedName("veterinario") val veterinario: String?,
-    @SerializedName("ficheirourl") val ficheiroUrl: String?,
     @SerializedName("observacoes") val observacoes: String?,
+    @SerializedName("fotourl") val ficheiroUrl: String?,
     @SerializedName("dataregisto") val dataRegisto: String?
 ) : Serializable
 
+/*
+ * representa um tipo de exame (ex: Raio-X, Análise de Sangue)
+ * usado como entidade da base de dados (tabela 'tipos_exame')
+ */
 @Entity(tableName = "tipos_exame")
 data class TipoExame(
     @PrimaryKey val id: Int,
@@ -194,53 +256,83 @@ data class TipoExame(
     val descricao: String?
 )
 
-// Resposta da API para os tipos de exame
+/*
+ * resposta da API contendo uma lista de tipos de exame disponíveis
+ */
 data class TiposExameResponse(
     val success: Boolean,
     val tipos: List<TipoExame>,
     val count: Int
 )
 
-// Resposta da API para o histórico de um animal
-data class DocumentosResponse(
+/*
+ * resposta da API que agrega os exames de histórico de um animal
+ */
+data class ExamesResponse(
+    val success: Boolean,
+    val count: Int,
     val exames: List<Exame>
 )
 
-// CRIAR DOCUMENTO (agora apenas para exames)
-data class CreateDocumentRequest(
-    val tipo: String, // "exame"
-    val animalId: Int,
-    val dados: JsonElement
+/*
+ * modelo para o pedido de criação de um novo exame
+ */
+data class CreateExameRequest(
+    @SerializedName("animalId") val animalId: Int,
+    @SerializedName("tipo_exame_id") val tipoExameId: Int,
+    @SerializedName("dataExame") val dataExame: String,
+    @SerializedName("clinicaId") val clinicaId: Int,
+    @SerializedName("veterinarioId") val veterinarioId: Int,
+    @SerializedName("resultado") val resultado: String?,
+    @SerializedName("observacoes") val observacoes: String?
 )
 
-// RESPOSTA CRIAR DOCUMENTO
-data class CreateDocumentResponse(
-    val message: String,
-    val tipo: String,
-    val documento: JsonElement
+/*
+ * modelo para o pedido de edição de um exame existente
+ */
+data class UpdateExameRequest(
+    @SerializedName("tipo_exame_id") val tipoExameId: Int?,
+    @SerializedName("dataExame") val dataExame: String?,
+    @SerializedName("clinicaId") val clinicaId: Int?,
+    @SerializedName("veterinarioId") val veterinarioId: Int?,
+    @SerializedName("resultado") val resultado: String?,
+    @SerializedName("observacoes") val observacoes: String?
 )
 
-// DELETAR DOCUMENTO
-data class DeletedDocumentInfo(
-    val id: Int,
-    val tipo: String
-)
-
-// RESPOSTA DE DELETAR DOCUMENTO
-data class DeleteDocumentResponse(
+/*
+ * resposta da API após a criação de um novo exame
+ */
+data class CreateExameResponse(
     val success: Boolean,
     val message: String,
-    val documento: DeletedDocumentInfo
+    val exame: Exame
 )
 
-// CONSULTAS
+/*
+* Resposta da API após o upload da foto de um exame
+*/
+data class AddExameFotoResponse(
+    val success: Boolean,
+    val message: String,
+    val fotoUrl: String
+)
+
+
+/**
+ * Modelos de Dados de CONSULTAS
+ * Representa uma clínica veterinária
+ * Usado como entidade da base de dados (tabela 'clinicas')
+ */
 @Entity(tableName = "clinicas")
 data class Clinica(
     @PrimaryKey @SerializedName("id") val id: Int,
     val nome: String
 )
 
-//
+/**
+ * Representa um médico veterinário
+ * Usado como entidade da base de dados (tabela 'veterinarios')
+ */
 @Entity(tableName = "veterinarios")
 data class Veterinario(
     @PrimaryKey @SerializedName("id") val id: Int,
@@ -248,17 +340,11 @@ data class Veterinario(
     @SerializedName("clinicaid") val clinicaId: Int
 )
 
-
-data class NovaConsulta(
-    val animalId: Int,
-    val clinicaId: Int,
-    val veterinarioId: Int,
-    val data: String,
-    val hora: String,
-    val motivo: String?
-)
-
-// resposta de criar consulta
+/**
+ * Representa uma consulta
+ * Usado como entidade da base de dados (tabela 'consultas')
+ * e como modelo em respostas da API
+ */
 @Entity(tableName = "consultas")
 data class Consulta(
     @PrimaryKey val id: Int,
@@ -271,19 +357,38 @@ data class Consulta(
     val motivo: String?,
     val estado: String,
     @SerializedName("datamarcacao") val dataMarcacao: String,
-    // Joined fields
+    // Campos extra obtidos por junção de tabelas na API
     @SerializedName("animalnome") val animalNome: String?,
     @SerializedName("clinicanome") val clinicaNome: String?,
     @SerializedName("veterinarionome") val veterinarioNome: String?
 )
 
-// resposta de listar consultas
+/*
+ * modelo para o pedido de marcação de uma nova consulta
+ */
+data class NovaConsulta(
+    val animalId: Int,
+    val clinicaId: Int,
+    val veterinarioId: Int,
+    val data: String,
+    val hora: String,
+    val motivo: String?
+)
+
+/*
+ * resposta da API após o cancelamento de uma consulta
+ */
 data class CancelConsultaResponse(
     val message: String,
     val consultaId: Int
 )
 
-// VACINAS (Funcionalidade isolada)
+
+/**
+ * Modelos de Dados de VACINAS
+ * Representa uma vacina (agendada ou administrada)
+ * Usado como entidade da base de dados (tabela 'vacinas') e como modelo em respostas da API
+ */
 @Entity(tableName = "vacinas")
 data class Vacina(
     @PrimaryKey @SerializedName("id") val id: Int,
@@ -299,7 +404,6 @@ data class Vacina(
     @SerializedName("estado") val estado: String,
     @SerializedName("notificado") val notificado: Boolean,
     @SerializedName("dataregisto") val dataRegisto: String?,
-    // Fields from joined tables
     @SerializedName("descricao") val descricao: String?,
     @SerializedName("periodicidade") val periodicidade: String?,
     @SerializedName("animal_nome") val animalNome: String?,
@@ -307,7 +411,10 @@ data class Vacina(
     @SerializedName("categoria") val categoria: String?
 ) : Serializable
 
-// resposta de listar vacinas
+/**
+ * Representa um tipo de vacina (ex: Raiva, Leptospirose)
+ * Usado como entidade da base de dados (tabela 'tipos_vacina')
+ */
 @Entity(tableName = "tipos_vacina")
 data class TipoVacina(
     @PrimaryKey val id: Int,
@@ -317,14 +424,18 @@ data class TipoVacina(
     val periodicidade: String?
 )
 
-// resposta de listar tipos de vacinas
+/*
+ * resposta da API contendo uma lista de tipos de vacina disponíveis
+ */
 data class TiposVacinaResponse(
     val success: Boolean,
     val tipos: List<TipoVacina>,
     val count: Int
 )
 
-// resposta de agendar vacina
+/*
+ * modelo para o pedido de agendamento de uma nova vacina
+ */
 data class AgendarVacinaRequest(
     @SerializedName("animalId") val animalId: Int,
     @SerializedName("tipo_vacina_id") val tipoVacinaId: Int,
@@ -332,7 +443,9 @@ data class AgendarVacinaRequest(
     @SerializedName("observacoes") val observacoes: String?
 )
 
-// resposta de agendar vacina
+/*
+ * resposta da API após o agendamento de uma vacina
+ */
 data class AgendarVacinaResponse(
     @SerializedName("success") val success: Boolean,
     @SerializedName("message") val message: String,
@@ -341,14 +454,18 @@ data class AgendarVacinaResponse(
     @SerializedName("tipo_vacina") val tipoVacina: TipoVacina
 )
 
-// resposta de listar vacinas agendadas
+/*
+ * resposta da API que contém uma lista de vacinas agendadas
+ */
 data class VacinasAgendadasResponse(
     @SerializedName("success") val success: Boolean,
     @SerializedName("count") val count: Int,
     @SerializedName("vacinas") val vacinas: List<Vacina>
 )
 
-// resposta de listar vacinas próximas
+/*
+ * resposta da API que contém uma lista de vacinas com data próxima
+ */
 data class VacinasProximasResponse(
     @SerializedName("success") val success: Boolean,
     @SerializedName("count") val count: Int,
@@ -356,35 +473,45 @@ data class VacinasProximasResponse(
     @SerializedName("mensagem") val mensagem: String
 )
 
-// resposta de atualizar vacina
+/*
+ * modelo para o pedido de atualização de uma vacina existente
+ */
 data class UpdateVacinaRequest(
     @SerializedName("dataAplicacao") val dataAplicacao: String?,
     @SerializedName("dataProxima") val dataProxima: String?,
     @SerializedName("observacoes") val observacoes: String?
 )
 
-// resposta de atualizar vacina
+/*
+ * resposta da API após a atualização de uma vacina
+ */
 data class UpdateVacinaResponse(
     val success: Boolean,
     @SerializedName("mensagem") val message: String,
     val vacina: Vacina
 )
 
-// resposta de cancelar vacina
+/*
+ * contém informação sobre uma vacina que foi cancelada
+ */
 data class CanceledVacinaInfo(
     val id: Int,
     val tipo: String,
     @SerializedName("animalid") val animalId: Int
 )
 
-// resposta de cancelar vacina
+/*
+ * resposta da API após o cancelamento de uma vacina
+ */
 data class CancelVacinaResponse(
     val success: Boolean,
     val message: String,
     val vacina: CanceledVacinaInfo
 )
 
-// resposta de marcar vacina realizada
+/*
+ * modelo para o pedido de marcação de uma vacina como 'realizada'
+ */
 data class MarcarVacinaRealizadaRequest(
     @SerializedName("dataAplicacao") val dataAplicacao: String?,
     @SerializedName("lote") val lote: String?,
@@ -392,7 +519,9 @@ data class MarcarVacinaRealizadaRequest(
     @SerializedName("observacoes") val observacoes: String?
 )
 
-// resposta de marcar vacina realizada
+/*
+ * resposta da API após marcar uma vacina como 'realizada'
+ */
 data class MarkVacinaRealizadaResponse(
     val success: Boolean,
     @SerializedName("mensagem") val message: String,
