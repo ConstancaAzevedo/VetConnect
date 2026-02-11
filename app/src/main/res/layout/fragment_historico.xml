@@ -57,6 +57,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/adicionar_exame"
-        app:srcCompat="@drawable/add_icon" />
+        app:srcCompat="@drawable/add_icon"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

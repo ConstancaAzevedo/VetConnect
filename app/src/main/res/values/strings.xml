@@ -43,11 +43,9 @@
     <string name="cancelar_vacina">Cancelar Vacina</string>
     <string name="adicionar_exame">Adicionar Exame</string>
     <string name="agendar_nova_vacina">Agendar Nova Vacina</string>
-    <string name="guardar_alteracoes">Guardar Alterações</string>
     <string name="lote_opcional">Lote (Opcional)</string>
     <string name="veterinario">Veterinário</string>
     <string name="proxima_dose_opcional">Próxima Dose (Opcional)</string>
-    <string name="data_de_aplicacao">Data de Aplicação (DD-MM-AAAA)</string>
     <string name="editar_vacina">Editar Vacina</string>
     <string name="nao_ha_exames_no_historico">Não há exames no histórico</string>
     <string name="animal_label">Animal: %1$s</string>
@@ -56,4 +54,18 @@
     <string name="status_label">Estado: %1$s</string>
     <string name="nao_ha_vacinas_registadas">Não há vacinas registadas</string>
     <string name="data_e_hora_do_agendamento">Data e Hora do Agendamento</string>
+    <string name="data_dd_mm_aaaa">Data (DD-MM-AAAA)</string>
+    <string name="tipo_de_exame">Tipo de Exame</string>
+    <string name="clinica">Clinica</string>
+    <string name="adicionar_foto_do_relatario">Adicionar Foto do Relatório</string>
+    <string name="preview_da_foto_do_exame">preview da foto do exame</string>
+    <string name="resultado">Resultado (Opcional)</string>
+    <string name="registar">Registar</string>
+    <string name="login">Login</string>
+    <string name="sobre">SOBRE</string>
+    <string name="tutor">Tutor</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="alterar_foto_do_relatorio">Alterar Foto do Relatório</string>
+    <string name="editar_exame">Editar Exame</string>
+    <string name="para_que_deseja_marcar_a_consulta">Para que deseja marcar a consulta</string>
 </resources>

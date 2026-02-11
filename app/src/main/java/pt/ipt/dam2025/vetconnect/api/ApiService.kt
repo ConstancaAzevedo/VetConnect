@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 /**
- * Interface que define os endpoints da API para o Retrofit.
+ * Interface que define os endpoints da API para o Retrofit
  */
 interface ApiService {
 
@@ -67,12 +67,12 @@ interface ApiService {
         @Body animal: CreateAnimalRequest
     ): Response<AnimalResponse>
 
-    @PUT("animais/{animalId}")
+    @PUT("animais/{id}")
     suspend fun updateAnimal(
         @Header("Authorization") token: String,
-        @Path("animalId") animalId: Int,
+        @Path("id") id: Int,
         @Body animal: CreateAnimalRequest
-    ): Response<AnimalResponse>
+    ): Response<UpdateAnimalResponse>
 
     @GET("usuarios/{userId}/animais")
     suspend fun getAnimaisDoTutor(

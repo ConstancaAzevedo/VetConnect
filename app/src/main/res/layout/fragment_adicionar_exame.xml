@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,19 +17,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Adicionar Novo Exame"
+            android:text="@string/adicionar_exame"
             android:textColor="@color/branco"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="24dp" />
 
-        <!-- yipo de exame -->
+        <!-- tipo de exame -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tipo de Exame"
+            android:hint="@string/tipo_de_exame"
             android:textColorHint="@color/cinzento_claro">
 
             <AutoCompleteTextView
@@ -38,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
+                android:importantForAccessibility="no"
                 android:textColor="@color/branco"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Data do Exame (DD-MM-AAAA)"
+            android:hint="@string/data_dd_mm_aaaa"
             android:textColorHint="@color/cinzento_claro">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -63,13 +63,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Clínica"
+            android:hint="@string/clinica"
             android:textColorHint="@color/cinzento_claro">
 
             <AutoCompleteTextView
                 android:id="@+id/spinner_clinica"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
                 android:inputType="none"
                 android:textColor="@color/branco"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -80,13 +81,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Veterinário"
+            android:hint="@string/veterinario"
             android:textColorHint="@color/cinzento_claro">
 
             <AutoCompleteTextView
                 android:id="@+id/spinner_veterinario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
                 android:inputType="none"
                 android:textColor="@color/branco"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -96,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Resultado (Opcional)"
+            android:hint="@string/resultado"
             android:textColorHint="@color/cinzento_claro">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -112,7 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Observações (Opcional)"
+            android:hint="@string/observacoes"
             android:textColorHint="@color/cinzento_claro">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -128,14 +130,18 @@
             android:id="@+id/button_adicionar_foto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Adicionar Foto do Relatório"
-            android:layout_marginTop="24dp"/>
+            android:text="@string/adicionar_foto_do_relatario"
+            style="@style/ButtonStyle"
+            android:layout_marginTop="24dp"
+            android:textSize="18sp"/>
 
         <ImageView
             android:id="@+id/image_view_preview"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/preview_da_foto_do_exame"
             android:visibility="gone"
             tools:visibility="visible"
             android:scaleType="centerCrop"/>
@@ -145,8 +151,9 @@
             android:id="@+id/button_guardar_exame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar Exame"
-            android:layout_marginTop="32dp"/>
+            android:text="@string/guardar"
+            style="@style/ButtonStyle"
+            android:layout_marginTop="20dp"/>
 
     </LinearLayout>
 </ScrollView>

@@ -58,6 +58,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    // Coil
+    implementation(libs.coil)
+
     // Glide
     implementation("com.github.bumptech.glide:glide:5.0.5")
     ksp("com.github.bumptech.glide:ksp:5.0.5")

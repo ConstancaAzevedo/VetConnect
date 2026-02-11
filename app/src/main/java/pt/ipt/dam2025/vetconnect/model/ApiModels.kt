@@ -224,6 +224,12 @@ data class UploadResponse(
     @SerializedName("animal") val animal: AnimalResumo? = null
 )
 
+data class UpdateAnimalResponse(
+    val success: Boolean,
+    val message: String,
+    val animal: AnimalResponse
+)
+
 /**
  * Modelos de Dados de HISTÓRICO (EXAMES)
  * Representa um exame médico do histórico de um animal

@@ -140,7 +140,7 @@
                 <Button
                     android:id="@+id/btnConfirmar"
                     style="@style/ButtonStyle"
-                    android:text="Confirmar Marcação"
+                    android:text="@string/confirmar"
                     android:layout_gravity="center"/>
 
             </LinearLayout>

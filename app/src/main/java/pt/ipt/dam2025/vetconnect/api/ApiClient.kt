@@ -16,7 +16,7 @@ import pt.ipt.dam2025.vetconnect.util.SessionManager
 object ApiClient {
 
     // URL do Render 
-    private const val BASE_URL = "https://vetconnect-api.onrender.com/"
+    private const val BASE_URL = "https://vetconnect-api-5g9p.onrender.com"
 
     private lateinit var retrofit: Retrofit
 

@@ -1,23 +1,22 @@
 package pt.ipt.dam2025.vetconnect.ui.fragment
 
-import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentAdicionarExameBinding
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModelFactory
+import java.io.File
 import java.util.Calendar
 import java.util.Locale
 
@@ -31,15 +30,6 @@ class AdicionarExameFragment : Fragment() {
 
     private lateinit var viewModel: HistoricoViewModel
     private var selectedImageUri: Uri? = null
-
-    // ActivityResultLauncher para a galeria de imagens
-    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            selectedImageUri = it.data?.data
-            binding.imageViewPreview.setImageURI(selectedImageUri)
-            binding.imageViewPreview.visibility = View.VISIBLE
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +47,16 @@ class AdicionarExameFragment : Fragment() {
 
         setupUI()
         observeViewModel()
+
+        // Ouve o resultado enviado pelo CamaraFragment
+        setFragmentResultListener("requestKey") { _, bundle ->
+            val imagePath = bundle.getString("imagePath")
+            if (imagePath != null) {
+                selectedImageUri = Uri.fromFile(File(imagePath))
+                binding.imageViewPreview.setImageURI(selectedImageUri)
+                binding.imageViewPreview.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun setupUI() {
@@ -70,9 +70,10 @@ class AdicionarExameFragment : Fragment() {
         binding.spinnerVeterinario.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, veterinarios))
 
         binding.editTextDataExame.setOnClickListener { showDatePicker() }
+        
+        // Altera o clique do botão para navegar para o fragmento da câmara
         binding.buttonAdicionarFoto.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            pickImageLauncher.launch(intent)
+            findNavController().navigate(R.id.action_adicionarExameFragment_to_camaraFragment)
         }
         binding.buttonGuardarExame.setOnClickListener { guardarExame() }
     }
@@ -110,9 +111,19 @@ class AdicionarExameFragment : Fragment() {
             return
         }
 
-        viewModel.adicionarExame(token, animalId, tipoExameId, dataExame, clinicaId, veterinarioId, resultado, observacoes)
-
-        // TODO: Implementar o upload da imagem se uma for selecionada (selectedImageUri)
+        // chama a nova função no ViewModel
+        viewModel.adicionarExameEFoto(
+            token = token,
+            animalId = animalId,
+            tipoExameId = tipoExameId,
+            dataExame = dataExame,
+            clinicaId = clinicaId,
+            veterinarioId = veterinarioId,
+            resultado = resultado,
+            observacoes = observacoes,
+            imageUri = selectedImageUri, // Passa o URI da imagem
+            context = requireContext()
+        )
     }
 
     private fun observeViewModel() {

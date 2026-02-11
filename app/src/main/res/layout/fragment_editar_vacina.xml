@@ -127,21 +127,33 @@
                     android:padding="12dp"
                     android:textColor="@color/branco" />
 
-                <Button
-                    android:id="@+id/btnGuardar"
-                    style="@style/ButtonStyle"
-                    android:text="Guardar Alterações"
-                    android:layout_gravity="center"/>
-
-                <Button
-                    android:id="@+id/btnApagar"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="wrap_content"
+                <!-- Linear layout for buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:text="Apagar Vacina"
-                    android:textColor="@color/vermelho" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
+
+                    <!-- botão apagar -->
+                    <Button
+                        android:id="@+id/button_apagar_exame"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/apagar"
+                        style="@style/ButtonStyle"
+                        android:layout_marginEnd="8dp"/>
+
+                    <!-- botão guardar -->
+                    <Button
+                        android:id="@+id/button_guardar_alteracoes"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/ButtonStyle"
+                        android:text="@string/guardar"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>

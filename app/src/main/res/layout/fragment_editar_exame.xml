@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Editar Exame"
+            android:text="@string/editar_exame"
             android:textColor="@color/branco"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -125,18 +125,20 @@
 
         <!-- adicionar foto -->
         <Button
-            android:id="@+id/button_adicionar_foto"
+            android:id="@+id/button_alterar_foto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alterar Foto do Relatório"
+            android:text="@string/alterar_foto_do_relatorio"
+            style="@style/ButtonStyle"
             android:layout_marginTop="24dp"/>
 
         <ImageView
             android:id="@+id/image_view_preview"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
             android:visibility="gone"
+            android:layout_gravity="center_horizontal"
             tools:visibility="visible"
             android:scaleType="centerCrop"/>
 
@@ -145,7 +147,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="32dp">
+            android:layout_marginTop="20dp">
 
             <!-- botão apagar -->
             <Button
@@ -153,8 +155,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Apagar"
-                app:backgroundTint="@color/vermelho"
+                android:text="@string/apagar"
+                style="@style/ButtonStyle"
                 android:layout_marginEnd="8dp"/>
 
             <!-- botão guardar -->
@@ -163,7 +165,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Guardar Alterações"
+                style="@style/ButtonStyle"
+                android:text="@string/guardar"
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
 
