@@ -233,7 +233,7 @@ data class UpdateAnimalResponse(
 /**
  * Modelos de Dados de HISTÓRICO (EXAMES)
  * Representa um exame médico do histórico de um animal
- * Pode ser criado manualmente na app ou sincronizado da API
+ * Pode ser criado manualmente na aplicação ou sincronizado da API
  * Usado como entidade da base de dados (tabela 'exames')
  */
 @Parcelize
@@ -401,60 +401,23 @@ data class CancelConsultaResponse(
 @Parcelize
 @Entity(tableName = "vacinas")
 data class Vacina(
-    @PrimaryKey @SerializedName("id")
-    val id: Int,
-
-    @SerializedName("animalid") @ColumnInfo(name = "animalid")
-    val animalId: Int,
-
-    @SerializedName("tipo")
-    val tipo: String,
-
-    @SerializedName("tipo_vacina_id") @ColumnInfo(name = "tipo_vacina_id")
-    val tipoVacinaId: Int?,
-
-    @SerializedName("data_agendada") @ColumnInfo(name = "data_agendada")
-    val dataAgendada: String?,
-
-    @SerializedName("dataaplicacao") @ColumnInfo(name = "dataaplicacao")
-    val dataAplicacao: String?,
-
-    @SerializedName("dataproxima") @ColumnInfo(name = "dataproxima")
-    val dataProxima: String?,
-
-    @SerializedName("veterinario")
-    val veterinario: String?,
-
-    @SerializedName("lote")
-    val lote: String?,
-
-    @SerializedName("observacoes")
-    val observacoes: String?,
-
-    @SerializedName("estado")
-    val estado: String,
-
-    @SerializedName("notificado")
-    val notificado: Boolean,
-
-    @SerializedName("dataregisto") @ColumnInfo(name = "dataregisto")
-    val dataRegisto: String?,
-
-    @SerializedName("descricao")
-    val descricao: String?,
-
-    @SerializedName("periodicidade")
-    val periodicidade: String?,
-
-    @SerializedName("animal_nome") @ColumnInfo(name = "animal_nome")
-    val animalNome: String?,
-
-    @SerializedName("especie")
-    val especie: String?,
-
-    @SerializedName("categoria")
-    val categoria: String?
+    @PrimaryKey @SerializedName("id") val id: Int,
+    @SerializedName("animalid") @ColumnInfo(name = "animalid") val animalId: Int,
+    @SerializedName("tipo") val tipo: String,
+    @SerializedName("tipo_vacina_id") @ColumnInfo(name = "tipo_vacina_id") val tipoVacinaId: Int?,
+    @SerializedName("data_agendada") @ColumnInfo(name = "data_agendada") val dataAgendada: String?,
+    @SerializedName("dataaplicacao") @ColumnInfo(name = "dataaplicacao") val dataAplicacao: String?,
+    @SerializedName("observacoes") val observacoes: String?,
+    @SerializedName("estado") val estado: String,
+    @SerializedName("notificado") val notificado: Boolean,
+    @SerializedName("dataregisto") @ColumnInfo(name = "dataregisto") val dataRegisto: String?,
+    @SerializedName("animal_nome") @ColumnInfo(name = "animal_nome") val animalNome: String?,
+    @SerializedName("clinicaid") @ColumnInfo(name = "clinicaid") val clinicaId: Int?,
+    @SerializedName("veterinarioid") @ColumnInfo(name = "veterinarioid") val veterinarioId: Int?,
+    @SerializedName("clinicanome") @ColumnInfo(name = "clinicanome") val clinicaNome: String?,
+    @SerializedName("veterinarionome") @ColumnInfo(name = "veterinarionome") val veterinarioNome: String?
 ) : Parcelable
+
 
 /**
  * Representa um tipo de vacina (ex: Raiva, Leptospirose)
@@ -514,7 +477,7 @@ data class VacinasAgendadasResponse(
  * resposta da API que contém uma lista de vacinas com data próxima
  */
 data class VacinasProximasResponse(
-    @SerializedName("success") val success: Boolean,
+    val success: Boolean,
     @SerializedName("count") val count: Int,
     @SerializedName("vacinas") val vacinas: List<Vacina>,
     @SerializedName("mensagem") val mensagem: String
@@ -524,8 +487,10 @@ data class VacinasProximasResponse(
  * modelo para o pedido de atualização de uma vacina existente
  */
 data class UpdateVacinaRequest(
+    @SerializedName("tipo_vacina_id") val tipo_vacina_id: Int?,
     @SerializedName("dataAplicacao") val dataAplicacao: String?,
-    @SerializedName("dataProxima") val dataProxima: String?,
+    @SerializedName("clinicaId") val clinicaId: Int?,
+    @SerializedName("veterinarioId") val veterinarioId: Int?,
     @SerializedName("observacoes") val observacoes: String?
 )
 

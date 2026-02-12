@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Editar Vacina"
+            android:text="@string/editar_vacina"
             android:textColor="@color/branco"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -38,122 +38,104 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nome da Vacina"
-                    android:layout_marginTop="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/branco" />
-
-                <EditText
-                    android:id="@+id/nomeVacina"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/borda_branca"
-                    android:padding="12dp"
-                    android:textColor="@color/branco" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Data de Aplicação"
-                    android:layout_marginTop="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/branco" />
-
-                <EditText
-                    android:id="@+id/dataAplicacao"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/borda_branca"
-                    android:padding="12dp"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:textColor="@color/branco" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Próxima Dose"
-                    android:layout_marginTop="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/branco" />
-
-                <EditText
-                    android:id="@+id/proximaDose"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/borda_branca"
-                    android:padding="12dp"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:textColor="@color/branco" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Veterinário"
-                    android:layout_marginTop="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/branco" />
-
-                <EditText
-                    android:id="@+id/veterinario"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/borda_branca"
-                    android:padding="12dp"
-                    android:textColor="@color/branco" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lote"
-                    android:layout_marginTop="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/branco" />
-
-                <EditText
-                    android:id="@+id/lote"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/borda_branca"
-                    android:padding="12dp"
-                    android:textColor="@color/branco" />
-
-                <!-- Linear layout for buttons -->
-                <LinearLayout
+                <!-- nome da vacina (Spinner) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="20dp">
-
-                    <!-- botão apagar -->
-                    <Button
-                        android:id="@+id/button_apagar_exame"
-                        android:layout_width="0dp"
+                    android:hint="@string/nome_da_vacina"
+                    android:textColorHint="@color/cinzento_claro">
+                    <AutoCompleteTextView
+                        android:id="@+id/spinner_nome_vacina"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/apagar"
-                        style="@style/ButtonStyle"
-                        android:layout_marginEnd="8dp"/>
+                        android:background="@drawable/borda_branca"
+                        android:importantForAccessibility="no"
+                        android:inputType="none"
+                        android:textColor="@color/branco"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- botão guardar -->
-                    <Button
-                        android:id="@+id/button_guardar_alteracoes"
-                        android:layout_width="0dp"
+                <!-- clínica (Spinner) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/clinica"
+                    android:textColorHint="@color/cinzento_claro">
+                    <AutoCompleteTextView
+                        android:id="@+id/spinner_clinica"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/ButtonStyle"
-                        android:text="@string/guardar"
-                        android:layout_marginStart="8dp"/>
-                </LinearLayout>
+                        android:background="@drawable/borda_branca"
+                        android:importantForAccessibility="no"
+                        android:inputType="none"
+                        android:textColor="@color/branco"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- veterinário (Spinner) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/veterinario"
+                    android:textColorHint="@color/cinzento_claro">
+                    <AutoCompleteTextView
+                        android:id="@+id/spinner_veterinario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/borda_branca"
+                        android:importantForAccessibility="no"
+                        android:inputType="none"
+                        android:textColor="@color/branco"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- data de aplicação -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/data_dd_mm_aaaa"
+                    android:textColorHint="@color/cinzento_claro">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dataAplicacao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/borda_branca"
+                        android:inputType="date"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:textColor="@color/branco"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- observações -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:hint="@string/observacoes"
+                    android:textColorHint="@color/cinzento_claro">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editObservacoes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/borda_branca"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/branco"
+                        android:padding="12dp"
+                        android:gravity="top"
+                        android:minLines="3" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- botão guardar -->
+                <Button
+                    android:id="@+id/button_guardar_alteracoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonStyle"
+                    android:text="@string/guardar"
+                    android:layout_marginTop="32dp"/>
 
             </LinearLayout>
         </ScrollView>

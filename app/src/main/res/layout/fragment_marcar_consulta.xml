@@ -60,84 +60,64 @@
                android:textSize="18sp"
                android:hint="@string/para_que_deseja_marcar_a_consulta"/>
 
-            <!-- spinner para clinicas -->
-            <TextView
-               android:id="@+id/clinicas"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Clinica"
-               android:layout_marginTop="15dp"
-               android:textSize="20sp"
-               android:textColor="@color/branco" />
+            <!-- clínica (Spinner) -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/clinica"
+                android:textColorHint="@color/cinzento_claro">
 
-            <Spinner
-               android:id="@+id/clinicaSpinner"
-               android:layout_width="match_parent"
-               android:layout_height="48dp"
-               android:layout_marginTop="5dp"
-               android:background="@drawable/borda_branca"
-               android:textSize="20sp"
-               android:enabled="false"
-               />
+                <AutoCompleteTextView
+                    android:id="@+id/spinner_clinica"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borda_branca"
+                    android:importantForAccessibility="no"
+                    android:inputType="none"
+                    android:textColor="@color/branco" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-           <!-- spinner para veterinários -->
-           <TextView
-               android:id="@+id/veterinarios"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Veterinário"
-               android:layout_marginTop="15dp"
-               android:textSize="20sp"
-               android:textColor="@color/branco" />
+            <!-- veterinário (Spinner) -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/veterinario"
+                android:textColorHint="@color/cinzento_claro">
 
-           <Spinner
-               android:id="@+id/veterinarioSpinner"
-               android:layout_width="match_parent"
-               android:layout_height="48dp"
-               android:layout_marginTop="5dp"
-               android:background="@drawable/borda_branca"
-               android:textSize="20sp"
-               android:enabled="false"
-               />
+                <AutoCompleteTextView
+                    android:id="@+id/spinner_veterinario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borda_branca"
+                    android:importantForAccessibility="no"
+                    android:inputType="none"
+                    android:textColor="@color/branco" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
            <!-- data e hora -->
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="15dp"
-               android:orientation="horizontal">
+            <!-- data de aplicação -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/data_dd_mm_aaaa"
+                android:textColorHint="@color/cinzento_claro">
 
-               <!-- data -->
-               <EditText
-                   android:id="@+id/data"
-                   android:layout_width="0dp"
-                   android:layout_height="wrap_content"
-                   android:layout_weight="1"
-                   android:layout_marginEnd="8dp"
-                   android:background="@drawable/borda_branca"
-                   android:hint="Data"
-                   android:textColor="@color/branco"
-                   android:textColorHint="@color/branco"
-                   android:padding="12dp"
-                    android:focusable="false"
-                    android:clickable="true" />
-
-                <!-- hora -->
-                <EditText
-                    android:id="@+id/hora"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dataAplicacao"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
                     android:background="@drawable/borda_branca"
-                    android:hint="Hora"
-                    android:textColor="@color/branco"
-                    android:textColorHint="@color/branco"
-                    android:padding="12dp"
+                    android:clickable="true"
                     android:focusable="false"
-                    android:clickable="true" />
-            </LinearLayout>
+                    android:inputType="date"
+                    android:textColor="@color/branco" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- observações -->
             <EditText

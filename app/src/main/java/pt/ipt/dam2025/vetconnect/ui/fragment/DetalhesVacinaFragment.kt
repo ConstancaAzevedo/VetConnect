@@ -19,7 +19,6 @@ import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModelFactory
 /**
  * Fragment para a página de detalhes de uma vacina
  */
-
 class DetalhesVacinaFragment : Fragment() {
 
     private var _binding: FragmentDetalhesVacinaBinding? = null
@@ -64,9 +63,9 @@ class DetalhesVacinaFragment : Fragment() {
         binding.textViewNomeVacinaDetalhe.text = vacina.tipo
         binding.textViewEstadoVacinaDetalhe.text = vacina.estado
         binding.textViewDataAplicacaoDetalhe.text = vacina.dataAplicacao ?: "N/A"
-        binding.textViewProximaDoseDetalhe.text = vacina.dataProxima ?: "N/A"
-        binding.textViewVeterinarioVacinaDetalhe.text = vacina.veterinario ?: "N/A"
-        binding.textViewLoteDetalhe.text = vacina.lote ?: "N/A"
+        binding.textViewClinicaVacinaDetalhe.text = vacina.clinicaNome ?: "N/A"
+        binding.textViewVeterinarioVacinaDetalhe.text = vacina.veterinarioNome ?: "N/A"
+        binding.textViewObservacoesVacinaDetalhe.text = vacina.observacoes ?: "N/A"
     }
 
     private fun setupListeners(vacina: Vacina) {

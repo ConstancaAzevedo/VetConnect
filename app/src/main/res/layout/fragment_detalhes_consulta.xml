@@ -7,7 +7,7 @@
     android:background="@drawable/background"
     tools:context=".ui.fragment.DetalhesVacinaFragment">
 
-    <!-- página para detalhes de uma vacina -->
+    <!-- página para detalhes de uma consulta -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
-            tools:text="Raiva (Anual)" />
+            tools:text="Consulta de Rotina" />
 
         <TextView
             android:id="@+id/text_view_estado_vacina_detalhe"
@@ -40,14 +40,14 @@
             android:textSize="12sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"
-            tools:text="ADMINISTRADA" />
+            tools:text="AGENDADA" />
 
         <!-- data da vacina -->
         <TextView
             style="?attr/textAppearanceBody2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/data_da_vacina"
+            android:text="@string/data_da_consulta"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/cinzento_claro" />
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/branco"
             android:layout_marginBottom="16dp"
-            tools:text="20 de Março de 2024" />
+            tools:text="25 de Julho de 2024" />
 
         <!-- nome da clinica -->
         <TextView

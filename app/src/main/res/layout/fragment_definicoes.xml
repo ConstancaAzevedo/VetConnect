@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Definições"
+        android:text="@string/definices"
         android:textColor="@color/branco"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Alterar PIN"
+            android:text="@string/alterar_pin"
             android:textColor="@color/branco"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -54,7 +54,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/borda_edittext"
-            android:hint="PIN Atual"
+            android:hint="@string/pin_atual"
             android:inputType="numberPassword"
             android:maxLength="6"
             android:padding="12dp"
@@ -67,7 +67,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/borda_edittext"
-            android:hint="Novo PIN"
+            android:hint="@string/novo_pin"
             android:inputType="numberPassword"
             android:maxLength="6"
             android:padding="12dp"
@@ -80,18 +80,31 @@
             android:layout_height="60dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/borda_edittext"
-            android:hint="Confirmar Novo PIN"
+            android:hint="@string/confirmar_novo_pin"
             android:inputType="numberPassword"
             android:maxLength="6"
             android:padding="12dp"
             android:textColor="@color/branco"
             android:textColorHint="@color/branco" />
 
+        <!-- botão para guardar a alteração do pin -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_gravity="center_horizontal"
             style="@style/ButtonStyle"
             android:text="@string/guardar" />
+
+
+            <Button
+                android:id="@+id/btnLogout"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/borda_vermelha_botao"
+                android:text="@string/logout"
+                android:textColor="@color/vermelho" />
 
         </LinearLayout>
     </ScrollView>

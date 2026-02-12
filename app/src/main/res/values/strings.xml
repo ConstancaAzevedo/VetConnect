@@ -1,5 +1,60 @@
 <resources>
+
+    <!-- strings genéricas -->
     <string name="app_name">VetConnect</string>
+    <string name="bem_vindo">Bem-vindo à VetConnect!</string>
+    <string name="sair">Sair</string>
+    <string name="agendar">Agendar</string>
+    <string name="observacoes">Observações (opcional)</string>
+    <string name="apagar">Apagar</string>
+    <string name="guardar">Guardar</string>
+    <string name="tirar_foto">Tirar foto</string>
+    <string name="veterinario">Veterinário</string>
+    <string name="data_dd_mm_aaaa">Data (DD-MM-AAAA)</string>
+    <string name="clinica">Clinica</string>
+    <string name="resultado">Resultado (Opcional)</string>
+    <string name="registar">Registar</string>
+    <string name="login">Login</string>
+    <string name="tutor">Tutor</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="editar">Editar</string>
+
+
+    <!-- strings de páginas em especifico -->
+    <string name="definicoes">Definições</string>
+    <string name="perfil">Perfil</string>
+    <string name="historico">Histórico</string>
+    <string name="meu_animal">O Meu Animal</string>
+    <string name="minhas_vacinas">Minhas Vacinas</string>
+    <string name="minhas_consultas">Minhas Consultas</string>
+    <string name="agendar_vacina">Agendar Vacina</string>
+    <string name="marcar_consulta">Marcar Consulta</string>
+    <string name="verificar">Verificar</string>
+    <string name="historico_animal">Histórico do Animal</string>
+    <string name="adicionar_documento_camara">Adicionar Documento pela Camara</string>
+    <string name="adicionar_documento_manualmente">Adicionar Documento Manualmente</string>
+    <string name="adicionar_exame">Adicionar Exame</string>
+    <string name="agendar_nova_vacina">Agendar Nova Vacina</string>
+    <string name="nao_ha_exames_no_historico">Não há exames no histórico</string>
+    <string name="animal_label">Animal: %1$s</string>
+    <string name="clinica_label">Clínica: %1$s</string>
+    <string name="veterinario_label">Veterinário: %1$s</string>
+    <string name="status_label">Estado: %1$s</string>
+    <string name="nao_ha_vacinas_registadas">Não há vacinas registadas</string>
+    <string name="tipo_de_exame">Tipo de Exame</string>
+    <string name="adicionar_foto_do_relatario">Adicionar Foto do Relatório</string>
+    <string name="preview_da_foto_do_exame">preview da foto do exame</string>
+    <string name="alterar_foto_do_relatorio">Alterar Foto do Relatório</string>
+    <string name="para_que_deseja_marcar_a_consulta">Para que deseja marcar a consulta</string>
+    <string name="imagem_do_relatorio">Imagem do relatório</string>
+    <string name="nome_da_vacina">Nome da Vacina</string>
+    <string name="editar_vacina">Editar Vacina</string>
+    <string name="editar_exame">Editar Exame</string>
+    <string name="data_da_vacina">Data da Vacina</string>
+
+
+    <!-- strings da pagina ABOUT -->
+    <string name="sobre">SOBRE</string>
     <string name="curso">Curso:</string>
     <string name="disciplina">Disciplina:</string>
     <string name="ano_letivo">Ano Letivo:</string>
@@ -20,52 +75,16 @@
     <string name="material_components_dexcription">- Material Components for Android (Google): Componentes e temas para construir interfaces com o Material Design. Origem: https://material.io/develop/android - Glide (Sam Judd / Google): Biblioteca para carregamento de imagens e GIFs. Origem: https://github.com/bumptech/glide</string>
     <string name="barcode_scanning_description">- Google ML Kit - Barcode Scanning: API para escanear e processar códigos de barras e QR codes. Origem: https://developers.google.com/ml-kit/vision/barcode-scanning</string>
     <string name="retrofit_description">- Retrofit: Cliente HTTP para Android e Java. Usado para comunicação com a nossa API REST. Origem: https://square.github.io/retrofit/ - OkHttp Logging Interceptor: Interceptor para o OkHttp que registra requisições e respostas HTTP. Origem: https://square.github.io/okhttp/ - Gson: Biblioteca para converter objetos Java/Kotlin para a sua representação JSON e vice-versa. Origem: https://github.com/google/gson - Retrofit Gson Converter: Um conversor que usa Gson para a serialização e desserialização de corpos de requisição e resposta.</string>
-    <string name="bem_vindo">Bem-vindo à VetConnect!</string>
-    <string name="sair">Sair</string>
-    <string name="definicoes">Definições</string>
-    <string name="perfil">Perfil</string>
-    <string name="historico">Histórico</string>
-    <string name="meu_animal">O Meu Animal</string>
-    <string name="minhas_vacinas">Minhas Vacinas</string>
-    <string name="minhas_consultas">Minhas Consultas</string>
-    <string name="agendar_vacina">Agendar Vacina</string>
-    <string name="marcar_consulta">Marcar Consulta</string>
-    <string name="agendar">Agendar</string>
-    <string name="observacoes">Observações (opcional)</string>
-    <string name="apagar">Apagar</string>
-    <string name="guardar">Guardar</string>
-    <string name="tirar_foto">Tirar foto</string>
-    <string name="verificar">Verificar</string>
-    <string name="historico_animal">Histórico do Animal</string>
-    <string name="adicionar_documento_camara">Adicionar Documento pela Camara</string>
-    <string name="adicionar_documento_manualmente">Adicionar Documento Manualmente</string>
-    <string name="cancelar_consulta">Cancelar Consulta</string>
-    <string name="cancelar_vacina">Cancelar Vacina</string>
-    <string name="adicionar_exame">Adicionar Exame</string>
-    <string name="agendar_nova_vacina">Agendar Nova Vacina</string>
-    <string name="lote_opcional">Lote (Opcional)</string>
-    <string name="veterinario">Veterinário</string>
-    <string name="proxima_dose_opcional">Próxima Dose (Opcional)</string>
-    <string name="editar_vacina">Editar Vacina</string>
-    <string name="nao_ha_exames_no_historico">Não há exames no histórico</string>
-    <string name="animal_label">Animal: %1$s</string>
-    <string name="clinica_label">Clínica: %1$s</string>
-    <string name="veterinario_label">Veterinário: %1$s</string>
-    <string name="status_label">Estado: %1$s</string>
-    <string name="nao_ha_vacinas_registadas">Não há vacinas registadas</string>
-    <string name="data_e_hora_do_agendamento">Data e Hora do Agendamento</string>
-    <string name="data_dd_mm_aaaa">Data (DD-MM-AAAA)</string>
-    <string name="tipo_de_exame">Tipo de Exame</string>
-    <string name="clinica">Clinica</string>
-    <string name="adicionar_foto_do_relatario">Adicionar Foto do Relatório</string>
-    <string name="preview_da_foto_do_exame">preview da foto do exame</string>
-    <string name="resultado">Resultado (Opcional)</string>
-    <string name="registar">Registar</string>
-    <string name="login">Login</string>
-    <string name="sobre">SOBRE</string>
-    <string name="tutor">Tutor</string>
-    <string name="confirmar">Confirmar</string>
-    <string name="alterar_foto_do_relatorio">Alterar Foto do Relatório</string>
-    <string name="editar_exame">Editar Exame</string>
-    <string name="para_que_deseja_marcar_a_consulta">Para que deseja marcar a consulta</string>
+    <string name="editar_consulta">Editar Consulta</string>
+    <string name="data_da_consulta">Data da Consulta</string>
+    <string name="logout">Logout</string>
+    <string name="definices">Definições</string>
+    <string name="alterar_pin">Alterar PIN</string>
+    <string name="pin_atual">PIN Atual</string>
+    <string name="novo_pin">Novo PIN</string>
+    <string name="confirmar_novo_pin">Confirmar Novo PIN</string>
+
+
+    <!-- adicionadas após -->
+
 </resources>

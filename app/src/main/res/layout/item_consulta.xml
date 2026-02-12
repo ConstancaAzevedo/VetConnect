@@ -46,7 +46,7 @@
                 tools:text="Animal: Bobby" />
 
             <TextView
-                android:id="@+id/text_view_clinica"
+                android:id="@+id/text_view_topico"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -56,7 +56,20 @@
                 app:layout_constraintEnd_toStartOf="@+id/text_view_status"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_animal"
-                tools:text="Clínica: Vet Central" />
+                tools:text="Tópico: Consulta de rotina" />
+
+            <TextView
+                android:id="@+id/text_view_clinica"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/cinzento_claro"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/text_view_status"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_topico"
+                tools:text="Clínica: Animal Clinic" />
 
             <TextView
                 android:id="@+id/text_view_veterinario"
@@ -69,7 +82,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/text_view_status"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_clinica"
-                tools:text="Veterinário: Dr. André" />
+                tools:text="Veterinário: Dr. João Silva" />
 
             <TextView
                 android:id="@+id/text_view_status"
