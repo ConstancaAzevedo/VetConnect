@@ -32,4 +32,8 @@ interface VacinaDao {
     /* Apaga as vacinas de um animal */
     @Query("DELETE FROM vacinas WHERE animalId = :animalId")
     suspend fun deleteByAnimal(animalId: Int)
+
+    /* Apaga todas as vacinas */
+    @Query("DELETE FROM vacinas")
+    suspend fun clearAll()
 }

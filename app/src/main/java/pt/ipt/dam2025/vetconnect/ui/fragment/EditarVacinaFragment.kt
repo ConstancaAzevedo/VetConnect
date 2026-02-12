@@ -20,22 +20,29 @@ import java.util.Calendar
 import java.util.Locale
 
 /**
- * Fragment da página para editar uma vacina 
+ * Fragment da página para editar uma vacina
  */
 
 class EditarVacinaFragment : Fragment() {
 
+    // variável para o View Binding para aceder aos componentes do layout de forma segura
     private var _binding: FragmentEditarVacinaBinding? = null
     private val binding get() = _binding!!
 
+    // ViewModel para interagir com a lógica da API e base de dados
     private lateinit var viewModel: VacinaViewModel
+
+    // objeto da vacina a ser editada recebido como argumento do ecrã anterior
     private var vacina: Vacina? = null
 
-    // Listas para os spinners
+    // listas locais para guardar os dados dos spinners e permitir encontrar os IDs
     private val tiposVacinaList = mutableListOf<TipoVacina>()
     private val clinicasList = mutableListOf<Clinica>()
     private val veterinariosList = mutableListOf<Veterinario>()
 
+    /*
+     * infla o layout do fragment
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,100 +51,127 @@ class EditarVacinaFragment : Fragment() {
         return binding.root
     }
 
+    /*
+     * chamado após a criação da View
+     * aqui é que a lógica principal é configurada
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // inicializa o ViewModel
         val factory = VacinaViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[VacinaViewModel::class.java]
 
-        // Recebe o objeto Vacina completo
+        // obtém o objeto Vacina passado como argumento a partir do ecrã anterior
         @Suppress("DEPRECATION")
         vacina = arguments?.getParcelable("vacina")
 
+        // se a vacina não for encontrada mostra um erro e volta para o ecrã anterior
         if (vacina == null) {
             Toast.makeText(context, "Erro ao carregar dados da vacina.", Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
             return
         }
 
+        // chama as funções para configurar o ecrã
         setupListeners()
         observeLists()
-        observeViewModel() // Função estava por chamar
+        observeViewModel()
         populateUi(vacina!!)
     }
 
-    // Preenche os campos de texto iniciais
+    /*
+     * preenche os campos de texto com os dados iniciais da vacina a ser editada
+     */
     private fun populateUi(vacina: Vacina) {
         binding.dataAplicacao.setText(formatDate(vacina.dataAplicacao))
         binding.editObservacoes.setText(vacina.observacoes)
     }
 
-    // Configura os listeners dos botões e spinners
+    /*
+     * configura os listeners de clique para os botões e spinners
+     */
     private fun setupListeners() {
+        // mostra o DatePicker quando se clica no campo da data
         binding.dataAplicacao.setOnClickListener { showDatePickerDialog(binding.dataAplicacao) }
+        // guarda as alterações quando se clica no botão "Guardar"
         binding.buttonGuardarAlteracoes.setOnClickListener { guardarAlteracoes() }
 
+        // quando uma clínica é selecionada pede ao ViewModel para carregar a lista de veterinários correspondente
         binding.spinnerClinica.setOnItemClickListener { _, _, position, _ ->
             val selectedClinica = clinicasList.getOrNull(position)
             selectedClinica?.id?.let { viewModel.carregaVeterinarios(it) }
         }
     }
 
-    // Observa as listas que vêm do ViewModel e popula os spinners
+    /*
+     * observa as LiveData do ViewModel que contêm as listas para os spinners
+     * quando as listas chegam popula os spinners e pré-seleciona os valores
+     */
     private fun observeLists() {
+        // observa a lista de tipos de vacina
         viewModel.tiposVacina.observe(viewLifecycleOwner) { tipos ->
             tiposVacinaList.clear()
             tiposVacinaList.addAll(tipos)
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, tipos.map { it.nome })
             binding.spinnerNomeVacina.setAdapter(adapter)
 
-            // Pré-seleciona o tipo de vacina
+            // pré seleciona o tipo de vacina que a vacina atual tem
             val tipoVacinaAtual = tipos.find { it.id == vacina?.tipoVacinaId }
             binding.spinnerNomeVacina.setText(tipoVacinaAtual?.nome, false)
         }
 
+        // observa a lista de clínicas
         viewModel.clinicas.observe(viewLifecycleOwner) { clinicas ->
             clinicasList.clear()
             clinicasList.addAll(clinicas)
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, clinicas.map { it.nome })
             binding.spinnerClinica.setAdapter(adapter)
 
-            // Pré-seleciona a clínica e carrega os veterinários
+            // pré seleciona a clínica atual e pede para carregar os veterinários dessa clínica
             val clinicaAtual = clinicas.find { it.id == vacina?.clinicaId }
             binding.spinnerClinica.setText(clinicaAtual?.nome, false)
             clinicaAtual?.id?.let { viewModel.carregaVeterinarios(it) }
         }
 
+        // observa a lista de veterinários (que muda dinamicamente com a clínica)
         viewModel.veterinarios.observe(viewLifecycleOwner) { veterinarios ->
             veterinariosList.clear()
             veterinariosList.addAll(veterinarios)
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, veterinarios.map { it.nome })
             binding.spinnerVeterinario.setAdapter(adapter)
 
-            // Pré-seleciona o veterinário
+            // pré seleciona o veterinário atual
             val veterinarioAtual = veterinarios.find { it.id == vacina?.veterinarioId }
             binding.spinnerVeterinario.setText(veterinarioAtual?.nome, false)
         }
     }
 
-    // Guarda as alterações feitas
+    /*
+     * recolhe os dados do formulário valida-os e envia o pedido de atualização para a API
+     */
     private fun guardarAlteracoes() {
+        // obtém os valores dos campos de texto
         val dataAplicacao = binding.dataAplicacao.text.toString()
         val observacoes = binding.editObservacoes.text.toString()
 
+        // obtém os nomes selecionados nos spinners
         val tipoVacinaNome = binding.spinnerNomeVacina.text.toString()
         val clinicaNome = binding.spinnerClinica.text.toString()
         val veterinarioNome = binding.spinnerVeterinario.text.toString()
 
+        // encontra os IDs correspondentes aos nomes selecionados usando as listas locais
         val tipoVacinaId = tiposVacinaList.find { it.nome == tipoVacinaNome }?.id
         val clinicaId = clinicasList.find { it.nome == clinicaNome }?.id
         val veterinarioId = veterinariosList.find { it.nome == veterinarioNome }?.id
 
+        // verifica se todos os campos obrigatórios estão preenchidos
         if (dataAplicacao.isBlank() || tipoVacinaId == null || clinicaId == null || veterinarioId == null) {
             Toast.makeText(context, "Todos os campos são obrigatórios.", Toast.LENGTH_SHORT).show()
             return
         }
 
+        // cria o objeto de pedido para enviar para a API
         val request = UpdateVacinaRequest(
             tipo_vacina_id = tipoVacinaId,
             dataAplicacao = dataAplicacao,
@@ -146,30 +180,36 @@ class EditarVacinaFragment : Fragment() {
             observacoes = observacoes
         )
 
+        // obtém o token e chama o ViewModel para atualizar a vacina
         val token = "seu_token_aqui" // TODO: Obter o token de forma segura
         vacina?.let {
             viewModel.updateVacina(token, it.id, request)
         }
     }
 
-    // Observa o resultado da operação de guardar
+    /*
+     * observa o resultado da operação e mostra uma mensagem
+     */
     private fun observeViewModel() {
         viewModel.operationStatus.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                Toast.makeText(context, "Vacina atualizada com sucesso!", Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
+                Toast.makeText(context, "Vacina atualizada com sucesso", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack() // volta para o ecrã anterior
             }.onFailure {
                 Toast.makeText(context, "Falha na operação: ${it.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    // Mostra o DatePicker
+    /*
+     * mostra um diálogo para o utilizador escolher uma data
+     */
     private fun showDatePickerDialog(editText: EditText) {
         val calendar = Calendar.getInstance()
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            // formata a data para dd-MM-yyyy para mostrar no ecrã
             val displayDate = String.format(Locale.ROOT, "%02d-%02d-%04d", dayOfMonth, month + 1, year)
-            editText.setText(displayDate) // Mostra e envia no formato dd-MM-yyyy
+            editText.setText(displayDate)
         }
         DatePickerDialog(
             requireContext(), dateSetListener,
@@ -179,23 +219,28 @@ class EditarVacinaFragment : Fragment() {
         ).show()
     }
 
-    // Formata a data para dd-MM-yyyy para mostrar ao utilizador
+    /*
+     * formata a data recebida da API (yyyy-MM-dd) para um formato mais legível (dd-MM-yyyy)
+     */
     private fun formatDate(dateString: String?): String {
         if (dateString.isNullOrBlank()) return ""
         return try {
-            // A API pode enviar 'yyyy-MM-dd' ou um timestamp completo. 
-            // Esta abordagem extrai apenas a parte da data.
+            // tenta interpretar a data como yyyy-MM-dd (ignorando a parte da hora, se existir)
             val datePart = dateString.substringBefore("T")
             val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val date = parser.parse(datePart)
+            // formata para dd-MM-yyyy
             val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             formatter.format(date!!)
-        } catch (e: Exception) {
-            // Se a data já estiver em dd-MM-yyyy, ou outro formato, devolve a própria string
+        } catch (_: Exception) {
+            // se a data já estiver no formato correto ou for inválida, devolve a string original
             dateString
         }
     }
 
+    /*
+     * limpa o View Binding quando a View é destruída para evitar memory leaks
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

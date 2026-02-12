@@ -163,6 +163,11 @@ interface ApiService {
     @GET("vacinas/tipos")
     suspend fun getTiposVacina(): Response<TiposVacinaResponse>
 
+    @GET("vacinas")
+    suspend fun getVacinas(
+        @Header("Authorization") token: String
+    ): Response<VacinasAgendadasResponse>
+
     @POST("vacinas/agendar")
     suspend fun agendarVacina(
         @Header("Authorization") token: String,

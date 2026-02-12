@@ -21,6 +21,7 @@ class VacinaRepository(
     private val veterinarioDao: VeterinarioDao
 ) {
 
+    // Função para obter vacinas de um animal específico
     fun getVacinas(token: String, animalId: Int): Flow<List<Vacina>> {
         CoroutineScope(Dispatchers.IO).launch {
             refreshVacinas(token, animalId)
@@ -28,6 +29,15 @@ class VacinaRepository(
         return vacinaDao.getVacinasByAnimal(animalId)
     }
 
+    // Função para obter TODAS as vacinas do utilizador
+    fun getAllUserVacinas(token: String): Flow<List<Vacina>> {
+        CoroutineScope(Dispatchers.IO).launch {
+            refreshAllUserVacinas(token)
+        }
+        return vacinaDao.getAllVacinas()
+    }
+
+    // Refresh para as vacinas de um animal específico
     private suspend fun refreshVacinas(token: String, animalId: Int) {
         try {
             val response = apiService.getVacinasAgendadas("Bearer $token", animalId)
@@ -36,11 +46,26 @@ class VacinaRepository(
                     vacinaDao.deleteByAnimal(animalId)
                     vacinaDao.insertAll(it)
                 }
-            } else {
-                Log.e("VacinaRepository", "Erro ao refrescar vacinas: ${response.code()}")
             }
         } catch (e: Exception) {
-            Log.e("VacinaRepository", "Falha de rede ao refrescar vacinas", e)
+            Log.e("VacinaRepository", "Falha de rede ao refrescar vacinas do animal", e)
+        }
+    }
+
+    // Refresh para TODAS as vacinas do utilizador
+    private suspend fun refreshAllUserVacinas(token: String) {
+        try {
+            val response = apiService.getVacinas("Bearer $token")
+            if (response.isSuccessful) {
+                response.body()?.vacinas?.let { vacinas ->
+                    vacinaDao.clearAll()
+                    vacinaDao.insertAll(vacinas)
+                }
+            } else {
+                Log.e("VacinaRepository", "Erro ao refrescar todas as vacinas: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            Log.e("VacinaRepository", "Falha de rede ao refrescar todas as vacinas", e)
         }
     }
 

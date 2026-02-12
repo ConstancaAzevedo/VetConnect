@@ -427,9 +427,7 @@ data class Vacina(
 data class TipoVacina(
     @PrimaryKey val id: Int,
     val nome: String,
-    val descricao: String?,
-    val especie: String?,
-    val periodicidade: String?
+    val descricao: String?
 )
 
 /*
