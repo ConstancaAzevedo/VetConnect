@@ -44,12 +44,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tópico"
+                    android:text="@string/motivo"
                     android:textColor="@color/branco"
                     android:textSize="20sp"/>
 
                 <EditText
-                    android:id="@+id/topico"
+                    android:id="@+id/motivo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -72,7 +72,7 @@
                     android:textColorHint="@color/cinzento_claro">
 
                     <AutoCompleteTextView
-                        android:id="@+id/spinner_clinica"
+                        android:id="@+id/clinicaSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/borda_branca"
@@ -91,7 +91,7 @@
                     android:textColorHint="@color/cinzento_claro">
 
                     <AutoCompleteTextView
-                        android:id="@+id/spinner_veterinario"
+                        android:id="@+id/veterinarioSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/borda_branca"
@@ -135,7 +135,7 @@
 
                 <!-- botão guardar -->
                 <Button
-                    android:id="@+id/button_guardar_alteracoes"
+                    android:id="@+id/btnGuardar"
                     style="@style/ButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

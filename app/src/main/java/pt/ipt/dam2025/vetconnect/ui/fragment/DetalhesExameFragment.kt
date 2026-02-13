@@ -1,14 +1,22 @@
 package pt.ipt.dam2025.vetconnect.ui.fragment
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import coil.load
+import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentDetalhesExameBinding
 import pt.ipt.dam2025.vetconnect.model.Exame
+import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModel
+import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModelFactory
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 /**
  * Fragment para a página de detalhes de um exame
@@ -18,6 +26,9 @@ class DetalhesExameFragment : Fragment() {
 
     private var _binding: FragmentDetalhesExameBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var viewModel: HistoricoViewModel
+    private var exame: Exame? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,43 +41,96 @@ class DetalhesExameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Obtém o objeto Exame dos argumentos da forma moderna
-        val exame = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable("exame", Exame::class.java)
-        } else {
-            @Suppress("DEPRECATION")
-            arguments?.getParcelable("exame")
-        }
+        val factory = HistoricoViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory)[HistoricoViewModel::class.java]
 
-        // Se o exame for nulo, não podemos fazer nada para evitar um crash
+        @Suppress("DEPRECATION")
+        exame = arguments?.getParcelable("exame")
+
         if (exame == null) {
-            // TODO: Adicionar lógica para lidar com o erro, como fechar o ecrã.
+            Toast.makeText(context, "Erro ao carregar dados do exame.", Toast.LENGTH_SHORT).show()
+            findNavController().popBackStack()
             return
         }
 
-        populateUi(exame)
+        populateUi(exame!!)
+        setupListeners()
+        observeViewModel()
     }
 
     private fun populateUi(exame: Exame) {
-        // Preenche os campos de texto com os dados do exame
-        binding.textViewTipoExameDetalhe.text = exame.tipo ?: "Exame não especificado"
-        binding.textViewDataExameDetalhe.text = exame.dataExame ?: "Sem data"
-        binding.textViewClinicaDetalhe.text = exame.clinicaNome ?: "Clínica não especificada"
-        binding.textViewVeterinarioDetalhe.text = exame.veterinarioNome ?: "Veterinário não especificado"
+        binding.textViewTipoExameDetalhe.text = exame.tipo
+        binding.textViewDataExameDetalhe.text = formatDateForDisplay(exame.dataExame)
+        binding.textViewClinicaDetalhe.text = exame.clinicaNome
+        binding.textViewVeterinarioDetalhe.text = exame.veterinarioNome
 
-        // Verifica e mostra o resultado se existir
-        binding.layoutResultadoDetalhe.isVisible = !exame.resultado.isNullOrBlank()
-        binding.textViewResultadoDetalhe.text = exame.resultado
+        // Mostra o resultado se existir
+        if (!exame.resultado.isNullOrBlank()) {
+            binding.layoutResultadoDetalhe.visibility = View.VISIBLE
+            binding.textViewResultadoDetalhe.text = exame.resultado
+        }
 
-        // Verifica e mostra as observações se existirem
-        binding.layoutObservacoesDetalhe.isVisible = !exame.observacoes.isNullOrBlank()
-        binding.textViewObservacoesDetalhe.text = exame.observacoes
+        // Mostra as observações se existirem
+        if (!exame.observacoes.isNullOrBlank()) {
+            binding.layoutObservacoesDetalhe.visibility = View.VISIBLE
+            binding.textViewObservacoesDetalhe.text = exame.observacoes
+        }
 
-        // Verifica e mostra a foto do relatório se existir
-        binding.layoutFotoDetalhe.isVisible = !exame.ficheiroUrl.isNullOrBlank()
-        if (binding.layoutFotoDetalhe.isVisible) {
-            // TODO: Carregar a imagem a partir do URL com uma biblioteca como Glide ou Coil
-            // Ex: Glide.with(this).load(exame.ficheiroUrl).into(binding.imageViewRelatorioDetalhe)
+        // Mostra a foto se existir
+        if (!exame.ficheiroUrl.isNullOrBlank()) {
+            binding.layoutFotoDetalhe.visibility = View.VISIBLE
+            binding.imageViewRelatorioDetalhe.load(exame.ficheiroUrl) {
+                placeholder(R.drawable.vetconnectfundo)
+                error(R.drawable.vetconnectfundo)
+            }
+        }
+    }
+
+    private fun setupListeners() {
+        // lógica para o botão Editar
+        binding.btnEditar.setOnClickListener {
+            val bundle = Bundle().apply {
+                putParcelable("exame", exame)
+            }
+            findNavController().navigate(R.id.action_detalhesExameFragment_to_editarExameFragment, bundle)
+        }
+
+        // lógica para o botão Apagar
+        binding.buttonApagarVacina.setOnClickListener { // ID do XML
+            AlertDialog.Builder(requireContext())
+                .setTitle("Apagar Exame")
+                .setMessage("Tem a certeza que deseja apagar este exame? Esta ação é irreversível.")
+                .setPositiveButton("Sim") { _, _ ->
+                    val token = "seu_token_aqui" // TODO: Obter o token de forma segura
+                    exame?.let {
+                        viewModel.deleteExame(token, it.animalId, it.id.toLong())
+                    }
+                }
+                .setNegativeButton("Não", null)
+                .show()
+        }
+    }
+
+    private fun observeViewModel() {
+        viewModel.operationStatus.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(context, "Exame apagado com sucesso!", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Erro ao apagar exame: ${throwable.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun formatDateForDisplay(dateString: String?): String {
+        if (dateString.isNullOrBlank()) return ""
+        return try {
+            val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = parser.parse(dateString.substring(0, 10))
+            val formatter = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale("pt", "PT"))
+            formatter.format(date!!)
+        } catch (e: Exception) {
+            dateString
         }
     }
 

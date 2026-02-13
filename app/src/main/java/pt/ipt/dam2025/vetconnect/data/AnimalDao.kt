@@ -21,6 +21,12 @@ interface AnimalDao {
     suspend fun insertOrUpdate(animal: AnimalResponse)
 
     /*
+     * insere uma lista de animais, substituindo os existentes
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(animais: List<AnimalResponse>)
+
+    /*
      * obtém todos os animais de um tutor específico, ordenados por nome
      * retorna um Flow para que a UI possa observar alterações em tempo real
      */

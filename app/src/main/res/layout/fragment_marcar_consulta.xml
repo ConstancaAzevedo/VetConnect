@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Marcar Consulta"
+        android:text="@string/marcar_consulta"
         android:textColor="@color/branco"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -42,12 +42,12 @@
            <TextView
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:text="Tópico"
+               android:text="@string/motivo"
                android:textColor="@color/branco"
                android:textSize="20sp"/>
 
            <EditText
-               android:id="@+id/topico"
+               android:id="@+id/motivo"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_marginTop="5dp"
@@ -70,7 +70,7 @@
                 android:textColorHint="@color/cinzento_claro">
 
                 <AutoCompleteTextView
-                    android:id="@+id/spinner_clinica"
+                    android:id="@+id/clinicaSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/borda_branca"
@@ -89,7 +89,7 @@
                 android:textColorHint="@color/cinzento_claro">
 
                 <AutoCompleteTextView
-                    android:id="@+id/spinner_veterinario"
+                    android:id="@+id/veterinarioSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/borda_branca"
@@ -99,8 +99,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-           <!-- data e hora -->
-            <!-- data de aplicação -->
+            <!-- data de consulta -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +108,7 @@
                 android:textColorHint="@color/cinzento_claro">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/dataAplicacao"
+                    android:id="@+id/dataConsulta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/borda_branca"

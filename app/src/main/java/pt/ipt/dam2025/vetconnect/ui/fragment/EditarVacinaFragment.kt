@@ -173,7 +173,7 @@ class EditarVacinaFragment : Fragment() {
 
         // cria o objeto de pedido para enviar para a API
         val request = UpdateVacinaRequest(
-            tipo_vacina_id = tipoVacinaId,
+            tipoVacinaId = tipoVacinaId,
             dataAplicacao = dataAplicacao,
             clinicaId = clinicaId,
             veterinarioId = veterinarioId,

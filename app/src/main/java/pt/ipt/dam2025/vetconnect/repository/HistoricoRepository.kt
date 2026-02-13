@@ -11,25 +11,27 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import pt.ipt.dam2025.vetconnect.api.ApiService
+import pt.ipt.dam2025.vetconnect.data.ClinicaDao
 import pt.ipt.dam2025.vetconnect.data.ExameDao
-import pt.ipt.dam2025.vetconnect.model.AddExameFotoResponse
-import pt.ipt.dam2025.vetconnect.model.CreateExameRequest
-import pt.ipt.dam2025.vetconnect.model.CreateExameResponse
-import pt.ipt.dam2025.vetconnect.model.Exame
-import pt.ipt.dam2025.vetconnect.model.UpdateExameRequest
+import pt.ipt.dam2025.vetconnect.data.TipoExameDao
+import pt.ipt.dam2025.vetconnect.data.VeterinarioDao
+import pt.ipt.dam2025.vetconnect.model.*
 import java.io.IOException
 
 /**
  * Repositório para gerir o histórico de exames de um animal
  */
+
 class HistoricoRepository(
     private val apiService: ApiService,
-    private val exameDao: ExameDao
+    private val exameDao: ExameDao,
+    private val tipoExameDao: TipoExameDao,
+    private val clinicaDao: ClinicaDao,
+    private val veterinarioDao: VeterinarioDao
 ) {
 
-    /**
-     * Obtém os exames de um animal. Retorna um Flow da base de dados local
-     * e inicia uma atualização em background a partir da API
+    /*
+     * obtém os exames de um animal
      */
     fun getExames(token: String, animalId: Int): Flow<List<Exame>> {
         CoroutineScope(Dispatchers.IO).launch {
@@ -38,8 +40,8 @@ class HistoricoRepository(
         return exameDao.getExamesByAnimal(animalId)
     }
 
-    /**
-     * Força a atualização da lista de exames de um animal a partir da API
+    /*
+     * força a atualização da lista de exames de um animal a partir da API
      * e guarda-os na base de dados local
      */
     suspend fun refreshExames(token: String, animalId: Int) {
@@ -51,17 +53,66 @@ class HistoricoRepository(
                     exameDao.deleteByAnimal(animalId)
                     exameDao.insertAll(it.exames)
                 }
-            } else {
-                Log.e("HistoricoRepository", "Erro na API ao atualizar exames: ${response.code()}")
             }
         } catch (e: Exception) {
             Log.e("HistoricoRepository", "Falha ao atualizar o histórico de exames", e)
         }
     }
 
-    /**
-     * Cria um novo exame através da API
-     * Em caso de sucesso, atualiza o histórico para refletir a adição
+    // funções para obter as listas para os spinners
+    fun getTiposExame(): Flow<List<TipoExame>> {
+        CoroutineScope(Dispatchers.IO).launch { refreshTiposExame() }
+        return tipoExameDao.getAll()
+    }
+
+    private suspend fun refreshTiposExame() {
+        try {
+            val response = apiService.getTiposExame()
+            if (response.isSuccessful) {
+                response.body()?.tipos?.let {
+                    tipoExameDao.clearAll()
+                    tipoExameDao.insertAll(it)
+                }
+            }
+        } catch (_: Exception) {}
+    }
+
+    fun getClinicas(): Flow<List<Clinica>> {
+        CoroutineScope(Dispatchers.IO).launch { refreshClinicas() }
+        return clinicaDao.getAllClinicas()
+    }
+
+    private suspend fun refreshClinicas() {
+        try {
+            val response = apiService.getClinicas()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    clinicaDao.clearAll()
+                    clinicaDao.insertAll(it)
+                }
+            }
+        } catch (_: Exception) {}
+    }
+
+    fun getVeterinariosPorClinica(clinicaId: Int): Flow<List<Veterinario>> {
+        CoroutineScope(Dispatchers.IO).launch { refreshVeterinariosPorClinica(clinicaId) }
+        return veterinarioDao.getVeterinariosByClinica(clinicaId)
+    }
+
+    private suspend fun refreshVeterinariosPorClinica(clinicaId: Int) {
+        try {
+            val response = apiService.getVeterinariosPorClinica(clinicaId)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    veterinarioDao.deleteByClinica(clinicaId)
+                    veterinarioDao.insertAll(it)
+                }
+            }
+        } catch (_: Exception) {}
+    }
+
+    /*
+     * cria um exame através da API
      */
     suspend fun createExame(token: String, request: CreateExameRequest): Result<CreateExameResponse> {
         return try {
@@ -78,8 +129,8 @@ class HistoricoRepository(
         }
     }
 
-    /**
-     * Atualiza um exame existente através da API
+    /*
+     * atualiza um exame existente através da API
      */
     suspend fun updateExame(token: String, exameId: Int, request: UpdateExameRequest): Result<CreateExameResponse> {
         return try {
@@ -96,8 +147,8 @@ class HistoricoRepository(
         }
     }
 
-    /**
-     * Envia uma foto para um exame existente
+    /*
+     * envia uma foto para um exame existente
      */
     suspend fun addFotoToExame(token: String, exameId: Int, animalId: Int, imageUri: Uri, context: Context): Result<AddExameFotoResponse> {
         return try {
@@ -122,9 +173,9 @@ class HistoricoRepository(
         }
     }
 
-    /**
-     * Apaga um exame através da API
-     * Em caso de sucesso atualiza o histórico para refletir a remoção
+    /*
+     * apaga um exame através da API
+     * em caso de sucesso atualiza o histórico para refletir a remoção
      */
     suspend fun deleteExame(token: String, animalId: Int, exameId: Long): Result<Unit> {
         return try {

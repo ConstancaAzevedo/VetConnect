@@ -47,10 +47,10 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Vacina"
+                    android:hint="@string/vacina"
                     android:textColorHint="@color/cinzento_claro">
                     <AutoCompleteTextView
-                        android:id="@+id/vacinaSpinner"
+                        android:id="@+id/spinnerNomeVacina"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/borda_branca"
@@ -65,10 +65,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:hint="Clínica"
+                    android:hint="@string/clinica"
                     android:textColorHint="@color/cinzento_claro">
                     <AutoCompleteTextView
-                        android:id="@+id/clinicaSpinner"
+                        android:id="@+id/spinnerClinica"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/borda_branca"
@@ -83,10 +83,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:hint="Veterinário"
+                    android:hint="@string/veterinario"
                     android:textColorHint="@color/cinzento_claro">
                     <AutoCompleteTextView
-                        android:id="@+id/veterinarioSpinner"
+                        android:id="@+id/spinnerVeterinario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/borda_branca"
@@ -103,7 +103,7 @@
                     android:hint="@string/data_dd_mm_aaaa"
                     android:textColorHint="@color/cinzento_claro">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/data_hora"
+                        android:id="@+id/dataAgendada"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/borda_branca"

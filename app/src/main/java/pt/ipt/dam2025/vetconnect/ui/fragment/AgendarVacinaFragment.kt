@@ -1,13 +1,12 @@
 package pt.ipt.dam2025.vetconnect.ui.fragment
 
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +18,7 @@ import pt.ipt.dam2025.vetconnect.model.TipoVacina
 import pt.ipt.dam2025.vetconnect.model.Veterinario
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModelFactory
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
@@ -33,10 +33,10 @@ class AgendarVacinaFragment : Fragment() {
 
     private lateinit var viewModel: VacinaViewModel
 
-    private var listaTiposVacina: List<TipoVacina> = emptyList()
-    private var listaClinicas: List<Clinica> = emptyList()
-    private var listaVeterinarios: List<Veterinario> = emptyList()
-    private val calendar: Calendar = Calendar.getInstance()
+    // Listas locais para guardar os dados dos spinners
+    private val tiposVacinaList = mutableListOf<TipoVacina>()
+    private val clinicasList = mutableListOf<Clinica>()
+    private val veterinariosList = mutableListOf<Veterinario>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,61 +50,59 @@ class AgendarVacinaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val factory = VacinaViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(VacinaViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[VacinaViewModel::class.java]
 
-        setupUI()
+        setupListeners()
+        observeLists()
         observeViewModel()
     }
 
-    private fun setupUI() {
-        binding.dataHora.setOnClickListener { showDateTimePicker() }
-        setupSpinnerListeners()
+    private fun setupListeners() {
+        binding.dataAgendada.setOnClickListener { showDatePicker(binding.dataAgendada) }
         binding.btnConfirmar.setOnClickListener { agendarVacina() }
-    }
 
-    private fun observeViewModel() {
-        viewModel.getTiposVacina().observe(viewLifecycleOwner) { tipos ->
-            listaTiposVacina = tipos
-            val nomes = listOf("Selecione o tipo de vacina") + tipos.map { it.nome }
-            binding.vacinaSpinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, nomes)
-            binding.vacinaSpinner.isEnabled = true
-        }
-
-        viewModel.getClinicas().observe(viewLifecycleOwner) { clinicas ->
-            listaClinicas = clinicas
-            val nomes = listOf("Selecione uma clínica") + clinicas.map { it.nome }
-            binding.clinicaSpinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, nomes)
-            binding.clinicaSpinner.isEnabled = true
-        }
-
-        viewModel.operationStatus.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                Toast.makeText(context, "Vacina agendada com sucesso!", Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
-            }.onFailure {
-                Toast.makeText(context, "Erro ao agendar vacina: ${it.message}", Toast.LENGTH_LONG).show()
-            }
+        // Quando uma clínica é selecionada, carrega os veterinários correspondentes
+        binding.spinnerClinica.setOnItemClickListener { _, _, position, _ ->
+            val selectedClinica = clinicasList.getOrNull(position)
+            selectedClinica?.id?.let { viewModel.carregaVeterinarios(it) }
         }
     }
 
-    private fun setupSpinnerListeners() {
-        binding.clinicaSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position > 0) {
-                    val clinicaId = listaClinicas[position - 1].id
-                    viewModel.getVeterinariosPorClinica(clinicaId).observe(viewLifecycleOwner) { veterinarios ->
-                        listaVeterinarios = veterinarios
-                        val nomes = listOf("Selecione um veterinário") + veterinarios.map { it.nome }
-                        binding.veterinarioSpinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, nomes)
-                        binding.veterinarioSpinner.isEnabled = true
-                    }
-                } else {
-                    binding.veterinarioSpinner.adapter = null
-                    binding.veterinarioSpinner.isEnabled = false
-                }
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+    private fun observeLists() {
+        viewModel.tiposVacina.observe(viewLifecycleOwner) { tipos ->
+            tiposVacinaList.clear()
+            tiposVacinaList.addAll(tipos)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, tipos.map { it.nome })
+            binding.spinnerNomeVacina.setAdapter(adapter)
         }
+
+        viewModel.clinicas.observe(viewLifecycleOwner) { clinicas ->
+            clinicasList.clear()
+            clinicasList.addAll(clinicas)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, clinicas.map { it.nome })
+            binding.spinnerClinica.setAdapter(adapter)
+        }
+
+        viewModel.veterinarios.observe(viewLifecycleOwner) { veterinarios ->
+            veterinariosList.clear()
+            veterinariosList.addAll(veterinarios)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, veterinarios.map { it.nome })
+            binding.spinnerVeterinario.setAdapter(adapter)
+        }
+    }
+
+    private fun showDatePicker(editText: EditText) {
+        val calendar = Calendar.getInstance()
+        DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                val selectedDate = String.format(Locale.ROOT, "%02d-%02d-%04d", dayOfMonth, month + 1, year)
+                editText.setText(selectedDate)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     private fun agendarVacina() {
@@ -112,38 +110,51 @@ class AgendarVacinaFragment : Fragment() {
         val animalId = 1
         val token = "seu_token_aqui"
 
-        val vacinaPos = binding.vacinaSpinner.selectedItemPosition
-        val clinicaPos = binding.clinicaSpinner.selectedItemPosition
-        val vetPos = binding.veterinarioSpinner.selectedItemPosition
-        val dataHora = binding.dataHora.text.toString()
+        // Obtém os nomes dos spinners e encontra os IDs correspondentes
+        val tipoVacinaNome = binding.spinnerNomeVacina.text.toString()
+        val clinicaNome = binding.spinnerClinica.text.toString()
+        val veterinarioNome = binding.spinnerVeterinario.text.toString()
+
+        val tipoVacinaId = tiposVacinaList.find { it.nome == tipoVacinaNome }?.id
+        val clinicaId = clinicasList.find { it.nome == clinicaNome }?.id
+        val veterinarioId = veterinariosList.find { it.nome == veterinarioNome }?.id
+
+        val displayDate = binding.dataAgendada.text.toString()
+        val apiDate = reformatDateForApi(displayDate)
         val observacoes = binding.observacoes.text.toString().takeIf { it.isNotBlank() }
 
-        if (vacinaPos <= 0 || clinicaPos <= 0 || vetPos <= 0 || dataHora.isBlank()) {
+        if (apiDate.isNullOrBlank() || tipoVacinaId == null || clinicaId == null || veterinarioId == null) {
             Toast.makeText(context, "Por favor, preencha todos os campos obrigatórios", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val tipoVacinaId = listaTiposVacina[vacinaPos - 1].id
-        val clinicaId = listaClinicas[clinicaPos - 1].id
-        val veterinarioId = listaVeterinarios[vetPos - 1].id
-
-        val request = AgendarVacinaRequest(animalId, tipoVacinaId, clinicaId, veterinarioId, dataHora, observacoes)
-
+        // Chama a função no ViewModel com os IDs corretos
+        val request = AgendarVacinaRequest(animalId, tipoVacinaId, clinicaId, veterinarioId, apiDate, observacoes)
         viewModel.agendarVacina(token, request)
     }
 
-    private fun showDateTimePicker() {
-        DatePickerDialog(requireContext(), { _, year, month, day ->
-            calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, month)
-            calendar.set(Calendar.DAY_OF_MONTH, day)
-            TimePickerDialog(requireContext(), { _, hour, minute ->
-                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                calendar.set(Calendar.MINUTE, minute)
-                val format = String.format(Locale.ROOT, "%04d-%02d-%02dT%02d:%02d:00", year, month + 1, day, hour, minute)
-                binding.dataHora.setText(format)
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+    private fun observeViewModel() {
+        viewModel.operationStatus.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(context, "Vacina agendada com sucesso!", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Erro ao agendar vacina: ${throwable.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    // Converte a data do ecrã (dd-MM-yyyy) de volta para o formato da API (yyyy-MM-dd)
+    private fun reformatDateForApi(displayDate: String?): String? {
+        if (displayDate.isNullOrBlank()) return null
+        return try {
+            val parser = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val date = parser.parse(displayDate)
+            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            formatter.format(date!!)
+        } catch (_: Exception) {
+            null // Retorna null se o formato for inválido
+        }
     }
 
     override fun onDestroyView() {

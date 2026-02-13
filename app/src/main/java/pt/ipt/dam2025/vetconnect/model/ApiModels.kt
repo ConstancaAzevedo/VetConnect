@@ -354,6 +354,7 @@ data class Veterinario(
  * Usado como entidade da base de dados (tabela 'consultas')
  * e como modelo em respostas da API
  */
+@Parcelize
 @Entity(tableName = "consultas")
 data class Consulta(
     @PrimaryKey val id: Int,
@@ -362,15 +363,15 @@ data class Consulta(
     @SerializedName("clinicaid") @ColumnInfo(name = "clinicaid") val clinicaId: Int,
     @SerializedName("veterinarioid") @ColumnInfo(name = "veterinarioid") val veterinarioId: Int,
     val data: String,
-    val hora: String,
     val motivo: String?,
+    @SerializedName("observacoes") @ColumnInfo(name = "observacoes") val observacoes: String?,
     val estado: String,
     @SerializedName("datamarcacao") @ColumnInfo(name = "datamarcacao") val dataMarcacao: String,
     // Campos extra obtidos por junção de tabelas na API
     @SerializedName("animalnome") @ColumnInfo(name = "animalnome") val animalNome: String?,
     @SerializedName("clinicanome") @ColumnInfo(name = "clinicanome") val clinicaNome: String?,
     @SerializedName("veterinarionome") @ColumnInfo(name = "veterinarionome") val veterinarioNome: String?
-)
+) : Parcelable
 
 /*
  * modelo para o pedido de marcação de uma nova consulta
@@ -380,8 +381,8 @@ data class NovaConsulta(
     val clinicaId: Int,
     val veterinarioId: Int,
     val data: String,
-    val hora: String,
-    val motivo: String?
+    val motivo: String, // O tópico é obrigatório
+    val observacoes: String? // As observações são opcionais
 )
 
 /*
@@ -466,7 +467,7 @@ data class AgendarVacinaResponse(
  * resposta da API que contém uma lista de vacinas agendadas
  */
 data class VacinasAgendadasResponse(
-    @SerializedName("success") val success: Boolean,
+    val success: Boolean,
     @SerializedName("count") val count: Int,
     @SerializedName("vacinas") val vacinas: List<Vacina>
 )
@@ -485,7 +486,7 @@ data class VacinasProximasResponse(
  * modelo para o pedido de atualização de uma vacina existente
  */
 data class UpdateVacinaRequest(
-    @SerializedName("tipo_vacina_id") val tipo_vacina_id: Int?,
+    @SerializedName("tipo_vacina_id") val tipoVacinaId: Int?,
     @SerializedName("dataAplicacao") val dataAplicacao: String?,
     @SerializedName("clinicaId") val clinicaId: Int?,
     @SerializedName("veterinarioId") val veterinarioId: Int?,

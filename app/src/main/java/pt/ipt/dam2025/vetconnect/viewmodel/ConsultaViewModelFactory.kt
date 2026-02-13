@@ -19,7 +19,8 @@ class ConsultaViewModelFactory(private val application: Application) : ViewModel
                 apiService = ApiClient.apiService,
                 consultaDao = database.consultaDao(),
                 clinicaDao = database.clinicaDao(),
-                veterinarioDao = database.veterinarioDao()
+                veterinarioDao = database.veterinarioDao(),
+                animalDao = database.animalDao()
             )
             @Suppress("UNCHECKED_CAST")
             return ConsultaViewModel(repository) as T

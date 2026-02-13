@@ -83,6 +83,9 @@
     <string name="pin_atual">PIN Atual</string>
     <string name="novo_pin">Novo PIN</string>
     <string name="confirmar_novo_pin">Confirmar Novo PIN</string>
+    <string name="vacina">Vacina</string>
+    <string name="topico">Tópico</string>
+    <string name="motivo">Motivo</string>
 
 
     <!-- adicionadas após -->

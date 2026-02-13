@@ -6,9 +6,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.vetconnect.api.ApiService
+import pt.ipt.dam2025.vetconnect.data.AnimalDao
 import pt.ipt.dam2025.vetconnect.data.ClinicaDao
 import pt.ipt.dam2025.vetconnect.data.ConsultaDao
 import pt.ipt.dam2025.vetconnect.data.VeterinarioDao
+import pt.ipt.dam2025.vetconnect.model.AnimalResponse
 import pt.ipt.dam2025.vetconnect.model.Clinica
 import pt.ipt.dam2025.vetconnect.model.Consulta
 import pt.ipt.dam2025.vetconnect.model.NovaConsulta
@@ -23,12 +25,12 @@ class ConsultaRepository(
     private val apiService: ApiService,
     private val consultaDao: ConsultaDao,
     private val clinicaDao: ClinicaDao,
-    private val veterinarioDao: VeterinarioDao
+    private val veterinarioDao: VeterinarioDao,
+    private val animalDao: AnimalDao // DAO adicionado
 ) {
 
     /**
      * Obtém as consultas de um utilizador
-     * Retorna um Flow da base de dados local e inicia uma atualização em background
      */
     fun getConsultas(token: String, userId: Int): Flow<List<Consulta>> {
         CoroutineScope(Dispatchers.IO).launch {
@@ -36,7 +38,6 @@ class ConsultaRepository(
         }
         return consultaDao.getConsultasByUser(userId)
     }
-
 
     private suspend fun refreshConsultas(token: String, userId: Int) {
         try {
@@ -72,7 +73,7 @@ class ConsultaRepository(
     }
 
     /**
-     * Cancela uma consulta na API e, em caso de sucesso, na base de dados local.
+     * Cancela uma consulta na API e na base de dados local.
      */
     suspend fun cancelarConsulta(token: String, consultaId: Int): Result<Unit> {
         return try {
@@ -88,9 +89,24 @@ class ConsultaRepository(
         }
     }
 
-    /**
-     * obtém a lista de todas as clínicas com cache
-     */
+    // --- Funções para obter listas para os Spinners ---
+
+    fun getAnimaisDoTutor(token: String, userId: Int): Flow<List<AnimalResponse>> {
+        CoroutineScope(Dispatchers.IO).launch { refreshAnimaisDoTutor(token, userId) }
+        return animalDao.getAnimalsByTutorId(userId)
+    }
+
+    private suspend fun refreshAnimaisDoTutor(token: String, userId: Int) {
+        try {
+            val response = apiService.getAnimaisDoTutor("Bearer $token", userId)
+            if (response.isSuccessful) {
+                response.body()?.let { animalDao.insertAll(it) }
+            }
+        } catch (e: Exception) {
+            Log.e("ConsultaRepository", "Falha ao obter animais do tutor", e)
+        }
+    }
+
     fun getClinicas(): Flow<List<Clinica>> {
         CoroutineScope(Dispatchers.IO).launch { refreshClinicas() }
         return clinicaDao.getAllClinicas()
@@ -101,39 +117,12 @@ class ConsultaRepository(
             val response = apiService.getClinicas()
             if (response.isSuccessful) {
                 response.body()?.let { clinicaDao.insertAll(it) }
-            } else {
-                 Log.e("ConsultaRepository", "Erro ao obter clinicas: ${response.code()}")
             }
         } catch (e: Exception) {
             Log.e("ConsultaRepository", "Falha ao obter clínicas", e)
         }
     }
 
-    /**
-     * obtém a lista de todos os veterinários com cache
-     */
-    fun getVeterinarios(): Flow<List<Veterinario>> {
-        CoroutineScope(Dispatchers.IO).launch { refreshVeterinarios() }
-        return veterinarioDao.getAll()
-    }
-
-    private suspend fun refreshVeterinarios() {
-        try {
-            val response = apiService.getVeterinarios()
-            if (response.isSuccessful) {
-                response.body()?.let { veterinarioDao.insertAll(it) }
-            }
-            else {
-                Log.e("ConsultaRepository", "Erro ao obter veterinarios: ${response.code()}")
-            }
-        } catch (e: Exception) {
-            Log.e("ConsultaRepository", "Falha ao obter veterinários", e)
-        }
-    }
-
-    /**
-     * Obtém os veterinários de uma clínica específica, com cache.
-     */
     fun getVeterinariosPorClinica(clinicaId: Int): Flow<List<Veterinario>> {
         CoroutineScope(Dispatchers.IO).launch { refreshVeterinariosPorClinica(clinicaId) }
         return veterinarioDao.getVeterinariosByClinica(clinicaId)
@@ -144,9 +133,6 @@ class ConsultaRepository(
             val response = apiService.getVeterinariosPorClinica(clinicaId)
             if (response.isSuccessful) {
                 response.body()?.let { veterinarioDao.insertAll(it) }
-            }
-            else {
-                 Log.e("ConsultaRepository", "Erro ao obter veterinarios por clinica: ${response.code()}")
             }
         } catch (e: Exception) {
             Log.e("ConsultaRepository", "Falha ao obter veterinários da clínica", e)

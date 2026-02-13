@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import pt.ipt.dam2025.vetconnect.model.AnimalResponse
 import pt.ipt.dam2025.vetconnect.model.Clinica
 import pt.ipt.dam2025.vetconnect.model.Consulta
 import pt.ipt.dam2025.vetconnect.model.NovaConsulta
@@ -17,16 +18,27 @@ import pt.ipt.dam2025.vetconnect.repository.ConsultaRepository
  */
 class ConsultaViewModel(private val repository: ConsultaRepository) : ViewModel() {
 
-    // LiveData para expor o resultado de operações (cancelar, marcar)
+    // LiveData para expor o resultado de operações
     private val _operationStatus = MutableLiveData<Result<Any>>()
     val operationStatus: LiveData<Result<Any>> = _operationStatus
 
-    // --- Funções para Marcar Consulta ---
+    // --- Funções para obter as listas para os spinners ---
+
+    fun getAnimaisDoTutor(token: String, userId: Int): LiveData<List<AnimalResponse>> {
+        return repository.getAnimaisDoTutor(token, userId).asLiveData()
+    }
 
     val clinicas: LiveData<List<Clinica>> = repository.getClinicas().asLiveData()
 
-    fun getVeterinariosPorClinica(clinicaId: Int): LiveData<List<Veterinario>> {
-        return repository.getVeterinariosPorClinica(clinicaId).asLiveData()
+    private val _veterinarios = MutableLiveData<List<Veterinario>>()
+    val veterinarios: LiveData<List<Veterinario>> = _veterinarios
+
+    fun carregaVeterinarios(clinicaId: Int) {
+        viewModelScope.launch {
+            repository.getVeterinariosPorClinica(clinicaId).collect {
+                _veterinarios.postValue(it)
+            }
+        }
     }
 
     fun marcarConsulta(token: String, novaConsulta: NovaConsulta) {
@@ -36,7 +48,7 @@ class ConsultaViewModel(private val repository: ConsultaRepository) : ViewModel(
         }
     }
 
-    // --- Funções para Gerir Consultas Existentes ---
+    // funções para gerir consultas existentes
 
     fun getConsultas(token: String, userId: Int): LiveData<List<Consulta>> {
         return repository.getConsultas(token, userId).asLiveData()

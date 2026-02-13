@@ -7,10 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import pt.ipt.dam2025.vetconnect.model.CreateExameRequest
-import pt.ipt.dam2025.vetconnect.model.Exame
-import pt.ipt.dam2025.vetconnect.model.UpdateExameRequest
+import pt.ipt.dam2025.vetconnect.model.*
 import pt.ipt.dam2025.vetconnect.repository.HistoricoRepository
 
 /**
@@ -21,12 +20,29 @@ class HistoricoViewModel(private val repository: HistoricoRepository) : ViewMode
     private val _operationStatus = MutableLiveData<Result<Unit>>()
     val operationStatus: LiveData<Result<Unit>> = _operationStatus
 
+    // LiveData para as listas dos spinners, espelhando o VacinaViewModel
+    val tiposExame: LiveData<List<TipoExame>> = repository.getTiposExame().asLiveData()
+    val clinicas: LiveData<List<Clinica>> = repository.getClinicas().asLiveData()
+
+    private val _veterinarios = MutableLiveData<List<Veterinario>>()
+    val veterinarios: LiveData<List<Veterinario>> = _veterinarios
+
     /*
      * expõe a lista de exames para a UI
-     * o .asLiveData() converte o Flow do repositório em LiveData
      */
     fun getExames(token: String, animalId: Int): LiveData<List<Exame>> {
         return repository.getExames(token, animalId).asLiveData()
+    }
+
+    /*
+     * Pede ao repositório para carregar os veterinários de uma clínica específica
+     */
+    fun carregaVeterinarios(clinicaId: Int) {
+        viewModelScope.launch {
+            repository.getVeterinariosPorClinica(clinicaId).collect {
+                _veterinarios.postValue(it)
+            }
+        }
     }
 
     /*
