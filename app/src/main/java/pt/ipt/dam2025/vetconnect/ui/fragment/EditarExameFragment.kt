@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
@@ -100,7 +101,8 @@ class EditarExameFragment : Fragment() {
         binding.editTextDataExame.setOnClickListener { showDatePickerDialog(binding.editTextDataExame) }
         binding.buttonGuardarAlteracoes.setOnClickListener { guardarAlteracoes() }
         binding.buttonAlterarFoto.setOnClickListener {
-            findNavController().navigate(R.id.action_editarExameFragment_to_camaraFragment)
+            val bundle = bundleOf("pathType" to "exames")
+            findNavController().navigate(R.id.action_editarExameFragment_to_camaraFragment, bundle)
         }
 
         // quando uma clínica é selecionada pede ao ViewModel para carregar a lista de veterinários

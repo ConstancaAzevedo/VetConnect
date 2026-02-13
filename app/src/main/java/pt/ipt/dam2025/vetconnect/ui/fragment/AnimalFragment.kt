@@ -1,33 +1,26 @@
 package pt.ipt.dam2025.vetconnect.ui.fragment
 
-import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentAnimalBinding
 import pt.ipt.dam2025.vetconnect.model.AnimalResponse
 import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.AnimalViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.AnimalViewModelFactory
 import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 /**
@@ -40,23 +33,7 @@ class AnimalFragment : Fragment() {
 
     private lateinit var viewModel: AnimalViewModel
     private lateinit var sessionManager: SessionManager
-    private var fotoUri: Uri? = null
-    private var currentPhotoPath: String? = null
     private var animalId: Int = -1
-
-    private val requestCameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if (it) openCamera() else Toast.makeText(context, "Permissão negada", Toast.LENGTH_SHORT).show()
-    }
-
-    private val takePicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            currentPhotoPath?.let {
-                fotoUri = Uri.fromFile(File(it))
-                binding.animalFoto.setImageURI(fotoUri)
-                uploadFoto()
-            }
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAnimalBinding.inflate(inflater, container, false)
@@ -68,7 +45,7 @@ class AnimalFragment : Fragment() {
 
         sessionManager = SessionManager(requireContext())
         val factory = AnimalViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(AnimalViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[AnimalViewModel::class.java]
 
         animalId = sessionManager.getAnimalId()
         val token = sessionManager.getAuthToken()
@@ -82,6 +59,18 @@ class AnimalFragment : Fragment() {
 
         setupListeners()
         observeViewModel()
+        ouvirResultadoDaCamara()
+    }
+
+    private fun ouvirResultadoDaCamara() {
+        setFragmentResultListener("requestKey") { _, bundle ->
+            val imagePath = bundle.getString("imagePath")
+            if (imagePath != null) {
+                val fotoUri = Uri.fromFile(File(imagePath))
+                binding.animalFoto.setImageURI(fotoUri)
+                uploadFoto(fotoUri)
+            }
+        }
     }
 
     private fun setupListeners() {
@@ -136,47 +125,14 @@ class AnimalFragment : Fragment() {
     }
 
     private fun dispatchTakePictureIntent() {
-        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            openCamera()
-        } else {
-            requestCameraPermission.launch(android.Manifest.permission.CAMERA)
-        }
+        val bundle = bundleOf("pathType" to "animais")
+        findNavController().navigate(R.id.action_animalFragment_to_camaraFragment, bundle)
     }
 
-    private fun openCamera() {
-        /*
-         * tenta criar um ficheiro temporário para guardar a imagem
-         * em caso de erro (ex: falta de espaço) mostra uma mensagem e retorna nulo
-         */
-        val photoFile: File? = try {
-            createImageFile()
-        } 
-        /* _ -> uma convenção em Kotlin para indicar que um parâmetro existe mas não será usado
-         * apanhamos o erro IOException mas como a única ação é mostrar uma mensagem genérica
-         * não precisamos dos detalhes do erro
-        */
-        catch (_: IOException) {
-            Toast.makeText(context, "Erro ao criar ficheiro de imagem", Toast.LENGTH_SHORT).show()
-            null
-        }
-        photoFile?.also {
-            val photoURI: Uri = FileProvider.getUriForFile(requireContext(), "pt.ipt.dam2025.vetconnect.fileprovider", it)
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply { putExtra(MediaStore.EXTRA_OUTPUT, photoURI) }
-            takePicture.launch(takePictureIntent)
-        }
-    }
-
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ROOT).format(Date())
-        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply { currentPhotoPath = absolutePath }
-    }
-
-    private fun uploadFoto() {
+    private fun uploadFoto(fotoUri: Uri) {
         val token = sessionManager.getAuthToken() ?: return
         if (animalId != -1) {
-            fotoUri?.let { viewModel.uploadPhoto(token, animalId, it) }
+            viewModel.uploadPhoto(token, animalId, fotoUri)
         }
     }
 

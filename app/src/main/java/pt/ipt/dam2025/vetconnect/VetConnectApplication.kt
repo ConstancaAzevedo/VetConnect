@@ -6,21 +6,15 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import pt.ipt.dam2025.vetconnect.api.ApiClient
-import pt.ipt.dam2025.vetconnect.data.AppDatabase
 import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.worker.VaccineReminderWorker
 import java.util.concurrent.TimeUnit
 
 /**
- * classe de Aplicação personalizada para o VetConnect
+ * Classe de Aplicação personalizada para o VetConnect
  * é usada para inicializar e manter uma instância única da base de dados
  */
 class VetConnectApplication : Application() {
-    // a base de dados será criada de forma "lazy" (preguiçosa), ou seja,
-    // só na primeira vez que for acedida
-    val database: AppDatabase by lazy {
-        AppDatabase.getDatabase(this)
-    }
 
     override fun onCreate() {
         super.onCreate()

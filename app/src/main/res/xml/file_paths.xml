@@ -3,9 +3,10 @@
     <!-- arquivo de caminhos -->
 
     <!-- dá permição à aplicação para usar fotos tiradas dentro destas pastas -->
-    <!-- fotos de perfil do animal-->
+
+    <!-- fotos de perfil do animal -->
     <external-files-path name="animal_pics" path="Animals/" />
-    <!-- fotos ... -->
-    <external-files-path name="_pics" path="/" />
+    <!-- fotos dos exames -->
+    <external-files-path name="exame_pics" path="Exames/" />
 </paths>
 
