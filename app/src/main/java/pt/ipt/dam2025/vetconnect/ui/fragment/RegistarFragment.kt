@@ -60,7 +60,7 @@ class RegistarFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.registrationResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                Toast.makeText(context, "Registo bem-sucedido! Verifique o seu email.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Código enviado parao seu telemóvel", Toast.LENGTH_LONG).show()
                 val bundle = Bundle().apply {
                     putString("email", it.user.email)
                     putString("verificationCode", it.verificationCode)

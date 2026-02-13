@@ -46,7 +46,7 @@
                 tools:text="Animal: Bobby" />
 
             <TextView
-                android:id="@+id/text_view_topico"
+                android:id="@+id/text_view_motivo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -56,7 +56,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/text_view_status"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_animal"
-                tools:text="Tópico: Consulta de rotina" />
+                tools:text="Motivo: Consulta de rotina" />
 
             <TextView
                 android:id="@+id/text_view_clinica"
@@ -68,7 +68,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/text_view_status"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_topico"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_motivo"
                 tools:text="Clínica: Animal Clinic" />
 
             <TextView
