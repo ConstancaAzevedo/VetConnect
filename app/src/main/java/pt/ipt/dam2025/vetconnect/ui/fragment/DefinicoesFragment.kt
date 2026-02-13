@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentDefinicoesBinding
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModelFactory
 
@@ -20,6 +21,7 @@ class DefinicoesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: UtilizadorViewModel
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,8 +34,9 @@ class DefinicoesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sessionManager = SessionManager(requireContext())
         val factory = UtilizadorViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(UtilizadorViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[UtilizadorViewModel::class.java]
 
         setupListeners()
         observeViewModel()
@@ -67,8 +70,11 @@ class DefinicoesFragment : Fragment() {
             return
         }
 
-        // TODO: Obter o token de forma segura
-        val token = "seu_token_aqui"
+        val token = sessionManager.getAuthToken()
+        if (token == null) {
+            Toast.makeText(context, "Sessão inválida. Não é possível alterar o PIN.", Toast.LENGTH_LONG).show()
+            return
+        }
         viewModel.alterarPin(token, pinAtual, novoPin)
     }
 
@@ -84,30 +90,32 @@ class DefinicoesFragment : Fragment() {
     }
 
     private fun fazerLogout(){
-        // TODO: Obter o token de forma segura
-        val token = "seu_token_aqui"
+        val token = sessionManager.getAuthToken()
+        if (token == null) {
+            Toast.makeText(context, "Sessão inválida. Não é possível fazer logout.", Toast.LENGTH_LONG).show()
+            return
+        }
         viewModel.logout(token)
     }
 
     private fun observeViewModel() {
-        viewModel.pinChangeResult.observe(viewLifecycleOwner) {
-            it.onSuccess {
+        viewModel.pinChangeResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
                 Toast.makeText(context, "PIN alterado com sucesso!", Toast.LENGTH_SHORT).show()
                 binding.atualPin.text.clear()
                 binding.novoPin.text.clear()
                 binding.confirmarPin.text.clear()
-            }.onFailure {
-                Toast.makeText(context, "Erro ao alterar PIN: ${it.message}", Toast.LENGTH_LONG).show()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Erro ao alterar PIN: ${throwable.message}", Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModel.logoutResult.observe(viewLifecycleOwner) {
-            it.onSuccess {
+        viewModel.logoutResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
                 Toast.makeText(context, "Sessão terminada", Toast.LENGTH_SHORT).show()
-                // Navega para o ecrã de login, limpando o histórico
                 findNavController().navigate(R.id.action_definicoesFragment_to_loginFragment)
-            }.onFailure {
-                Toast.makeText(context, "Erro ao fazer logout: ${it.message}", Toast.LENGTH_LONG).show()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Erro ao fazer logout: ${throwable.message}", Toast.LENGTH_LONG).show()
             }
         }
     }

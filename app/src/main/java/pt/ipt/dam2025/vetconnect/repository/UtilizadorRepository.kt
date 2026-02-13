@@ -26,7 +26,7 @@ class UtilizadorRepository(
 
     /*
      * obtém a lista de todos os utilizadores da API
-     * TODO obter apenas os utilizadores do telemóvel em questão
+     * TODO: obter apenas os utilizadores com login já iniciado no telemóvel ._.
      */
     suspend fun getUtilizadores(token: String): List<Utilizador> {
         return try {

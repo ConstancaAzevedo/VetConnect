@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentDetalhesVacinaBinding
 import pt.ipt.dam2025.vetconnect.model.Vacina
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModelFactory
 
@@ -25,6 +26,7 @@ class DetalhesVacinaFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: VacinaViewModel
+    private lateinit var sessionManager: SessionManager
     private var vacina: Vacina? = null
 
     override fun onCreateView(
@@ -38,8 +40,10 @@ class DetalhesVacinaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sessionManager = SessionManager(requireContext())
+
         val factory = VacinaViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(VacinaViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[VacinaViewModel::class.java]
 
         vacina = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable("vacina", Vacina::class.java)
@@ -74,8 +78,11 @@ class DetalhesVacinaFragment : Fragment() {
                 .setTitle("Apagar Vacina")
                 .setMessage("Tem a certeza que deseja apagar esta vacina?")
                 .setPositiveButton("Sim") { _, _ ->
-                    // TODO: Obter o token de forma segura
-                    val token = "seu_token_aqui"
+                    val token = sessionManager.getAuthToken()
+                    if (token == null) {
+                        Toast.makeText(context, "Sessão inválida. Não é possível apagar.", Toast.LENGTH_LONG).show()
+                        return@setPositiveButton
+                    }
                     viewModel.cancelarVacina(token, vacina.id)
                 }
                 .setNegativeButton("Não", null)
@@ -93,8 +100,8 @@ class DetalhesVacinaFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(context, "Operação realizada com sucesso!", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
-            }.onFailure {
-                Toast.makeText(context, "Falha na operação: ${it.message}", Toast.LENGTH_LONG).show()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Falha na operação: ${throwable.message}", Toast.LENGTH_LONG).show()
             }
         }
     }

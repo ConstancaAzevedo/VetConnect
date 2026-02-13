@@ -88,8 +88,8 @@ class CriarPinFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.createPinResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                Toast.makeText(context, "PIN criado com sucesso!", Toast.LENGTH_SHORT).show()
-                // TODO: Adicionar o utilizador à lista de contas locais, se necessário
+                Toast.makeText(context, "PIN criado com sucesso", Toast.LENGTH_SHORT).show()
+                // TODO: Adicionar o utilizador à lista de contas locais ._.
                 findNavController().navigate(R.id.action_criarPinFragment_to_homeFragment)
             }.onFailure {
                 Toast.makeText(context, "Erro ao criar PIN: ${it.message}", Toast.LENGTH_LONG).show()

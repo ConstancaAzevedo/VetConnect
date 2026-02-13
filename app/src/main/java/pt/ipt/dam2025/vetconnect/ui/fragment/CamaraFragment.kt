@@ -33,7 +33,7 @@ import java.util.concurrent.Executors
 /**
  * o código foi fornecido pelo professor
  * com apenas diferença de que foi alterado para ser um fragment
- * Fragment para a página da câmera
+ * Fragment para a página da camara
  */
 class CamaraFragment : Fragment() {
 
@@ -92,7 +92,7 @@ class CamaraFragment : Fragment() {
             requestPermissions()
         }
 
-        // tirar foto ao clicar no botão
+        // tirar foto quando se clica no botão
         binding.imageCaptureButton.setOnClickListener { takePhoto() }
 
         // iniciar executor
@@ -140,7 +140,7 @@ class CamaraFragment : Fragment() {
         )
     }
 
-    // função para iniciar a câmera
+    // função para iniciar a camara
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 

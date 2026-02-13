@@ -13,6 +13,7 @@ import coil.load
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentDetalhesExameBinding
 import pt.ipt.dam2025.vetconnect.model.Exame
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModelFactory
 import java.text.SimpleDateFormat
@@ -28,6 +29,7 @@ class DetalhesExameFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: HistoricoViewModel
+    private lateinit var sessionManager: SessionManager
     private var exame: Exame? = null
 
     override fun onCreateView(
@@ -40,6 +42,8 @@ class DetalhesExameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
 
         val factory = HistoricoViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[HistoricoViewModel::class.java]
@@ -101,7 +105,11 @@ class DetalhesExameFragment : Fragment() {
                 .setTitle("Apagar Exame")
                 .setMessage("Tem a certeza que deseja apagar este exame? Esta ação é irreversível.")
                 .setPositiveButton("Sim") { _, _ ->
-                    val token = "seu_token_aqui" // TODO: Obter o token de forma segura
+                    val token = sessionManager.getAuthToken()
+                    if (token == null) {
+                        Toast.makeText(context, "Sessão inválida. Não é possível apagar.", Toast.LENGTH_LONG).show()
+                        return@setPositiveButton
+                    }
                     exame?.let {
                         viewModel.deleteExame(token, it.animalId, it.id.toLong())
                     }

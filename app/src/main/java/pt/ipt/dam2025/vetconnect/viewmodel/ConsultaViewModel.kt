@@ -6,11 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pt.ipt.dam2025.vetconnect.model.AnimalResponse
-import pt.ipt.dam2025.vetconnect.model.Clinica
-import pt.ipt.dam2025.vetconnect.model.Consulta
-import pt.ipt.dam2025.vetconnect.model.NovaConsulta
-import pt.ipt.dam2025.vetconnect.model.Veterinario
+import pt.ipt.dam2025.vetconnect.model.*
 import pt.ipt.dam2025.vetconnect.repository.ConsultaRepository
 
 /**
@@ -57,6 +53,13 @@ class ConsultaViewModel(private val repository: ConsultaRepository) : ViewModel(
     fun cancelarConsulta(token: String, consultaId: Int) {
         viewModelScope.launch {
             val result = repository.cancelarConsulta(token, consultaId)
+            _operationStatus.postValue(result)
+        }
+    }
+
+    fun updateConsulta(token: String, id: Int, request: UpdateConsultaRequest) {
+        viewModelScope.launch {
+            val result = repository.updateConsulta(token, id, request)
             _operationStatus.postValue(result)
         }
     }

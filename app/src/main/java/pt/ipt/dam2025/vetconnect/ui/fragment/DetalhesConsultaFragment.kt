@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentDetalhesConsultaBinding
 import pt.ipt.dam2025.vetconnect.model.Consulta
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.ConsultaViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.ConsultaViewModelFactory
 import java.text.SimpleDateFormat
@@ -27,6 +28,7 @@ class DetalhesConsultaFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: ConsultaViewModel
+    private lateinit var sessionManager: SessionManager
     private var consulta: Consulta? = null
 
     override fun onCreateView(
@@ -39,6 +41,8 @@ class DetalhesConsultaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
 
         val factory = ConsultaViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[ConsultaViewModel::class.java]
@@ -87,7 +91,11 @@ class DetalhesConsultaFragment : Fragment() {
                 .setTitle("Cancelar Consulta")
                 .setMessage("Tem a certeza que deseja cancelar esta consulta?")
                 .setPositiveButton("Sim") { _, _ ->
-                    val token = "seu_token_aqui" // TODO: Obter o token de forma segura
+                    val token = sessionManager.getAuthToken()
+                    if (token == null) {
+                        Toast.makeText(context, "Sessão inválida. Não é possível cancelar.", Toast.LENGTH_LONG).show()
+                        return@setPositiveButton
+                    }
                     consulta?.let { viewModel.cancelarConsulta(token, it.id) }
                 }
                 .setNegativeButton("Não", null)
@@ -113,7 +121,7 @@ class DetalhesConsultaFragment : Fragment() {
             val date = parser.parse(dateString.substring(0, 10))
             val formatter = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale("pt", "PT"))
             formatter.format(date!!)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             dateString
         }
     }

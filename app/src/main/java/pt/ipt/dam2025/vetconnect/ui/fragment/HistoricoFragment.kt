@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -11,7 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentHistoricoBinding
 import pt.ipt.dam2025.vetconnect.model.Exame
-import pt.ipt.dam2025.vetconnect.ui.adapter.HistoricoAdapter // Import corrigido
+import pt.ipt.dam2025.vetconnect.ui.adapter.HistoricoAdapter
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModelFactory
 
@@ -25,6 +27,7 @@ class HistoricoFragment : Fragment() {
 
     private lateinit var viewModel: HistoricoViewModel
     private lateinit var historicoAdapter: HistoricoAdapter
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +40,11 @@ class HistoricoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sessionManager = SessionManager(requireContext())
+
         // Inicializa o ViewModel
         val factory = HistoricoViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(HistoricoViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[HistoricoViewModel::class.java]
 
         // Configura o RecyclerView e o Adapter
         setupRecyclerView()
@@ -64,10 +69,14 @@ class HistoricoFragment : Fragment() {
     }
 
     private fun observeExames() {
-        // Obter o token e o ID do animal (assumindo que são passados para este fragmento)
-        // TODO: Substituir pelos valores reais
-        val token = "seu_token_aqui"
-        val animalId = 1 // ID do animal de exemplo
+        val token = sessionManager.getAuthToken()
+        val animalId = sessionManager.getAnimalId()
+
+        if (token == null || animalId == -1) {
+            Toast.makeText(context, "Sessão inválida. Por favor reinicie a aplicação", Toast.LENGTH_LONG).show()
+            binding.emptyView.visibility = View.VISIBLE
+            return
+        }
 
         viewModel.getExames(token, animalId).observe(viewLifecycleOwner) {
             it?.let {

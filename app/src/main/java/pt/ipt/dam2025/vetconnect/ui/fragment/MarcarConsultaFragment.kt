@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.databinding.FragmentMarcarConsultaBinding
 import pt.ipt.dam2025.vetconnect.model.*
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.*
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -26,6 +27,7 @@ class MarcarConsultaFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: ConsultaViewModel
+    private lateinit var sessionManager: SessionManager
     private var animalId: Int = -1 // o ID do animal é passado via argumentos
 
     // listas locais para guardar os dados dos spinners
@@ -42,6 +44,8 @@ class MarcarConsultaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
 
         // obtém o ID do animal passado como argumento
         animalId = arguments?.getInt("animalId", -1) ?: -1
@@ -98,7 +102,12 @@ class MarcarConsultaFragment : Fragment() {
      * recolhe os dados valida-os e envia o pedido de marcação de consulta
      */
     private fun marcarConsulta() {
-        val token = "seu_token_aqui" // TODO: Obter o token de forma segura
+        val token = sessionManager.getAuthToken()
+
+        if (token == null) {
+            Toast.makeText(context, "Sessão inválida. Por favor, reinicie a aplicação.", Toast.LENGTH_LONG).show()
+            return
+        }
 
         // obtém os nomes dos spinners e encontra os IDs correspondentes
         val clinicaNome = binding.clinicaSpinner.text.toString()

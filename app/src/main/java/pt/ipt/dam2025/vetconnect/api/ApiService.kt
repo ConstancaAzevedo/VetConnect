@@ -159,6 +159,13 @@ interface ApiService {
         @Path("id") consultaId: Int
     ): Response<CancelConsultaResponse>
 
+    @PUT("consultas/{id}")
+    suspend fun updateConsulta(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Body body: UpdateConsultaRequest
+    ): Response<Consulta>
+
     // vacinas ==============================================
     @GET("vacinas/tipos")
     suspend fun getTiposVacina(): Response<TiposVacinaResponse>

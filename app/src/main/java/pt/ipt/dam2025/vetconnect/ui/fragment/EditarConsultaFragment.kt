@@ -13,7 +13,9 @@ import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.databinding.FragmentEditarConsultaBinding
 import pt.ipt.dam2025.vetconnect.model.Clinica
 import pt.ipt.dam2025.vetconnect.model.Consulta
+import pt.ipt.dam2025.vetconnect.model.UpdateConsultaRequest
 import pt.ipt.dam2025.vetconnect.model.Veterinario
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.ConsultaViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.ConsultaViewModelFactory
 import java.text.SimpleDateFormat
@@ -30,6 +32,7 @@ class EditarConsultaFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: ConsultaViewModel
+    private lateinit var sessionManager: SessionManager
     private var consulta: Consulta? = null
 
     private val clinicasList = mutableListOf<Clinica>()
@@ -45,6 +48,8 @@ class EditarConsultaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
 
         val factory = ConsultaViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[ConsultaViewModel::class.java]
@@ -110,7 +115,12 @@ class EditarConsultaFragment : Fragment() {
     }
 
     private fun guardarAlteracoes() {
-        val token = "seu_token_aqui" // TODO: Obter o token de forma segura
+        val token = sessionManager.getAuthToken()
+
+        if (token == null) {
+            Toast.makeText(context, "Sessão inválida. Não é possível guardar alterações.", Toast.LENGTH_LONG).show()
+            return
+        }
 
         val clinicaNome = binding.clinicaSpinner.text.toString()
         val veterinarioNome = binding.veterinarioSpinner.text.toString()
@@ -129,16 +139,25 @@ class EditarConsultaFragment : Fragment() {
 
         val apiDate = reformatDateForApi(data)
         if (apiDate == null) {
-            Toast.makeText(context, "Formato de data inválido. Use dd-MM-yyyy.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Formato de data inválido. Use dd-MM-yyyy", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // TODO: Criar um UpdateConsultaRequest e uma função de update no ViewModel/Repository.
-        Toast.makeText(context, "Função de atualizar ainda não implementada.", Toast.LENGTH_SHORT).show()
+        val request = UpdateConsultaRequest(motivo, apiDate, clinicaId, veterinarioId, observacoes)
+        consulta?.id?.let {
+            viewModel.updateConsulta(token, it, request)
+        }
     }
 
     private fun observeViewModel() {
-        // TODO: Observar o resultado da operação de update quando for implementada.
+        viewModel.operationStatus.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(context, "Consulta atualizada com sucesso", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Erro ao atualizar consulta: ${throwable.message}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun showDatePicker() {

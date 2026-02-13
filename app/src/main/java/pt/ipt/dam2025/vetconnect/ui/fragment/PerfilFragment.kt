@@ -4,18 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
+import pt.ipt.dam2025.vetconnect.R
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import pt.ipt.dam2025.vetconnect.databinding.FragmentPerfilBinding
 import pt.ipt.dam2025.vetconnect.model.UpdateUserRequest
 import pt.ipt.dam2025.vetconnect.model.Utilizador
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModelFactory
 
 /**
- * Fragment para a página de perfil do usuário
+ * Fragment para a página de perfil do utilizador
  */
 
 class PerfilFragment : Fragment() {
@@ -24,6 +25,7 @@ class PerfilFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: UtilizadorViewModel
+    private lateinit var sessionManager: SessionManager
     private var isEditMode = false
     private var currentUser: Utilizador? = null
 
@@ -38,16 +40,21 @@ class PerfilFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sessionManager = SessionManager(requireContext())
         val factory = UtilizadorViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[UtilizadorViewModel::class.java]
 
         setupUI()
         observeViewModel()
 
-        // TODO: Obter o token e o userId de forma segura
-        val token = "seu_token_aqui"
-        val userId = 1
-        viewModel.refreshUser(token, userId)
+        val token = sessionManager.getAuthToken()
+        val userId = sessionManager.getUserId()
+
+        if (token != null && userId != -1) {
+            viewModel.refreshUser(token, userId)
+        } else {
+            Toast.makeText(context, "Sessão inválida. Por favor reinicie a aplicação", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun setupUI() {
@@ -56,23 +63,24 @@ class PerfilFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // TODO: obter userId de forma segura
-        val userId = 1
-        viewModel.getUser(userId).observe(viewLifecycleOwner) {
-            it?.let {
-                currentUser = it
-                populateUI(it)
+        val userId = sessionManager.getUserId()
+        if (userId != -1) {
+            viewModel.getUser(userId).observe(viewLifecycleOwner) { user ->
+                user?.let {
+                    currentUser = it
+                    populateUI(it)
+                }
             }
         }
 
-        viewModel.updateResult.observe(viewLifecycleOwner) {
-            it.onSuccess {
-                Toast.makeText(context, "Perfil atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+        viewModel.updateResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(context, "Perfil atualizado com sucesso", Toast.LENGTH_SHORT).show()
                 setFieldsEditable(false)
-                binding.btnEditarGuardar.text = "Editar"
+                binding.btnEditarGuardar.setText(R.string.guardar)
                 isEditMode = false
-            }.onFailure {
-                Toast.makeText(context, "Erro ao atualizar o perfil: ${it.message}", Toast.LENGTH_LONG).show()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Erro ao atualizar o perfil: ${throwable.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -92,21 +100,25 @@ class PerfilFragment : Fragment() {
         isEditMode = !isEditMode
         setFieldsEditable(isEditMode)
         if (isEditMode) {
-            binding.btnEditarGuardar.text = "Guardar"
+            binding.btnEditarGuardar.setText(R.string.editar)
         } else {
             saveProfileChanges()
         }
     }
 
     private fun setFieldsEditable(isEditable: Boolean) {
-        val fields = listOf<EditText>(binding.nomeDado, binding.emailDado, binding.telemovelDado, binding.nacionalidadeDado, binding.sexoDado, binding.ccDado, binding.dataDado, binding.moradaDado)
+        val fields = listOf(binding.nomeDado, binding.emailDado, binding.telemovelDado, binding.nacionalidadeDado, binding.sexoDado, binding.ccDado, binding.dataDado, binding.moradaDado)
         fields.forEach { it.isEnabled = isEditable }
     }
 
     private fun saveProfileChanges() {
-        // TODO: Obter o token e o userId de forma segura
-        val token = "seu_token_aqui"
-        val userId = 1
+        val token = sessionManager.getAuthToken()
+        val userId = sessionManager.getUserId()
+
+        if (token == null || userId == -1) {
+            Toast.makeText(context, "Sessão inválida. Não é possível guardar alterações", Toast.LENGTH_LONG).show()
+            return
+        }
 
         val request = UpdateUserRequest(
             nome = binding.nomeDado.text.toString(),

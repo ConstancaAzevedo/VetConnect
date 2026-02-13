@@ -386,6 +386,18 @@ data class NovaConsulta(
 )
 
 /*
+ * modelo para o pedido de atualização de uma consulta existente
+ */
+data class UpdateConsultaRequest(
+    val motivo: String?,
+    val data: String?,
+    val clinicaId: Int?,
+    val veterinarioId: Int?,
+    val observacoes: String?
+)
+
+
+/*
  * resposta da API após o cancelamento de uma consulta
  */
 data class CancelConsultaResponse(

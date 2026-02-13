@@ -16,6 +16,7 @@ import pt.ipt.dam2025.vetconnect.model.AgendarVacinaRequest
 import pt.ipt.dam2025.vetconnect.model.Clinica
 import pt.ipt.dam2025.vetconnect.model.TipoVacina
 import pt.ipt.dam2025.vetconnect.model.Veterinario
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModelFactory
 import java.text.SimpleDateFormat
@@ -32,6 +33,7 @@ class AgendarVacinaFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: VacinaViewModel
+    private lateinit var sessionManager: SessionManager
 
     // Listas locais para guardar os dados dos spinners
     private val tiposVacinaList = mutableListOf<TipoVacina>()
@@ -48,6 +50,8 @@ class AgendarVacinaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
 
         val factory = VacinaViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[VacinaViewModel::class.java]
@@ -106,9 +110,13 @@ class AgendarVacinaFragment : Fragment() {
     }
 
     private fun agendarVacina() {
-        // TODO: Obter o ID do animal e o token de forma segura
-        val animalId = 1
-        val token = "seu_token_aqui"
+        val token = sessionManager.getAuthToken()
+        val animalId = sessionManager.getAnimalId()
+
+        if (token == null || animalId == -1) {
+            Toast.makeText(context, "Sessão inválida. Por favor, reinicie a aplicação.", Toast.LENGTH_LONG).show()
+            return
+        }
 
         // Obtém os nomes dos spinners e encontra os IDs correspondentes
         val tipoVacinaNome = binding.spinnerNomeVacina.text.toString()

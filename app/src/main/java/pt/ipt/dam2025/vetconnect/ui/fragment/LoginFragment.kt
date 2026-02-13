@@ -49,7 +49,7 @@ class LoginFragment : Fragment() {
 
         sessionManager = SessionManager(requireContext())
         val factory = UtilizadorViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(UtilizadorViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[UtilizadorViewModel::class.java]
 
         pinDots = listOf(binding.pin1, binding.pin2, binding.pin3, binding.pin4, binding.pin5, binding.pin6)
 
@@ -68,7 +68,7 @@ class LoginFragment : Fragment() {
 
         if (registeredAccounts.isEmpty()) {
             binding.contaSpinner.visibility = View.GONE
-            binding.welcomeText.text = "Bem-vindo!"
+            binding.welcomeText.setText(R.string.bem_vindo)
         } else {
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, registeredAccounts.values.toList())
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -108,7 +108,7 @@ class LoginFragment : Fragment() {
         binding.btnEsqueci.setOnClickListener { v ->
             Snackbar.make(v, "Funcionalidade em desenvolvimento", Snackbar.LENGTH_LONG).show()
         }
-        // TODO: criar fragment para recuperar pin e implementar o código necessário
+        // TODO: criar uma página de recuperar pin ._.
     }
 
     private fun observeViewModel() {

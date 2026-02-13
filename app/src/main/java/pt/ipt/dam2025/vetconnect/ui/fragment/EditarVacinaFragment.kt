@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.databinding.FragmentEditarVacinaBinding
 import pt.ipt.dam2025.vetconnect.model.*
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModelFactory
 import java.text.SimpleDateFormat
@@ -31,6 +32,7 @@ class EditarVacinaFragment : Fragment() {
 
     // ViewModel para interagir com a lógica da API e base de dados
     private lateinit var viewModel: VacinaViewModel
+    private lateinit var sessionManager: SessionManager
 
     // objeto da vacina a ser editada recebido como argumento do ecrã anterior
     private var vacina: Vacina? = null
@@ -57,6 +59,8 @@ class EditarVacinaFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
 
         // inicializa o ViewModel
         val factory = VacinaViewModelFactory(requireActivity().application)
@@ -151,6 +155,12 @@ class EditarVacinaFragment : Fragment() {
      * recolhe os dados do formulário valida-os e envia o pedido de atualização para a API
      */
     private fun guardarAlteracoes() {
+        val token = sessionManager.getAuthToken()
+        if (token == null) {
+            Toast.makeText(context, "Sessão inválida. Não é possível guardar alterações.", Toast.LENGTH_LONG).show()
+            return
+        }
+
         // obtém os valores dos campos de texto
         val dataAplicacao = binding.dataAplicacao.text.toString()
         val observacoes = binding.editObservacoes.text.toString()
@@ -181,7 +191,6 @@ class EditarVacinaFragment : Fragment() {
         )
 
         // obtém o token e chama o ViewModel para atualizar a vacina
-        val token = "seu_token_aqui" // TODO: Obter o token de forma segura
         vacina?.let {
             viewModel.updateVacina(token, it.id, request)
         }
@@ -195,8 +204,8 @@ class EditarVacinaFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(context, "Vacina atualizada com sucesso", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack() // volta para o ecrã anterior
-            }.onFailure {
-                Toast.makeText(context, "Falha na operação: ${it.message}", Toast.LENGTH_LONG).show()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Falha na operação: ${throwable.message}", Toast.LENGTH_LONG).show()
             }
         }
     }

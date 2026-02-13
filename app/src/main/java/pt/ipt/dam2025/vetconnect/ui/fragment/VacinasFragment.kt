@@ -13,6 +13,7 @@ import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentVacinasBinding
 import pt.ipt.dam2025.vetconnect.model.Vacina
 import pt.ipt.dam2025.vetconnect.ui.adapter.VacinaAdapter
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModelFactory
 
@@ -26,6 +27,7 @@ class VacinasFragment : Fragment() {
 
     private lateinit var viewModel: VacinaViewModel
     private lateinit var vacinaAdapter: VacinaAdapter
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +40,11 @@ class VacinasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sessionManager = SessionManager(requireContext())
+
         // Inicializa o ViewModel usando a Factory
         val factory = VacinaViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(VacinaViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[VacinaViewModel::class.java]
 
         setupRecyclerView()
         observeViewModel()
@@ -59,11 +63,16 @@ class VacinasFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // TODO: Obter o ID do animal e o token de forma segura
-        val animalId = 1 // Exemplo
-        val token = "seu_token_aqui" // Exemplo
+        val token = sessionManager.getAuthToken()
+        val animalId = sessionManager.getAnimalId()
 
-        // Observa o LiveData retornado pelo novo método getVacinas
+        if (token == null || animalId == -1) {
+            Toast.makeText(context, "Sessão inválida. Por favor, reinicie a aplicação.", Toast.LENGTH_LONG).show()
+            binding.emptyView.visibility = View.VISIBLE
+            return
+        }
+
+        // Observa o LiveData retornado pelo novo métdo getVacinas
         viewModel.getVacinas(token, animalId).observe(viewLifecycleOwner) { vacinas ->
             // Usamos submitList() para passar a nova lista ao ListAdapter
             vacinaAdapter.submitList(vacinas)

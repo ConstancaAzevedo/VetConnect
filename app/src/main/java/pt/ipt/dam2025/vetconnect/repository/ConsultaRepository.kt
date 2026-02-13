@@ -6,15 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import pt.ipt.dam2025.vetconnect.api.ApiService
-import pt.ipt.dam2025.vetconnect.data.AnimalDao
-import pt.ipt.dam2025.vetconnect.data.ClinicaDao
-import pt.ipt.dam2025.vetconnect.data.ConsultaDao
-import pt.ipt.dam2025.vetconnect.data.VeterinarioDao
-import pt.ipt.dam2025.vetconnect.model.AnimalResponse
-import pt.ipt.dam2025.vetconnect.model.Clinica
-import pt.ipt.dam2025.vetconnect.model.Consulta
-import pt.ipt.dam2025.vetconnect.model.NovaConsulta
-import pt.ipt.dam2025.vetconnect.model.Veterinario
+import pt.ipt.dam2025.vetconnect.data.*
+import pt.ipt.dam2025.vetconnect.model.*
 import java.io.IOException
 
 /**
@@ -83,6 +76,25 @@ class ConsultaRepository(
                 Result.success(Unit)
             } else {
                 Result.failure(IOException("Erro ao cancelar consulta: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun updateConsulta(
+        token: String,
+        id: Int,
+        request: UpdateConsultaRequest
+    ): Result<Consulta> {
+        return try {
+            val response = apiService.updateConsulta("Bearer $token", id, request)
+            if (response.isSuccessful && response.body() != null) {
+                val consultaAtualizada = response.body()!!
+                consultaDao.insert(consultaAtualizada) // Room's insert (com OnConflict) vai funcionar como um update
+                Result.success(consultaAtualizada)
+            } else {
+                Result.failure(IOException("Erro ao atualizar consulta: ${response.errorBody()?.string()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

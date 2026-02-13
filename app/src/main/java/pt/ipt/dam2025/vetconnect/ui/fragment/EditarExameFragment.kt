@@ -16,10 +16,8 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentEditarExameBinding
-import pt.ipt.dam2025.vetconnect.model.Clinica
-import pt.ipt.dam2025.vetconnect.model.Exame
-import pt.ipt.dam2025.vetconnect.model.TipoExame
-import pt.ipt.dam2025.vetconnect.model.Veterinario
+import pt.ipt.dam2025.vetconnect.model.*
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModelFactory
 import java.io.File
@@ -35,6 +33,7 @@ class EditarExameFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: HistoricoViewModel
+    private lateinit var sessionManager: SessionManager
     private var exame: Exame? = null
     private var novaImagemUri: Uri? = null
 
@@ -53,6 +52,8 @@ class EditarExameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
 
         val factory = HistoricoViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[HistoricoViewModel::class.java]
@@ -105,7 +106,7 @@ class EditarExameFragment : Fragment() {
         // quando uma clínica é selecionada pede ao ViewModel para carregar a lista de veterinários
         binding.spinnerClinica.setOnItemClickListener { _, _, position, _ ->
             val selectedClinica = clinicasList.getOrNull(position)
-            selectedClinica?.id?.let { viewModel.carregaVeterinarios(it) } // !!! ATENÇÃO: Esta função ainda não existe no ViewModel
+            selectedClinica?.id?.let { viewModel.carregaVeterinarios(it) }
         }
     }
 
@@ -149,7 +150,7 @@ class EditarExameFragment : Fragment() {
             // pré seleciona e carrega veterinários
             val clinicaAtual = clinicas.find { it.id == exame?.clinicaId }
             binding.spinnerClinica.setText(clinicaAtual?.nome, false)
-            clinicaAtual?.id?.let { viewModel.carregaVeterinarios(it) } // !!! ATENÇÃO: Esta função ainda não existe no ViewModel
+            clinicaAtual?.id?.let { viewModel.carregaVeterinarios(it) }
         }
 
         // observa a lista de veterinários
@@ -169,8 +170,13 @@ class EditarExameFragment : Fragment() {
      * recolhe os dados valida-os e envia o pedido de atualização
      */
     private fun guardarAlteracoes() {
-        exame?.let {
-            val token = "seu_token_aqui" // TODO: Obter token de forma segura
+        exame?.let { exameAtual ->
+            val token = sessionManager.getAuthToken()
+            if (token == null) {
+                Toast.makeText(context, "Sessão inválida. Não é possível guardar alterações", Toast.LENGTH_LONG).show()
+                return@let
+            }
+
             val displayDate = binding.editTextDataExame.text.toString()
             val resultado = binding.editTextResultado.text.toString()
             val observacoes = binding.editTextObservacoes.text.toString()
@@ -189,14 +195,14 @@ class EditarExameFragment : Fragment() {
 
             // validação Robusta para todos os campos obrigatórios
             if (apiDate.isNullOrBlank() || tipoExameId == null || clinicaId == null || veterinarioId == null) {
-                Toast.makeText(context, "Todos os campos obrigatórios devem ser preenchidos.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Todos os campos obrigatórios devem ser preenchidos", Toast.LENGTH_LONG).show()
                 return@let
             }
 
             viewModel.atualizarExameEFoto(
                 token = token,
-                exameId = it.id,
-                animalId = it.animalId,
+                exameId = exameAtual.id,
+                animalId = exameAtual.animalId,
                 tipoExameId = tipoExameId,
                 dataExame = apiDate,
                 clinicaId = clinicaId,
@@ -217,8 +223,8 @@ class EditarExameFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(context, "Operação concluída com sucesso", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
-            }.onFailure {
-                Toast.makeText(context, "Erro: ${it.message}", Toast.LENGTH_LONG).show()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Erro: ${throwable.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
