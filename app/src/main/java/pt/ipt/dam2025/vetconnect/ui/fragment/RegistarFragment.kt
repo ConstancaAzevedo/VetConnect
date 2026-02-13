@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentRegistarBinding
-import pt.ipt.dam2025.vetconnect.viewmodel.UsuarioViewModel
-import pt.ipt.dam2025.vetconnect.viewmodel.UsuarioViewModelFactory
+import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModel
+import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModelFactory
 
 /**
  * Fragment para a página de registo do utilizador
@@ -22,7 +22,7 @@ class RegistarFragment : Fragment() {
     private var _binding: FragmentRegistarBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: UsuarioViewModel
+    private lateinit var viewModel: UtilizadorViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +35,8 @@ class RegistarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory = UsuarioViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(UsuarioViewModel::class.java)
+        val factory = UtilizadorViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory).get(UtilizadorViewModel::class.java)
 
         setupListeners()
         observeViewModel()
@@ -53,7 +53,7 @@ class RegistarFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            viewModel.adicionarUsuario(nome, email, telemovel)
+            viewModel.adicionarUtilizador(nome, email, telemovel)
         }
     }
 

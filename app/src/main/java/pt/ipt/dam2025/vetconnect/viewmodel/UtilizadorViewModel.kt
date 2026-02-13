@@ -10,16 +10,16 @@ import pt.ipt.dam2025.vetconnect.model.AlterarPinRequest
 import pt.ipt.dam2025.vetconnect.model.CreatePinRequest
 import pt.ipt.dam2025.vetconnect.model.CreatePinResponse
 import pt.ipt.dam2025.vetconnect.model.LoginResponse
-import pt.ipt.dam2025.vetconnect.model.NovoUsuario
+import pt.ipt.dam2025.vetconnect.model.NovoUtilizador
 import pt.ipt.dam2025.vetconnect.model.RegistrationResponse
 import pt.ipt.dam2025.vetconnect.model.UpdateUserRequest
-import pt.ipt.dam2025.vetconnect.model.Usuario
-import pt.ipt.dam2025.vetconnect.repository.UsuarioRepository
+import pt.ipt.dam2025.vetconnect.model.Utilizador
+import pt.ipt.dam2025.vetconnect.repository.UtilizadorRepository
 
 /**
  * ViewModel para gerir os dados e a lógica de negócio do Utilizador
  */
-class UsuarioViewModel(private val repository: UsuarioRepository) : ViewModel() {
+class UtilizadorViewModel(private val repository: UtilizadorRepository) : ViewModel() {
 
     // LiveData para o resultado do registo
     private val _registrationResult = MutableLiveData<Result<RegistrationResponse>>()
@@ -48,10 +48,10 @@ class UsuarioViewModel(private val repository: UsuarioRepository) : ViewModel() 
     /**
      * Pede ao repositório para criar um novo utilizador
      */
-    fun adicionarUsuario(nome: String, email: String, telemovel: String) {
+    fun adicionarUtilizador(nome: String, email: String, telemovel: String) {
         viewModelScope.launch {
-            val novoUsuario = NovoUsuario(nome, email, telemovel, "tutor")
-            val result = repository.criarUsuario(novoUsuario)
+            val novoUtilizador = NovoUtilizador(nome, email, telemovel, "tutor")
+            val result = repository.criarUtilizador(novoUtilizador)
             _registrationResult.postValue(result)
         }
     }
@@ -80,7 +80,7 @@ class UsuarioViewModel(private val repository: UsuarioRepository) : ViewModel() 
     /**
      * Obtém os dados de um utilizador específico a partir do repositório
      */
-    fun getUser(userId: Int): LiveData<Usuario?> {
+    fun getUser(userId: Int): LiveData<Utilizador?> {
         return repository.getUser(userId).asLiveData()
     }
 

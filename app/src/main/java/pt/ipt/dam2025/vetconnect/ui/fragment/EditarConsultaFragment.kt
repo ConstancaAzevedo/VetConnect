@@ -47,7 +47,7 @@ class EditarConsultaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val factory = ConsultaViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(ConsultaViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[ConsultaViewModel::class.java]
 
         // Obtém a consulta passada como argumento
         @Suppress("DEPRECATION")
@@ -66,14 +66,14 @@ class EditarConsultaFragment : Fragment() {
     }
 
     private fun populateUi(consulta: Consulta) {
-        binding.topico.setText(consulta.motivo)
+        binding.motivo.setText(consulta.motivo)
         binding.dataConsulta.setText(formatDateForDisplay(consulta.data))
         binding.observacoes.setText(consulta.observacoes) // Supondo que 'observacoes' existe no modelo Consulta
     }
 
     private fun setupListeners() {
         binding.dataConsulta.setOnClickListener { showDatePicker() }
-        binding.btnConfirmar.setOnClickListener { guardarAlteracoes() }
+        binding.btnGuardar.setOnClickListener { guardarAlteracoes() }
 
         binding.clinicaSpinner.setOnItemClickListener { _, _, position, _ ->
             clinicasList.getOrNull(position)?.let {
@@ -119,7 +119,7 @@ class EditarConsultaFragment : Fragment() {
         val veterinarioId = veterinariosList.find { it.nome == veterinarioNome }?.id
 
         val data = binding.dataConsulta.text.toString()
-        val motivo = binding.topico.text.toString()
+        val motivo = binding.motivo.text.toString()
         val observacoes = binding.observacoes.text.toString()
 
         if (motivo.isBlank() || clinicaId == null || veterinarioId == null || data.isBlank()) {
@@ -162,7 +162,7 @@ class EditarConsultaFragment : Fragment() {
             val date = parser.parse(dateString.substring(0, 10))
             val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             formatter.format(date!!)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             dateString
         }
     }
@@ -173,7 +173,7 @@ class EditarConsultaFragment : Fragment() {
             SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse(displayDate)?.let {
                 SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(it)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }

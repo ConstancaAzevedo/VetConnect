@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import pt.ipt.dam2025.vetconnect.databinding.FragmentPerfilBinding
 import pt.ipt.dam2025.vetconnect.model.UpdateUserRequest
-import pt.ipt.dam2025.vetconnect.model.Usuario
-import pt.ipt.dam2025.vetconnect.viewmodel.UsuarioViewModel
-import pt.ipt.dam2025.vetconnect.viewmodel.UsuarioViewModelFactory
+import pt.ipt.dam2025.vetconnect.model.Utilizador
+import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModel
+import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModelFactory
 
 /**
  * Fragment para a página de perfil do usuário
@@ -23,9 +23,9 @@ class PerfilFragment : Fragment() {
     private var _binding: FragmentPerfilBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: UsuarioViewModel
+    private lateinit var viewModel: UtilizadorViewModel
     private var isEditMode = false
-    private var currentUser: Usuario? = null
+    private var currentUser: Utilizador? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +38,8 @@ class PerfilFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory = UsuarioViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(UsuarioViewModel::class.java)
+        val factory = UtilizadorViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory)[UtilizadorViewModel::class.java]
 
         setupUI()
         observeViewModel()
@@ -77,7 +77,7 @@ class PerfilFragment : Fragment() {
         }
     }
 
-    private fun populateUI(user: Usuario) {
+    private fun populateUI(user: Utilizador) {
         binding.nomeDado.setText(user.nome)
         binding.emailDado.setText(user.email)
         binding.telemovelDado.setText(user.telemovel)

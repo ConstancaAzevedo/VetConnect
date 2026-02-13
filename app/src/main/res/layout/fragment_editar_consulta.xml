@@ -109,7 +109,7 @@
                     android:textColorHint="@color/cinzento_claro">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/dataAplicacao"
+                        android:id="@+id/dataConsulta"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/borda_branca"

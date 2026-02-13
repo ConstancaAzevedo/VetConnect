@@ -14,8 +14,14 @@ import pt.ipt.dam2025.vetconnect.repository.HistoricoRepository
 class HistoricoViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HistoricoViewModel::class.java)) {
-            val exameDao = AppDatabase.getDatabase(application).exameDao()
-            val repository = HistoricoRepository(ApiClient.apiService, exameDao)
+            val database = AppDatabase.getDatabase(application)
+            val repository = HistoricoRepository(
+                apiService = ApiClient.apiService,
+                exameDao = database.exameDao(),
+                tipoExameDao = database.tipoExameDao(),
+                clinicaDao = database.clinicaDao(),
+                veterinarioDao = database.veterinarioDao()
+            )
             @Suppress("UNCHECKED_CAST")
             return HistoricoViewModel(repository) as T
         }

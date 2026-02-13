@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import pt.ipt.dam2025.vetconnect.model.Usuario
+import pt.ipt.dam2025.vetconnect.model.Utilizador
 
 /**
  * DAO responsável por todas as interações com a tabela de utilizadores
@@ -19,26 +19,26 @@ interface UserDao {
      * insere o objeto user na tabela se já existir substitui
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrUpdate(user: Usuario)
+    suspend fun insertOrUpdate(user: Utilizador)
 
     /*
      * atualiza um utilizador existente na base de dados
      */
     @Update
-    suspend fun update(user: Usuario)
+    suspend fun update(user: Utilizador)
 
     /*
      * obtém os dados de um utilizador específico pelo seu ID e expõe-os como um Flow
      */
     @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
-    fun getUserById(id: Int): Flow<Usuario?>
+    fun getUserById(id: Int): Flow<Utilizador?>
 
     /*
      * obtém os dados de um utilizador específico pelo seu ID
      * só é chamada uma vez vai à base de daos obtem o utilizador devolve e termina
      */
     @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
-    suspend fun getUserByIdOnce(id: Int): Usuario?
+    suspend fun getUserByIdOnce(id: Int): Utilizador?
 
     /*
      * elimina um utilizador específico pelo seu ID

@@ -17,8 +17,8 @@ import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentLoginBinding
 import pt.ipt.dam2025.vetconnect.util.SessionManager
-import pt.ipt.dam2025.vetconnect.viewmodel.UsuarioViewModel
-import pt.ipt.dam2025.vetconnect.viewmodel.UsuarioViewModelFactory
+import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModel
+import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModelFactory
 
 /**
  * Fragment para a página de login
@@ -28,7 +28,7 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: UsuarioViewModel
+    private lateinit var viewModel: UtilizadorViewModel
     private lateinit var sessionManager: SessionManager
 
     private val pin = StringBuilder()
@@ -48,8 +48,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         sessionManager = SessionManager(requireContext())
-        val factory = UsuarioViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(UsuarioViewModel::class.java)
+        val factory = UtilizadorViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory).get(UtilizadorViewModel::class.java)
 
         pinDots = listOf(binding.pin1, binding.pin2, binding.pin3, binding.pin4, binding.pin5, binding.pin6)
 

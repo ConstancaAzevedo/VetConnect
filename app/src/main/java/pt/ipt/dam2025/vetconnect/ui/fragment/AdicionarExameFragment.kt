@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentAdicionarExameBinding
 import pt.ipt.dam2025.vetconnect.model.*
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.HistoricoViewModelFactory
 import java.io.File
@@ -34,6 +35,7 @@ class AdicionarExameFragment : Fragment() {
 
     private lateinit var viewModel: HistoricoViewModel
     private var selectedImageUri: Uri? = null
+    private lateinit var sessionManager: SessionManager
 
     // listas locais para guardar os dados dos spinners
     private val tiposExameList = mutableListOf<TipoExame>()
@@ -51,8 +53,10 @@ class AdicionarExameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sessionManager = SessionManager(requireContext())
+
         val factory = HistoricoViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(HistoricoViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[HistoricoViewModel::class.java]
 
         setupListeners()
         observeLists()
@@ -121,9 +125,13 @@ class AdicionarExameFragment : Fragment() {
     }
 
     private fun guardarExame() {
-        // TODO: Obter o ID do animal e o token de forma segura
-        val animalId = 1
-        val token = "seu_token_aqui"
+        val token = sessionManager.getAuthToken()
+        val animalId = sessionManager.getAnimalId()
+
+        if (token == null || animalId == -1) {
+            Toast.makeText(context, "Sessão inválida. Por favor, reinicie a aplicação.", Toast.LENGTH_LONG).show()
+            return
+        }
 
         // obtém os nomes dos spinners e encontra os IDs correspondentes
         val tipoExameNome = binding.spinnerTipoExame.text.toString()
@@ -161,12 +169,12 @@ class AdicionarExameFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.operationStatus.observe(viewLifecycleOwner) {
-            it.onSuccess {
+        viewModel.operationStatus.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
                 Toast.makeText(context, "Exame adicionado com sucesso", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
-            }.onFailure {
-                Toast.makeText(context, "Erro ao adicionar exame: ${it.message}", Toast.LENGTH_LONG).show()
+            }.onFailure { throwable ->
+                Toast.makeText(context, "Erro ao adicionar exame: ${throwable.message}", Toast.LENGTH_LONG).show()
             }
         }
     }

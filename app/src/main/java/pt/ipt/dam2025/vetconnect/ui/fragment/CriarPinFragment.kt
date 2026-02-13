@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import pt.ipt.dam2025.vetconnect.R
 import pt.ipt.dam2025.vetconnect.databinding.FragmentCriarPinBinding
-import pt.ipt.dam2025.vetconnect.viewmodel.UsuarioViewModel
-import pt.ipt.dam2025.vetconnect.viewmodel.UsuarioViewModelFactory
+import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModel
+import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModelFactory
 
 /**
  * Fragmetn para a página de criar um pin
@@ -24,7 +24,7 @@ class CriarPinFragment : Fragment() {
     private var _binding: FragmentCriarPinBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: UsuarioViewModel
+    private lateinit var viewModel: UtilizadorViewModel
     private val pin = StringBuilder()
     private lateinit var pinDots: List<ImageView>
     private lateinit var userEmail: String
@@ -40,8 +40,8 @@ class CriarPinFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory = UsuarioViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory).get(UsuarioViewModel::class.java)
+        val factory = UtilizadorViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory).get(UtilizadorViewModel::class.java)
 
         userEmail = arguments?.getString("email") ?: ""
 

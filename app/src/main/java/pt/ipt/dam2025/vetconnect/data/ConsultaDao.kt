@@ -16,7 +16,7 @@ import pt.ipt.dam2025.vetconnect.model.Consulta
 interface ConsultaDao {
 
     // Obtém todas as consultas ordenadas por data e hora
-    @Query("SELECT * FROM consultas WHERE userId = :userId ORDER BY data DESC, hora DESC")
+    @Query("SELECT * FROM consultas WHERE userId = :userId ORDER BY data DESC")
     fun getConsultasByUser(userId: Int): Flow<List<Consulta>>
 
     // Insere uma lista de consultas

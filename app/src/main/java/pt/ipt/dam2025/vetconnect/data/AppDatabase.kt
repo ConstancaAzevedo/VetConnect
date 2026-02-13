@@ -10,7 +10,7 @@ import pt.ipt.dam2025.vetconnect.model.Consulta
 import pt.ipt.dam2025.vetconnect.model.Exame
 import pt.ipt.dam2025.vetconnect.model.TipoExame
 import pt.ipt.dam2025.vetconnect.model.TipoVacina
-import pt.ipt.dam2025.vetconnect.model.Usuario
+import pt.ipt.dam2025.vetconnect.model.Utilizador
 import pt.ipt.dam2025.vetconnect.model.Vacina
 import pt.ipt.dam2025.vetconnect.model.Veterinario
 
@@ -20,7 +20,7 @@ import pt.ipt.dam2025.vetconnect.model.Veterinario
 
 @Database(
     entities = [
-        Usuario::class,
+        Utilizador::class,
         AnimalResponse::class,
         Exame::class,
         TipoExame::class, 

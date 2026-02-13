@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
  * Modelos de Ddos de UTILIZADORES e AUTENTICAÇÃO
  */
 @Entity(tableName = "users")
-data class Usuario(
+data class Utilizador(
     @PrimaryKey val id: Int,
     val nome: String,
     val email: String,
@@ -30,7 +30,7 @@ data class Usuario(
 /*
  * modelo de dados para o pedido de criação de um novo utilizador
  */
-data class NovoUsuario(
+data class NovoUtilizador(
     val nome: String,
     val email: String,
     val telemovel: String,
@@ -50,7 +50,7 @@ data class UpdateUserRequest(
  * resposta da API após o registo de um novo utilizador
  */
 data class RegistrationResponse(
-    val user: Usuario,
+    val user: Utilizador,
     val message: String,
     val verificationCode: String
 )
@@ -101,7 +101,7 @@ data class LoginRequest(
 data class LoginResponse(
     val message: String,
     val token: String,
-    val user: Usuario
+    val user: Utilizador
 )
 
 /*

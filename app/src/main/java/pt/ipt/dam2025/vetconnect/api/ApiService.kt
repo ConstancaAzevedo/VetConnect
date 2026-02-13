@@ -11,51 +11,51 @@ import retrofit2.http.*
 interface ApiService {
 
     // autenticação e utilziadores ==============================================
-    @POST("usuarios")
-    suspend fun criarUsuario(@Body usuario: NovoUsuario): Response<RegistrationResponse>
+    @POST("utilizadores")
+    suspend fun criarUtilizador(@Body utilizador: NovoUtilizador): Response<RegistrationResponse>
 
-    @POST("usuarios/verificar")
+    @POST("utilizadores/verificar")
     suspend fun verificarCodigo(@Body request: VerificationRequest): Response<VerificationResponse>
 
-    @POST("usuarios/criar-pin")
+    @POST("utilizadores/criar-pin")
     suspend fun criarPin(@Body request: CreatePinRequest): Response<CreatePinResponse>
 
-    @POST("usuarios/login")
+    @POST("utilizadores/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
-    @POST("usuarios/recuperar-pin")
+    @POST("utilizadores/recuperar-pin")
     suspend fun recuperarPin(@Body request: RecuperarPinRequest): Response<RecuperarPinResponse>
 
-    @POST("usuarios/redefinir-pin")
+    @POST("utilizadores/redefinir-pin")
     suspend fun redefinirPin(@Body request: RedefinirPinRequest): Response<RedefinirPinResponse>
 
-    @POST("usuarios/alterar-pin")
+    @POST("utilizadores/alterar-pin")
     suspend fun alterarPin(
         @Header("Authorization") token: String,
         @Body request: AlterarPinRequest
     ): Response<ChangePinResponse>
 
-    @POST("usuarios/logout")
+    @POST("utilizadores/logout")
     suspend fun logout(@Header("Authorization") token: String): Response<LogoutResponse>
 
-    @GET("usuarios")
-    suspend fun getUsuarios(@Header("Authorization") token: String): Response<List<Usuario>>
+    @GET("utilizadores")
+    suspend fun getUtilizadores(@Header("Authorization") token: String): Response<List<Utilizador>>
 
-    @GET("usuarios/{id}")
-    suspend fun getUsuario(
+    @GET("utilizadores/{id}")
+    suspend fun getUtilizador(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<Usuario>
+    ): Response<Utilizador>
 
-    @PUT("usuarios/{id}")
-    suspend fun updateUsuario(
+    @PUT("utilizadores/{id}")
+    suspend fun updateUtilizador(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
-        @Body usuario: UpdateUserRequest
+        @Body utilizador: UpdateUserRequest
     ): Response<GenericMessageResponse>
 
-    @DELETE("usuarios/{id}")
-    suspend fun deleteUsuario(
+    @DELETE("utilizadores/{id}")
+    suspend fun deleteUtilizador(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ): Response<GenericMessageResponse>
@@ -74,7 +74,7 @@ interface ApiService {
         @Body animal: CreateAnimalRequest
     ): Response<UpdateAnimalResponse>
 
-    @GET("usuarios/{userId}/animais")
+    @GET("utilizadores/{userId}/animais")
     suspend fun getAnimaisDoTutor(
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
