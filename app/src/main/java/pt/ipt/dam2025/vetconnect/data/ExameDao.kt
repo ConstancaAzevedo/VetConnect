@@ -1,48 +1,49 @@
 package pt.ipt.dam2025.vetconnect.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Dao // Importa a anotação para identificar a interface como um DAO
+import androidx.room.Insert // Importa a anotação para funções de inserção
+import androidx.room.OnConflictStrategy // Importa as estratégias de conflito para inserções
+import androidx.room.Query // Importa a anotação para definir queries SQL
+import kotlinx.coroutines.flow.Flow // Importa a classe Flow para streams de dados assíncronos
 import pt.ipt.dam2025.vetconnect.model.Exame
 
 /**
- * DAO responsável por todas as interações com a tabela de exames
+ * DAO para a entidade Exame
+ * Define todas as operações de base de dados para a tabela 'exames'
  */
-
 @Dao
 interface ExameDao {
 
-    /*
-     * insere um único exame na base de dados
-     * se o exame já existir (pelo ID) será substituído
+    /**
+     * Insere um único exame na base de dados
+     * Se o exame já existir (pelo ID) será substituído
      */
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(exame: Exame)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // Define a operação de inserção com estratégia de substituição
+    suspend fun insert(exame: Exame) // Função suspensa para ser chamada a partir de uma coroutine
 
-    /*
-     * insere uma lista de exames, substituindo os existentes em caso de conflito
-     * útil para sincronizar os dados vindos da API
+    /**
+     * Insere uma lista de exames substituindo os existentes em caso de conflito
+     * Útil para sincronizar os dados vindos da API
      */
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(exames: List<Exame>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // Usa a mesma estratégia de substituição
+    suspend fun insertAll(exames: List<Exame>) // Função suspensa para inserir múltiplos exames
 
-    /*
-     * obtém todos os exames de um animal específico ordenados por data
+    /**
+     * Obtém todos os exames de um animal específico ordenados por data (do mais recente para o mais antigo)
+     * Retorna um Flow que a UI pode observar para se atualizar automaticamente
      */
-    @Query("SELECT * FROM exames WHERE animalId = :animalId ORDER BY dataExame DESC")
-    fun getExamesByAnimal(animalId: Int): Flow<List<Exame>>
+    @Query("SELECT * FROM exames WHERE animalId = :animalId ORDER BY dataExame DESC") // Query SQL para selecionar e ordenar os exames
+    fun getExamesByAnimal(animalId: Int): Flow<List<Exame>> // O Flow permite observação reativa dos dados
 
-    /*
-     * apaga um exame específico pelo seu ID
+    /**
+     * Apaga um exame específico pelo seu ID
      */
-    @Query("DELETE FROM exames WHERE id = :id")
-    suspend fun deleteById(id: Int)
+    @Query("DELETE FROM exames WHERE id = :id") // Query SQL para apagar um exame por ID
+    suspend fun deleteById(id: Int) // Função suspensa para a operação de apagar
 
-    /*
-     * apaga todos os exames de um animal específico da base de dados
+    /**
+     * Apaga todos os exames de um animal específico da base de dados
      */
-    @Query("DELETE FROM exames WHERE animalId = :animalId")
-    suspend fun deleteByAnimal(animalId: Int)
+    @Query("DELETE FROM exames WHERE animalId = :animalId") // Query SQL para apagar todos os exames de um animal
+    suspend fun deleteByAnimal(animalId: Int) // Função suspensa para a operação de limpeza
 }

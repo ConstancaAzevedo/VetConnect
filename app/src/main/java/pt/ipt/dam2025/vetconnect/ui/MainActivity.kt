@@ -7,10 +7,11 @@ import pt.ipt.dam2025.vetconnect.databinding.ActivityMainBinding
 
 /**
  * Activity principal que serve como anfitriã para a navegação de Fragments
- * carrega o layout que contém o NavHostFragment
+ * O seu único propósito é carregar o layout que contém o NavHostFragment
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() { // Declara a classe que herda de AppCompatActivity
 
+    // Declaração da variável para o objeto de ViewBinding que ligará o código ao layout
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

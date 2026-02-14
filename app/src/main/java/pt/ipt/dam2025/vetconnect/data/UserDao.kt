@@ -1,55 +1,47 @@
 package pt.ipt.dam2025.vetconnect.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Dao // Importa a anotação para identificar a interface como um DAO
+import androidx.room.Insert // Importa a anotação para funções de inserção
+import androidx.room.OnConflictStrategy // Importa as estratégias de conflito para inserções
+import androidx.room.Query // Importa a anotação para definir queries SQL
+import androidx.room.Update // Importa a anotação para funções de atualização
+import kotlinx.coroutines.flow.Flow // Importa a classe Flow para streams de dados assíncronos
 import pt.ipt.dam2025.vetconnect.model.Utilizador
 
 /**
- * DAO responsável por todas as interações com a tabela de utilizadores
+ * DAO para a entidade Utilizador
+ * Define todas as operações de base de dados para a tabela 'utilizadores'
  */
-
 @Dao
 interface UserDao {
 
-    /*
-     * insere o objeto user na tabela se já existir substitui
+    /**
+     * Insere um utilizador na base de dados
+     * Se um utilizador com o mesmo ID já existir ele será substituído
+     * Útil para guardar os dados do utilizador após o login
      */
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrUpdate(user: Utilizador)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // Define a operação de inserção com estratégia de substituição
+    suspend fun insert(utilizador: Utilizador) // Função suspensa para ser chamada a partir de uma coroutine
 
-    /*
-     * atualiza um utilizador existente na base de dados
+    /**
+     * Obtém um utilizador da base de dados pelo seu ID
+     * Retorna um Flow que emite o utilizador sempre que os seus dados mudam
+     * A UI pode observar este Flow para se atualizar automaticamente
      */
-    @Update
-    suspend fun update(user: Utilizador)
+    @Query("SELECT * FROM users WHERE id = :userId") // Query SQL para selecionar um utilizador pelo ID
+    fun getUserById(userId: Int): Flow<Utilizador?> // O Flow permite observação reativa dos dados
 
-    /*
-     * obtém os dados de um utilizador específico pelo seu ID e expõe-os como um Flow
+    /**
+     * Obtém um utilizador da base de dados pelo seu ID para uma única leitura
+     * Não retorna um Flow e por isso não é reativo
      */
-    @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
-    fun getUserById(id: Int): Flow<Utilizador?>
+    @Query("SELECT * FROM users WHERE id = :userId")
+    suspend fun getUserByIdOnce(userId: Int): Utilizador?
 
-    /*
-     * obtém os dados de um utilizador específico pelo seu ID
-     * só é chamada uma vez vai à base de daos obtem o utilizador devolve e termina
+    /**
+     * Atualiza os dados de um utilizador existente na base de dados
      */
-    @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
-    suspend fun getUserByIdOnce(id: Int): Utilizador?
+    @Update // Define a operação de atualização
+    suspend fun update(utilizador: Utilizador) // Função suspensa para a operação de atualização
 
-    /*
-     * elimina um utilizador específico pelo seu ID
-     */
-    @Query("DELETE FROM users WHERE id = :id")
-    suspend fun deleteById(id: Int)
-
-    /*
-     * elimina todos os utilizadores da tabela
-     * útil para fazer logout e limpar a sessão do utilizador
-     */
-    @Query("DELETE FROM users")
-    suspend fun clearAll()
 }

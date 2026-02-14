@@ -1,14 +1,13 @@
 package pt.ipt.dam2025.vetconnect.viewmodel
 
-import android.content.Context
-import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import android.content.Context // Importa a classe Context
+import android.net.Uri // Importa a classe Uri para lidar com caminhos de ficheiros
+import androidx.lifecycle.LiveData // Importa a classe LiveData para dados observáveis
+import androidx.lifecycle.MutableLiveData // Importa a versão mutável do LiveData
+import androidx.lifecycle.ViewModel // Importa a classe base ViewModel
+import androidx.lifecycle.asLiveData // Importa a extensão para converter Flow em LiveData
+import androidx.lifecycle.viewModelScope // Importa o contexto de coroutines para o ViewModel
+import kotlinx.coroutines.launch // Importa a função para iniciar uma coroutine
 import pt.ipt.dam2025.vetconnect.model.*
 import pt.ipt.dam2025.vetconnect.repository.HistoricoRepository
 
@@ -17,36 +16,44 @@ import pt.ipt.dam2025.vetconnect.repository.HistoricoRepository
  */
 class HistoricoViewModel(private val repository: HistoricoRepository) : ViewModel() {
 
+    // LiveData privado e mutável para o resultado de operações
     private val _operationStatus = MutableLiveData<Result<Unit>>()
+    // LiveData público e imutável exposto à UI
     val operationStatus: LiveData<Result<Unit>> = _operationStatus
 
-    // LiveData para as listas dos spinners, espelhando o VacinaViewModel
+    // LiveData para as listas dos spinners que vêm diretamente do repositório
     val tiposExame: LiveData<List<TipoExame>> = repository.getTiposExame().asLiveData()
     val clinicas: LiveData<List<Clinica>> = repository.getClinicas().asLiveData()
 
+    // LiveData privado e mutável para a lista de veterinários
     private val _veterinarios = MutableLiveData<List<Veterinario>>()
+    // LiveData público exposto à UI
     val veterinarios: LiveData<List<Veterinario>> = _veterinarios
 
-    /*
-     * expõe a lista de exames para a UI
+    /**
+     * Obtém a lista de exames de um animal específico
+     * Retorna um LiveData que a UI pode observar
      */
     fun getExames(token: String, animalId: Int): LiveData<List<Exame>> {
+        // Converte o Flow do repositório diretamente em LiveData
         return repository.getExames(token, animalId).asLiveData()
     }
 
-    /*
+    /**
      * Pede ao repositório para carregar os veterinários de uma clínica específica
+     * e atualiza o LiveData _veterinarios
      */
     fun carregaVeterinarios(clinicaId: Int) {
         viewModelScope.launch {
+            // Coleta os dados do Flow retornado pelo repositório
             repository.getVeterinariosPorClinica(clinicaId).collect {
-                _veterinarios.postValue(it)
+                _veterinarios.postValue(it) // Atualiza o LiveData com a nova lista
             }
         }
     }
 
-    /*
-     * criação de um novo exame e o upload da sua foto (se existir)
+    /**
+     * Orquestra a criação de um novo exame e o upload da sua foto (se existir)
      */
     fun adicionarExameEFoto(
         token: String,
@@ -55,12 +62,13 @@ class HistoricoViewModel(private val repository: HistoricoRepository) : ViewMode
         dataExame: String,
         clinicaId: Int,
         veterinarioId: Int,
-        resultado: String?,
-        observacoes: String?,
-        imageUri: Uri?,
-        context: Context
+        resultado: String?, // opcional
+        observacoes: String?, // opcional
+        imageUri: Uri?, // opcional
+        context: Context // Contexto necessário para o upload da imagem
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch { // Inicia uma coroutine
+            // Cria o objeto de pedido com os dados do exame
             val request = CreateExameRequest(
                 animalId = animalId,
                 tipoExameId = tipoExameId,
@@ -70,43 +78,46 @@ class HistoricoViewModel(private val repository: HistoricoRepository) : ViewMode
                 resultado = resultado,
                 observacoes = observacoes
             )
-            // Primeiro, cria o exame
+            // Primeiro cria o exame na API
             val result = repository.createExame(token, request)
+            // Se a criação do exame for bem-sucedida
             result.onSuccess {
-                // Se o exame foi criado e há uma imagem, faz o upload
+                // E se houver uma imagem para fazer upload
                 if (imageUri != null) {
-                    val exameId = it.exame.id
-                    // Descomentado para ativar o upload da foto
+                    val exameId = it.exame.id // Obtém o ID do exame
+                    // Faz o upload da foto para o exame
                     val uploadResult = repository.addFotoToExame(token, exameId, animalId, imageUri, context)
+                    // Publica o resultado da operação de upload
                     _operationStatus.postValue(uploadResult.map { })
                 } else {
-                    // Se não há imagem, a operação foi um sucesso
+                    // Se não houver imagem a operação termina com sucesso
                     _operationStatus.postValue(Result.success(Unit))
                 }
             }.onFailure {
-                // Se a criação do exame falhar, a operação falha
+                // Se a criação do exame falhar publica a falha
                 _operationStatus.postValue(Result.failure(it))
             }
         }
     }
 
-    /*
-     * Orquestra a atualização de um exame e, opcionalmente, o upload de uma nova foto.
+    /**
+     * Orquestra a atualização de um exame e opcionalmente o upload de uma nova foto
      */
     fun atualizarExameEFoto(
         token: String,
         exameId: Int,
         animalId: Int,
-        tipoExameId: Int?,
-        dataExame: String?,
-        clinicaId: Int?,
-        veterinarioId: Int?,
-        resultado: String?,
-        observacoes: String?,
-        novaImagemUri: Uri?,
-        context: Context
+        tipoExameId: Int?, // opcional
+        dataExame: String?, // opcional
+        clinicaId: Int?, // opcional
+        veterinarioId: Int?, // opcional
+        resultado: String?, // opcional
+        observacoes: String?, // opcional
+        novaImagemUri: Uri?, // opcional
+        context: Context // Contexto necessário para o upload
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch { // Inicia uma coroutine
+            // Cria o objeto de pedido com os dados a serem atualizados
             val updateRequest = UpdateExameRequest(
                 tipoExameId = tipoExameId,
                 dataExame = dataExame,
@@ -115,30 +126,35 @@ class HistoricoViewModel(private val repository: HistoricoRepository) : ViewMode
                 resultado = resultado,
                 observacoes = observacoes
             )
-            // Primeiro, atualiza os dados do exame
+            // Primeiro atualiza os dados do exame
             val result = repository.updateExame(token, exameId, updateRequest)
+            // Se a atualização for bem-sucedida
             result.onSuccess {
-                // Se a atualização dos dados foi bem-sucedida e há uma nova imagem, faz o upload
+                // E se houver uma nova imagem para fazer upload
                 if (novaImagemUri != null) {
+                    // Faz o upload da nova foto para o exame
                     val uploadResult = repository.addFotoToExame(token, exameId, animalId, novaImagemUri, context)
+                    // Publica o resultado da operação de upload
                     _operationStatus.postValue(uploadResult.map { })
                 } else {
-                    // Se não há nova imagem, a operação foi um sucesso
+                    // Se não houver nova imagem a operação termina com sucesso
                     _operationStatus.postValue(Result.success(Unit))
                 }
             }.onFailure {
-                // Se a atualização falhar, a operação falha
+                // Se a atualização falhar publica a falha
                 _operationStatus.postValue(Result.failure(it))
             }
         }
     }
 
-    /*
-     * pede ao repositório para apagar um exame específico
+    /**
+     * Pede ao repositório para apagar um exame específico
      */
     fun deleteExame(token: String, animalId: Int, exameId: Long) {
         viewModelScope.launch {
+            // Chama o repositório para apagar o exame
             val result = repository.deleteExame(token, animalId, exameId)
+            // Publica o resultado da operação
             _operationStatus.postValue(result)
         }
     }

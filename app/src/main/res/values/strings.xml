@@ -155,6 +155,18 @@
     <string name="junit_junit_framework_para_testes_unit_rios">junit:junit: Framework para testes unitários.</string>
     <string name="androidx_test_bibliotecas_para_testes_de_instrumenta_o">androidx.test.*: Bibliotecas para testes de instrumentação.</string>
     <string name="ferramentas_de_compila_o_e_plugins">Ferramentas de Compilação e Plugins</string>
-    <!-- adicionadas após --> <string name="com_google_devtools_ksp_ksp_processamento_de_s_mbolos_kotlin">com.google.devtools.ksp:ksp: Processamento de símbolos Kotlin.</string>
+    <string name="com_google_devtools_ksp_ksp_processamento_de_s_mbolos_kotlin">com.google.devtools.ksp:ksp: Processamento de símbolos Kotlin.</string>
 
+    <!-- strings para adapters -->
+    <string name="sem_data">Sem data</string>
+    <string name="tipo_exame_desconhecido">Tipo de exame desconhecido</string>
+    <string name="resultado_label">Resultado: %1$s</string>
+    <string name="nao_especificada">Não especificada</string>
+    <string name="na">N/A</string>
+    <string name="vacina_aplicada_em">Aplicada em: %1$s</string>
+    <string name="vacina_agendada_para">Agendada para: %1$s</string>
+    <string name="data_invalida">Data inválida</string>
+
+
+    <!-- adicionadas após -->
 </resources>

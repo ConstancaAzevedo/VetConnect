@@ -20,8 +20,8 @@ import java.io.IOException
 
 /**
  * Repositório para gerir o histórico de exames de um animal
+ * É a única fonte de verdade para os dados dos exames, coordenando a API e a base de dados local
  */
-
 class HistoricoRepository(
     private val apiService: ApiService,
     private val exameDao: ExameDao,
@@ -30,8 +30,9 @@ class HistoricoRepository(
     private val veterinarioDao: VeterinarioDao
 ) {
 
-    /*
-     * obtém os exames de um animal
+    /**
+     * Obtém a lista de exames de um animal
+     * Lança uma tarefa para atualizar os dados em background e retorna um Flow da BD local
      */
     fun getExames(token: String, animalId: Int): Flow<List<Exame>> {
         CoroutineScope(Dispatchers.IO).launch {
@@ -40,11 +41,11 @@ class HistoricoRepository(
         return exameDao.getExamesByAnimal(animalId)
     }
 
-    /*
-     * força a atualização da lista de exames de um animal a partir da API
-     * e guarda-os na base de dados local
+    /**
+     * Força a atualização da lista de exames a partir da API
+     * Apaga os exames antigos do animal e insere os novos
      */
-    suspend fun refreshExames(token: String, animalId: Int) {
+    private suspend fun refreshExames(token: String, animalId: Int) {
         try {
             val response = apiService.getExamesDoAnimal("Bearer $token", animalId)
             if (response.isSuccessful) {
@@ -59,12 +60,18 @@ class HistoricoRepository(
         }
     }
 
-    // funções para obter as listas para os spinners
+
+    /**
+     * Obtém a lista de todos os tipos de exame disponíveis
+     */
     fun getTiposExame(): Flow<List<TipoExame>> {
         CoroutineScope(Dispatchers.IO).launch { refreshTiposExame() }
         return tipoExameDao.getAll()
     }
 
+    /**
+     * Atualiza a lista de tipos de exame a partir da API
+     */
     private suspend fun refreshTiposExame() {
         try {
             val response = apiService.getTiposExame()
@@ -74,14 +81,22 @@ class HistoricoRepository(
                     tipoExameDao.insertAll(it)
                 }
             }
-        } catch (_: Exception) {}
+        } catch (e: Exception) {
+            Log.e("HistoricoRepository", "Falha ao obter tipos de exame", e)
+        }
     }
 
+    /**
+     * Obtém a lista de todas as clínicas
+     */
     fun getClinicas(): Flow<List<Clinica>> {
         CoroutineScope(Dispatchers.IO).launch { refreshClinicas() }
         return clinicaDao.getAllClinicas()
     }
 
+    /**
+     * Atualiza a lista de clínicas a partir da API
+     */
     private suspend fun refreshClinicas() {
         try {
             val response = apiService.getClinicas()
@@ -91,14 +106,22 @@ class HistoricoRepository(
                     clinicaDao.insertAll(it)
                 }
             }
-        } catch (_: Exception) {}
+        } catch (e: Exception) {
+            Log.e("HistoricoRepository", "Falha ao obter clinicas", e)
+        }
     }
 
+    /**
+     * Obtém a lista de veterinários de uma clínica específica
+     */
     fun getVeterinariosPorClinica(clinicaId: Int): Flow<List<Veterinario>> {
         CoroutineScope(Dispatchers.IO).launch { refreshVeterinariosPorClinica(clinicaId) }
         return veterinarioDao.getVeterinariosByClinica(clinicaId)
     }
 
+    /**
+     * Atualiza a lista de veterinários de uma clínica a partir da API
+     */
     private suspend fun refreshVeterinariosPorClinica(clinicaId: Int) {
         try {
             val response = apiService.getVeterinariosPorClinica(clinicaId)
@@ -108,17 +131,19 @@ class HistoricoRepository(
                     veterinarioDao.insertAll(it)
                 }
             }
-        } catch (_: Exception) {}
+        } catch (e: Exception) {
+            Log.e("HistoricoRepository", "Falha ao obter veterinarios", e)
+        }
     }
 
-    /*
-     * cria um exame através da API
+    /**
+     * Cria um novo exame através da API e atualiza a BD local
      */
     suspend fun createExame(token: String, request: CreateExameRequest): Result<CreateExameResponse> {
         return try {
             val response = apiService.createExame("Bearer $token", request)
             if (response.isSuccessful && response.body() != null) {
-                // atualiza o histórico para refletir a adição
+                // Após criar na API, força a atualização da lista local
                 refreshExames(token, request.animalId)
                 Result.success(response.body()!!)
             } else {
@@ -129,14 +154,15 @@ class HistoricoRepository(
         }
     }
 
-    /*
-     * atualiza um exame existente através da API
+    /**
+     * Atualiza um exame existente através da API e atualiza a BD local
      */
     suspend fun updateExame(token: String, exameId: Int, request: UpdateExameRequest): Result<CreateExameResponse> {
         return try {
             val response = apiService.updateExame("Bearer $token", exameId, request)
             if (response.isSuccessful && response.body() != null) {
                 val animalId = response.body()!!.exame.animalId
+                // Após atualizar na API, força a atualização da lista local
                 refreshExames(token, animalId)
                 Result.success(response.body()!!)
             } else {
@@ -147,8 +173,8 @@ class HistoricoRepository(
         }
     }
 
-    /*
-     * envia uma foto para um exame existente
+    /**
+     * Envia uma foto para um exame existente na API e atualiza a BD local
      */
     suspend fun addFotoToExame(token: String, exameId: Int, animalId: Int, imageUri: Uri, context: Context): Result<AddExameFotoResponse> {
         return try {
@@ -159,7 +185,7 @@ class HistoricoRepository(
             if (part != null) {
                 val response = apiService.addFotoToExame("Bearer $token", exameId, part)
                 if (response.isSuccessful && response.body() != null) {
-                    // atualiza a lista de exames do animal para mostrar a nova foto
+                    // Após o upload, força a atualização da lista local para obter a nova URL
                     refreshExames(token, animalId)
                     Result.success(response.body()!!)
                 } else {
@@ -173,15 +199,14 @@ class HistoricoRepository(
         }
     }
 
-    /*
-     * apaga um exame através da API
-     * em caso de sucesso atualiza o histórico para refletir a remoção
+    /**
+     * Apaga um exame através da API e atualiza a BD local
      */
     suspend fun deleteExame(token: String, animalId: Int, exameId: Long): Result<Unit> {
         return try {
             val response = apiService.deleteExame("Bearer $token", exameId)
             if (response.isSuccessful) {
-                // atualiza o histórico para refletir a remoção
+                // Após apagar na API, força a atualização da lista local
                 refreshExames(token, animalId)
                 Result.success(Unit)
             } else {
