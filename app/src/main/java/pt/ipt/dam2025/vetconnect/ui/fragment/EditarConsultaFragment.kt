@@ -64,7 +64,6 @@ class EditarConsultaFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory)[ConsultaViewModel::class.java]
 
         // Obtém o objeto Consulta que foi passado como argumento pelo fragment anterior
-        // A anotação Suppress é usada porque getParcelable está "deprecated" mas é a forma correta de usar para retrocompatibilidade
         @Suppress("DEPRECATION")
         consulta = arguments?.getParcelable("consulta")
 
@@ -101,15 +100,6 @@ class EditarConsultaFragment : Fragment() {
     private fun setupListeners() {
         binding.dataConsulta.setOnClickListener { showDatePicker() }
         binding.btnGuardar.setOnClickListener { guardarAlteracoes() }
-
-        // Quando uma nova clínica é selecionada no spinner
-        binding.clinicaSpinner.setOnItemClickListener { _, _, position, _ ->
-            // obtém a clínica selecionada
-            clinicasList.getOrNull(position)?.let {
-                // e pede ao ViewModel para carregar a lista de veterinários dessa clínica.
-                viewModel.carregaVeterinarios(it.id)
-            }
-        }
     }
 
     /**
@@ -135,8 +125,8 @@ class EditarConsultaFragment : Fragment() {
             }
         }
 
-        // Observa a lista de veterinários (que é carregada dinamicamente)
-        viewModel.veterinarios.observe(viewLifecycleOwner) { veterinarios ->
+        // Observa a lista de todos os veterinários
+        viewModel.todosVeterinarios.observe(viewLifecycleOwner) { veterinarios ->
             veterinariosList.clear()
             veterinariosList.addAll(veterinarios)
             // Cria um adapter para o spinner de veterinários

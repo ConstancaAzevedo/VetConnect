@@ -25,7 +25,10 @@ class ConsultaViewModel(
     // LiveData para a lista de todas as clínicas
     val clinicas: LiveData<List<Clinica>> = consultaRepository.getClinicas().asLiveData()
 
-    // LiveData privado e mutável para a lista de veterinários
+    // LiveData para a lista de todos os veterinários
+    val todosVeterinarios: LiveData<List<Veterinario>> = consultaRepository.getVeterinarios().asLiveData()
+
+    // LiveData privado e mutável para a lista de veterinários de uma clínica específica
     private val _veterinarios = MutableLiveData<List<Veterinario>>()
     // LiveData público exposto à UI
     val veterinarios: LiveData<List<Veterinario>> = _veterinarios

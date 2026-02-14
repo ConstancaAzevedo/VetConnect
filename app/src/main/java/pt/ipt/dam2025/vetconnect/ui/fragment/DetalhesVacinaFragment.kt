@@ -12,15 +12,17 @@ import androidx.lifecycle.ViewModelProvider // Importa para criar e gerir a inst
 import androidx.navigation.fragment.findNavController // Importa para gerir a navegação entre os ecrãs (fragments)
 import pt.ipt.dam2025.vetconnect.R // Importa a classe R para aceder aos recursos da aplicação
 import pt.ipt.dam2025.vetconnect.databinding.FragmentDetalhesVacinaBinding // Importa a classe de ViewBinding gerada
-import pt.ipt.dam2025.vetconnect.model.Vacina
+import pt.ipt.dam2025.vetconnect.model.Vacina // Importa o nosso modelo de dados da Vacina
 import pt.ipt.dam2025.vetconnect.util.SessionManager
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModel
 import pt.ipt.dam2025.vetconnect.viewmodel.VacinaViewModelFactory
 import java.text.SimpleDateFormat // Importa para formatar e fazer parse de datas
+import java.util.Date // Importa a classe Date para obter a data atual
 import java.util.Locale // Importa para definir a localização para formatação
 
 /**
  * Fragment para a página de detalhes de uma vacina
+ * Mostra a informação de uma vacina e permite ao utilizador interagir com ela
  */
 class DetalhesVacinaFragment : Fragment() {
 
@@ -28,7 +30,7 @@ class DetalhesVacinaFragment : Fragment() {
     private var _binding: FragmentDetalhesVacinaBinding? = null
     private val binding get() = _binding!!
 
-    // O ViewModel que vai orquestrar as ações do utilizador (ex: cancelar vacina)
+    // O ViewModel que vai orquestrar as ações do utilizador
     private lateinit var viewModel: VacinaViewModel
     // O gestor de sessão para obter o token de autenticação
     private lateinit var sessionManager: SessionManager
@@ -99,12 +101,10 @@ class DetalhesVacinaFragment : Fragment() {
         // Mostra o estado da vacina em maiúsculas
         binding.textViewEstadoVacinaDetalhe.text = vacina.estado.uppercase(Locale.ROOT)
 
-        // Lógica para mostrar a data correta (agendada ou de aplicação)
-        if (vacina.estado.equals("realizada", ignoreCase = true) && vacina.dataAplicacao != null) {
-            binding.textViewDataAplicacaoDetalhe.text = formatDateForDisplay(vacina.dataAplicacao, "yyyy-MM-dd")
-        } else {
-            binding.textViewDataAplicacaoDetalhe.text = formatDateForDisplay(vacina.dataAgendada, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        }
+        // Lógica para mostrar a data correta
+        val dataParaMostrar = if (vacina.estado.equals("realizada", ignoreCase = true)) vacina.dataAplicacao else vacina.dataAgendada
+        val formatoEntrada = if (vacina.estado.equals("realizada", ignoreCase = true)) "yyyy-MM-dd" else "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        binding.textViewDataAplicacaoDetalhe.text = formatDateForDisplay(dataParaMostrar, formatoEntrada)
 
         // Preenche os restantes campos
         binding.textViewClinicaVacinaDetalhe.text = vacina.clinicaNome ?: na
@@ -119,12 +119,30 @@ class DetalhesVacinaFragment : Fragment() {
             else -> android.R.color.transparent // Cor transparente como fallback
         }
         binding.textViewEstadoVacinaDetalhe.setBackgroundResource(backgroundRes)
+
+        // Mostra o botão "Marcar como Realizada" apenas se a vacina estiver agendada
+        if (vacina.estado.equals("agendada", ignoreCase = true)) {
+            binding.btnMarcarRealizada.visibility = View.VISIBLE
+        }
     }
 
     /**
      * Configura os listeners de clique para os botões de "Editar" e "Apagar"
      */
     private fun setupListeners(vacina: Vacina) {
+        // Listener para o botão "Marcar como Realizada"
+        binding.btnMarcarRealizada.setOnClickListener {
+            val token = sessionManager.getAuthToken()
+            if (token == null) {
+                Toast.makeText(context, "Sessão inválida.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            // A data de aplicação será a data de hoje
+            val dataAplicacao = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+            // Chama a função do ViewModel para marcar a vacina como realizada
+            viewModel.marcarVacinaRealizada(token, vacina.id, dataAplicacao, null, null, null)
+        }
+
         // Listener para o botão de apagar/cancelar
         binding.btnApagar.setOnClickListener {
             // Mostra um diálogo de confirmação para evitar cancelamentos acidentais
@@ -132,13 +150,7 @@ class DetalhesVacinaFragment : Fragment() {
                 .setTitle("Apagar Vacina") // Título do diálogo
                 .setMessage("Tem a certeza que deseja apagar esta vacina?") // Mensagem de confirmação
                 .setPositiveButton("Sim") { _, _ ->
-                    // O que acontece se o utilizador clicar em "Sim"
-                    val token = sessionManager.getAuthToken()
-                    if (token == null) {
-                        Toast.makeText(context, "Sessão inválida. Não é possível apagar.", Toast.LENGTH_LONG).show()
-                        return@setPositiveButton
-                    }
-                    // Se o token for válido chama o ViewModel para cancelar a vacina
+                    val token = sessionManager.getAuthToken() ?: return@setPositiveButton
                     viewModel.cancelarVacina(token, vacina.id)
                 }
                 .setNegativeButton("Não", null) // Não faz nada se o utilizador clicar em "Não"

@@ -140,6 +140,19 @@ class VacinaRepository(
         }
     }
 
+    suspend fun getVacinasProximas(token: String): Result<VacinasProximasResponse> {
+        return try {
+            val response = apiService.getVacinasProximas("Bearer $token")
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(IOException("Erro ao obter vacinas próximas: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     /**
      * Envia um pedido à API para agendar uma nova vacina
      * Retorna um Result para o ViewModel saber se a operação teve sucesso ou falhou
@@ -155,6 +168,23 @@ class VacinaRepository(
             }
         } catch (e: Exception) {
             // Retorna falha se houver um erro de rede
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Marca uma vacina como realizada através da API
+     */
+    suspend fun marcarVacinaRealizada(token: String, vacinaId: Int, request: MarcarVacinaRealizadaRequest): Result<Unit> {
+        return try {
+            val response = apiService.marcarVacinaRealizada("Bearer $token", vacinaId, request)
+            if (response.isSuccessful) {
+                // Opcional: podemos forçar um refresh da lista de vacinas aqui
+                Result.success(Unit)
+            } else {
+                Result.failure(IOException("Erro da API ao marcar como realizada: ${response.code()}"))
+            }
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }

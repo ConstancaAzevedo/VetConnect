@@ -251,14 +251,6 @@ interface ApiService {
     suspend fun getTiposVacina(): Response<TiposVacinaResponse>
 
     /**
-     * Obtém todas as vacinas do utilizador autenticado
-     */
-    @GET("vacinas")
-    suspend fun getVacinas(
-        @Header("Authorization") token: String
-    ): Response<VacinasAgendadasResponse>
-
-    /**
      * Agenda uma nova vacina
      */
     @POST("vacinas/agendar")

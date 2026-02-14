@@ -31,6 +31,28 @@ class AnimalRepository(
     private val context: Context // Contexto necessário para operações de ficheiros (upload)
 ) {
 
+    fun getAnimaisDoTutor(token: String, tutorId: Int): Flow<List<AnimalResponse>> {
+        CoroutineScope(Dispatchers.IO).launch {
+            refreshAnimaisDoTutor(token, tutorId)
+        }
+        return animalDao.getAnimalsByTutorId(tutorId)
+    }
+
+    private suspend fun refreshAnimaisDoTutor(token: String, tutorId: Int) {
+        try {
+            val response = apiService.getAnimaisDoTutor("Bearer $token", tutorId)
+            if (response.isSuccessful) {
+                response.body()?.let { animaisDaApi ->
+                    animaisDaApi.forEach { animal ->
+                        animalDao.insertOrUpdate(animal)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("AnimalRepository", "Falha ao refrescar animais", e)
+        }
+    }
+
     /**
      * Obtém os dados de um animal específico
      * Segue o mesmo padrão: lança um refresh e retorna um Flow da BD local

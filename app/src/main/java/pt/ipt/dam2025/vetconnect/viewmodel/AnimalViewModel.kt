@@ -4,6 +4,7 @@ import android.net.Uri // Importa a classe Uri para lidar com caminhos de fichei
 import androidx.lifecycle.LiveData // Importa a classe LiveData para dados observáveis
 import androidx.lifecycle.MutableLiveData // Importa a versão mutável do LiveData
 import androidx.lifecycle.ViewModel // Importa a classe base ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope // Importa o contexto de coroutines para o ViewModel
 import kotlinx.coroutines.launch // Importa a função para iniciar uma coroutine
 import pt.ipt.dam2025.vetconnect.model.AnimalResponse
@@ -15,6 +16,9 @@ import pt.ipt.dam2025.vetconnect.repository.AnimalRepository
  * Atua como intermediário entre a UI e o AnimalRepository
  */
 class AnimalViewModel(private val repository: AnimalRepository) : ViewModel() {
+
+    // LiveData para a lista de animais de um tutor
+    lateinit var animais: LiveData<List<AnimalResponse>>
 
     // LiveData privado e mutável para os dados de um animal específico
     private val _animal = MutableLiveData<AnimalResponse?>()
@@ -30,6 +34,13 @@ class AnimalViewModel(private val repository: AnimalRepository) : ViewModel() {
     private val _fotoUrl = MutableLiveData<String?>()
     // LiveData público exposto à UI para atualizar a imagem do animal
     val fotoUrl: LiveData<String?> = _fotoUrl
+
+    /**
+     * Inicializa o LiveData 'animais' com os dados vindos do repositório
+     */
+    fun getAnimaisDoTutor(token: String, userId: Int) {
+        animais = repository.getAnimaisDoTutor(token, userId).asLiveData()
+    }
 
     /**
      * Pede ao repositório para obter os dados de um animal específico

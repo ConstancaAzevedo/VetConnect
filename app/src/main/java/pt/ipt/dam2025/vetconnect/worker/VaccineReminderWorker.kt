@@ -7,10 +7,10 @@ import androidx.core.app.NotificationCompat // Importa para construir notificaç
 import androidx.work.CoroutineWorker // Importa a classe base para workers com coroutines
 import androidx.work.WorkerParameters // Importa os parâmetros para o worker
 import pt.ipt.dam2025.vetconnect.R // Importa os recursos da aplicação
+import pt.ipt.dam2025.vetconnect.api.ApiClient
 import pt.ipt.dam2025.vetconnect.data.AppDatabase
-import java.text.SimpleDateFormat // Importa para formatar datas
-import java.util.Calendar // Importa para manipular datas e horas
-import java.util.Locale // Importa para definir a localização para formatação
+import pt.ipt.dam2025.vetconnect.repository.VacinaRepository
+import pt.ipt.dam2025.vetconnect.util.SessionManager
 
 /**
  * Worker que corre em segundo plano para enviar lembretes de vacinas
@@ -25,37 +25,29 @@ class VaccineReminderWorker(appContext: Context, workerParams: WorkerParameters)
      */
     override suspend fun doWork(): Result {
         return try {
-            // Obtém uma instância da base de dados Room
+            // Obtém o token de autenticação da sessão
+            val sessionManager = SessionManager(applicationContext)
+            val token = sessionManager.getAuthToken() ?: return Result.failure()
+
+            // Cria uma instância do repositório
             val database = AppDatabase.getDatabase(applicationContext)
-            // Obtém o DAO para as vacinas
-            val vacinaDao = database.vacinaDao()
-            // Obtém o DAO para os animais
-            val animalDao = database.animalDao()
+            val repository = VacinaRepository(
+                ApiClient.apiService,
+                database.vacinaDao(),
+                database.tipoVacinaDao(),
+                database.clinicaDao(),
+                database.veterinarioDao()
+            )
 
-            // Obtém a data atual
-            val calendar = Calendar.getInstance()
-            // Adiciona sete dias à data atual para obter a data alvo
-            calendar.add(Calendar.DAY_OF_YEAR, 7)
-            // Formata a data alvo para o formato ano-mês-dia
-            val targetDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+            // Chama a API para obter as vacinas próximas
+            val result = repository.getVacinasProximas(token)
 
-            // Procura na base de dados por vacinas agendadas para a data alvo
-            val upcomingVaccines = vacinaDao.getVaccinesForDate(targetDate)
-
-            // Itera sobre cada vacina encontrada
-            upcomingVaccines.forEach { vaccine ->
-                // Obtém os detalhes do animal associado a esta vacina
-                val animal = animalDao.getAnimalById(vaccine.animalId)
-                // Se o animal existir
-                animal?.let { animalObject ->
-                    // E se a vacina tiver uma data agendada
-                    vaccine.dataAgendada?.let {
-                        // Chama a função para enviar a notificação
-                        sendNotification(
-                            animalObject.nome,
-                            vaccine.tipo
-                        )
-                    }
+            result.onSuccess { response ->
+                // Itera sobre a lista de vacinas que está DENTRO do objeto de resposta
+                response.vacinas.forEach { vaccine ->
+                    // O nome do animal já vem na resposta da API
+                    val animalNome = vaccine.animalNome ?: "o seu animal"
+                    sendNotification(animalNome, vaccine.tipo)
                 }
             }
             // Retorna sucesso indicando que o trabalho foi concluído
@@ -75,19 +67,18 @@ class VaccineReminderWorker(appContext: Context, workerParams: WorkerParameters)
 
         // Cria um canal de notificação
         val channel = NotificationChannel(
-            CHANNEL_ID, // ID único para o canal
-            "Lembretes de Vacinas", // Nome do canal visível para o utilizador
-            NotificationManager.IMPORTANCE_HIGH // Define a importância como alta
+            CHANNEL_ID, //ID único para o canal
+            "Lembretes de Vacinas", // Nome do canal visivel para o utilziador
+            NotificationManager.IMPORTANCE_HIGH // Define a importancia como alta
         )
         // Regista o canal no sistema
         notificationManager.createNotificationChannel(channel)
 
         // Constrói a notificação
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setContentTitle("Notificação de Vacina") // Define o título da notificação
-            // Define o texto principal da notificação
-            .setContentText("A vacina '$tipoVacina' para o seu animal '$animalNome' está agendada para daqui a 7 dias")
-            .setSmallIcon(R.drawable.vetconnectfundoredondo) // Define o ícone pequeno da notificação
+            .setContentTitle("Lembrete de Vacina")
+            .setContentText("A vacina '$tipoVacina' de $animalNome está agendada para breve!")
+            .setSmallIcon(R.drawable.vetconnectfundoredondo)
             .build()
 
         // Envia a notificação para o sistema

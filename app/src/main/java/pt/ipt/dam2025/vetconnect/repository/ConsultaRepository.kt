@@ -122,7 +122,6 @@ class ConsultaRepository(
         }
     }
 
-
     /**
      * Obtém a lista de todas as clínicas
      * A UI recebe os dados da BD local e o repositório atualiza-os em background
@@ -143,6 +142,25 @@ class ConsultaRepository(
             }
         } catch (e: Exception) {
             Log.e("ConsultaRepository", "Falha ao obter clínicas", e)
+        }
+    }
+
+    /**
+     * Obtém a lista de todos os veterinários
+     */
+    fun getVeterinarios(): Flow<List<Veterinario>> {
+        CoroutineScope(Dispatchers.IO).launch { refreshVeterinarios() }
+        return veterinarioDao.getAll()
+    }
+
+    private suspend fun refreshVeterinarios() {
+        try {
+            val response = apiService.getVeterinarios()
+            if (response.isSuccessful) {
+                response.body()?.let { veterinarioDao.insertAll(it) }
+            }
+        } catch (e: Exception) {
+            Log.e("ConsultaRepository", "Falha ao obter veterinários", e)
         }
     }
 

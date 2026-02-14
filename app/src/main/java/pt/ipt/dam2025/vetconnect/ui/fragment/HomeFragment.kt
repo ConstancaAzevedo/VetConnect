@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController // Importa para gerir a na
 import pt.ipt.dam2025.vetconnect.R // Importa a classe R para aceder aos recursos da aplicação
 import pt.ipt.dam2025.vetconnect.databinding.FragmentHomeBinding // Importa a classe de ViewBinding gerada para o nosso layout
 import pt.ipt.dam2025.vetconnect.util.SessionManager
-import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModel
-import pt.ipt.dam2025.vetconnect.viewmodel.UtilizadorViewModelFactory
+import pt.ipt.dam2025.vetconnect.viewmodel.AnimalViewModel
+import pt.ipt.dam2025.vetconnect.viewmodel.AnimalViewModelFactory
 
 /**
  * Fragment para a página home da aplicação
@@ -25,8 +25,8 @@ class HomeFragment : Fragment() {
 
     // O gestor de sessão para obter o token e os IDs guardados
     private lateinit var sessionManager: SessionManager
-    // O ViewModel de Utilizador (embora não seja usado para mostrar dados neste ecrã, é inicializado)
-    private lateinit var viewModel: UtilizadorViewModel
+    // O ViewModel de Animal para ir buscar a lista de animais
+    private lateinit var animalViewModel: AnimalViewModel
 
     /**
      * Chamado pelo sistema para criar a hierarquia de Views do Fragment
@@ -48,18 +48,20 @@ class HomeFragment : Fragment() {
 
         // inicializa o SessionManager e o ViewModel
         sessionManager = SessionManager(requireContext())
-        val factory = UtilizadorViewModelFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, factory)[UtilizadorViewModel::class.java]
-
-        // Lógica para definir o animal "ativo" se um ID for passado para este fragment
-        // Por exemplo, se viermos de uma lista de animais e selecionarmos um
-        val animalId = arguments?.getInt("ANIMAL_ID", -1) ?: -1
-        if (animalId != -1) {
-            sessionManager.saveAnimalId(animalId)
-        }
+        val factory = AnimalViewModelFactory(requireActivity().application)
+        animalViewModel = ViewModelProvider(this, factory)[AnimalViewModel::class.java]
 
         // Configura todos os listeners de clique para os cartões do menu
         setupListeners()
+        // Começa a observar os dados do ViewModel
+        observeViewModel()
+
+        // Pede ao ViewModel para ir buscar a lista de animais do tutor
+        val token = sessionManager.getAuthToken()
+        val userId = sessionManager.getUserId()
+        if (token != null && userId != -1) {
+            animalViewModel.getAnimaisDoTutor(token, userId)
+        }
 
         // Interceta o botão "voltar" do sistema
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -69,6 +71,19 @@ class HomeFragment : Fragment() {
                 requireActivity().finish()
             }
         })
+    }
+
+    /**
+     * Observa o LiveData da lista de animais
+     */
+    private fun observeViewModel() {
+        animalViewModel.animais.observe(viewLifecycleOwner) { animais ->
+            // Se a lista não for vazia, guarda o ID do primeiro animal na sessão
+            // Este ID será usado em toda a aplicação
+            animais?.firstOrNull()?.let {
+                sessionManager.saveAnimalId(it.id)
+            }
+        }
     }
 
     /**

@@ -166,6 +166,7 @@
     <string name="vacina_aplicada_em">Aplicada em: %1$s</string>
     <string name="vacina_agendada_para">Agendada para: %1$s</string>
     <string name="data_invalida">Data inválida</string>
+    <string name="marcar_como_realizada">Marcar como Realizada</string>
 
 
     <!-- adicionadas após -->
