@@ -71,9 +71,9 @@ class CriarPinFragment : Fragment() {
         }
 
         val buttons = listOf<Button>(
-            binding.button1, binding.button2, binding.button3,
-            binding.button4, binding.button5, binding.button6,
-            binding.button7, binding.button8, binding.button9, binding.button0
+            binding.btn1, binding.btn2, binding.btn3,
+            binding.btn4, binding.btn5, binding.btn6,
+            binding.btn7, binding.btn8, binding.btn9, binding.btn0
         )
         buttons.forEach { it.setOnClickListener(numberButtonClickListener) }
 

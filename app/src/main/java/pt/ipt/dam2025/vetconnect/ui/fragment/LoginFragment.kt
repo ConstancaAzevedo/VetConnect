@@ -94,10 +94,10 @@ class LoginFragment : Fragment() {
             }
         }
 
-        listOf(binding.button1, binding.button2, binding.button3, binding.button4, binding.button5, binding.button6, binding.button7, binding.button8, binding.button9, binding.pin0)
+        listOf(binding.btn1, binding.btn2, binding.btn3, binding.btn4, binding.btn5, binding.btn6, binding.btn7, binding.btn8, binding.btn9, binding.btn0)
             .forEach { it.setOnClickListener(numberButtonClickListener) }
 
-        binding.btnDelete.setOnClickListener {
+        binding.btnApagar.setOnClickListener {
             if (pin.isNotEmpty()) {
                 pin.deleteCharAt(pin.length - 1)
                 updatePinDots()

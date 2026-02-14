@@ -16,7 +16,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/text_view_nome_vacina_detalhe"
+            android:id="@+id/textViewNomeVacinaDetalhe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/branco"
@@ -27,7 +27,7 @@
             tools:text="Raiva (Anual)" />
 
         <TextView
-            android:id="@+id/text_view_estado_vacina_detalhe"
+            android:id="@+id/textViewEstadoVacinaDetalhe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_estado_agendada"
@@ -53,7 +53,7 @@
             android:textColor="@color/cinzento_claro" />
 
         <TextView
-            android:id="@+id/text_view_data_aplicacao_detalhe"
+            android:id="@+id/textViewDataAplicacaoDetalhe"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
             android:textColor="@color/cinzento_claro" />
 
         <TextView
-            android:id="@+id/text_view_clinica_vacina_detalhe"
+            android:id="@+id/textViewClinicaVacinaDetalhe"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:textColor="@color/cinzento_claro" />
 
         <TextView
-            android:id="@+id/text_view_veterinario_vacina_detalhe"
+            android:id="@+id/textViewVeterinarioVacinaDetalhe"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
             android:textColor="@color/cinzento_claro" />
 
         <TextView
-            android:id="@+id/text_view_observacoes_vacina_detalhe"
+            android:id="@+id/textViewObservacoesVacinaDetalhe"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
             android:layout_marginTop="32dp">
 
             <Button
-                android:id="@+id/button_apagar_vacina"
+                android:id="@+id/btnApagar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -135,7 +135,7 @@
                 android:layout_marginEnd="8dp"/>
 
             <Button
-                android:id="@+id/button_editar_vacina"
+                android:id="@+id/btnEditar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

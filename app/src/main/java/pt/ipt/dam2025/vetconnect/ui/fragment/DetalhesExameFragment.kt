@@ -100,7 +100,7 @@ class DetalhesExameFragment : Fragment() {
         }
 
         // lógica para o botão Apagar
-        binding.buttonApagarVacina.setOnClickListener { // ID do XML
+        binding.btnApagar.setOnClickListener { // ID do XML
             AlertDialog.Builder(requireContext())
                 .setTitle("Apagar Exame")
                 .setMessage("Tem a certeza que deseja apagar este exame? Esta ação é irreversível.")

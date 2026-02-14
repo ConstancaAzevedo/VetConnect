@@ -43,7 +43,7 @@ class RegistarFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.registerButton.setOnClickListener {
+        binding.btnRegistar.setOnClickListener {
             val nome = binding.nameInput.text.toString().trim()
             val email = binding.emailInput.text.toString().trim()
             val telemovel = binding.phoneInput.text.toString().trim()

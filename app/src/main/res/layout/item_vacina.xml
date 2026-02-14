@@ -21,33 +21,33 @@
 
         <!-- nome da vacina -->
         <TextView
-            android:id="@+id/text_view_nome_vacina"
+            android:id="@+id/textViewNomeVacina"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:textColor="@color/branco"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/text_view_estado_vacina"
+            app:layout_constraintEnd_toStartOf="@+id/textViewEstadoVacina"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Raiva (Anual)" />
 
         <!-- data da vacina -->
         <TextView
-            android:id="@+id/text_view_data_vacina"
+            android:id="@+id/textViewDataVacina"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="@color/cinzento_claro"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_nome_vacina"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNomeVacina"
             tools:text="Aplicada em: 20-03-2024" />
 
         <!-- estado da vacina -->
         <TextView
-            android:id="@+id/text_view_estado_vacina"
+            android:id="@+id/textViewEstadoVacina"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_estado_agendada"

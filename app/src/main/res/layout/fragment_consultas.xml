@@ -39,7 +39,7 @@
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Não há consultas agendadas."
+        android:text="@string/nao_ha_consultas"
         android:textColor="@color/cinzento_claro"
         android:textSize="16sp"
         android:visibility="gone"

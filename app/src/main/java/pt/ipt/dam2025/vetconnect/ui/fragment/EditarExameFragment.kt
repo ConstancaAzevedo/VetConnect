@@ -81,7 +81,7 @@ class EditarExameFragment : Fragment() {
      * preenche os campos com os dados iniciais do exame a ser editado
      */
     private fun populateUi(exame: Exame) {
-        binding.editTextDataExame.setText(formatDateForDisplay(exame.dataExame))
+        binding.editDataExame.setText(formatDateForDisplay(exame.dataExame))
         binding.editTextResultado.setText(exame.resultado)
         binding.editTextObservacoes.setText(exame.observacoes)
 
@@ -98,8 +98,8 @@ class EditarExameFragment : Fragment() {
      * configura os listeners de clique para os botões e spinners
      */
     private fun configurarListeners() {
-        binding.editTextDataExame.setOnClickListener { showDatePickerDialog(binding.editTextDataExame) }
-        binding.buttonGuardarAlteracoes.setOnClickListener { guardarAlteracoes() }
+        binding.editDataExame.setOnClickListener { showDatePickerDialog(binding.editDataExame) }
+        binding.btnGuardar.setOnClickListener { guardarAlteracoes() }
         binding.buttonAlterarFoto.setOnClickListener {
             val bundle = bundleOf("pathType" to "exames")
             findNavController().navigate(R.id.action_editarExameFragment_to_camaraFragment, bundle)
@@ -179,7 +179,7 @@ class EditarExameFragment : Fragment() {
                 return@let
             }
 
-            val displayDate = binding.editTextDataExame.text.toString()
+            val displayDate = binding.editDataExame.text.toString()
             val resultado = binding.editTextResultado.text.toString()
             val observacoes = binding.editTextObservacoes.text.toString()
 

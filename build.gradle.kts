@@ -4,3 +4,4 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.ksp) apply false
 }
+// Define os plugins do Gradle que serão usados pelos módulos do projeto

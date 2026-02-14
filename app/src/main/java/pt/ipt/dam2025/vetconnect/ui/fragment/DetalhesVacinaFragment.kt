@@ -73,7 +73,7 @@ class DetalhesVacinaFragment : Fragment() {
     }
 
     private fun setupListeners(vacina: Vacina) {
-        binding.buttonApagarVacina.setOnClickListener {
+        binding.btnApagar.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Apagar Vacina")
                 .setMessage("Tem a certeza que deseja apagar esta vacina?")
@@ -89,7 +89,7 @@ class DetalhesVacinaFragment : Fragment() {
                 .show()
         }
 
-        binding.buttonEditarVacina.setOnClickListener {
+        binding.btnEditar.setOnClickListener {
             val bundle = Bundle().apply { putParcelable("vacina", vacina) }
             findNavController().navigate(R.id.action_detalhesVacinaFragment_to_editarVacinaFragment, bundle)
         }

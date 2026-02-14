@@ -76,11 +76,11 @@ class AdicionarExameFragment : Fragment() {
 
     private fun setupListeners() {
         binding.editTextDataExame.setOnClickListener { showDatePicker(binding.editTextDataExame) }
-        binding.buttonAdicionarFoto.setOnClickListener {
+        binding.btnAdicionarFoto.setOnClickListener {
             val bundle = bundleOf("pathType" to "exames")
             findNavController().navigate(R.id.action_adicionarExameFragment_to_camaraFragment, bundle)
         }
-        binding.buttonGuardarExame.setOnClickListener { guardarExame() }
+        binding.btnGuardar.setOnClickListener { guardarExame() }
 
         // Quando uma clínica é selecionada, carrega os veterinários correspondentes
         binding.spinnerClinica.setOnItemClickListener { _, _, position, _ ->

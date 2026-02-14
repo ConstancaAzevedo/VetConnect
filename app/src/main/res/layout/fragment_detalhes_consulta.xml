@@ -126,7 +126,7 @@
             android:layout_marginTop="32dp">
 
             <Button
-                android:id="@+id/button_apagar_vacina"
+                android:id="@+id/btnApagar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -86,7 +86,7 @@ class DetalhesConsultaFragment : Fragment() {
             findNavController().navigate(R.id.action_detalhesConsultaFragment_to_editarConsultaFragment, bundle)
         }
 
-        binding.buttonApagarVacina.setOnClickListener {
+        binding.btnApagar.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Cancelar Consulta")
                 .setMessage("Tem a certeza que deseja cancelar esta consulta?")

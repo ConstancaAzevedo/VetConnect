@@ -53,7 +53,7 @@ class HistoricoFragment : Fragment() {
         observeExames()
 
         // Configura o clique do botão para navegar para o ecrã de adicionar exame
-        binding.fabAddExame.setOnClickListener {
+        binding.btnAdicionarExame.setOnClickListener {
             findNavController().navigate(R.id.action_historicoFragment_to_adicionarExameFragment)
         }
     }

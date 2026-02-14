@@ -1,19 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-   Sample data extraction rules file; uncomment and customize as necessary.
-   See https://developer.android.com/about/versions/12/backup-restore#xml-changes
-   for details.
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Regras para o sistema de autobackup em versões do Android posteriores à 12 (API 31).
+    Este ficheiro define quais dados da aplicação podem ou não ser guardados
+    na cópia de segurança na nuvem da Google do utilizador
+    É importante para a segurança especialmente para excluir dados sensíveis
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
+        <!--
+        TODO: Use <include> and <exclude> to control what is backed up.
+        Exclui o ficheiro de SharedPreferences que contém o token de sessão
         -->
+        <exclude domain="sharedpref" path="prefs.xml"/>
     </cloud-backup>
-    <!--
-    <device-transfer>
-        <include .../>
-        <exclude .../>
-    </device-transfer>
-    -->
 </data-extraction-rules>

@@ -120,7 +120,6 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/constanca"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -145,7 +144,6 @@
 
         <!-- bibliotecas e frameworks -->
         <TextView
-            android:id="@+id/rui"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -172,7 +170,6 @@
             app:layout_constraintTop_toBottomOf="@+id/ruiFoto" />
 
         <LinearLayout
-            android:id="@+id/bibliotecasContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

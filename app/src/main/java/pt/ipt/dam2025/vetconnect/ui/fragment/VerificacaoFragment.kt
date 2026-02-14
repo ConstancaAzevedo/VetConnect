@@ -52,7 +52,7 @@ class VerificacaoFragment : Fragment() {
             return
         }
 
-        binding.verifyButton.setOnClickListener {
+        binding.btnVerificar.setOnClickListener {
             val enteredCode = binding.verificationCodeInput.text.toString().trim()
             if (enteredCode.isBlank() || enteredCode.length != 6) {
                 binding.verificationCodeInput.error = "Insira um código de 6 dígitos"

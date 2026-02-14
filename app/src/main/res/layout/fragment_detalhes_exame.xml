@@ -9,7 +9,7 @@
 
     <!-- página para detalhes de um exame -->
 
-      <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -17,7 +17,7 @@
 
         <!-- informação principal -> sempre visível -->
         <TextView
-            android:id="@+id/text_view_tipo_exame_detalhe"
+            android:id="@+id/textViewTipoExameDetalhe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/branco"
@@ -27,7 +27,7 @@
             tools:text="Raio-X Torácico" />
 
         <TextView
-            android:id="@+id/text_view_data_exame_detalhe"
+            android:id="@+id/textViewDataExameDetalhe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/cinzento_claro"
@@ -43,7 +43,7 @@
             android:textColor="@color/cinzento_claro" />
 
         <TextView
-            android:id="@+id/text_view_clinica_detalhe"
+            android:id="@+id/textViewClinicaDetalhe"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             android:textColor="@color/cinzento_claro" />
 
         <TextView
-            android:id="@+id/text_view_veterinario_detalhe"
+            android:id="@+id/textViewVeterinarioDetalhe"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
 
         <!-- resultado -->
         <LinearLayout
-            android:id="@+id/layout_resultado_detalhe"
+            android:id="@+id/layoutResultadoDetalhe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -82,11 +82,11 @@
                 style="?attr/textAppearanceBody2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Resultado"
+                android:text="@string/resultado"
                 android:textColor="@color/cinzento_claro" />
 
             <TextView
-                android:id="@+id/text_view_resultado_detalhe"
+                android:id="@+id/textViewResultadoDetalhe"
                 style="?attr/textAppearanceBody1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
 
         <!-- observações -->
         <LinearLayout
-            android:id="@+id/layout_observacoes_detalhe"
+            android:id="@+id/layoutObservacoesDetalhe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -108,11 +108,11 @@
                 style="?attr/textAppearanceBody2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Observações"
+                android:text="@string/observacoes"
                 android:textColor="@color/cinzento_claro" />
 
             <TextView
-                android:id="@+id/text_view_observacoes_detalhe"
+                android:id="@+id/textViewObservacoesDetalhe"
                 style="?attr/textAppearanceBody1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
 
         <!-- relatório fotográfico -->
         <LinearLayout
-            android:id="@+id/layout_foto_detalhe"
+            android:id="@+id/layoutFotoDetalhe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -140,7 +140,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <ImageView
-                android:id="@+id/image_view_relatorio_detalhe"
+                android:id="@+id/imageViewRelatorioDetalhe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
@@ -154,8 +154,9 @@
               android:orientation="horizontal"
               android:layout_marginTop="32dp">
 
+              <!-- botão para apagar -->
               <Button
-                  android:id="@+id/button_apagar_vacina"
+                  android:id="@+id/btnApagar"
                   android:layout_width="0dp"
                   android:layout_height="wrap_content"
                   android:layout_weight="1"
@@ -163,6 +164,7 @@
                   style="@style/ButtonStyle"
                   android:layout_marginEnd="8dp"/>
 
+              <!-- botão para editar -->
               <Button
                   android:id="@+id/btnEditar"
                   android:layout_width="0dp"

@@ -177,7 +177,6 @@
             app:layout_constraintTop_toBottomOf="@+id/veterinarioSpinner" />
 
         <Button
-            android:id="@+id/btnApagar"
             style="@style/ButtonStyle"
             android:text="@string/apagar"
             android:visibility="gone"

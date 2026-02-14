@@ -251,6 +251,9 @@
         <action
             android:id="@+id/action_detalhesConsultaFragment_to_editarConsultaFragment"
             app:destination="@id/editarConsultaFragment" />
+        <argument
+            android:name="consulta"
+            app:argType="pt.ipt.dam2025.vetconnect.model.Consulta" />
     </fragment>
 
     <!-- ecrã editar consulta -->
@@ -285,6 +288,9 @@
         <action
             android:id="@+id/action_detalhesVacinaFragment_to_editarVacinaFragment"
             app:destination="@id/editarVacinaFragment" />
+        <argument
+            android:name="vacina"
+            app:argType="pt.ipt.dam2025.vetconnect.model.Vacina" />
     </fragment>
 
     <!-- ecrã editar vacina -->

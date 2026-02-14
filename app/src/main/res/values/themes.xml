@@ -36,7 +36,7 @@
     </style>
 
     <!-- página de login -->
-    <!-- os botões do teclado númerico ficam transparentes e com o texto branco -->
+    <!-- os botões do teclado numerico ficam transparentes e com o texto branco -->
     <style name="PinButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

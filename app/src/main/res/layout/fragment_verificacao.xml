@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:gravity="center"
-        android:text="Introduza o código de 6 dígitos que enviámos para o seu telemóvel"
+        android:text="@string/introduza_6_digitos"
         android:textColor="@color/branco"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
     <EditText
         android:id="@+id/verification_code_input"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="48dp"
         android:backgroundTint="@color/branco"
         android:ems="10"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/instruction_text" />
 
     <Button
-        android:id="@+id/verify_button"
+        android:id="@+id/btnVerificar"
         style="@style/ButtonStyle"
         android:text="@string/verificar"
         app:layout_constraintEnd_toEndOf="parent"
