@@ -99,7 +99,7 @@ class EditarVacinaFragment : Fragment() {
         // mostra o DatePicker quando se clica no campo da data
         binding.dataAplicacao.setOnClickListener { showDatePickerDialog(binding.dataAplicacao) }
         // guarda as alterações quando se clica no botão "Guardar"
-        binding.buttonGuardarAlteracoes.setOnClickListener { guardarAlteracoes() }
+        binding.btnGuardar.setOnClickListener { guardarAlteracoes() }
 
         // quando uma clínica é selecionada pede ao ViewModel para carregar a lista de veterinários correspondente
         binding.spinnerClinica.setOnItemClickListener { _, _, position, _ ->

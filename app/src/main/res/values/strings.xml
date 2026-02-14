@@ -60,6 +60,61 @@
     <string name="nome_completo">Nome Completo</string>
     <string name="registo_do_novo_tutor">Registo do Novo Tutor</string>
     <string name="insira_pin">Insira o seu PIN de acesso para\ndesbloquear a aplicação</string>
+    <string name="introduza_6_digitos">Introduza o código de 6 dígitos que enviámos para o seu telemóvel</string>
+    <string name="esquecime_pin">Esqueci-me do PIN</string>
+    <string name="defina_o_seu_pin_de_acesso">Defina o seu PIN de Acesso</string>
+    <string name="crie_pin">Crie um PIN de 6 dígitos para\nacesso rápido e seguro.</string>
+    <string name="indicacao_foto">indicação de foto</string>
+    <string name="codigo_de_verificacao">Código de Verificação</string>
+    <string name="vacinas_do_animal">Vacinas do Animal</string>
+    <string name="confirmar_marcao">Confirmar Marcação</string>
+    <string name="logo_da_vetconnect">Logo da VetConnect</string>
+    <string name="historico_do_animal">Histórico do Animal</string>
+    <string name="quero_registar_me_como">Quero registar-me como:</string>
+    <string name="ja_estou_registado">Já estou registado</string>
+    <string name="relatorio_fotografico">Relatório Fotográfico</string>
+    <string name="clinica_de_preferencia">Clinica de preferência</string>
+    <string name="veterin_rio_de_preferencia">Veterinário de preferência</string>
+
+    <!-- strings da pagina ANIMAL -->
+    <string name="nome_do_animal">Nome do Animal</string>
+    <string name="especie">Espécie</string>
+    <string name="raca">Raça</string>
+    <string name="numero_do_chip">Número do Chip</string>
+    <string name="foto_do_animal">Foto do animal</string>
+    <string name="data_de_nascimento_">Data de Nascimento</string>
+
+    <!-- strings da pagina PERFIL -->
+    <string name="perfil_do_utilizador">Perfil do Utilizador</string>
+    <string name="nome">Nome:</string>
+    <string name="email_">Email:</string>
+    <string name="n_de_telemovel">Nº de Telemóvel:</string>
+    <string name="nacionalidade">Nacionalidade:</string>
+    <string name="sexo">Sexo:</string>
+    <string name="cartao_cidadao">Cartão de Cidadão:</string>
+    <string name="data_de_nascimento">Data de Nascimento:</string>
+    <string name="morada">Morada:</string>
+    <string name="rua_da_exemplo_123">Rua da Exemplo, 123</string>
+    <string name="_12_12_2005">12/12/2005</string>
+    <string name="_123456789">123456789</string>
+    <string name="feminino">Feminino</string>
+    <string name="portugal">Portugal</string>
+    <string name="_960249058">960249058</string>
+    <string name="email_tutor_com">email@tutor.com</string>
+    <string name="nome_do_tutor">Nome do Tutor</string>
+
+    <!-- strings da pagina LOGIN -->
+    <string name="_0">0</string>
+    <string name="_9">9</string>
+    <string name="_8">8</string>
+    <string name="_7">7</string>
+    <string name="_6">6</string>
+    <string name="_5">5</string>
+    <string name="_4">4</string>
+    <string name="_3">3</string>
+    <string name="_2">2</string>
+    <string name="_1">1</string>
+    <string name="bolinha_do_pin">bolinha do pin</string>
 
     <!-- strings da pagina ABOUT -->
     <string name="sobre">SOBRE</string>
@@ -73,21 +128,33 @@
     <string name="_25969_constan_a_azevedo">25969, Constança Azevedo</string>
     <string name="_25957_rui_dias">25957, Rui Dias</string>
     <string name="bibliotecas_frameworks_e_c_digo_de_terceiros">Bibliotecas, Frameworks e Código de Terceiros:</string>
-    <string name="asynchronous">Asynchronous Programming (JetBrains)</string>
-    <string name="android_jetpack">Android Jetpack (Google)</string>
-    <string name="networking_square"><![CDATA[Networking (Square, Inc. & Google)]]></string>
-    <string name="user_interface">User Interface</string>
-    <string name="machine_learning">Machine Learning (Google)</string>
-    <string name="android_jetpack_description"><![CDATA[Origem: https://developer.android.com/jetpack\nConjunto de bibliotecas para facilitar o desenvolvimento de apps Android de alta qualidade.\n- Core KTX: Extensões Kotlin para APIs do Android.\n- AppCompat: Permite o uso de funcionalidades modernas em versões antigas do Android.\n- Activity & Fragment KTX: Simplifica o uso de Activities e Fragments.\n- Lifecycle (ViewModel, LiveData, Runtime): Gerencia o ciclo de vida de componentes de UI.\n- Room: Camada de abstração sobre o SQLite para persistência de dados.\n- CameraX: Simplifica a adição de funcionalidades de câmera.\n- ConstraintLayout: Para criar layouts grandes e complexos com uma hierarquia de visualização plana.\n- WorkManager: Para tarefas em segundo plano que precisam ser executadas de forma garantida.\n- ViewBinding: Gera uma classe de vinculação para cada arquivo de layout XML.]]></string>
-    <string name="kotlin_coroutines_description">- Kotlin Coroutines: Para gerenciar operações assíncronas de forma concisa e eficiente. Origem: https://kotlinlang.org/docs/coroutines-overview.html</string>
-    <string name="material_components_dexcription">- Material Components for Android (Google): Componentes e temas para construir interfaces com o Material Design. Origem: https://material.io/develop/android - Glide (Sam Judd / Google): Biblioteca para carregamento de imagens e GIFs. Origem: https://github.com/bumptech/glide</string>
-    <string name="barcode_scanning_description">- Google ML Kit - Barcode Scanning: API para escanear e processar códigos de barras e QR codes. Origem: https://developers.google.com/ml-kit/vision/barcode-scanning</string>
     <string name="retrofit_description">- Retrofit: Cliente HTTP para Android e Java. Usado para comunicação com a nossa API REST. Origem: https://square.github.io/retrofit/ - OkHttp Logging Interceptor: Interceptor para o OkHttp que registra requisições e respostas HTTP. Origem: https://square.github.io/okhttp/ - Gson: Biblioteca para converter objetos Java/Kotlin para a sua representação JSON e vice-versa. Origem: https://github.com/google/gson - Retrofit Gson Converter: Um conversor que usa Gson para a serialização e desserialização de corpos de requisição e resposta.</string>
-    <string name="introduza_6_digitos">Introduza o código de 6 dígitos que enviámos para o seu telemóvel</string>
-    <string name="esquecime_pin">Esqueci-me do PIN</string>
-    <string name="defina_o_seu_pin_de_acesso">Defina o seu PIN de Acesso</string>
-    <string name="crie_pin">Crie um PIN de 6 dígitos para\nacesso rápido e seguro.</string> <!-- adicionadas após -->
-
-
+    <string name="androidx_core_core_ktx_fun_es_de_ajuda_para_c_digo_limpo">androidx.core:core-ktx: Funções de ajuda para código limpo.</string>
+    <string name="arquitetura_e_componentes_base_google_jetpack">Arquitetura e Componentes Base (Google Jetpack)</string>
+    <string name="androidx_appcompat_appcompat_compatibilidade_com_vers_es_antigas_do_android">androidx.appcompat:appcompat: Compatibilidade com versões antigas do Android.</string>
+    <string name="androidx_activity_activity_gest_o_do_ciclo_de_vida_das_activitys">androidx.activity:activity: Gestão do ciclo de vida das Activitys.</string>
+    <string name="androidx_constraintlayout_constraintlayout_layouts_complexos_e_eficientes">androidx.constraintlayout:constraintlayout: Layouts complexos e eficientes.</string>
+    <string name="androidx_navigation_navega_o_entre_ecr_s_fragments">androidx.navigation:*: Navegação entre ecrãs (Fragments).</string>
+    <string name="interface_do_utilizador_ui">Interface do Utilizador (UI)</string>
+    <string name="com_google_android_material_material_componentes_de_material_design">com.google.android.material:material: Componentes de Material Design.</string>
+    <string name="persist_ncia_de_dados_base_de_dados_local">Persistência de Dados (Base de Dados Local)</string>
+    <string name="androidx_room_gest_o_de_base_de_dados_local_sqlite">androidx.room:*: Gestão de base de dados local (SQLite).</string>
+    <string name="comunica_o_com_a_rede_api_rest">Comunicação com a Rede (API REST)</string>
+    <string name="com_squareup_retrofit2_retrofit_cliente_http_para_pedidos_api">com.squareup.retrofit2:retrofit: Cliente HTTP para pedidos à API.</string>
+    <string name="com_squareup_retrofit2_converter_gson_converte_json_para_objetos_kotlin">com.squareup.retrofit2:converter-gson: Converte JSON para objetos Kotlin.</string>
+    <string name="com_google_code_gson_gson_biblioteca_de_convers_o_de_json">com.google.code.gson:gson: Biblioteca de conversão de JSON.</string>
+    <string name="com_squareup_okhttp3_logging_interceptor_debug_de_pedidos_de_rede">com.squareup.okhttp3:logging-interceptor: Debug de pedidos de rede.</string>
+    <string name="funcionalidades_de_c_mara">Funcionalidades de Câmara</string>
+    <string name="androidx_camera_bibliotecas_camerax_para_funcionalidades_de_c_mara">androidx.camera:*: Bibliotecas CameraX para funcionalidades de câmara.</string>
+    <string name="carregamento_de_imagens">Carregamento de Imagens</string>
+    <string name="com_github_bumptech_glide_glide_carregamento_e_cache_de_imagens">com.github.bumptech.glide:glide: Carregamento e cache de imagens.</string>
+    <string name="io_coil_kt_coil_alternativa_moderna_para_carregamento_de_imagens">io.coil-kt:coil: Alternativa moderna para carregamento de imagens.</string>
+    <string name="tarefas_em_segundo_plano">Tarefas em Segundo Plano</string>
+    <string name="androidx_work_work_runtime_ktx_gest_o_de_tarefas_em_segundo_plano">androidx.work:work-runtime-ktx: Gestão de tarefas em segundo plano.</string>
+    <string name="testes">Testes</string>
+    <string name="junit_junit_framework_para_testes_unit_rios">junit:junit: Framework para testes unitários.</string>
+    <string name="androidx_test_bibliotecas_para_testes_de_instrumenta_o">androidx.test.*: Bibliotecas para testes de instrumentação.</string>
+    <string name="ferramentas_de_compila_o_e_plugins">Ferramentas de Compilação e Plugins</string>
+    <!-- adicionadas após --> <string name="com_google_devtools_ksp_ksp_processamento_de_s_mbolos_kotlin">com.google.devtools.ksp:ksp: Processamento de símbolos Kotlin.</string>
 
 </resources>

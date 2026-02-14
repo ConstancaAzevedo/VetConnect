@@ -11,6 +11,7 @@
 
     <!-- página de marcar consulta -->
 
+    <!-- título -->
     <TextView
         android:id="@+id/tituloMarcarConsulta"
         android:layout_width="wrap_content"
@@ -39,26 +40,25 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="@string/motivo"
-               android:textColor="@color/branco"
-               android:textSize="20sp"/>
+            <!-- motivo -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/motivo"
+                android:textColorHint="@color/branco">
 
-           <EditText
-               android:id="@+id/motivo"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="5dp"
-               android:background="@drawable/borda_branca"
-               android:textColor="@color/branco"
-               android:textColorHint="@color/branco"
-               android:padding="12dp"
-               android:gravity="top"
-               android:minLines="2"
-               android:textSize="18sp"
-               android:hint="@string/para_que_deseja_marcar_a_consulta"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/motivo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borda_branca"
+                    android:gravity="top"
+                    android:minLines="2"
+                    android:padding="12dp"
+                    android:textColor="@color/branco"
+                    android:textSize="18sp"
+                    tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- clínica (Spinner) -->
             <com.google.android.material.textfield.TextInputLayout
@@ -67,16 +67,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/clinica"
-                android:textColorHint="@color/cinzento_claro">
+                android:textColorHint="@color/branco">
 
                 <AutoCompleteTextView
                     android:id="@+id/clinicaSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/borda_branca"
-                    android:importantForAccessibility="no"
                     android:inputType="none"
-                    android:textColor="@color/branco" />
+                    android:textColor="@color/branco"
+                    android:hint="@string/clinica"
+                    tools:ignore="VisualLintTextFieldSize, SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- veterinário (Spinner) -->
@@ -86,16 +87,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/veterinario"
-                android:textColorHint="@color/cinzento_claro">
+                android:textColorHint="@color/branco">
 
                 <AutoCompleteTextView
                     android:id="@+id/veterinarioSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"                    android:layout_height="wrap_content"
                     android:background="@drawable/borda_branca"
-                    android:importantForAccessibility="no"
                     android:inputType="none"
-                    android:textColor="@color/branco" />
+                    android:hint="@string/veterinario"
+                    android:textColor="@color/branco"
+                    tools:ignore="VisualLintTextFieldSize, SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -115,29 +116,36 @@
                     android:clickable="true"
                     android:focusable="false"
                     android:inputType="date"
-                    android:textColor="@color/branco" />
+                    android:textColor="@color/branco"
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- observações -->
-            <EditText
-                android:id="@+id/observacoes"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/borda_branca"
                 android:hint="@string/observacoes"
-                android:textColor="@color/branco"
-                android:textColorHint="@color/branco"
-                android:padding="12dp"
-                android:gravity="top"
-                android:minLines="3" />
+                android:textColorHint="@color/cinzento_claro">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/observacoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borda_branca"
+                    android:textColor="@color/branco"
+                    android:padding="12dp"
+                    android:gravity="top"
+                    android:minLines="3"
+                    tools:ignore="VisualLintTextFieldSize" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- botão de confirmação -->
             <Button
                 android:id="@+id/btnConfirmar"
                 style="@style/ButtonStyle"
                 android:layout_gravity="center"
-                android:text="Confirmar Marcação" />
+                android:text="@string/confirmar_marcao" />
 
         </LinearLayout>
     </ScrollView>

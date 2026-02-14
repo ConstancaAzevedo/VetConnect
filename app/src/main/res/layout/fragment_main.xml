@@ -9,7 +9,7 @@
 
     <!--  página de abertura  -->
 
-    <!--  imagem no nosso logo -->
+    <!--  imagem do nosso logo -->
     <ImageView
         android:id="@+id/logo"
         android:layout_width="150dp"
@@ -19,7 +19,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"/>
+        app:layout_constraintVertical_chainStyle="packed"
+        android:contentDescription="@string/logo_da_vetconnect"/>
 
 
     <!--  botao de login  -->

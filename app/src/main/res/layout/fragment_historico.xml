@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:padding="16dp"
-            android:text="Histórico do Animal"
+            android:text="@string/historico_do_animal"
             android:textColor="@color/branco"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -56,6 +56,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/adicionar_exame"
-        app:srcCompat="@drawable/add_icon"/>
+        app:srcCompat="@drawable/add_icon"
+        tools:ignore="ClassNameCheck" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

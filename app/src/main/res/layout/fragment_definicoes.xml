@@ -8,7 +8,7 @@
     android:padding="16dp"
     tools:context=".ui.fragment.DefinicoesFragment">
 
-    <!-- página de alterar PIN -->
+    <!-- página de definições -->
 
     <!-- título -->
     <TextView
@@ -48,31 +48,35 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/atualPin"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/borda_edittext"
-            android:hint="@string/pin_atual"
-            android:inputType="numberPassword"
-            android:maxLength="6"
-            android:padding="12dp"
-            android:textColor="@color/branco"
-            android:textColorHint="@color/branco" />
+            <EditText
+                android:id="@+id/atualPin"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/borda_edittext"
+                android:hint="@string/pin_atual"
+                android:autofillHints="@string/pin_atual"
+                android:inputType="numberPassword"
+                android:maxLength="6"
+                android:padding="12dp"
+                android:textColor="@color/branco"
+                android:textColorHint="@color/branco"
+                tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
 
-        <EditText
-            android:id="@+id/novoPin"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/borda_edittext"
-            android:hint="@string/novo_pin"
-            android:inputType="numberPassword"
-            android:maxLength="6"
-            android:padding="12dp"
-            android:textColor="@color/branco"
-            android:textColorHint="@color/branco" />
+            <EditText
+                android:id="@+id/novoPin"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/borda_edittext"
+                android:hint="@string/novo_pin"
+                android:autofillHints="@string/novo_pin"
+                android:inputType="numberPassword"
+                android:maxLength="6"
+                android:padding="12dp"
+                android:textColor="@color/branco"
+                android:textColorHint="@color/branco"
+                tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
 
         <EditText
             android:id="@+id/confirmarPin"
@@ -81,11 +85,13 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/borda_edittext"
             android:hint="@string/confirmar_novo_pin"
+            android:autofillHints="@string/confirmar_novo_pin"
             android:inputType="numberPassword"
             android:maxLength="6"
             android:padding="12dp"
             android:textColor="@color/branco"
-            android:textColorHint="@color/branco" />
+            android:textColorHint="@color/branco"
+            tools:ignore="VisualLintTextFieldSize" />
 
         <!-- botão para guardar a alteração do pin -->
         <Button
@@ -104,7 +110,8 @@
                 android:layout_marginTop="24dp"
                 android:background="@drawable/borda_vermelha_botao"
                 android:text="@string/logout"
-                android:textColor="@color/vermelho" />
+                android:textColor="@color/vermelho"
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
     </ScrollView>

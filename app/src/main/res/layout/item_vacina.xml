@@ -12,14 +12,14 @@
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
 
-    <!-- cada item na lista de vacinas -->
+    <!-- cada item na listagem de vacinas -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- nome da vacina -->
+        <!-- tipo da vacina -->
         <TextView
             android:id="@+id/textViewNomeVacina"
             android:layout_width="0dp"
@@ -31,6 +31,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textViewEstadoVacina"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck"
             tools:text="Raiva (Anual)" />
 
         <!-- data da vacina -->
@@ -43,6 +44,7 @@
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewNomeVacina"
+            tools:ignore="TextContrastCheck"
             tools:text="Aplicada em: 20-03-2024" />
 
         <!-- estado da vacina -->
@@ -61,6 +63,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck"
             tools:text="ADMINISTRADA" />
 
 

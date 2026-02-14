@@ -69,7 +69,8 @@
             android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/cursoLabel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/label_barrier" />
+            app:layout_constraintStart_toEndOf="@+id/label_barrier"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/disciplina"
@@ -81,7 +82,8 @@
             android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/disciplinaLabel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/label_barrier" />
+            app:layout_constraintStart_toEndOf="@+id/label_barrier"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/ano"
@@ -93,7 +95,8 @@
             android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/anoLabel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/label_barrier" />
+            app:layout_constraintStart_toEndOf="@+id/label_barrier"
+            tools:ignore="TextContrastCheck" />
 
 
         <!-- nossos perfis -->
@@ -107,7 +110,8 @@
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ano" />
+            app:layout_constraintTop_toBottomOf="@+id/ano"
+            tools:ignore="TextContrastCheck" />
 
         <ImageView
             android:id="@+id/constFoto"
@@ -130,7 +134,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/constFoto"
-            app:layout_constraintTop_toTopOf="@+id/constFoto" />
+            app:layout_constraintTop_toTopOf="@+id/constFoto"
+            tools:ignore="TextContrastCheck" />
 
         <ImageView
             android:id="@+id/ruiFoto"
@@ -155,7 +160,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/ruiFoto"
             app:layout_constraintTop_toTopOf="@+id/ruiFoto"
-            app:layout_constraintVertical_bias="0.344" />
+            app:layout_constraintVertical_bias="0.344"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/bibliotecasLabel"
@@ -178,105 +184,239 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bibliotecasLabel">
 
-            <!-- Android Jetpack -->
+            <!-- 1. Arquitetura e Componentes Base (Google Jetpack) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/android_jetpack"
+                android:text="@string/arquitetura_e_componentes_base_google_jetpack"
                 android:textColor="@color/branco"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/androidx_core_core_ktx_fun_es_de_ajuda_para_c_digo_limpo"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/androidx_appcompat_appcompat_compatibilidade_com_vers_es_antigas_do_android"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/androidx_activity_activity_gest_o_do_ciclo_de_vida_das_activitys"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/androidx_constraintlayout_constraintlayout_layouts_complexos_e_eficientes"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:autoLink="web"
-                android:lineSpacingExtra="4dp"
-                android:text="@string/android_jetpack_description"
+                android:text="@string/androidx_navigation_navega_o_entre_ecr_s_fragments"
                 android:textColor="@color/branco"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
-            <!-- Networking -->
+            <!-- 2. Interface do Utilizador (UI) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/networking_square"
+                android:layout_marginTop="8dp"
+                android:text="@string/interface_do_utilizador_ui"
                 android:textColor="@color/branco"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:autoLink="web"
-                android:lineSpacingExtra="4dp"
-                android:text="@string/retrofit_description"
+                android:text="@string/com_google_android_material_material_componentes_de_material_design"
                 android:textColor="@color/branco"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
-            <!-- Asynchronous Programming -->
+            <!-- 3. Persistência de Dados (Base de Dados Local) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/asynchronous"
+                android:layout_marginTop="8dp"
+                android:text="@string/persist_ncia_de_dados_base_de_dados_local"
                 android:textColor="@color/branco"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:autoLink="web"
-                android:lineSpacingExtra="4dp"
-                android:text="@string/kotlin_coroutines_description"
+                android:text="@string/androidx_room_gest_o_de_base_de_dados_local_sqlite"
                 android:textColor="@color/branco"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
-            <!-- User Interface -->
+            <!-- 4. Comunicação com a Rede (API REST) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_interface"
+                android:layout_marginTop="8dp"
+                android:text="@string/comunica_o_com_a_rede_api_rest"
                 android:textColor="@color/branco"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/com_squareup_retrofit2_retrofit_cliente_http_para_pedidos_api"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/com_squareup_retrofit2_converter_gson_converte_json_para_objetos_kotlin"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/com_google_code_gson_gson_biblioteca_de_convers_o_de_json"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:autoLink="web"
-                android:lineSpacingExtra="4dp"
-                android:text="@string/material_components_dexcription"
+                android:text="@string/com_squareup_okhttp3_logging_interceptor_debug_de_pedidos_de_rede"
                 android:textColor="@color/branco"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
-            <!-- Machine Learning -->
+            <!-- 5. Funcionalidades de Câmara -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/machine_learning"
+                android:layout_marginTop="8dp"
+                android:text="@string/funcionalidades_de_c_mara"
                 android:textColor="@color/branco"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:autoLink="web"
-                android:lineSpacingExtra="4dp"
-                android:text="@string/barcode_scanning_description"
+                android:text="@string/androidx_camera_bibliotecas_camerax_para_funcionalidades_de_c_mara"
                 android:textColor="@color/branco"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
+
+            <!-- 6. Carregamento de Imagens -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/carregamento_de_imagens"
+                android:textColor="@color/branco"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/com_github_bumptech_glide_glide_carregamento_e_cache_de_imagens"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/io_coil_kt_coil_alternativa_moderna_para_carregamento_de_imagens"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+
+            <!-- 7. Tarefas em Segundo Plano -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/tarefas_em_segundo_plano"
+                android:textColor="@color/branco"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/androidx_work_work_runtime_ktx_gest_o_de_tarefas_em_segundo_plano"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+
+            <!-- 8. Testes -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/testes"
+                android:textColor="@color/branco"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/junit_junit_framework_para_testes_unit_rios"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/androidx_test_bibliotecas_para_testes_de_instrumenta_o"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+
+            <!-- 9. Ferramentas de Compilação e Plugins -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/ferramentas_de_compila_o_e_plugins"
+                android:textColor="@color/branco"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/com_google_devtools_ksp_ksp_processamento_de_s_mbolos_kotlin"
+                android:textColor="@color/branco"
+                android:textSize="15sp" />
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

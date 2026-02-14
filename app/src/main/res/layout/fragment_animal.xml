@@ -19,10 +19,11 @@
             android:id="@+id/animalFoto"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginStart="64dp"
             android:layout_marginTop="5dp"
-            android:contentDescription="Foto do animal"
+            android:contentDescription="@string/foto_do_animal"
             android:src="@drawable/animal_icon"
+            app:layout_constraintEnd_toStartOf="@+id/codigoUnico"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,157 +31,193 @@
             android:id="@+id/codigoUnico"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="64dp"
+            android:layout_marginStart="16dp"
             android:textColor="@color/branco"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/animalFoto"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/animalFoto"
             app:layout_constraintTop_toTopOf="@+id/animalFoto"
             tools:text="VC-123456" />
 
-        <EditText
-            android:id="@+id/animalNome"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/animalNomeLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:autofillHints="name"
-            android:background="@drawable/borda_edittext"
-            android:hint="Nome do Animal"
-            android:inputType="textPersonName|textCapWords"
-            android:padding="12dp"
-            android:textColor="@color/branco"
+            android:hint="@string/nome_do_animal"
             android:textColorHint="@color/branco"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/animalFoto" />
+            app:layout_constraintTop_toBottomOf="@+id/animalFoto">
 
-        <EditText
-            android:id="@+id/animalEspecie"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/animalNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="name"
+                android:background="@drawable/borda_edittext"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="12dp"
+                android:textColor="@color/branco"
+                tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/animalEspecieLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/borda_edittext"
-            android:hint="Espécie"
-            android:inputType="text|textCapWords"
-            android:padding="12dp"
-            android:textColor="@color/branco"
+            android:hint="@string/especie"
             android:textColorHint="@color/branco"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/animalNome" />
+            app:layout_constraintTop_toBottomOf="@+id/animalNomeLayout">
 
-        <EditText
-            android:id="@+id/animalRaca"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/animalEspecie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/borda_edittext"
+                android:inputType="text|textCapWords"
+                android:padding="12dp"
+                android:textColor="@color/branco"
+                tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/animalRacaLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/borda_edittext"
-            android:hint="Raça"
-            android:inputType="text|textCapWords"
-            android:padding="12dp"
-            android:textColor="@color/branco"
+            android:hint="@string/raca"
             android:textColorHint="@color/branco"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/animalEspecie" />
+            app:layout_constraintTop_toBottomOf="@+id/animalEspecieLayout">
 
-        <EditText
-            android:id="@+id/animalData"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/animalRaca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/borda_edittext"
+                android:inputType="text|textCapWords"
+                android:padding="12dp"
+                android:textColor="@color/branco"
+                tools:ignore="VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/animalDataLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/borda_edittext"
-            android:clickable="true"
-            android:focusable="false"
-            android:hint="Data de Nascimento"
-            android:padding="12dp"
-            android:textColor="@color/branco"
+            android:hint="@string/data_de_nascimento_"
             android:textColorHint="@color/branco"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/animalRaca" />
+            app:layout_constraintTop_toBottomOf="@+id/animalRacaLayout">
 
-        <EditText
-            android:id="@+id/animalChip"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/animalData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/borda_edittext"
+                android:clickable="true"
+                android:focusable="false"
+                android:padding="12dp"
+                android:textColor="@color/branco"
+                tools:ignore="VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/animalChipLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/borda_edittext"
-            android:hint="Número do Chip"
-            android:inputType="number"
-            android:padding="12dp"
-            android:textColor="@color/branco"
+            android:hint="@string/numero_do_chip"
             android:textColorHint="@color/branco"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/animalData" />
+            app:layout_constraintTop_toBottomOf="@+id/animalDataLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/animalChip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/borda_edittext"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textColor="@color/branco"
+                tools:ignore="VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- spinner para clinicas -->
-        <TextView
-            android:id="@+id/clinicas"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/clinicaSpinnerLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Clinica de preferência"
-            android:textColor="@color/branco"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/animalChip" />
-
-        <Spinner
-            android:id="@+id/clinicaSpinner"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/borda_branca"
-            android:enabled="false"
-            android:textSize="20sp"
+            android:hint="@string/clinica_de_preferencia"
+            android:textColorHint="@color/branco"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clinicas" />
+            app:layout_constraintTop_toBottomOf="@+id/animalChipLayout">
+
+            <AutoCompleteTextView
+                android:id="@+id/clinicaSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/borda_branca"
+                android:enabled="false"
+                android:inputType="none"
+                android:hint="@string/clinica_de_preferencia"
+                android:textColor="@color/branco"
+                tools:ignore="SpeakableTextPresentCheck,VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- spinner para veterinários -->
-        <TextView
-            android:id="@+id/veterinarios"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/veterinarioSpinnerLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Veterinário de preferência"
-            android:textColor="@color/branco"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clinicaSpinner" />
-
-        <Spinner
-            android:id="@+id/veterinarioSpinner"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/borda_branca"
-            android:enabled="false"
-            android:textSize="20sp"
+            android:hint="@string/veterin_rio_de_preferencia"
+            android:textColorHint="@color/branco"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/veterinarios" />
+            app:layout_constraintTop_toBottomOf="@+id/clinicaSpinnerLayout">
+
+            <AutoCompleteTextView
+                android:id="@+id/veterinarioSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/borda_branca"
+                android:enabled="false"
+                android:inputType="none"
+                android:hint="@string/veterin_rio_de_preferencia"
+                android:textColor="@color/branco"
+                tools:ignore="SpeakableTextPresentCheck,VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnGuardar"
-            android:text="@string/guardar"
             style="@style/ButtonStyle"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/guardar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/veterinarioSpinner" />
+            app:layout_constraintTop_toBottomOf="@+id/veterinarioSpinnerLayout" />
 
         <Button
+            android:id="@+id/btnApagarAnimal"
             style="@style/ButtonStyle"
+            android:layout_marginTop="8dp"
             android:text="@string/apagar"
             android:visibility="gone"
-            android:layout_marginBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnGuardar" />

@@ -7,7 +7,7 @@
     android:background="@drawable/background"
     tools:context=".ui.fragment.VacinasFragment">
 
-    <!-- página de vacinas -->
+    <!-- página da listagem de vacinas -->
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -15,12 +15,13 @@
         android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+        <!-- título da página -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:padding="16dp"
-            android:text="Vacinas do Animal"
+            android:text="@string/vacinas_do_animal"
             android:textColor="@color/branco"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -28,6 +29,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- lista de vacinas -->
+    <!-- usa o item_vacina para fazer display de cada item -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewVacinas"
         android:layout_width="match_parent"
@@ -35,7 +37,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_vacina" />
 
-    <!-- Texto para exibir quando a lista está vazia -->
+    <!-- texto para exibir quando a lista está vazia -->
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="match_parent"

@@ -14,6 +14,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- titulo -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/tipo_de_exame"
-            android:textColorHint="@color/cinzento_claro">
+            android:textColorHint="@color/branco">
 
             <AutoCompleteTextView
                 android:id="@+id/spinnerTipoExame"
@@ -40,7 +41,8 @@
                 android:background="@drawable/borda_branca"
                 android:importantForAccessibility="no"
                 android:hint="@string/tipo_de_exame"
-                android:textColor="@color/branco"/>
+                android:textColor="@color/branco"
+                tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- data do exame -->
@@ -49,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/data_dd_mm_aaaa"
-            android:textColorHint="@color/cinzento_claro">
+            android:textColorHint="@color/branco">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editDataExame"
@@ -57,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/borda_branca"
                 android:inputType="date"
-                android:textColor="@color/branco"/>
+                android:textColor="@color/branco"
+                tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- clínica -->
@@ -67,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/clinica"
-            android:textColorHint="@color/cinzento_claro">
+            android:textColorHint="@color/branco">
 
             <AutoCompleteTextView
                 android:id="@+id/spinnerClinica"
@@ -76,7 +79,8 @@
                 android:inputType="none"
                 android:background="@drawable/borda_branca"
                 android:importantForAccessibility="no"
-                android:textColor="@color/branco"/>
+                android:textColor="@color/branco"
+                tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- veterinário -->
@@ -86,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/veterinario"
-            android:textColorHint="@color/cinzento_claro">
+            android:textColorHint="@color/branco">
 
             <AutoCompleteTextView
                 android:id="@+id/spinnerVeterinario"
@@ -95,7 +99,8 @@
                 android:inputType="none"
                 android:background="@drawable/borda_branca"
                 android:importantForAccessibility="no"
-                android:textColor="@color/branco"/>
+                android:textColor="@color/branco"
+                tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- resultado -->
@@ -104,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/resultado"
-            android:textColorHint="@color/cinzento_claro">
+            android:textColorHint="@color/branco">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextResultado"
@@ -112,7 +117,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:background="@drawable/borda_branca"
-                android:textColor="@color/branco"/>
+                android:textColor="@color/branco"
+                tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- observações -->
@@ -121,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/observacoes"
-            android:textColorHint="@color/cinzento_claro">
+            android:textColorHint="@color/branco">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextObservacoes"
@@ -133,7 +139,8 @@
                 android:textColor="@color/branco"
                 android:padding="12dp"
                 android:gravity="top"
-                android:minLines="3"/>
+                android:minLines="3"
+                tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- adicionar foto -->
@@ -149,12 +156,13 @@
             android:id="@+id/imageViewPreview"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"
             android:layout_gravity="center_horizontal"
-            tools:visibility="visible"
+            android:layout_marginTop="10dp"
             android:contentDescription="@string/imagem_do_relatorio"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            tools:ignore="ImageContrastCheck"
+            tools:visibility="visible" />
 
         <!-- botão guardar -->
         <Button
@@ -163,7 +171,8 @@
             android:layout_height="wrap_content"
             style="@style/ButtonStyle"
             android:text="@string/guardar"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            tools:ignore="VisualLintButtonSize" />
 
     </LinearLayout>
 </ScrollView>

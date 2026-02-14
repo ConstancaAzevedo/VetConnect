@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.CamaraFragment">
 
+    <!-- página da camara para tirar fotos -->
+    <!-- código do professor -->
+    <!-- apenas alteramos o estilo do botao -->
+
     <androidx.camera.view.PreviewView
         android:id="@+id/viewFinder"
         android:layout_width="match_parent"

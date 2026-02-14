@@ -1,150 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:padding="16dp"
+    tools:context=".ui.fragment.EditarConsultaFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background"
-        android:padding="16dp"
-        tools:context=".ui.fragment.EditarVacinaFragment">
+    <!-- página de editar uma consulta -->
 
-        <!-- página de editar uma consulta -->
+    <TextView
+        android:id="@+id/tituloEditarConsulta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/editar_consulta"
+        android:textColor="@color/branco"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tituloEditarVacina"
-            android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloEditarConsulta">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/editar_consulta"
-            android:textColor="@color/branco"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tituloEditarVacina">
-
-
-            <LinearLayout
+            <!-- motivo -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:hint="@string/motivo"
+                android:textColorHint="@color/cinzento_claro">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/motivo"
-                    android:textColor="@color/branco"
-                    android:textSize="20sp"/>
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/motivo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:background="@drawable/borda_branca"
-                    android:textColor="@color/branco"
-                    android:textColorHint="@color/branco"
-                    android:padding="12dp"
                     android:gravity="top"
                     android:minLines="2"
-                    android:textSize="18sp"
-                    android:hint="@string/para_que_deseja_marcar_a_consulta"/>
+                    android:padding="12dp"
+                    android:textColor="@color/branco"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- clínica (Spinner) -->
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            <!-- clínica (Spinner) -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/clinica"
+                android:textColorHint="@color/cinzento_claro">
+
+                <AutoCompleteTextView
+                    android:id="@+id/clinicaSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:background="@drawable/borda_branca"
+                    android:inputType="none"
                     android:hint="@string/clinica"
-                    android:textColorHint="@color/cinzento_claro">
+                    android:textColor="@color/branco"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/clinicaSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/borda_branca"
-                        android:importantForAccessibility="no"
-                        android:inputType="none"
-                        android:textColor="@color/branco" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <!-- veterinário (Spinner) -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/veterinario"
+                android:textColorHint="@color/cinzento_claro">
 
-                <!-- veterinário (Spinner) -->
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                <AutoCompleteTextView
+                    android:id="@+id/veterinarioSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:background="@drawable/borda_branca"
+                    android:inputType="none"
                     android:hint="@string/veterinario"
-                    android:textColorHint="@color/cinzento_claro">
+                    android:textColor="@color/branco"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/veterinarioSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/borda_branca"
-                        android:importantForAccessibility="no"
-                        android:inputType="none"
-                        android:textColor="@color/branco" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <!-- data de aplicação -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/data_dd_mm_aaaa"
+                android:textColorHint="@color/cinzento_claro">
 
-                <!-- data de aplicação -->
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dataConsulta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/data_dd_mm_aaaa"
-                    android:textColorHint="@color/cinzento_claro">
+                    android:background="@drawable/borda_branca"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="date"
+                    android:textColor="@color/branco" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/dataConsulta"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/borda_branca"
-                        android:clickable="true"
-                        android:focusable="false"
-                        android:inputType="date"
-                        android:textColor="@color/branco" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <!-- observações -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="@string/observacoes"
+                android:textColorHint="@color/cinzento_claro">
 
-                <!-- observações -->
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/observacoes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:background="@drawable/borda_branca"
-                    android:hint="@string/observacoes"
-                    android:textColor="@color/branco"
-                    android:textColorHint="@color/branco"
-                    android:padding="12dp"
                     android:gravity="top"
-                    android:minLines="3" />
+                    android:minLines="3"
+                    android:padding="12dp"
+                    android:textColor="@color/branco" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- botão guardar -->
-                <Button
-                    android:id="@+id/btnGuardar"
-                    style="@style/ButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/guardar" />
+            <!-- botão guardar -->
+            <Button
+                android:id="@+id/btnGuardar"
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/guardar" />
 
-            </LinearLayout>
+        </LinearLayout>
 
-        </ScrollView>
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,29 +32,31 @@
         android:columnCount="2"
         android:columnOrderPreserved="false"
         android:rowCount="4"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_buttons_layout"
+        app:layout_constraintBottom_toTopOf="@+id/btnDefinicoes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome">
+        app:layout_constraintTop_toBottomOf="@id/welcome">
 
         <!-- marcar consulta -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardMarcarConsulta"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
 
-            <LinearLayout style="@style/HomeCardLayoutStyle">
+            <LinearLayout style="@style/HomeCardLayoutStyle"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     style="@style/HomeCardIconStyle"
-                    android:src="@drawable/marcar_consulta_icon" />
+                    android:src="@drawable/marcar_consulta_icon"
+                    android:contentDescription="@string/marcar_consulta"/>
 
                 <TextView
                     style="@style/HomeCardTextStyle"
-                    android:text="@string/marcar_consulta" />
+                    android:text="@string/marcar_consulta"
+                    tools:ignore="TextContrastCheck" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -63,19 +65,21 @@
             android:id="@+id/cardAgendarVacina"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
 
-            <LinearLayout style="@style/HomeCardLayoutStyle">
+            <LinearLayout style="@style/HomeCardLayoutStyle"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     style="@style/HomeCardIconStyle"
-                    android:src="@drawable/marcar_vacina_icon" />
+                    android:src="@drawable/marcar_vacina_icon"
+                    android:contentDescription="@string/agendar_vacina"/>
 
                 <TextView
                     style="@style/HomeCardTextStyle"
-                    android:text="@string/agendar_vacina" />
+                    android:text="@string/agendar_vacina"
+                    tools:ignore="TextContrastCheck" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -84,15 +88,16 @@
             android:id="@+id/cardConsultas"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
 
-            <LinearLayout style="@style/HomeCardLayoutStyle">
+            <LinearLayout style="@style/HomeCardLayoutStyle"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     style="@style/HomeCardIconStyle"
-                    android:src="@drawable/consultas_icon" />
+                    android:src="@drawable/consultas_icon"
+                    android:contentDescription="@string/minhas_consultas"/>
 
                 <TextView
                     style="@style/HomeCardTextStyle"
@@ -100,20 +105,21 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- minhas cacinas -->
+        <!-- minhas vacinas -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardMinhasVacinas"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
 
-            <LinearLayout style="@style/HomeCardLayoutStyle">
+            <LinearLayout style="@style/HomeCardLayoutStyle"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     style="@style/HomeCardIconStyle"
-                    android:src="@drawable/vacinas_icon" />
+                    android:src="@drawable/vacinas_icon"
+                    android:contentDescription="@string/minhas_vacinas"/>
 
                 <TextView
                     style="@style/HomeCardTextStyle"
@@ -126,15 +132,16 @@
             android:id="@+id/cardAnimal"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
 
-            <LinearLayout style="@style/HomeCardLayoutStyle">
+            <LinearLayout style="@style/HomeCardLayoutStyle"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     style="@style/HomeCardIconStyle"
-                    android:src="@drawable/animal_icon" />
+                    android:src="@drawable/animal_icon"
+                    android:contentDescription="@string/meu_animal"/>
 
                 <TextView
                     style="@style/HomeCardTextStyle"
@@ -147,15 +154,16 @@
             android:id="@+id/cardHistorico"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
 
-            <LinearLayout style="@style/HomeCardLayoutStyle">
+            <LinearLayout style="@style/HomeCardLayoutStyle"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     style="@style/HomeCardIconStyle"
-                    android:src="@drawable/historico_icon" />
+                    android:src="@drawable/historico_icon"
+                    android:contentDescription="@string/historico"/>
 
                 <TextView
                     style="@style/HomeCardTextStyle"
@@ -168,17 +176,18 @@
             android:id="@+id/cardPerfil"
             style="@style/HomeCardStyle"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_columnSpan="2"
-            android:layout_gravity="fill_horizontal"
-            android:layout_rowWeight="1">
+            android:layout_gravity="fill_horizontal">
 
             <LinearLayout
-                style="@style/HomeCardLayoutStyle">
+                style="@style/HomeCardLayoutStyle"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     style="@style/HomeCardIconStyle"
-                    android:src="@drawable/perfil_icon" />
+                    android:src="@drawable/perfil_icon"
+                    android:contentDescription="@string/perfil"/>
 
                 <TextView
                     style="@style/HomeCardTextStyle"
@@ -188,39 +197,19 @@
 
     </GridLayout>
 
-    <LinearLayout
-        android:id="@+id/bottom_buttons_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
         <!-- botao de definições -->
         <Button
             android:id="@+id/btnDefinicoes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
             style="@style/ButtonStyle"
-            android:text="@string/definicoes"/>
+            android:text="@string/definicoes"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="VisualLintButtonSize" />
 
-        <!-- botao de logout -->
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            style="@style/ButtonStyle"
-            android:text="@string/sair"/>
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-

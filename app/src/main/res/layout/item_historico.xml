@@ -1,92 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/cinzento_escuro_transparente"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
-    <data>
-        <variable
-            name="exame"
-            type="pt.ipt.dam2025.vetconnect.model.Exame" />
-    </data>
+    <!-- cada item na listagem de exames -->
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@color/cinzento_escuro_transparente"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp">
+        android:padding="16dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <!-- data do exame -->
+        <TextView
+            android:id="@+id/item_data"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:textColor="@color/cinzento_claro"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="25/07/2024" />
 
-            <TextView
-                android:id="@+id/item_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/cinzento_claro"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="25/07/2024" />
+        <!-- tipo de exame -->
+        <TextView
+            android:id="@+id/item_titulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/branco"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/icon_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_data"
+            tools:text="Análise Sanguínea" />
 
-            <TextView
-                android:id="@+id/item_titulo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="19sp"
-                android:textStyle="bold"
-                android:textColor="@color/branco"
-                app:layout_constraintEnd_toStartOf="@+id/icon_photo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_data"
-                tools:text="Análise Sanguínea" />
+        <!-- resultado do exame -->
+        <TextView
+            android:id="@+id/item_subtitulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/branco"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toStartOf="@+id/icon_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_titulo"
+            tools:text="Resultado: Tudo OK" />
 
-            <TextView
-                android:id="@+id/item_subtitulo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="17sp"
-                android:textColor="@color/branco"
-                app:layout_constraintEnd_toStartOf="@+id/icon_photo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_titulo"
-                tools:text="Resultado: Tudo OK" />
+        <!-- clinica do exame -->
+        <TextView
+            android:id="@+id/item_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/cinzento_claro"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/icon_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_subtitulo"
+            tools:text="Clínica: Vet Central" />
 
-            <TextView
-                android:id="@+id/item_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="15sp"
-                android:textColor="@color/cinzento_claro"
-                app:layout_constraintEnd_toStartOf="@+id/icon_photo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_subtitulo"
-                tools:text="Clínica: Vet Central" />
+        <!-- indicação de foto do exame -->
+        <ImageView
+            android:id="@+id/icon_photo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@string/indicacao_foto"
+            android:src="@android:drawable/ic_menu_camera"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/branco"
+            tools:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/icon_photo"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@android:drawable/ic_menu_camera"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/branco"
-                tools:visibility="visible" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-</layout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

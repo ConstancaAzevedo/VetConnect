@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,16 +29,17 @@
             android:id="@+id/textViewEstadoVacinaDetalhe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/background_estado_agendada"
             android:paddingStart="8dp"
             android:paddingTop="4dp"
             android:paddingEnd="8dp"
             android:paddingBottom="4dp"
             android:textColor="@color/branco"
-            android:layout_gravity="center"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:layout_marginBottom="24dp"
+            tools:ignore="TextContrastCheck"
             tools:text="ADMINISTRADA" />
 
         <!-- data da vacina -->
@@ -48,17 +48,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/data_da_vacina"
-            android:textStyle="bold"
+            android:textColor="@color/cinzento_claro"
             android:textSize="20sp"
-            android:textColor="@color/cinzento_claro" />
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/textViewDataAplicacaoDetalhe"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/branco"
             android:layout_marginBottom="16dp"
+            android:textColor="@color/branco"
+            tools:ignore="TextContrastCheck"
             tools:text="20 de Março de 2024" />
 
         <!-- nome da clinica -->
@@ -67,17 +69,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/clinica"
-            android:textStyle="bold"
+            android:textColor="@color/cinzento_claro"
             android:textSize="20sp"
-            android:textColor="@color/cinzento_claro" />
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/textViewClinicaVacinaDetalhe"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/branco"
             android:layout_marginBottom="16dp"
+            android:textColor="@color/branco"
+            tools:ignore="TextContrastCheck"
             tools:text="Animal Clinic" />
 
         <!-- nome do veterinário -->
@@ -95,8 +99,9 @@
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/branco"
             android:layout_marginBottom="16dp"
+            android:textColor="@color/branco"
+            tools:ignore="TextContrastCheck"
             tools:text="Dr. João Silva" />
 
 

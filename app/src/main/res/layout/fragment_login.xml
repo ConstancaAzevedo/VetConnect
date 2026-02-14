@@ -47,7 +47,8 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contaSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/contaSpinner"
+        tools:ignore="TextContrastCheck" />
 
     <!-- layout para os indicadores do PIN (pontos cinzentos) -->
     <LinearLayout
@@ -61,18 +62,47 @@
         app:layout_constraintTop_toBottomOf="@id/pin_instruction_text">
 
         <!-- 6 ImageViews para representar os pontos do PIN -->
-        <ImageView android:id="@+id/pin1"
-            style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
-        <ImageView android:id="@+id/pin2"
-            style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
-        <ImageView android:id="@+id/pin3"
-            style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
-        <ImageView android:id="@+id/pin4"
-            style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
-        <ImageView android:id="@+id/pin5"
-            style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
-        <ImageView android:id="@+id/pin6"
-            style="@style/PinDotStyle" android:src="@drawable/ic_pin_dot_antes" />
+        <ImageView
+            android:id="@+id/pin1"
+            style="@style/PinDotStyle"
+            android:src="@drawable/ic_pin_dot_antes"
+            tools:ignore="ImageContrastCheck"
+            android:contentDescription="@string/bolinha_do_pin"/>
+
+        <ImageView
+            android:id="@+id/pin2"
+            style="@style/PinDotStyle"
+            android:src="@drawable/ic_pin_dot_antes"
+            tools:ignore="ImageContrastCheck"
+            android:contentDescription="@string/bolinha_do_pin"/>
+
+        <ImageView
+            android:id="@+id/pin3"
+            style="@style/PinDotStyle"
+            android:src="@drawable/ic_pin_dot_antes"
+            tools:ignore="ImageContrastCheck"
+            android:contentDescription="@string/bolinha_do_pin"/>
+
+        <ImageView
+            android:id="@+id/pin4"
+            style="@style/PinDotStyle"
+            android:src="@drawable/ic_pin_dot_antes"
+            tools:ignore="ImageContrastCheck"
+            android:contentDescription="@string/bolinha_do_pin"/>
+
+        <ImageView
+            android:id="@+id/pin5"
+            style="@style/PinDotStyle"
+            android:src="@drawable/ic_pin_dot_antes"
+            tools:ignore="ImageContrastCheck"
+            android:contentDescription="@string/bolinha_do_pin"/>
+
+        <ImageView
+            android:id="@+id/pin6"
+            style="@style/PinDotStyle"
+            android:src="@drawable/ic_pin_dot_antes"
+            tools:ignore="ImageContrastCheck"
+            android:contentDescription="@string/bolinha_do_pin"/>
     </LinearLayout>
 
     <!-- grelha para o teclado numérico -->
@@ -88,28 +118,28 @@
 
         <!-- botões do teclado numérico -->
         <Button android:id="@+id/btn1"
-            style="@style/PinButtonStyle" android:text="1" />
+            style="@style/PinButtonStyle" android:text="@string/_1" />
         <Button android:id="@+id/btn2"
-            style="@style/PinButtonStyle" android:text="2" />
+            style="@style/PinButtonStyle" android:text="@string/_2" />
         <Button android:id="@+id/btn3"
-            style="@style/PinButtonStyle" android:text="3" />
+            style="@style/PinButtonStyle" android:text="@string/_3" />
         <Button android:id="@+id/btn4"
-            style="@style/PinButtonStyle" android:text="4" />
+            style="@style/PinButtonStyle" android:text="@string/_4" />
         <Button android:id="@+id/btn5"
-            style="@style/PinButtonStyle" android:text="5" />
+            style="@style/PinButtonStyle" android:text="@string/_5" />
         <Button android:id="@+id/btn6"
-            style="@style/PinButtonStyle" android:text="6" />
+            style="@style/PinButtonStyle" android:text="@string/_6" />
         <Button android:id="@+id/btn7"
-            style="@style/PinButtonStyle" android:text="7" />
+            style="@style/PinButtonStyle" android:text="@string/_7" />
         <Button android:id="@+id/btn8"
-            style="@style/PinButtonStyle" android:text="8" />
+            style="@style/PinButtonStyle" android:text="@string/_8" />
         <Button android:id="@+id/btn9"
-            style="@style/PinButtonStyle" android:text="9" />
+            style="@style/PinButtonStyle" android:text="@string/_9" />
 
         <!-- linha inferior com o "0" e "Apagar" -->
         <Space style="@style/PinButtonStyle" />
         <Button android:id="@+id/btn0"
-            style="@style/PinButtonStyle" android:text="0" />
+            style="@style/PinButtonStyle" android:text="@string/_0" />
         <ImageButton
             android:id="@+id/btnApagar"
             style="@style/PinButtonStyle"

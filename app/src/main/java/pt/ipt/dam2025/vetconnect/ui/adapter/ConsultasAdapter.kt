@@ -52,7 +52,6 @@ class ConsultasAdapter(
             }
 
             // Preenchimento dos dados
-            binding.textViewAnimal.text = itemView.context.getString(R.string.animal_label, consulta.animalNome ?: "N/A")
             binding.textViewClinica.text = itemView.context.getString(R.string.clinica_label, consulta.clinicaNome ?: "N/A")
             binding.textViewVeterinario.text = itemView.context.getString(R.string.veterinario_label, consulta.veterinarioNome ?: "N/A")
             binding.textViewStatus.text = consulta.estado

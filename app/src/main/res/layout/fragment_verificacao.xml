@@ -29,16 +29,18 @@
         android:layout_height="50dp"
         android:layout_marginTop="48dp"
         android:backgroundTint="@color/branco"
-        android:ems="10"
+        android:ems="15"
         android:inputType="number"
         android:letterSpacing="0.2"
         android:maxLength="6"
         android:textAlignment="center"
         android:textColor="@color/branco"
-        android:textColorHint="#A0FFFFFF"
+        android:textColorHint="@color/branco"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/instruction_text" />
+        app:layout_constraintTop_toBottomOf="@+id/instruction_text"
+        android:autofillHints="smsOTPCode"
+        android:hint="@string/codigo_de_verificacao"/>
 
     <Button
         android:id="@+id/btnVerificar"

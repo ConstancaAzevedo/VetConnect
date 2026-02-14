@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Perfil do Utilizador"
+        android:text="@string/perfil_do_utilizador"
         android:textColor="@color/branco"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Nome:"
+        android:text="@string/nome"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tituloPerfil" />
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Email:"
+        android:text="@string/email_"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nomeDado" />
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Nº de Telemóvel:"
+        android:text="@string/n_de_telemovel"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailDado" />
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Nacionalidade:"
+        android:text="@string/nacionalidade"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/telemovelDado" />
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Sexo:"
+        android:text="@string/sexo"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nacionalidadeDado" />
@@ -85,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Cartão de Cidadão:"
+        android:text="@string/cartao_cidadao"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sexoDado" />
@@ -96,7 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Data de Nascimento:"
+        android:text="@string/data_de_nascimento"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ccDado" />
@@ -107,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Morada:"
+        android:text="@string/morada"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dataDado" />
@@ -125,120 +125,144 @@
         android:id="@+id/nomeDado"
         style="@style/ValueStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:enabled="false"
         android:inputType="textCapWords"
         app:layout_constraintBaseline_toBaselineOf="@id/utiliNome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="Nome do Tutor"
-        android:textSize="18sp"/>
+        android:hint="@string/nome_do_tutor"
+        android:textColorHint="@color/branco"
+        android:autofillHints="nome"
+        android:textSize="18sp"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/emailDado"
         style="@style/ValueStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:enabled="false"
         android:inputType="textEmailAddress"
         app:layout_constraintBaseline_toBaselineOf="@id/utiliEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="email@tutor.com"
-        android:textSize="18sp"/>
+        android:hint="@string/email_tutor_com"
+        android:textColorHint="@color/branco"
+        android:autofillHints="email"
+        android:textSize="18sp"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/telemovelDado"
         style="@style/ValueStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:enabled="false"
         android:inputType="phone"
         app:layout_constraintBaseline_toBaselineOf="@id/utiliTelemovel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="960249058"
-        android:textSize="18sp"/>
+        android:hint="@string/_960249058"
+        android:textColorHint="@color/branco"
+        android:autofillHints="telemovel"
+        android:textSize="18sp"
+        tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/nacionalidadeDado"
         style="@style/ValueStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:enabled="false"
         android:inputType="textCapWords"
         app:layout_constraintBaseline_toBaselineOf="@id/utiliNacionalidade"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="Portugal"
-        android:textSize="18sp"/>
+        android:hint="@string/portugal"
+        android:textColorHint="@color/branco"
+        android:autofillHints="nacionalidade"
+        android:textSize="18sp"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/sexoDado"
         style="@style/ValueStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:enabled="false"
         android:inputType="textCapWords"
         app:layout_constraintBaseline_toBaselineOf="@id/utiliSexo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="Feminino"
-        android:textSize="18sp"/>
+        android:hint="@string/feminino"
+        android:textColorHint="@color/branco"
+        android:autofillHints="sexo"
+        android:textSize="18sp"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/ccDado"
         style="@style/ValueStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:enabled="false"
         android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@id/utiliCC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="123456789"
-        android:textSize="18sp"/>
+        android:hint="@string/_123456789"
+        android:textColorHint="@color/branco"
+        android:autofillHints="cc"
+        android:textSize="18sp"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/dataDado"
         style="@style/ValueStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:enabled="false"
         android:inputType="date"
         app:layout_constraintBaseline_toBaselineOf="@id/utiliData"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="12/12/2005"
-        android:textSize="18sp"/>
+        android:hint="@string/_12_12_2005"
+        android:textColorHint="@color/branco"
+        android:autofillHints="data de nascimento"
+        android:textSize="18sp"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/moradaDado"
         style="@style/ValueStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:enabled="false"
         android:inputType="textPostalAddress"
         app:layout_constraintBaseline_toBaselineOf="@id/utiliMorada"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        tools:text="Rua da Exemplo, 123"
-        android:textSize="18sp"/>
+        android:hint="@string/rua_da_exemplo_123"
+        android:textColorHint="@color/branco"
+        android:autofillHints="morada"
+        android:textSize="18sp"
+        tools:ignore="VisualLintTextFieldSize" />
 
 
     <!-- botão para editar/guardar as informações do utilizador -->
     <Button
         android:id="@+id/btnEditarGuardar"
         style="@style/ButtonStyle"
-        android:text="Editar"
+        android:text="@string/editar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/moradaDado" />

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".ui.fragment.DetalhesVacinaFragment">
+    tools:context=".ui.fragment.DetalhesConsultaFragment">
 
     <!-- página para detalhes de uma consulta -->
 
@@ -30,16 +29,17 @@
             android:id="@+id/estadoConsulta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/background_estado_agendada"
             android:paddingStart="8dp"
             android:paddingTop="4dp"
             android:paddingEnd="8dp"
             android:paddingBottom="4dp"
             android:textColor="@color/branco"
-            android:layout_gravity="center"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:layout_marginBottom="24dp"
+            tools:ignore="TextContrastCheck"
             tools:text="AGENDADA" />
 
         <!-- data da vacina -->
@@ -48,17 +48,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/data_da_consulta"
-            android:textStyle="bold"
+            android:textColor="@color/cinzento_claro"
             android:textSize="20sp"
-            android:textColor="@color/cinzento_claro" />
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/dataConsulta"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/branco"
             android:layout_marginBottom="16dp"
+            android:textColor="@color/branco"
+            tools:ignore="TextContrastCheck"
             tools:text="25 de Julho de 2024" />
 
         <!-- nome da clinica -->
@@ -67,17 +69,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/clinica"
-            android:textStyle="bold"
+            android:textColor="@color/cinzento_claro"
             android:textSize="20sp"
-            android:textColor="@color/cinzento_claro" />
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/clinicaConsulta"
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/branco"
             android:layout_marginBottom="16dp"
+            android:textColor="@color/branco"
+            tools:ignore="TextContrastCheck"
             tools:text="Animal Clinic" />
 
         <!-- nome do veterinário -->
@@ -95,8 +99,9 @@
             style="?attr/textAppearanceBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/branco"
             android:layout_marginBottom="16dp"
+            android:textColor="@color/branco"
+            tools:ignore="TextContrastCheck"
             tools:text="Dr. João Silva" />
 
 
@@ -132,7 +137,8 @@
                 android:layout_weight="1"
                 android:text="@string/apagar"
                 style="@style/ButtonStyle"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"
+                tools:ignore="VisualLintButtonSize" />
 
             <Button
                 android:id="@+id/btnEditar"
@@ -141,7 +147,8 @@
                 android:layout_weight="1"
                 android:text="@string/editar"
                 style="@style/ButtonStyle"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                tools:ignore="VisualLintButtonSize" />
         </LinearLayout>
 
     </LinearLayout>
